@@ -24,4 +24,13 @@ class SDGManagement::Relations::IndexComponent < ApplicationComponent
     def goals_for(record)
       record.sdg_goals.map(&:code).join(", ")
     end
+
+    def edit_path_for(record)
+      {
+        controller: "sdg_management/relations",
+        action: :edit,
+        relatable_type: record.class.name.tableize,
+        id: record
+      }
+    end
 end
