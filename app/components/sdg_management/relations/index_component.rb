@@ -33,4 +33,8 @@ class SDGManagement::Relations::IndexComponent < ApplicationComponent
         id: record
       }
     end
+
+    def search_label
+      t("admin.shared.search.label.#{model_class.table_name}")
+    end
 end

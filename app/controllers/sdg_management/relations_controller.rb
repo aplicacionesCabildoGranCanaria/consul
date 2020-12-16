@@ -3,7 +3,9 @@ class SDGManagement::RelationsController < SDGManagement::BaseController
   before_action :load_record, only: [:edit, :update]
 
   def index
-    @records = relatable_class.accessible_by(current_ability).page(params[:page]).order(:id)
+    @records = relatable_class.accessible_by(current_ability).order(:id).page(params[:page])
+
+    @records = @records.search(params[:search]) if params[:search].present?
   end
 
   def edit

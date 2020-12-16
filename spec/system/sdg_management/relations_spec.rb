@@ -87,6 +87,19 @@ describe "SDG Relations", :js do
 
       expect(page).to have_css "h2", exact_text: "Build a hospital"
     end
+
+    scenario "search" do
+      create(:legislation_process, title: "Internet speech freedom")
+      create(:legislation_process, title: "Remote work")
+
+      visit sdg_management_legislation_processes_path
+
+      fill_in "search", with: "Remote"
+      click_button "Search"
+
+      expect(page).to have_content "Remote work"
+      expect(page).not_to have_content "Internet speech freedom"
+    end
   end
 
   describe "Edit" do
