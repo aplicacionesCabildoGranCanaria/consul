@@ -1,0 +1,48 @@
+<div class="small-4 medium-3 large-3 float-right social column">
+  <ul>
+    <% if setting['blog_url'] %>
+      <li class="inline-block">
+        <%= link_to setting['blog_url'], target: "_blank",  title: t('shared.target_blank_html') do %>
+          <span class="show-for-sr"><%= t("layouts.header.external_link_blog") %></span>
+          <%= image_tag("blog.png") %>
+        <% end %>
+      </li>
+    <% end %>
+
+    <% if setting['facebook_handle'] %>
+      <li class="inline-block">
+        <%= link_to "https://www.facebook.com/#{setting['facebook_handle']}/", target: "_blank", title: t("social.facebook") + t('shared.target_blank_html'), onclick: "ga('send', 'event','Enlaces','Click','enlace_fb', 1);" do %>
+          <span class="show-for-sr"><%= t("social.facebook") %></span>
+          <%= image_tag("facebook.png") %>
+        <% end %>
+      </li>
+    <% end %>
+    <% if setting['twitter_handle'] %>
+      <li class="inline-block">
+        <%= link_to "https://twitter.com/#{setting['twitter_handle']}", target: "_blank", title: t("social.twitter") + t('shared.target_blank_html'), onclick: "ga('send', 'event','Enlaces','C     lick','enlace_tw', 1);" do %>
+          <span class="show-for-sr"><%= t("social.twitter") %></span>
+          <%= image_tag("twitter.png") %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>
+
+<div class="principal-menu small-12 medium-7 large-7 column float-right">
+  <ul>
+    <li class="proposals ">
+      <%= link_to "/legislation/processes/1/debate", class: "proposals #{"active" if  controller_name == "proposals"}", accesskey: "i" do %>
+        <h1 class="hide-for-small-only"> <%= t("layouts.header.proposals")%></h1>
+        <span class="show-for-small-only"><%= t("layouts.header.proposals")%> </span>
+      <% end %>
+    </li>
+    <li class="debates">
+      <%= link_to debates_path, class: "debates #{"active" if controller_name == "debates"}", accesskey: "d"  do %>
+        <h1 class="hide-for-small-only"> <%= t("layouts.header.debates")%></h1>
+        <span class="show-for-small-only"><%= t("layouts.header.debates")%> </span>
+      <% end %>
+    </li>
+  </ul>
+</div>
+
+

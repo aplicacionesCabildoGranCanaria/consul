@@ -3,3 +3,18 @@
 // * English: https://github.com/consul/consul/blob/master/CUSTOMIZE_EN.md#css
 // * Spanish: https://github.com/consul/consul/blob/master/CUSTOMIZE_ES.md#css
 //
+$proposals: #ad0e17;
+$debates: #d68700;
+$city_council_debates: #652682;
+$organizations: #5FB5AE;
+$volunteers: #96BD2B;
+$votes-bg: $debates;
+$proposals-border: darken($proposals, 10%);
+$votes-border: darken($debates, 10%);
+$icons: #FDE91E;
+$municipalities: #212D5D;
+$header-color: #F9C822;
+$header-color-transparent: #F9C822dd;
+$button_bck: #73160D;
+$header-small-font-color: #273877;
+$text-summary: #273877;
