@@ -1,0 +1,23 @@
+es:
+  settings:
+    comments_body_max_length: "Longitud máxima de los comentarios"
+    official_level_1_name: "Cargos públicos de nivel 1"
+    official_level_2_name: "Cargos públicos de nivel 2"
+    official_level_3_name: "Cargos públicos de nivel 3"
+    official_level_4_name: "Cargos públicos de nivel 4"
+    official_level_5_name: "Cargos públicos de nivel 5"
+    max_ratio_anon_votes_on_debates: "Porcentaje máximo de votos anónimos por Propuesta"
+    max_votes_for_proposal_edit: "Número de votos en que una iniciativa ciudadana deja de poderse editar"
+    max_votes_for_debate_edit: "Número de votos en que una Propuesta deja de poderse editar"
+    proposal_code_prefix: "Prefijo para los códigos de iniciativas ciudadanas"
+    votes_for_proposal_success: "Número de votos necesarios para aprobar una iniciativa ciudadana"
+    months_to_archive_proposals: "Meses para archivar las iniciativas ciudadanas"
+    days_to_archive_proposals: "Días para archivar las iniciativas ciudadanas"
+    email_domain_for_officials: "Dominio de email para cargos públicos"
+    per_page_code: "Código a incluir en cada página"
+    google_tracking: "Id de seguimiento de Google"
+    feature:
+      debates: Propuestas
+      spending_proposals: Propuestas de inversión
+      spending_proposal_features:
+        voting_allowed: Votaciones sobre propuestas de inversión.

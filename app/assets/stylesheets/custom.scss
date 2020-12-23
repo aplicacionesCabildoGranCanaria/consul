@@ -1,5 +1,782 @@
-// Overrides and adds customized styles in this file
-// Read more on documentation:
-// * English: https://github.com/consul/consul/blob/master/CUSTOMIZE_EN.md#css
-// * Spanish: https://github.com/consul/consul/blob/master/CUSTOMIZE_ES.md#css
 //
+//  Development: ENREDA
+//  Version: 0.0.1
+//  -----------------------------
+//
+//  Table of Contents:
+//
+//      1. Imports
+//      2. Global
+//      3. Header
+//      4. Footer
+//      5. 
+//
+//  -----------------------------
+
+//  1. Imports
+// ------
+@import 'https://fonts.googleapis.com/css?family=Work+Sans';
+
+//  2. Global
+// ------
+body {
+  font-family: 'Work Sans', 'Helvetica', 'Arial', sans-serif !important;
+}
+// Fix width page content
+body > .wrapper {
+    width: 100%;;
+}
+
+//  3. Header
+// ------
+@mixin logo {
+  img {
+    @include breakpoint(small) {
+      height: auto;
+      width: 100%;
+    }
+  }
+  img.admin{
+    @include breakpoint(small) {
+      height: auto;
+      width: 4rem;
+    }
+  }
+}
+
+header {
+  border: none;
+  background: $header-color;
+  background-image: image-url("background_header.png") !important;
+  & > .row {
+    .logo.show-for-small-only img {
+      width: auto;
+    }
+    .top-bar {
+      background-color: transparent!important;
+      #responsive-menu {
+        width: 100%;
+        .top-bar-title {
+          margin-right: 0;
+          line-height: 0;
+          img.logo {
+            margin-bottom: -50px;
+            width: 220px;
+            height: 180px;
+          }
+          a {
+            color: $text;
+            @include logo;
+          }
+        }
+
+        // Fix space links top bar
+        .menu > li:first-child > a {
+            margin-right: 20px;
+        }
+      }
+      .top-bar-right{
+        margin-top: 1em;
+        text-align: right;
+        img.logo{
+          width: 180px;
+          height: 85px;
+        }
+        ul.menu{
+          display: inline;
+          li {
+            height: auto;
+            display: inline-block;
+            border-right: 1px solid white;
+            a {
+              padding: 0.5rem;
+              background: transparent;
+              color: $header-small-font-color;
+              text-align: right;
+              img{
+                width: 16px;
+              }
+            }
+          }
+          li:last-child{
+            border:none;
+          }
+        }
+        @media only screen and (max-width: 639px) {
+          text-align: right;
+          padding: 0;
+          margin-top: 0;
+          background-color: white;
+          line-height: 1;
+          ul.menu {
+            li{
+             border-right: none;
+              a {
+                font-size: 0.8em;
+              }
+            }
+          }
+        }
+
+      }
+
+    }
+  }
+
+  & .subnavigation {
+    border-top: 1px solid $header-color;
+    .social{
+      ul li a{
+        font-size: 1.3rem;
+        margin: 0.5rem;
+        img{
+          height: 1.6em;
+          background-color: $header-color;
+          border-radius: 50%;
+          padding: 15%;
+        }
+      }
+    }
+    &:last-child ul{
+        font-size: 0.8em;
+      }
+    ul {
+      display: inline-flex;
+      li{ margin: 0}
+      li a{
+        line-height: initial;
+        text-transform: uppercase;
+        font-weight: 400;
+        color:  $header-small-font-color;
+      }
+      li a:hover{
+        text-decoration: none;
+      }
+      li a.proposals.active, li a.proposals:hover{
+        h1 { color: $proposals;}
+        border-bottom: none;
+      }
+      li a.debates.active, li.debates:hover{
+        h1 { color: $debates;}
+        border-bottom: none;
+      }
+      li a.index.active, li.index:hover{
+        h1 { color: $city_council_debates;}
+        border-bottom: none;
+
+      }
+
+      h1 {
+        margin-top: 0.5rem;
+        border-right: 1px solid $header-color;
+        text-align: center;
+        color:  $header-small-font-color;
+        text-transform: uppercase;
+        word-spacing: 100vw;
+        font-size: 17px;
+        line-height: 1em;
+      }
+      li:last-child h1 {
+        border-right: none;
+      }
+      @media only screen and (max-width: 639px) {
+        li a{
+          line-height: initial;
+        }
+      }
+    }
+
+    // Principal menu
+    .principal-menu {
+        ul {
+            width: 100%;
+            height: 50px;
+        }
+        ul > li {
+            display: inline-block;
+            width: 50%;
+            margin: auto;
+        }
+    }
+  }
+}
+
+@media only screen and (min-width: 640px) {
+  .top-bar ul.menu li a:before {
+    content: '';
+    height: 16px;
+    width: 16px;
+    vertical-align: sub;
+    display: inline-block;
+    background-repeat: no-repeat;
+  }
+  a.sign_in:before {
+    background-image: image-url('Entrar.svg');
+  }
+  a.sign_up:before {
+    background-image: image-url('Registro.svg');
+  }
+  a.sign_out:before {
+    background-image: image-url('Salir.svg');
+  }
+  a.profile:before {
+    background-image: image-url('Mi_cuenta.svg');
+  }
+  a.activity:before {
+    background-image: image-url('Mi_actividad.svg');
+  }
+}
+
+// 3. Footer
+// ------
+.footer {
+  min-height: initial;
+  border-top: 0;
+  padding-top: 0;
+  margin-top: 0;
+  background-color: $header-color;
+  footer {
+    & > .row:first-child {
+      display: none;
+    }
+    .subfooter {
+      border-top: 0;
+      padding-top: 0;
+      .column {
+        float: right;
+        ul.menu {
+          float:right;
+          li {
+            font-size: 0.875rem;
+            text-align: right;
+            color: $text;
+            padding-top: 0;
+            float:left;
+            a {
+              display: inline-block;
+              color: $header-small-font-color;
+              white-space: nowrap;
+              padding: 5px 10px;
+              span {
+                margin-right: 0.2rem;
+                font-size: 16px;
+                vertical-align: middle;
+                color: $header-small-font-color;
+              }
+              img {
+                vertical-align: -50%;
+                width: 24px;
+                display: inline-block;
+                margin-right: 0;
+              }
+            }
+            // Fix underline footer links
+            a:hover {
+                text-decoration: none;
+            }
+                a:hover > span {
+                    text-decoration: underline;
+                }
+                a:hover > .icon {
+                    text-decoration: none;
+                }
+            &:first-child a {
+              padding-bottom: 10px;
+            }
+          }
+          @media only screen and (max-width: 639px) {
+            float: initial;
+            li{
+              float: initial;
+              display: inherit;
+              text-align: center;
+            }
+          }
+
+        }
+      }
+    }
+  }
+}
+// Main footer section hidden by now, so we reduce push height
+.push {
+    min-height: 3rem;
+}
+
+//  5. 
+// ------
+aside.margin-bottom {
+    #search_form {
+      .input-group {
+        input {
+          margin-bottom: 0;
+        }
+        .input-group-button button {
+          padding-bottom: 0.7em;
+        }
+      }
+    }
+  }
+  
+  .proposals-list, .debates-list {
+    h3{
+      text-transform: uppercase;
+    }
+    .actions {
+      text-align: right;
+      margin-top: 15px;
+      a img {
+        width: 60%;
+      }
+      a.button {
+        font-size: 0.8em;
+        font-weight: 600;
+        padding: 5px 10px;
+        line-height: 1em;
+        border-radius: 5px;
+        background-color: transparent;
+        text-transform: uppercase;
+      }
+    }
+  }
+  .proposals-list{
+    h3 span{
+      color: $proposals;
+    }
+    a.button{
+      color: $proposals;
+      border: 2px solid $proposals;
+      background-color: transparent;
+      &:hover {
+        background-color: $proposals;
+        color: white;
+      }
+    }
+  }
+  
+  .debates-list {
+    h3 span{
+      color: $debates;
+    }
+  
+    a.button{
+      color: $debates;
+      border: 2px solid $debates;
+      background-color: transparent;
+      &:hover {
+        background-color: $debates;
+        color: white;
+      }
+    }
+  }
+  
+  
+  .wrap.row.menu > div:first-child{
+    padding: 0;
+    img.banner {
+      width: 100%;
+      padding-left: 0;
+    }
+  }
+  .proposals-list {
+    .proposal {
+      margin-bottom: 0.5rem;
+      .panel {
+        border: 1px solid $proposals;
+      }
+      .supports:after {
+        border-color: $proposals transparent transparent transparent;
+      }
+      .supports .not-logged {
+        background-color: rgba($proposals-border, 0.9);
+      }
+      .supports .button-support{
+        color: white;
+      }
+    }
+  }
+  
+  .debates-list {
+    .debate {
+      margin-bottom: 0.5rem;
+      .panel {
+        border: 1px solid $debates;
+      }
+      .votes:after {
+        border-color: $debates transparent transparent transparent;
+      }
+      .votes .not-logged {
+        background-color: rgba($votes-border, 0.9);
+      }
+    }
+  }
+  
+  .participation-not-allowed{
+    font-size: 0.9rem;
+  }
+  .anonymous-votes, .organizations-votes, .no-supports-allowed {
+    p {
+      line-height: 1.1rem;
+      font-size: 0.9rem;
+    }
+  }
+  .featured-proposals .supports .button-support {
+    background: white;
+    color: black;
+    margin-top: 0;
+  }
+  
+  .submenu{
+    margin: 0.75rem 0;
+  }
+  .debate-show .supports .button-support, .proposal-show .supports .button-support, .poll-question-show .supports .button-support, .investment-project-show .supports .button-support, .budget-investment-show .supports .button-support, .polls-show .supports .button-support, .debate-quiz .supports .button-support, .budget-investment-show .supports .button-support, .draft-panels .supports .button-support, .debate-questions .supports .button-support, .communities-show .supports .button-support, .topic-show .supports .button-support, .milestone-content .supports .button-support{
+    color: white;
+  }
+  .survey_banner {
+    display: inline-block;
+    position: relative;
+    img{
+      width: 100%;
+    }
+    .not-logged {
+      background: rgba(125,73,64,.9);
+      color: white;
+      font-size: $small-font-size;
+      height: 100%;
+      left: 0;
+      position: absolute;
+      text-align: center;
+      top: 0;
+      width: 100%;
+      filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#222222', endColorstr='#222222'); /* IE */
+  
+      span {
+        a {
+          color: white;
+          text-decoration: underline;
+        }
+      }
+      &:before {
+        content: '';
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+      }
+    }
+  }
+  
+  figure img {
+    height: inherit;
+    width: inherit;
+  }
+  
+  .social-news {
+    border: 1px solid black;
+    margin-top: 15px;
+  }
+  
+  .mapa-interactivo-gc {
+    path {
+      fill-opacity: 0.7;
+      fill: $municipalities;
+    }
+  }
+  
+  .summary{
+    color: $text-summary;
+    h5{
+      &:first-child{
+        background-color: $text-summary;
+        color: white;
+      }
+      background-color: $header-color;
+      font-size: 1.1rem;
+      padding: 0.5rem 1rem;
+      font-weight: 400;
+    }
+    .medium-3.column{
+      text-align: right;
+      padding-right: 0;
+    }
+    .summary-2{
+      background-color: #aaa;
+      margin-bottom: 0.3em;
+      padding-top: 0.5em;
+      p{ font-weight: 700;}
+    }
+    p, ol{
+      font-size: 0.9rem;
+      line-height: 1.1rem;
+    }
+    img{
+      margin: 2px;
+    }
+  }
+  ol{
+    margin-left: 3.25rem;
+  }
+
+
+.verify-account {
+  .pending-verification {
+    color: blue;
+  }
+
+  .failed-verification .icon-x {
+    color: red;
+  }
+}
+.wrapper{margin: 0 auto;}
+.row { max-width: 83rem;}
+.wrapper.closed {
+  header {
+    z-index: 999;
+  }
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  .closed {
+    background-color: rgba(26, 48, 102, 0.9);
+    display: flex;
+    align-items: center;
+    flex: 1 1 auto;
+    .row {
+      min-height: 100%;
+      div {
+        color: white;
+        width: 100%;
+        text-align: center;
+        h1 {
+          margin: auto;
+        }
+      }
+    }
+  }
+}
+
+.medium-9 .medium-6 .videoWrapper > iframe{
+  height: calc(30vw / 1.77);
+  width: 30vw;
+}
+
+@media only screen and (max-width: 639px) {
+  .medium-9 .medium-6 .videoWrapper > iframe, .highlight .medium-6 .videoWrapper > iframe, .medium-12 .videoWrapper > iframe{
+    height: calc(90vw / 1.77)!important;
+    width: 90vw!important;
+  }
+  header .subnavigation {
+    border-top: none;
+  }
+  .auth-page {
+    .wrapper{
+      margin: auto;
+      .auth-form {
+        background-color: white;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 1540px) {
+  .medium-9 .medium-6 .videoWrapper > iframe, .highlight .medium-6 .videoWrapper > iframe{
+    height: calc(24vw / 1.77);
+    width: 22vw;
+  }
+}
+.highlight{
+  .padding {padding-top: 4rem}
+}
+
+@media only screen and (min-width: 2000px) {
+  div.row div.curtain {
+    background-color: rgba(0,0,0,0.4);
+  }
+  h1{
+    a {
+      font-weight: 400;
+      line-height: 0.8em;
+    }
+    span a{
+      font-weight: 700;
+      color: $header-color;
+      text-transform: uppercase;
+    }
+  }
+  div{
+    margin: auto;
+    .button{
+      background-color: #BC242A;
+      text-transform: uppercase;
+      font-weight: bold;
+      padding: 0.4em;
+      margin-bottom: 3em;
+      border-radius: 0;
+    }
+  }
+  @media only screen and (min-width: 640px) {
+    .flex{
+      display: flex;
+      justify-content: center;
+      vertical-align: middle;
+    }
+  }
+  .medium-6 .videoWrapper > iframe{
+    height: calc(45vw / 1.775);
+    width: 45vw;
+  }
+}
+
+.welcome{
+  h3, h2, p{
+    color: $header-small-font-color;
+    font-weight: 400;
+  }
+  h2{
+  font-size: 1.6rem;
+  }
+  h3{
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+  h1{
+    line-height: 0.5em;
+    color: $header-color;
+    margin-bottom: 1em;
+  }
+}
+@media only screen and (max-width: 639px) {
+  h1 a{
+    font-size: 2rem;
+  }
+  h2 a{
+    font-size: 1.4rem;
+  }
+  .social ul{
+    background-color: white;
+    margin-bottom: 3px;
+  }
+  .top-bar .menu-icon.dark {
+    height: 20px;
+    width: 25px;
+    right: 5px;
+    left: unset;
+    &::after, &:hover::after {
+      background: $header-small-font-color none repeat scroll 0 0;
+      box-shadow: 0 8px 0 $header-small-font-color, 0 16px 0 $header-small-font-color;
+      height: 4px;
+    }
+  }
+  .top-bar{
+    color: #273877;
+  }
+  #modal-video iframe{
+    max-width: 100%;
+  }
+}
+@media only screen and (max-width: 1023px) {
+  h1{
+    font-size: 1.8rem;
+  }
+
+  h2{
+    font-size: 1.2rem;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  body .cookies-eu.js-cookies-eu {
+    position: fixed;
+    padding: 0.5em 0;
+    line-height: 24px;
+  }
+}
+
+div#groups_and_headings {
+   display: none;
+}
+
+/*DEBATES*/
+.icon-like{
+  &::before{content: unset;}
+  border: none !important;
+}
+.comment-body .icon-like{
+  &::before{content: '\6b';}
+}
+
+
+.debate-description {
+  height: 24rem!important;
+}
+
+.auth-page form [type]:not([type=submit]):not([type=file]):not([type=checkbox]):not([type=radio]):not(.close-button) {
+  background: #fffdf7;
+  height: 3.5rem;
+  margin-bottom: 2rem;
+  border: 2px solid #f9c822;
+}
+
+//Orbit
+.orbit .row.banner, .orbit .row.register {
+  position: absolute;
+  max-width: 100%;
+  color: white;
+  width: 100%;
+}
+
+.orbit .row.banner{
+  bottom: 15%;
+}
+.orbit .row.register {
+  bottom: 5%;
+}
+
+.orbit-caption{
+  display: none;
+}
+.poll-more-info-answers .answer-description.short{
+  height: 3.75rem;
+}
+.answer{
+    margin: 1rem 0;
+}
+.orbit .orbit-wrapper .orbit-slide img {
+  image-rendering: inherit;
+}
+
+
+.new_answered_survey {
+  input[type='text'] {
+    width: 30px;
+    height: 30px!important;
+    float: right;
+  }
+  span{
+    &.basic {
+      font-weight: bold;
+      display: inline-block;
+    }
+    &.basic.radio, &.basic.text {
+      font-weight: normal;
+      display: inline-block;
+    }
+    &.basic.input {
+      padding-left: 15px;
+      width: 95%;
+      font-weight: normal;
+    }
+    &.basic.text_p{
+          font-weight: normal;
+        }
+  }
+  p {padding-bottom: 1.3rem;}
+  label.radio-inline{
+    font-weight: normal;
+  }
+}
+
+
+.social-share-button .ssb-google_plus {
+  display: none !important;
+}
