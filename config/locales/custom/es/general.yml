@@ -239,11 +239,14 @@ es:
       transparency_title: Transparencia
       transparency_url: 'https://transparency.consul'
     header:
+      proposals: Propuestas ciudadanas
+      mapa: Participación municipal
+      eventos: Eventos
       administration_menu: Admin
       administration: Administrar
       city_council_debates: Propuesta Ayuntamiento
       available_locales: Idiomas disponibles
-      collaborative_legislation: Procesos legislativos
+      collaborative_legislation: Propuestas Cabildo
       debates: Propuestas Cabildo
       external_link_blog: Blog
       external_link_institution: Participa Gran Canaria | Cabildo de Gran Canaria
