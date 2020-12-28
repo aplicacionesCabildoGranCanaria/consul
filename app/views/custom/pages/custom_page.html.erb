@@ -1,0 +1,34 @@
+<%= content_for :body_class, "custom-page" %>
+<% provide :title do %><%= @custom_page.title %><% end %>
+
+<div class="row margin-top">
+
+  <div class="small-12 medium-9 column">
+    <h1><%= @custom_page.title %></h1>
+    <% if @custom_page.subtitle.present? %>
+      <h2><%= @custom_page.subtitle %></h2>
+    <% end %>
+
+    <%= auto_link_already_sanitized_html AdminWYSIWYGSanitizer.new.sanitize(@custom_page.content) %>
+  </div>
+
+  <% if @custom_page.print_content_flag %>
+    <div class="small-12 medium-3 column">
+      <%= render "/shared/print" %>
+    </div>
+  <% end %>
+
+ <% if @custom_page.slug == 'mapa' %>
+
+<iframe src="https://www.google.com/maps/d/embed?mid=19FYBTqmQN8z7LBEc6Hx92nveKghwlpsH" width="100%" height="480"></iframe>
+   <% end %>
+
+  <% if @cards.any? %>
+    <div class="small-12 column">
+      <%= render "shared/cards" %>
+    </div>
+  <% end %>
+
+
+
+</div>
