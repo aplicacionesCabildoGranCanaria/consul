@@ -82,12 +82,15 @@ header {
           width: 180px;
           height: 85px;
         }
+        .menu a{
+        }
         ul.menu{
-          display: inline;
+         
           li {
             height: auto;
             display: inline-block;
-            border-right: 1px solid white;
+            border: 0px;
+            /*border-right: 1px solid white;*/
             a {
               padding: 0.5rem;
               background: transparent;
@@ -779,4 +782,13 @@ div#groups_and_headings {
 
 .social-share-button .ssb-google_plus {
   display: none !important;
+}
+
+.dropdown.menu > li.is-dropdown-submenu-parent > a::after {
+right: -5px;
+
+}
+
+.help-header h1 {
+  color: #0a0a0a;
 }

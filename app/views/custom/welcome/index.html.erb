@@ -1,110 +1,64 @@
-<% url = '/debates/3-risco-caido-patrimonio-cultural-de-la-humanidad' %>
-<% url2 = '/polls/1' %>
-<% url3 = '/budgets' %>
-<div class="orbit no-margin-top" role="region" aria-label="banner" data-orbit>
-  <div class="orbit-wrapper">
-    <ul class="orbit-container">
-      <li class="orbit-slide">
-        <!-- <div class="row banner"> -->
-        <!--   <div class="small&#45;12 medium&#45;12 small&#45;centered column text&#45;center"> -->
-        <!--     <h1><%= t("layouts.header.open_city_title_html") %></h1> -->
-        <!--   </div> -->
-        <!-- </div> -->
-        <div class="row register">
-          <div class="small-5 medium-3 small-centered">
-          </div>
-        </div>
 
-        <figure class="orbit-figure">
-         <a href="/participaods"> <%= image_tag('consul_ods.jpg', class: 'orbit-image', alt: '¿Cómo facilitar la participación ciudadana en los ODS?') %></a>
-        </figure>
-      </li>
-      <!--
-      <li class="orbit-slide">
-        <div class="row register">
-          <div class="small-5 medium-3 small-centered">
-          </div>
-        </div>
-        <figure class="orbit-figure">
-         <a href="/legislation/processes/2/debate"> <%= image_tag('banner_plataforma_v4.png', class: 'orbit-image', alt: 'Preguntas de la ciudadanía sobre el modelo de la Central Hidroeléctrica Chira-Soria') %></a>
-        </figure>
-      </li> -->
-    </ul>
-    <nav class="orbit-bullets">
-      <button class="is-active" data-slide="0"><span class="show-for-sr">First slide details.</span><span class="show-for-sr">Current Slide</span></button>
-      <button data-slide="2"><span class="show-for-sr">Second slide details.</span></button>
-    </nav>
-  </div>
-</div>
+<% content_for :body_class, "home-page" %>
 
-<div class="row margin">
-  <div class="small-12 medium-12 large-6 column" >
-    <div class="videoWrapper">
-    <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/9bBHFxbhn4A?controls=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border:none;overflow:hidden"></iframe>
-  </div>
-  </div>
-  <div class="small-12 medium-12 large-6 column welcome" >
-    <h2>Propuestas ciudadanas frente a la COVID-19</h2>
-    <p>Durante estos meses se recogerán y debatirán en participa.grancanaria.com ideas y propuestas sobre distintos aspectos que pueden influenciar las políticas e intervenciones, públicas y privadas, en el nuevo contexto de la COVID-19 en la isla.</p>
-    <a href="/legislation/processes/1/debate"> <h3> PARTICIPA CON TUS PROPUESTAS </h3> </a>
-  </div>
+<% content_for :canonical do %>
+  <%= render "shared/canonical", href: root_url %>
+<% end %>
 
-</div>
+<%= render "shared/banner" %>
 
-<div class="row margin"> </div>
-<div class="row margin">
-  <div class="small-12 medium-12 large-6 column welcome" >
-    <h2>Preguntas de la ciudadanía sobre el modelo de la Central Hidroeléctrica Chira-Soria</h2>
-    <p>Envía tu pregunta y apoya las que más te gusten para que puedan ser contestadas en la II Jornada Canagua & Energía que este año lleva por título <b>"Centrales de hidrobombeo y la transición ecológica de Gran Canaria: el modelo de Chira-Soria</b>.</p>
-    <a href="/legislation/processes/2/debate"> <h3> ENVÍA TU PREGUNTA </h3> </a>
+<% provide :social_media_meta_tags do %>
+  <%= render "shared/social_media_meta_tags",
+              social_url: root_url %>
+<% end %>
+
+<%= render "header", header: @header %>
+
+<main>
+  <%= render "feeds" %>
+
+  <div class="row">
+    <% if @cards.any? %>
+      <div class="small-12 column <%= "large-8" if feed_processes_enabled? %>">
+        <h3 class="title"><%= t("welcome.cards.title") %></h3>
+
+        <%= render "shared/cards" %>
+      </div>
+    <% end %>
+
+    <% if feed_processes_enabled? %>
+      <div class="small-12 large-4 column">
+        <%= render "processes" %>
+      </div>
+    <% end %>
   </div>
-
-  <div class="small-12 medium-12 large-6 column" >
-    <a href="/legislation/processes/2/debate"> <%= image_tag('banner_plataforma_v4.png', class: 'orbit-image', alt: 'Preguntas de la ciudadanía sobre el modelo de la Central Hidroeléctrica Chira-Soria') %></a>
-  </div>
- 
-</div>
-
 <% cache [locale_and_user_status, @featured_debates, @featured_proposals, 'featured'] do %>
-  <main>
-    <div class="row text-center margin welcome medium-8 small-12">
+
+  <div class="row text-center margin welcome medium-8 small-12">
 
       <div class="small-12 medium-2 column">
-        <%= link_to proposals_path, class: "index #{"active" if controller_name == "proposals"}", accesskey: "d"  do %>
           <%= image_tag("icon_home_debate.png", size: "168x168", alt: t("welcome.debates.title"), title: t("welcome.debates.title")) %>
           <h3><%= t("welcome.debates.title") %></h3>
-        <% end %>
-        <!-- <p><%= t("welcome.debates.description") %></p> -->
 
       </div>
       <div class="small-12 medium-2 column">
-        <%= link_to proposals_path, class: "index #{"active" if controller_name == "proposals"}", accesskey: "d"  do %>
           <%= image_tag("icon_home_proposal.png", size: "168x168", alt: t("welcome.proposal.title"), title: t("welcome.proposal.title"))  %>
           <h3><%= t("welcome.proposal.title") %></h3>
-        <% end %>
-        <!-- <p><%= t("welcome.proposal.description") %></p> -->
       </div>
 
       <div class="small-12 medium-2 column">
-        <%= link_to proposals_path, class: "index #{"active" if controller_name == "proposals"}", accesskey: "d"  do %>
           <%= image_tag("icon_home_decide.png", size: "168x168", alt: t("welcome.decide.title"), title: t("welcome.decide.title")) %>
           <h3><%= t("welcome.decide.title") %></h3>
-        <% end %>
-        <!-- <p><%= t("welcome.decide.description") %></p> -->
       </div>
       <div class="small-12 medium-2 column">
-        <%= link_to proposals_path, class: "index #{"active" if controller_name == "proposals"}", accesskey: "d"  do %>
           <%= image_tag("icon_home_do.png", size: "168x168", alt: t("welcome.do.title"), title: t("welcome.do.title")) %>
           <h3><%= t("welcome.do.title") %></h3>
-        <% end %>
-        <!-- <p><%= t("welcome.do.description") %></p> -->
       </div>
       <div class="small-12 medium-2 column">
         <div data-toggle="modal-video" style="cursor:pointer;" class="">
           <%= image_tag("icon_home_tutorial.png", size: "168x168", alt: t("welcome.tutorial.title"), title: t("welcome.tutorial.title")) %>
           <h3><%= t("welcome.tutorial.title") %></h3>
         </div>
-        <!-- <p><%= t("welcome.tutorial.description") %></p> -->
 
         <div class="reveal" id="modal-video" data-reveal data-reset-on-close="true">
           <span>Tutorial Participación Ciudadana.</span>
@@ -119,8 +73,15 @@
       </div>
 
     </div>
-  </main>
+
 <% end %>
+
+  <% if feature?("user.recommendations") && (@recommended_debates.present? || @recommended_proposals.present?) %>
+    <%= render "recommended",
+                recommended_debates: @recommended_debates,
+                recommended_proposals: @recommended_proposals %>
+  <% end %>
+</main>
 <div class="row margin welcome">
   <div class="small-12 medium-3 column">
     <h2><%= t("welcome.speak.title") %></h2>
