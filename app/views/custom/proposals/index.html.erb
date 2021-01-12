@@ -37,6 +37,8 @@
   <%#   <%= render "shared/section_header", i18n_namespace: "proposals.index.section_header", image: "proposals" %>
   <%# <% end %>
 
+
+
   <%= render "shared/section_header", i18n_namespace: "proposals.index.section_header", image: "proposals" %>
   <div class="row">
     <div id="proposals" class="proposals-list small-12 medium-9 column">
@@ -97,7 +99,7 @@
     <div class="small-12 medium-3 column">
       <aside class="margin-bottom">
         <%= link_to new_proposal_path, class: "show-for-large", onclick: "ga('send', 'event','Enlaces','Click','enlace_desde_resumen_participacion', 1);" do %>
-      <%#     <%= image_tag 'create_proposal.png' %>   
+        <%= image_tag 'create_proposal.png' %>   
         <% end %>
 
         <% if params[:retired].blank? %>
