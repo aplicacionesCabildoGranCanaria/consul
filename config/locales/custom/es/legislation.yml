@@ -1,6 +1,15 @@
 es:
   legislation:
     processes:
+      index:
+        section_header: 
+          title: Propuestas de Cabildo
+        section_footer:
+          title: Ayuda sobre las Propuestas de Cabildo
+          description: |-
+            En esta sección puedes consultar las propuestas planteadas a la ciudadanía por parte del Cabildo de Gran Canaria que deben contribuir a facilitar los procesos participativos que mejoren la eficacia y eficiencia de la acción de este Gobierno Insular.
+            Con este fin, tanto la presidencia como las consejerías dispondrán de la iniciativa para promover procesos de deliberación participativa en las materias propias de su competencia, como proyectos, programas, planes y normas, principalmente a través de dos mecanismos:
+            - Consulta ciudadana. La consulta ciudadana es un instrumento participativo que permite al Cabildo conocer la opinión de la ciudadanía en materias de su competencia, la cual se expresa mediante el voto directo, libre, igual y secreto en las urnas presenciales o electrónicas establecidas al efecto. 
+            - Sondeos y encuestas de opinión. El Cabildo podrá acordar la realización de sondeos, encuestas, estudios de opinión o cualquier otro instrumento basado en técnicas demoscópicas, que sirva para recabar y conocer la opinión de la ciudadanía acerca de las decisiones o políticas públicas que pretenda adoptar la Corporación en el ámbito de sus competencias propias." 
       debate:
         participate: Realiza tus aportaciones al debate previo participando en los temas que consideres.
-
