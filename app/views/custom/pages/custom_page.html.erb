@@ -9,6 +9,10 @@
       <h2><%= @custom_page.subtitle %></h2>
     <% end %>
 
+     <% if @custom_page.slug == 'participaods' %>
+      <iframe width="854" height="480" src="https://www.youtube.com/embed/lAE0dDNVLI4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <% end %>
+
     <%= auto_link_already_sanitized_html AdminWYSIWYGSanitizer.new.sanitize(@custom_page.content) %>
   </div>
 
@@ -18,10 +22,13 @@
     </div>
   <% end %>
 
- <% if @custom_page.slug == 'mapa' %>
-
-<iframe src="https://www.google.com/maps/d/embed?mid=19FYBTqmQN8z7LBEc6Hx92nveKghwlpsH" width="100%" height="480"></iframe>
+   <% if @custom_page.slug == 'mapa' %>
+      <iframe src="https://www.google.com/maps/d/embed?mid=19FYBTqmQN8z7LBEc6Hx92nveKghwlpsH" width="100%" height="480"></iframe>
    <% end %>
+
+
+
+
 
   <% if @cards.any? %>
     <div class="small-12 column">
@@ -32,3 +39,5 @@
 
 
 </div>
+
+
