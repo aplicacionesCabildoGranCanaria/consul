@@ -1,0 +1,84 @@
+<footer>
+	<div class="row">
+    <div class="small-12 large-4 column">
+      <h1 class="logo">
+        <%= link_to t("layouts.header.open_gov", open: "#{t('layouts.header.open')}").html_safe %>
+      </h1>
+
+      <p class="info">
+        <%= t("layouts.footer.description",
+          open_source: link_to(t("layouts.footer.open_source"), t("layouts.footer.open_source_url"), target: "blank"),
+          consul:  link_to(t("layouts.footer.consul"), t("layouts.footer.consul_url"), target: "blank")).html_safe
+        %>
+        <%= t("layouts.footer.contact_us") %>
+        <%= link_to t("layouts.footer.faq"), faq_path %>
+      </p>
+    </div>
+
+    <div class="footer-sections small-12 large-8 column">
+      <div class="small-12 medium-4 column">
+        <h2>
+          <%= link_to t("layouts.footer.participation_title"), root_path %>
+        </h2>
+        <p><%= t("layouts.footer.participation_text") %></p>
+      </div>
+
+      <div class="small-12 medium-4 column">
+        <h2>
+          <%= link_to t("layouts.footer.transparency_title"), t("layouts.footer.transparency_url") %>
+        </h2>
+        <p><%= t("layouts.footer.transparency_text") %></p>
+      </div>
+
+      <div class="small-12 medium-4 column">
+        <h2>
+          <%= link_to t("layouts.footer.open_data_title"), "/opendata" %>
+        </h2>
+        <p><%= t("layouts.footer.open_data_text") %></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="subfooter row">
+    <div class="small-12 column">
+      <ul class="menu">
+        <li>
+          <%= link_to "https://github.com/consul/consul" do %>
+            <%= t("layouts.footer.copyright", year: Time.now.year) %>
+          <% end %>
+        </li>
+        <li>
+          <%= link_to help_path do %>
+            <span class="icon icon-help"></span>
+            <span><%= t("layouts.header.more_info") %></span>
+          <% end %>
+        </li>
+        <li>
+          <%= link_to faq_path do %>
+            <span class="icon icon-help"></span>
+            <span><%= t("layouts.footer.faq") %></span>
+          <% end %>
+        </li>
+        <li>
+          <%= link_to page_path('conditions') do %>
+            <span class="icon icon-settings"></span>
+            <span><%= t("layouts.footer.conditions") %></span>
+          <% end %>
+        </li>
+        <li>
+          <%# <%= link_to t("layouts.footer.legal"), page_path('legal') %>
+          <%= link_to page_path('privacy') do %>
+            <span class="icon icon-document"></span>
+            <span><%= t("layouts.footer.privacy") %></span>
+          <% end %>
+        </li>
+        <li>
+          <%= mail_to Rails.application.secrets.contact_email do %>
+            <span class="icon icon-letter"></span>
+            <span><%= t("layouts.footer.contact_us") %></span>
+          <% end %>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>

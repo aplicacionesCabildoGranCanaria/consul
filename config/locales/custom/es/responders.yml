@@ -1,0 +1,23 @@
+---
+es:
+  flash:
+    actions:
+      new:
+        already_answered_survey: "Usted ya ha respondido a esta encuesta anteriormente"
+      create:
+        notice: "%{resource_name} creado correctamente."
+        debate: "Propuesta creada correctamente."
+        direct_message: "Tu mensaje ha sido enviado correctamente."
+        proposal: "Iniciativa popular creada correctamente."
+        proposal_notification: "Tu message ha sido enviado correctamente."
+        spending_proposal: "Propuesta de inversión creada correctamente. Puedes acceder a ella desde %{activity}"
+        answered_survey: "Encuesta rellenada correctamente"
+      save_changes:
+        notice: Cambios guardados
+      update:
+        notice: "%{resource_name} actualizado correctamente."
+        debate: "Propuesta actualizada correctamente."
+        proposal: "Iniciativa popular actualizada correctamente."
+        spending_proposal: "Propuesta de inversión actualizada correctamente."
+      destroy:
+        spending_proposal: "Propuesta de inversión eliminada."

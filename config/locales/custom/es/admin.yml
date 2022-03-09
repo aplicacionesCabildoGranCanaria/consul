@@ -1,0 +1,358 @@
+---
+es:
+  admin:
+    actions:
+      confirm: "¿Estás seguro?"
+      confirm_hide: Confirmar
+      hide: Ocultar
+      hide_author: Bloquear al autor
+      restore: Volver a mostrar
+      mark_featured: Destacar
+      unmark_featured: Quitar destacado
+    banners:
+      index:
+        title: Banners
+        create: Crear un banner
+        edit: Editar banner
+        delete: Eliminar banner
+        filters:
+          all: Todos
+          with_active: Activos
+          with_inactive: Inactivos
+      banner:
+        title: Título
+        description:  Descripción
+        target_url:  Enlace
+        style: Estilo
+        image: Imagen
+        post_started_at: Inicio de publicación
+        post_ended_at: Fin de publicación
+      edit:
+        back: Volver
+        editing: Editar el banner
+        form:
+          submit_button: Guardar Cambios
+      errors:
+        form:
+          error:
+            one: "error impidió guardar el banner"
+            other: "errores impidieron guardar el banner."
+      new:
+        back: Volver
+        creating: Crear banner
+    activity:
+      show:
+        action: Acción
+        actions:
+          block: Bloqueado
+          hide: Ocultado
+          restore: Restaurado
+        by: Moderado por
+        content: Contenido
+        filter: Mostrar
+        filters:
+          all: Todo
+          on_comments: Comentarios
+          on_debates: Propuestas del Cabildo
+          on_proposals: Iniciativas ciudadanas
+          on_users: Usuarios
+        title: Actividad de los Moderadores
+        type: Tipo
+    comments:
+      index:
+        filter: Filtro
+        filters:
+          all: Todos
+          with_confirmed_hide: Confirmados
+          without_confirmed_hide: Pendientes
+        hidden_debate: Propuesta oculta
+        hidden_proposal: Iniciativa oculta
+        title: Comentarios ocultos
+    dashboard:
+      index:
+        back: Volver a
+        title: Administración
+    debates:
+      index:
+        filter: Filtro
+        filters:
+          all: Todos
+          with_confirmed_hide: Confirmados
+          without_confirmed_hide: Pendientes
+        title: Propuestas ocultas
+    managers:
+      index:
+        title: Gestores
+      manager:
+        add: Añadir como Gestor
+        delete: Borrar
+      search:
+        email_placeholder: Buscar usuario por email
+        search: Buscar
+        user_not_found: Usuario no encontrado
+    menu:
+      activity: Actividad de moderadores
+      admin: Menú de administración
+      banner: Gestionar banners
+      debate_topics: Temas de iniciativas ciudadanas
+      hidden_comments: Comentarios ocultos
+      hidden_debates: Propuestas ocultas
+      hidden_proposals: Iniciativas ocultas
+      hidden_users: Usuarios bloqueados
+      incomplete_verifications: Verificaciones incompletas
+      managers: Gestores
+      moderators: Moderadores
+      valuators: Evaluadores
+      officials: Cargos públicos
+      organizations: Organizaciones
+      proposals: Iniciativas
+      settings: Configuración global
+      spending_proposals: Propuestas de inversión
+      stats: Estadísticas
+    moderators:
+      index:
+        title: Moderadores
+      moderator:
+        add: Añadir como Moderador
+        delete: Borrar
+      search:
+        email_placeholder: Buscar usuario por email
+        search: Buscar
+        user_not_found: Usuario no encontrado
+    valuators:
+      index:
+        title: Evaluadores
+      valuator:
+        description_placeholder: "Descripción (opcional)"
+        user_found: Usuario encontrado
+        add: Añadir como evaluador
+      search:
+        email_placeholder: Buscar usuario por email
+        search: Buscar
+        user_not_found: Usuario no encontrado
+      summary:
+        title: Resumen de evaluación de propuestas de inversión
+        valuator_name: Evaluador
+        finished_and_feasible_count: Finalizadas viables
+        finished_and_unfeasible_count: Finalizadas inviables
+        finished_count: Finalizadas
+        in_evaluation_count: En evaluación
+        total_count: Total
+        cost: Coste total
+    officials:
+      edit:
+        destroy: Eliminar condición de 'Cargo Público'
+        title: 'Cargos Públicos: Editar usuario'
+      flash:
+        official_destroyed: 'Datos guardados: el usuario ya no es cargo público'
+        official_updated: Datos del cargo público guardados
+      index:
+        title: Cargos Públicos
+      level_0: No es cargo público
+      level_1: Nivel 1
+      level_2: Nivel 2
+      level_3: Nivel 3
+      level_4: Nivel 4
+      level_5: Nivel 5
+      search:
+        edit_official: Editar cargo público
+        make_official: Convertir en cargo público
+        title: 'Cargos Públicos: Búsqueda de usuarios'
+    organizations:
+      index:
+        filter: Filtro
+        filters:
+          all: Todas
+          pending: Pendientes
+          rejected: Rechazadas
+          verified: Verificadas
+        hidden_count_html:
+          one: Hay además <strong>una organización</strong> sin usuario o con el usuario bloqueado.
+          other: Hay <strong>%{count} organizaciones</strong> sin usuario o con el usuario bloqueado.
+        reject: Rechazar
+        rejected: Rechazada
+        search: Buscar
+        search_placeholder: Nombre, email o teléfono
+        title: Organizaciones
+        verified: Verificada
+        verify: Verificar
+      search:
+        title: Buscar Organizaciones
+    proposals:
+      index:
+        filter: Filtro
+        filters:
+          all: Todas
+          with_confirmed_hide: Confirmadas
+          without_confirmed_hide: Pendientes
+        title: Iniciativas ocultas
+    settings:
+      flash:
+        updated: Valor actualizado
+      index:
+        banners: Banner style
+        banner_imgs: Banner images
+        title: Configuración global
+        update_setting: Actualizar
+        feature_flags: Funcionalidades
+        features:
+          enabled: "Funcionalidad activada"
+          disabled: "Funcionalidad desactivada"
+          enable: "Activar"
+          disable: "Desactivar"
+    shared:
+      proposal_search:
+        button: Buscar
+        placeholder: Buscar iniciativas por título, código, descripción o pregunta
+      spending_proposal_search:
+        button: Buscar
+        placeholder: Buscar propuestas por título o descripción
+      user_search:
+        button: Buscar
+        placeholder: Buscar usuario por nombre o email
+    spending_proposals:
+      index:
+        geozone_filter_all: Todos los ámbitos de actuación
+        administrator_filter_all: Todos los administradores
+        valuator_filter_all: Todos los evaluadores
+        tags_filter_all: Todas las etiquetas
+        filters:
+          valuation_open: Abiertas
+          without_admin: Sin administrador
+          managed: Gestionando
+          valuating: En evaluación
+          valuation_finished: Evaluación finalizada
+          all: Todas
+        title: Propuestas de inversión para presupuestos participativos
+        assigned_admin: Administrador asignado
+        no_admin_assigned: Sin admin asignado
+        no_valuators_assigned: Sin evaluador
+        summary_link: "Resumen de propuestas"
+        valuator_summary_link: "Resumen de evaluadores"
+        feasibility:
+          feasible: "Viable (%{price})"
+          not_feasible: "Inviable"
+          undefined: "Sin definir"
+      show:
+        assigned_admin: Administrador asignado
+        assigned_valuators: Evaluadores asignados
+        back: Volver
+        classification: Clasificación
+        heading: Propuesta de inversión %{id}
+        edit: Editar
+        edit_classification: Editar clasificación
+        association_name: Asociación
+        by: Autor
+        sent: Fecha
+        geozone: Ámbito
+        dossier: Informe
+        edit_dossier: Editar informe
+        tags: Etiquetas
+        undefined: Sin definir
+      edit:
+        classification: Clasificación
+        assigned_valuators: Evaluadores
+        submit_button: Actualizar
+        tags: Etiquetas
+        tags_placeholder: "Escribe las etiquetas que desees separadas por comas (,)"
+        undefined: Sin definir
+      summary:
+        title: Resumen de propuestas de inversión
+        title_proposals_with_supports: Resumen para propuestas que han superado la fase de apoyos
+        geozone_name: Ámbito de ciudad
+        finished_and_feasible_count: Finalizadas viables
+        finished_and_unfeasible_count: Finalizadas inviables
+        finished_count: Finalizadas
+        in_evaluation_count: En evaluación
+        total_count: Total
+        cost_for_geozone: Coste total
+    stats:
+      show:
+        stats_title: Estadísticas
+        summary:
+          comment_votes: Votos en comentarios
+          comments: Comentarios
+          debate_votes: Votos en propuestas
+          debates: Propuestas
+          proposal_votes: Votos en iniciativas
+          proposals: Iniciativas
+          spending_proposals: Propuestas de inversión
+          unverified_users: Usuarios sin verificar
+          user_level_three: Usuarios de nivel tres
+          user_level_two: Usuarios de nivel dos
+          users: Usuarios
+          verified_users: Usuarios verificados
+          verified_users_who_didnt_vote_proposals: Usuarios verificados que no han votado iniciativas
+          visits: Visitas
+          votes: Votos
+        spending_proposals_title: Propuestas de inversión
+        visits_title: Visitas
+        direct_messages: Mensajes directos
+        proposal_notifications: Notificaciones de propuestas
+      direct_messages:
+        title: Mensajes directos
+        total: Total
+        users_who_have_sent_message: Usuarios que han enviado un mensaje privado
+      proposal_notifications:
+        title: Notificaciones de iniciativas
+        total: Total
+        proposals_with_notifications: Iniciativas con notificaciones
+    tags:
+      create: Crear Tema
+      destroy: Eliminar Tema
+      index:
+        add_tag: Añade un nuevo tema para iniciativas ciudadanas
+        title: Temas de iniciativas ciudadanas
+      mark_as_featured: Proponer tema al crear iniciativa ciudadana
+      name:
+        placeholder: Escribe el nombre del tema
+      update: Actualizar Tema
+    users:
+      index:
+        filter: Filtro
+        filters:
+          all: Todos
+          with_confirmed_hide: Confirmados
+          without_confirmed_hide: Pendientes
+        title: Usuarios bloqueados
+      show:
+        username: 'Usuario:'
+        email: 'Email:'
+        hidden_at: 'Bloqueado:'
+        registered_at: 'Fecha de alta:'
+        title: Actividad del usuario
+        personal_data: Datos personales
+        common_name: "Nombre:"
+        first_surname: "Apellido1:"
+        document_number: "Documento identidad:"
+        date_of_birth: "F. nacimiento:"
+    verifications:
+      index:
+        confirm: '¿Estás seguro?'
+        phone_not_given: No ha dado su teléfono
+        sms_code_not_confirmed: No ha introducido su código de seguridad
+        pending_verification: Solicitada verificación de mayoría de edad (%{count}º intento)
+        request_verification: Verificar mayoría de edad
+        title: Verificaciones incompletas
+        headers:
+          user: Usuario
+          reason: Motivo
+          check: Seleccionar
+    newsletters:
+      empty_email: '<usuario borrado>'
+      newsletters_users: 'Lista de Usuarios'
+      csv:
+        id: 'Id Usuario'
+        email: 'Correo'
+        state: 'Estado'
+        phone_and_home: 'Residencia y Movil'
+        confirmed: 'confirmed'
+        confirmed_phone: 'sms_verificado'
+        residence_verified: 'residencia_verificada'
+        state_residence_and_phone: 'Residencia y movil'
+        state_residence: 'Residencia'
+        state_email: 'Email confirmado'
+        state_created: 'Alta'
+        n_iniciativas: 'Num. iniciativas'
+    segment_recipient:
+      newsletter_users_list: 'Lista de usuarios de Newsletter'

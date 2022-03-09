@@ -1,0 +1,100 @@
+es:
+  activerecord:
+    models:
+      activity:
+        one: "actividad"
+        other: "actividades"
+      comment:
+        one: "Comentario"
+        other: "Comentarios"
+      debate:
+        one: "Propuesta del Cabildo"
+        other: "Propuestas del Cabildo"
+      tag:
+        one: "Tema"
+        other: "Temas"
+      user:
+        one: "Usuario"
+        other: "Usuarios"
+      moderator:
+        one: "Moderador"
+        other: "Moderadores"
+      administrator:
+        one: "Administrador"
+        other: "Administradores"
+      vote:
+        one: "Voto"
+        other: "Votos"
+      organization:
+        one: "Organización"
+        other: "Organizaciones"
+      proposal:
+        one: "Iniciativa ciudadana"
+        other: "Iniciativas ciudadanas"
+      spending_proposal:
+        one: "Propuesta de inversión"
+        other: "Propuestas de inversión"
+      answered_survey:
+        one: "Encuesta"
+        other: "Encuestas"
+    attributes:
+      comment:
+        body: "Comentario"
+        user: "Usuario"
+      debate:
+        author: "Autor"
+        description: "Opinión"
+        terms_of_service: "Términos de servicio"
+        title: "Título"
+      proposal:
+        author: "Autor"
+        title: "Título"
+        question: "Pregunta"
+        description: "Descripción"
+        terms_of_service: "Términos de servicio"
+      user:
+        email: "Correo electrónico"
+        username: "Nombre de usuario"
+        password_confirmation: "Confirmación de contraseña"
+        password: "Contraseña"
+        phone_number: "Teléfono"
+        official_position: "Cargo público"
+        official_level: "Nivel del cargo"
+        redeemable_code: "Código de verificación por carta (opcional)"
+      organization:
+        name: "Nombre de organización"
+        responsible_name: "Persona responsable del colectivo"
+      spending_proposal:
+        administrator_id: "Administrador"
+        association_name: "Nombre de la asociación"
+        description: "Descripción"
+        external_url: "Enlace a documentación adicional"
+        geozone_id: "Ámbito de actuación"
+        title: "Título"
+      survey_question_answer:
+        value: Respuesta
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              password_already_set: "Este usuario ya tiene una clave asociada"
+        debate:
+          attributes:
+            tag_list:
+              less_than_or_equal_to: "los temas deben ser menor o igual que %{count}"
+        direct_message:
+          attributes:
+            max_per_day:
+              invalid: "Has llegado al número máximo de mensajes privados por día"
+        proposal:
+          attributes:
+            tag_list:
+              less_than_or_equal_to: "los temas deben ser menor o igual que %{count}"
+        proposal_notification:
+          attributes:
+            minimum_interval:
+              invalid: "Debes esperar un mínimo de %{interval} días entre notificaciones"
+        survey_question_answer:
+          not_all_answered: "Debe responder a todas las preguntas de la encuesta"
+            

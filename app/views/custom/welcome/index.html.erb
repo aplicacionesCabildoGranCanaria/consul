@@ -1,0 +1,105 @@
+<% content_for :body_class, "home-page" %>
+
+<% content_for :canonical do %>
+  <%= render "shared/canonical", href: root_url %>
+<% end %>
+
+<%= render Shared::BannerComponent.new("homepage") %>
+
+<% provide :social_media_meta_tags do %>
+  <%= render "shared/social_media_meta_tags",
+              social_url: root_url %>
+<% end %>
+
+<%= render "shared/header", header: @header %>
+
+<main>
+  <%= render "feeds" %>
+
+  <div class="row">
+    <% if @cards.any? %>
+      <div class="small-12 column <%= "large-8" if feed_processes_enabled? %>">
+        <h2 class="title"><%= t("welcome.cards.title") %></h2>
+
+        <%= render "shared/cards", cards: @cards %>
+      </div>
+    <% end %>
+
+    <% if feed_processes_enabled? %>
+      <div class="small-12 large-4 column">
+        <%= render "processes" %>
+      </div>
+    <% end %>
+  </div>
+
+  <% cache [locale_and_user_status, @featured_debates, @featured_proposals, 'featured'] do %>
+    <div class="row text-center margin welcome medium-8 small-12">
+
+      <div class="small-12 medium-2 column">
+        <%= image_tag("icon_home_debate.png", size: "168x168", alt: t("welcome.debates.title"), title: t("welcome.debates.title")) %>
+        <h3><%= t("welcome.debates.title") %></h3>
+
+      </div>
+      <div class="small-12 medium-2 column">
+        <%= image_tag("icon_home_proposal.png", size: "168x168", alt: t("welcome.proposal.title"), title: t("welcome.proposal.title"))  %>
+        <h3><%= t("welcome.proposal.title") %></h3>
+      </div>
+
+      <div class="small-12 medium-2 column">
+        <%= image_tag("icon_home_decide.png", size: "168x168", alt: t("welcome.decide.title"), title: t("welcome.decide.title")) %>
+        <h3><%= t("welcome.decide.title") %></h3>
+      </div>
+      <div class="small-12 medium-2 column">
+        <%= image_tag("icon_home_do.png", size: "168x168", alt: t("welcome.do.title"), title: t("welcome.do.title")) %>
+        <h3><%= t("welcome.do.title") %></h3>
+      </div>
+      <div class="small-12 medium-2 column">
+        <div data-toggle="modal-video" style="cursor:pointer;" class="">
+          <%= image_tag("icon_home_tutorial.png", size: "168x168", alt: t("welcome.tutorial.title"), title: t("welcome.tutorial.title")) %>
+          <h3><%= t("welcome.tutorial.title") %></h3>
+        </div>
+
+        <div class="reveal" id="modal-video" data-reveal data-reset-on-close="true">
+          <span>Tutorial Participación Ciudadana.</span>
+          <p>
+            <iframe class="tutorial" title="Tutorial Participación Ciudadana" src="https://www.youtube.com/embed/7oWzZ6i1AEA?rel=0&showinfo=0&controls=1" width="560" height="315" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true"></iframe>
+
+          </p>
+          <button class="close-button" data-close aria-label="Close modal" type="button">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  <% end %>
+
+
+  <% if feature?("user.recommendations") && (@recommended_debates.present? || @recommended_proposals.present?) %>
+    <%= render "recommended",
+                recommended_debates: @recommended_debates,
+                recommended_proposals: @recommended_proposals %>
+  <% end %>
+</main>
+
+<div class="row margin welcome">
+  <div class="small-12 medium-3 column">
+    <h2><%= t("welcome.speak.title") %></h2>
+    <h1><%= t("welcome.speak.subtitle") %></h1>
+    <p><%= t("welcome.speak.description") %></p>
+  </div>
+
+  <div class="small-12 medium-9 text-right column">
+    <div class="small-12 medium-6 large-6 column">
+      <div class="videoWrapper">
+        <iframe title="Video1" src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FParticipaGC%2Fvideos%2F484678355220298%2F&show_text=0&width=560" width="560" height="315" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true"></iframe>
+      </div>
+    </div>
+
+    <div class="small-12 medium-6 large-6 column">
+      <div class="videoWrapper">
+        <iframe title="Video Participación Ciudadana" src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FParticipaGC%2Fvideos%2F470655046622629%2F&show_text=0&width=560" width="560" height="315" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
