@@ -1,0 +1,5 @@
+en:
+  settings:
+    feature:
+      red_sara_service: "Verify users using Red Sara"
+      red_sara_service_description: "Allows verification of users through Red Sara"

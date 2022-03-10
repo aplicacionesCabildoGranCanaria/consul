@@ -65,7 +65,6 @@ es:
           residence_card: Tarjeta de residencia
           spanish_id: DNI
         document_type_label: Tipo de documento
-
         error_not_allowed_age: Datos declarados son incorrectos o es menor de 16 años
         error_wrong_age: La edad declarada no es correcta
         error_not_allowed_postal_code: El código postal no pertenece a Gran Canaria.
@@ -85,8 +84,9 @@ es:
         geozone: Municipio
         terms: las condiciones de servicio
         title: Verificar residencia
-        verification_date: últ. verificación el 
+        verification_date: últ. verificación el
         verify_residence: Verificar residencia
+        error_red_sara: "Ha ocurrido un error durante la verificación. Por favor, inténtelo de nuevo más tarde."
     sms:
       create:
         flash:

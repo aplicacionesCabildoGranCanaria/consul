@@ -21,3 +21,5 @@ es:
       spending_proposals: Propuestas de inversión
       spending_proposal_features:
         voting_allowed: Votaciones sobre propuestas de inversión.
+      red_sara_service: "Verificar usuarios utilizando Red Sara"
+      red_sara_service_description: "Permite verificar a los usuarios a través de Red Sara"
