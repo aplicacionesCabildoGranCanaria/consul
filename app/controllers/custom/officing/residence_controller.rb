@@ -12,6 +12,7 @@ class Officing::ResidenceController
       end
     rescue
       @residence.errors.add(:connection_error, true)
+      logger.fatal "Residency Verification: #{e}"
       render :new
     end
   end

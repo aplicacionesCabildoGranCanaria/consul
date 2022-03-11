@@ -45,6 +45,7 @@ module RedSara
 
       def get_response_status
         return false unless @body != nil
+
         if @body[:respuesta]
           @body[:respuesta][:atributos][:estado][:codigo_estado].strip
         else
