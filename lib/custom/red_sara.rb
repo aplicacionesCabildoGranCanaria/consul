@@ -5,10 +5,12 @@ module RedSara
   require "openssl"
 
   class RedSaraResponse
-    def initialize(body, valid_code, invalid_id_code)
+    def initialize(body, valid_code, invalid_id_code, data)
       @body = body
       @valid_code = valid_code
       @invalid_id_code = invalid_id_code
+      @date_of_birth = data[:date_of_birth]
+      @postal_code = data[:postal_code]
     end
 
     def valid?
@@ -19,9 +21,30 @@ module RedSara
       get_response_status == @invalid_id_code
     end
 
+    def date_of_birth
+      @date_of_birth
+    end
+
+    def postal_code
+      @postal_code
+    end
+
+    def district_code
+      nil
+    end
+
+    def gender
+      nil
+    end
+
+    def name
+      nil
+    end
+
     private
 
       def get_response_status
+        return false unless @body != nil
         if @body[:respuesta]
           @body[:respuesta][:atributos][:estado][:codigo_estado].strip
         else
@@ -37,14 +60,14 @@ module RedSara
   class RedSaraApi
     def call(document_type, document_number, data)
       variant = get_document_number_variants(document_type, document_number).last
-      response = RedSaraResponse.new(get_response_body(document_type, variant, data), valid_code, invalid_id_code)
+      response = RedSaraResponse.new(get_response_body(document_type, variant, data), valid_code, invalid_id_code, data)
       if response != nil
         retries = 0
         while response.invalid_id? && retries < 5
           if retries > 0
             sleep(1.0)
           end
-          response = RedSaraResponse.new(get_response_body(document_type, variant, data), valid_code, invalid_id_code)
+          response = RedSaraResponse.new(get_response_body(document_type, variant, data), valid_code, invalid_id_code, data)
           if response == nil
             break
           end
@@ -72,7 +95,7 @@ module RedSara
         if procedure_code_available?
           response = nil
           retries = 0
-          while !finish && retries < 5
+          while retries < 5
             if retries > 0
               sleep(1.0)
             end
@@ -83,7 +106,8 @@ module RedSara
                   message: request(document_type, document_number, data)
               ).body
               break
-            rescue
+            rescue => e
+              Rails.logger.fatal "Edosoft Red Sara: Error connected to Red Sara (retries: 1):  #{e}"
               retries += 1
             end
           end
@@ -94,6 +118,14 @@ module RedSara
       end
 
       def client
+        nspaces = {
+            'xmlns:xsd' => "http://www.w3.org/2001/XMLSchema",
+            'xmlns:xsi' => "http://www.w3.org/2001/XMLSchema-instance",
+            'xmlns:pet' => "http://intermediacion.redsara.es/scsp/esquemas/V3/peticion",
+            'xmlns:env' => "http://schemas.xmlsoap.org/soap/envelope/",
+            'xmlns:ns1' => "http://intermediacion.redsara.es/scsp/esquemas/datosespecificos"
+        }
+
         pkcs = OpenSSL::PKCS12.new(
             File.read(Rails.application.secrets.red_sara_cert),
             Rails.application.secrets.red_sara_cert_password
@@ -146,6 +178,16 @@ module RedSara
 
       def procedure_code_available?
         (Rails.env.staging? || Rails.env.preproduction? || Rails.env.production?) && procedure_code_defined?
+      end
+
+      def get_document_type(document_type)
+        if document_type == "1"
+          "DNI"
+        elsif document_type == "2"
+          "Pasaporte"
+        else
+          "NIE"
+        end
       end
 
       def stubbed_response(document_type, document_number)
@@ -255,11 +297,11 @@ module RedSara
                             "pet:Consentimiento": "Si",
                         },
                         "pet:Titular": {
-                            "pet:TipoDocumentacion": document_type,
+                            "pet:TipoDocumentacion": get_document_type(document_type),
                             "pet:Documentacion": document_number,
                         },
                         "pet:Transmision": {
-                            "pet:CodigoCertificado": "SVDRWS01",
+                            "pet:CodigoCertificado": "SVDDGPVIWS02",
                             "pet:IdSolicitud": request_id,
                             "pet:FechaGeneracion": Time.now.strftime("%Y-%m-%dT%H:%M:%S.%L%:z")
                         }
@@ -333,13 +375,12 @@ module RedSara
                             "pet:Consentimiento": "Si",
                         },
                         "pet:Titular": {
-                            "pet:TipoDocumentacion": document_type,
+                            "pet:TipoDocumentacion": get_document_type(document_type),
                             "pet:Documentacion": document_number,
                         },
                         "pet:Transmision": {
                             "pet:CodigoCertificado": "SVDRWS01",
                             "pet:IdSolicitud": request_id,
-                            #"pet:IdTransmision": "TRS342_SPP_MINHAP_VERRES_0022",
                             "pet:FechaGeneracion": Time.now.strftime("%Y-%m-%dT%H:%M:%S.%L%:z")
                         }
                     },

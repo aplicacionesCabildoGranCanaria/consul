@@ -37,6 +37,8 @@ class Verification::Residence
                 date_of_birth:         date_of_birth.in_time_zone.to_datetime,
                 gender:                gender,
                 residence_verified_at: Time.current,
+                level_two_verified_at: Time.current,
+                verified_at:           Time.current,
                 postal_code:           postal_code)
   end
 
@@ -44,6 +46,14 @@ class Verification::Residence
     errors.add(:document_number, I18n.t("errors.messages.taken")) if User.active.where(
         ["document_number = ? and id != ?", document_number, user.id]
     ).any?
+  end
+
+
+  def geozone
+    if Setting["feature.red_sara_service"].present?
+      return nil
+    end
+    Geozone.find_by(census_code: district_code)
   end
 
   private
@@ -56,15 +66,5 @@ class Verification::Residence
       @census_data = RedSara::RedSaraServiceCaller.new.call(
           document_type, document_number, date_of_birth, postal_code
       )
-    end
-
-    def residency_valid?
-      if Setting["feature.red_sara_service"].present?
-        @census_data.valid?
-      else
-        @census_data.valid? &&
-            @census_data.postal_code == postal_code &&
-            @census_data.date_of_birth == date_of_birth
-      end
     end
 end
