@@ -109,13 +109,15 @@ module RedSara
                   "pet:Peticion",
                   message: message
               ).body
-              if response[:respuesta] && response[:respuesta][:atributos][:estado][:codigo_estado].strip == valid_code
-                break
-              end
+              break
             rescue => e
               Rails.logger.fatal "Edosoft Red Sara: Error connected to Red Sara (retries: 1):  #{e}"
               retries += 1
             end
+          end
+
+          if response && response[:respuesta] && response[:respuesta][:atributos][:estado][:codigo_estado].strip == valid_code
+            break
           end
         end
 
