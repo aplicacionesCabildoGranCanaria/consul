@@ -54,6 +54,12 @@
         <span class="show-for-small-only"><%= t("layouts.header.eventos")%> </span>
       <% end %>
     </li>
+    <li class="ods">
+      <%= link_to "/sdg/goals", class: "ods  #{"active" if controller_name == "goals"}", accesskey: "m"  do %>
+        <h1 class="hide-for-small-only"> <%= t("layouts.header.sdg")%></h1>
+        <span class="show-for-small-only"><%= t("layouts.header.sdg")%> </span>
+      <% end %>
+    </li>
   </ul>
 </div>
 
