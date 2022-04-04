@@ -6,7 +6,7 @@ class Users::SessionsController < Devise::SessionsController
 
   def verify_residence
     unless current_user.skip_verification?
-      if current_user.residence_verified? && (!current_user.residence_verified_at || (Time.current - current_user.residence_verified_at > 180.days))
+      if current_user.residence_verified? && (!current_user.residence_verified_at || (Time.current - current_user.residence_verified_at > 720.days))
         residence = Verification::Residence.new(
             user: current_user,
             document_number: current_user.document_number,
