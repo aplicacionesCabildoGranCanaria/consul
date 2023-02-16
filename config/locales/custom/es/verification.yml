@@ -54,8 +54,8 @@ es:
           failure: Algunas verificaciones no se completaron, los errores se muestran en cada usuario
           error: Se produjo un error al consultar el servicio de verificación de residencia, por favor inténtelo de nuevo en unos minutos, y en caso de que siga fallando contacte con el administrador
       new:
-        accept_terms_text: Por la presente declaro que soy mayor de 16 años y resido o he residido en uno de los 21 municipios de la isla de Gran Canaria,<br>que la información transmitida es exacta y que acepto todas %{terms_url}.
-        accept_terms_text_title: Por la presente declaro que soy mayor de 16 años y resido o he residido en uno de los 21 municipios de la isla de Gran Canaria, que la información transmitida es exacta y que acepto todas las condiciones de servicio.
+        accept_terms_text: Por la presente declaro que soy mayor de 16 años y autorizo al Cabildo de Gran Canaria a consultar el padrón histórico del INE con el fin de poder participar en la plataforma.
+        accept_terms_text_title: Por la presente declaro que soy mayor de 16 años y autorizo al Cabildo de Gran Canaria a consultar el padrón histórico del INE con el fin de poder participar en la plataforma.
         date_of_birth: Fecha de nacimiento
         document_number: Número de documento
         document_number_help_title: Ayuda

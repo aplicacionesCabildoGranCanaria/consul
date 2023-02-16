@@ -33,15 +33,15 @@
       </ul>
     </div>
 
-    <%= form_for @residence, as: "residence", url: residence_path do |f| %>
+    <%= form_for @residence, as: "residence", url: residence_path, html: {class: "small-12 medium-8"} do |f| %>
       <%= render "errors" %>
 
       <div class="row">
-        <div class="small-12 medium-8">
-          <div class="small-12 medium-3 column">
+        <div class="small-12">
+          <div class="small-12 medium-5 column">
           <%= f.select :document_type, document_types, prompt: "" %>
           </div>
-          <div class="small-12 medium-5 column end">
+          <div class="small-12 medium-7 column end">
 
           <div class="inline-block">
             <%= f.label t("verification.residence.new.document_number") %>
@@ -62,7 +62,7 @@
         </div>
       </div>
 
-      <div class="date-of-birth small-12 medium-6 clear">
+      <div class="date-of-birth small-12 clear">
       <%= f.date_select :date_of_birth,
                         prompt: true,
                         start_year: 1900, end_year: minimum_required_age.years.ago.year %>
@@ -76,16 +76,17 @@
       -->
 
       <div class="small-12 clear">
-        <%= f.check_box :terms_of_service,
-          title: t("verification.residence.new.accept_terms_text_title"),
-          label: t("verification.residence.new.accept_terms_text",
-                   terms_url: link_to(t("verification.residence.new.terms"), "/conditions",
-                                      title: t("shared.target_blank"),
-                                      target: "_blank")
-                  ) %>
+        <div class="form-inline">
+          <%= f.check_box :terms_of_service, class: 'form-control', label: false, inline: true %>
+          <%= f.label :terms_of_service, t("verification.residence.new.accept_terms_text",
+                                           terms_url: link_to(t("verification.residence.new.terms"), "/conditions",
+                                                              title: t("shared.target_blank"),
+                                                              target: "_blank")
+          ), class: "checkbox inline" %>
+        </div>
       </div>
 
-      <div class="small-12 medium-3 clear">
+      <div class="small-12 medium-3 clear" style="margin-top: 2rem;">
         <%= f.submit t("verification.residence.new.verify_residence"),
                      id: "new_residence_submit",
                      class: "button success expanded" %>
