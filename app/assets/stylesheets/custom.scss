@@ -231,6 +231,13 @@ body > .wrapper {
 
 // 3. Footer
 // ------
+.footer-center{
+  max-width: 100vw;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+}
+
 .footer {
   min-height: initial;
   border-top: 0;
@@ -245,6 +252,8 @@ body > .wrapper {
     .subfooter {
       border-top: 0;
       padding-top: 0;
+      width: inherit;
+      display: flex;
       .column {
         float: right;
         ul.menu {
