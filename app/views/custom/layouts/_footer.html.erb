@@ -1,4 +1,4 @@
-<footer>
+<footer class="footer-center">
 	<div class="row">
     <div class="small-12 large-4 column">
       <h1 class="logo">
@@ -70,6 +70,12 @@
           <%= link_to page_path('privacy') do %>
             <span class="icon icon-document"></span>
             <span><%= t("layouts.footer.privacy") %></span>
+          <% end %>
+        </li>
+        <li>
+          <%= link_to page_path('politica-de-cookies') do %>
+            <span class="icon icon-document"></span>
+            <span><%= t("layouts.footer.cookies") %></span>
           <% end %>
         </li>
         <li>
