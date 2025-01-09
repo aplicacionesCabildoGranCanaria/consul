@@ -45,4 +45,6 @@ Rails.application.routes.draw do
 
   # Static pages
   resources :pages, path: "/", only: [:show]
+
+  post 'cookies/accept', to: 'cookies#accept'
 end
