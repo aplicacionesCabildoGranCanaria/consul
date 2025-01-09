@@ -1,5 +1,14 @@
-<td style="padding-bottom: 20px; padding-left: 10px;">
+<tr><td style="padding-bottom: 20px; padding-left: 10px;">
   <p style="font-family: 'Open Sans','Helvetica Neue',arial,sans-serif;font-size: 14px;line-height: 24px;">
     <%= auto_link_already_sanitized_html wysiwyg(@newsletter.body) %>
   </p>
 </td>
+</tr>
+<tr>
+<td style="padding-bottom: 20px; padding-left: 10px; font-size: small">
+  Ha recibido este mail porque nos ha autorizado a enviarle comunicaciones. En el caso en que quiera darse de baja de la suscripción pulse
+  <%= link_to root_path, accesskey: "/account" do %>
+    aquí.
+  <% end %>.
+</td>
+</tr>
