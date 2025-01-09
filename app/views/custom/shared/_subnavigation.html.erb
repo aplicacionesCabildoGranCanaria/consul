@@ -25,6 +25,14 @@
         <% end %>
       </li>
     <% end %>
+    <% if setting['instagram_handle'] %>
+      <li class="inline-block">
+        <%= link_to "https://www.instagram.com/#{setting['instagram_handle']}", target: "_blank", title: t("social.instagram") + t('shared.target_blank_html'), onclick: "ga('send', 'event','Enlaces','C     lick','enlace_in', 1);" do %>
+          <span class="show-for-sr"><%= t("social.instagram") %></span>
+          <%= image_tag("instagram.png") %>
+        <% end %>
+      </li>
+    <% end %>
   </ul>
 </div>
 
