@@ -115,8 +115,9 @@
 //= require datepicker
 //= require_tree ./sdg
 //= require_tree ./sdg_management
+//= require cookie_banner
 
-var initialize_modules = function() {
+var initialize_modules = function () {
   "use strict";
 
   App.Answers.initialize();
@@ -172,7 +173,7 @@ var initialize_modules = function() {
   App.SDGManagementRelationSearch.initialize();
 };
 
-var destroy_non_idempotent_modules = function() {
+var destroy_non_idempotent_modules = function () {
   "use strict";
 
   App.ColumnsSelector.destroy();
