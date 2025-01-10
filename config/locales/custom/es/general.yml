@@ -230,6 +230,7 @@ es:
       transparency_text: Obtén cualquier información sobre la ciudad.
       transparency_title: Transparencia
       transparency_url: 'https://transparency.consul'
+      cookies: Política de cookies
     header:
       proposals: Propuestas ciudadanas
       mapa: Participación municipal
@@ -413,7 +414,7 @@ es:
       top: Top semanal
       top_link_proposals: Iniciativas ciudadanas más apoyadas por categoría
       section_header:
-        icon_alt: Icono de Iniciativas ciudadanas 
+        icon_alt: Icono de Iniciativas ciudadanas
         title: Iniciativas ciudadanas
         help: Ayuda sobre las iniciativas ciudadanas
       section_footer:
@@ -854,7 +855,7 @@ es:
     speak:
       title: Gran Canaria
       subtitle: habla
-      description: ¿Qué quieres para Gran Canaria? Seguimos midiendo la temperatura y la ilusión por la participación ciudadana en la isla. 
+      description: ¿Qué quieres para Gran Canaria? Seguimos midiendo la temperatura y la ilusión por la participación ciudadana en la isla.
   omniauth:
     finish_signup:
       title: "Detalles adicionales de tu cuenta"
