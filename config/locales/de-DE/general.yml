@@ -5,30 +5,24 @@ de:
       erase_account_link: Mein Konto löschen
       finish_verification: Verifizierung abschließen
       notifications: Benachrichtigungen
-      organization_name_label: Name der Organisation
-      organization_responsible_name_placeholder: Vertreter der Organisation/des Kollektivs
       personal: Persönliche Daten
-      phone_number_label: Telefonnummer
       public_interests_my_title_list: Tags der Themen, denen Sie folgen
       public_interests_user_title_list: Kennzeichnungen der Elemente denen dieser Benutzer folgt
       save_changes_submit: Änderungen speichern
       recommendations: Empfehlungen
       title: Mein Benutzerkonto
-      user_permission_debates: An Diskussion teilnehmen
       user_permission_info: Mit Ihrem Konto können Sie...
-      user_permission_proposal: Neuen Vorschlag erstellen
-      user_permission_support_proposal: Vorschläge unterstützen
       user_permission_title: Teilnahme
       user_permission_verify: Damit Sie alle Funktionen nutzen können, müssen Sie ihr Konto verifizieren.
-      user_permission_verify_info: "* Nur für in der Volkszählung registrierte Nutzer."
-      user_permission_votes: An finaler Abstimmung teilnehmen
-      username_label: Benutzer*innenname
       verified_account: Konto verifiziert
       verify_my_account: Mein Konto verifizieren
   application:
     close: Schließen
     menu: Menü
   comments:
+    actions:
+      confirm_delete: "Sind Sie sicher? Diese Aktion wird den Kommentar löschen. Das Löschen kann nicht rückgängig gemacht werden."
+      delete: "Kommentar löschen"
     comments_closed: Kommentare sind geschlossen
     verified_only: Zur Teilnahme %{verify_account}
     comment:
@@ -62,7 +56,6 @@ de:
       newest: Neueste zuerst
       oldest: Älteste zuerst
       most_commented: meist kommentiert
-    select_order: Sortieren nach
     show:
       return_to_commentable: "Zurück zu"
   comments_helper:
@@ -76,10 +69,6 @@ de:
       form:
         submit_button: Starten Sie eine Diskussion
     debate:
-      comments:
-        zero: Keine Kommentare
-        one: 1 Kommentar
-        other: "%{count} Kommentare"
       votes:
         zero: Keine Bewertung
         one: 1 Stimme
@@ -90,7 +79,6 @@ de:
         submit_button: Änderungen speichern
       show_link: Diskussion anzeigen
     form:
-      debate_title: Titel der Diskussion
       tags_instructions: Diskussion markieren.
       tags_placeholder: "Trennen Sie die Tags mit einem Komma (',')"
     index:
@@ -113,10 +101,6 @@ de:
         button: Suche
         placeholder: Suche Diskussionen...
         title: Suche
-      search_results:
-        one: " enthält den Begriff <strong>'%{search_term}'</strong>"
-        other: " enthält den Begriff <strong>'%{search_term}'</strong>"
-      select_order: Sortieren nach
       start_debate: Starten Sie eine Diskussion
       title: Diskussionen
       section_header:
@@ -131,8 +115,6 @@ de:
     new:
       form:
         submit_button: Eine Diskussion starten
-      info: Wenn Sie einen Vorschlag veröffentlichen möchten, sind Sie hier falsch, gehen Sie zu %{info_link}.
-      info_link: Neuen Vorschlag erstellen
       more_info: Weitere Informationen
       recommendation_four: Genießen Sie diesen Ort und die Stimmen, die ihn füllen. Er gehört auch Ihnen.
       recommendation_one: Verwenden Sie bitte nicht ausschließlich Großbuchstaben für die Überschrift oder für komplette Sätze. Im Internet gilt das als schreien. Und niemand möchte gerne angeschrien werden.
@@ -142,10 +124,6 @@ de:
       start_new: Eine Diskussion starten
     show:
       author_deleted: Benutzer*in gelöscht
-      comments:
-        zero: Keine Kommentare
-        one: 1 Kommentar
-        other: "%{count} Kommentare"
       comments_title: Kommentare
       edit_debate_link: Bearbeiten
       flag: Diese Diskussion wurde von verschiedenen Benutzern als unangebracht gemeldet.
@@ -156,8 +134,13 @@ de:
         submit_button: Änderungen speichern
   errors:
     messages:
+      allowed_file_content_types: "Inhaltstyp muss einer von %{types} sein."
       user_not_found: Benutzer*in wurde nicht gefunden
       invalid_date_range: "Ungültiger Datenbereich"
+      past_date: "Darf kein vergangenes Datum sein."
+      cannot_change_date:
+        poll_started: "Kann nicht geändert werden, wenn die Abstimmung bereits begonnen hat."
+        poll_ended: "Kann nicht geändert werden, wenn die Abstimmung bereits beendet ist."
   form:
     accept_terms: Ich stimme der %{policy} und den %{conditions} zu
     accept_terms_title: Ich stimme den Datenschutzrichtlinien und den Nutzungsbedingungen zu
@@ -218,8 +201,7 @@ de:
       accessibility: Barrierefreiheit
       conditions: Allgemeine Nutzungsbedingungen
       consul: CONSUL Anwendung
-      consul_url: https://github.com/consul/consul
-      contact_us: Für technische Unterstützung geben Sie ein
+      consul_url: https://github.com/consuldemocracy/consuldemocracy
       copyright: CONSUL, %{year}
       description: Die Plattform basiert auf %{consul}, einer %{open_source}.
       open_source: Open-Source Software
@@ -230,7 +212,6 @@ de:
     header:
       administration_menu: Admin
       administration: Administration
-      available_locales: Verfügbare Sprachen
       collaborative_legislation: Gesetzgebungsverfahren
       debates: Diskussionen
       locale: "Sprache:"
@@ -344,7 +325,6 @@ de:
       map_location: "Kartenposition"
       map_location_instructions: "Navigieren Sie auf der Karte zum Standort und setzen Sie die Markierung."
       map_remove_marker: "Entfernen Sie die Kartenmarkierung"
-      map_skip_checkbox: "Dieser Vorschlag hat keinen konkreten Ort oder ich kenne ihn nicht."
     index:
       featured_proposals: Hervorgehoben
       orders:
@@ -382,11 +362,9 @@ de:
       search_results:
         one: " enthält den Begriff <strong>'%{search_term}'</strong>"
         other: " enthält den Begriff <strong>'%{search_term}'</strong>"
-      select_order: Sortieren nach
       select_order_long: "Sie sehen Vorschläge nach:"
       start_proposal: Vorschlag erstellen
       title: Vorschläge
-      top: Tops der Woche
       top_link_proposals: Die am meisten unterstützten Vorschläge nach Kategorie
       section_header:
         icon_alt: Vorschläge-Symbol
@@ -414,11 +392,8 @@ de:
         edit: "Bevor Sie ihren Text teilen, können Sie ihn beliebig bearbeiten. "
         view_proposal: Nicht jetzt. Gehe zu meinem Vorschlag
       already_supported: Sie haben diesen Vorschlag bereits unterstützt. Teilen Sie ihn!
-      comments:
-        zero: Keine Kommentare
-        one: 1 Kommentar
-        other: "%{count} Kommentare"
       support: Unterstützung
+      support_label: "Unterstützung %{proposal}"
       support_title: Vorschlag unterstützen
       supports:
         zero: Keine Unterstützer*innen
@@ -436,10 +411,6 @@ de:
     show:
       author_deleted: Benutzer*in gelöscht
       code: "Antrags-Code:"
-      comments:
-        zero: Keine Kommentare
-        one: 1 Kommentar
-        other: "%{count} Kommentare"
       comments_tab: Kommentare
       dashboard_proposal_link: Dashboard
       flag: Dieser Vorschlag wurde von verschiedenen Benutzern als unangebracht gemeldet.
@@ -664,6 +635,10 @@ de:
     show:
       vote_answer: "Für %{answer} abstimmen"
       voted: "Sie haben für %{answer} abgestimmt"
+    description:
+      unique: "Sie können maximal 1 Antwort auswählen."
+      multiple: "Sie können maximal %{maximum} Antworten auswählen."
+    read_more_about: "Lesen Sie mehr über:"
   proposal_notifications:
     new:
       title: "Nachricht senden"
@@ -674,14 +649,13 @@ de:
       back: "Zurück zu meiner Aktivität"
   shared:
     edit: "Bearbeiten"
+    filter: "Filter"
     save: "Speichern"
     delete: "Löschen"
     "yes": "Ja"
     "no": "Nein"
     search_results: "Suchergebnisse"
     advanced_search:
-      author_type: "Nach Kategorie Verfasser*in"
-      author_type_blank: "Kategorie auswählen"
       date: "Nach Datum"
       date_placeholder: "TT/MM/JJJJ"
       date_range_blank: "Wählen Sie ein Datum"
@@ -692,8 +666,11 @@ de:
       date_5: "Angepasst"
       from: "Von"
       general: "Mit dem Text"
-      general_placeholder: "Text verfassen"
+      goal: "Nach SDG"
+      goal_blank: "Ziel wählen"
       search: "Filter"
+      target: "Nach Ziel"
+      target_blank: "Ziel auswählen"
       title: "Erweiterte Suche"
       to: "An"
     author_info:
@@ -775,6 +752,10 @@ de:
         zero: "O verwendete Sprachen "
         one: "1 verwendete Sprachen"
         other: "%{count} verwendete Sprachen"
+    optional: "Optionale Felder"
+    required: "Erforderliche Felder"
+    comments:
+      zero: "Keine Kommentare"
   social:
     facebook: "%{org} Facebook"
     twitter: "%{org} Twitter"
@@ -852,16 +833,15 @@ de:
       retired_help_text: Dashboard nicht verfügbar für zurückgezogene Vorschläge
   votes:
     agree: Ich stimme zu
+    agree_label: "Ich stimme %{title} zu."
     anonymous: Zu viele anonyme Stimmen, um die Wahl anzuerkennen %{verify_account}.
-    comment_unauthenticated: Sie müssen sich %{signin} oder %{signup}, um abzustimmen.
     disagree: Ich stimme nicht zu
+    disagree_label: "Ich stimme %{title} nicht zu."
     organizations: Organisationen ist es nicht erlaubt abzustimmen
     supports: Unterstützer*innen
     verified_only: 'Nur verifizierte Benutzer können Vorschläge bewerten: %{verify_account}.'
     budget_investments:
-      not_logged_in: Sie müssen sich %{signin} oder %{signup}, um fortfahren zu können.
       not_verified: Nur verifizierte Benutzer können über ein Investitionsprojekt abstimmen; %{verify_account}.
-      organization: Organisationen ist es nicht erlaubt abzustimmen
       unfeasible: Undurchführbare Investitionsprojekte können nicht unterstützt werden
       not_voting_allowed: Die Abstimmungsphase ist beendet
       different_heading_assigned:
@@ -897,23 +877,13 @@ de:
       budget_investments:
         title: Empfohlene Investitionen
       slide: "%{title} anzeigen"
-    verification:
-      i_dont_have_an_account: Ich habe kein Konto
-      i_have_an_account: Ich habe bereits ein Konto
-      question: Haben Sie bereits in Konto bei %{org_name}?
-      title: Konto Verifizierung
     welcome:
       go_to_index: Vorschläge und Diskussionen anzeigen
       start_using_consul: Gehe zum Index
       title: Teilnehmen
-      user_permission_debates: An Diskussionen teilnehmen
       user_permission_info: Mit Ihrem Konto können Sie...
-      user_permission_proposal: Neue Vorschläge erstellen
-      user_permission_support_proposal: Vorschläge unterstützen*
       user_permission_verify: "Damit Sie alle Funktionen nutzen können, müssen Sie ihr Konto verifizieren."
-      user_permission_verify_info: "* Nur für Benutzer*innen im Melderegister."
       user_permission_verify_my_account: Mein Konto verifizieren
-      user_permission_votes: An finaler Abstimmung teilnehmen
   invisible_captcha:
     sentence_for_humans: "Wenn Sie ein Mensch sind, ignorieren Sie dieses Feld"
     timestamp_error_message: "Entschuldigung, das war zu schnell! Bitte erneut senden."
@@ -925,6 +895,7 @@ de:
     help: "Sie können Links von %{models} innerhalb des %{org} hinzufügen."
     submit: "Hinzufügen"
     error: "Ungültiger Link. Starten Sie mit %{url}."
+    error_duplicate: "Der verwandte Inhalt, den Sie hinzufügen, existiert bereits."
     error_itself: "Ungültiger Link. Sie können einen Inhalt nicht auf sich selbst beziehen."
     success: "Sie haben einen neuen verwandten Inhalt hinzugefügt"
     is_related: "Ist der Inhalt verknüpft?"
@@ -950,9 +921,6 @@ de:
       title: Links
       note: Fügen Sie Links hinzu, die von Interesse sind
       add_new_link: Neuen Link hinzufügen
-    link_fields:
-      label_placeholder: Titel Link
-      url_placeholder: Link Adresse
   communities:
     show:
       surveys: Umfragen
@@ -968,7 +936,11 @@ de:
       enqueue_remote_translation: Übersetzungen wurden korrekt angefordert.
     button: Seite übersetzen
   tags:
-    filter:
-      more:
-        one: "Einen Tag mehr"
-        other: "%{count} mehr Tags"
+    list:
+      filter:
+        more:
+          one: "Einen Tag mehr"
+          other: "%{count} mehr Tags"
+  machine_learning:
+    comments_summary: "Zusammenfassung der Kommentare"
+    info_text: "Durch KI/Maschinelles Lernen generierte Inhalte"

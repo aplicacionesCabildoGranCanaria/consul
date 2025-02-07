@@ -46,6 +46,8 @@ body > .wrapper {
 .wrapper > header {
   border: none;
   background: $header-color;
+  padding-left: 0;
+  padding-right: 0;
   background-image: image-url("background_header.png") !important;
   & > .row {
     .logo.show-for-small-only img {

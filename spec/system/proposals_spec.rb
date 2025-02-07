@@ -6,14 +6,8 @@ describe "Proposals" do
   context "Concerns" do
     it_behaves_like "notifiable in-app", :proposal
     it_behaves_like "relationable", Proposal
-    it_behaves_like "remotely_translatable",
-                    :proposal,
-                    "proposals_path",
-                    {}
-    it_behaves_like "remotely_translatable",
-                    :proposal,
-                    "proposal_path",
-                    { "id": "id" }
+    it_behaves_like "remotely_translatable", :proposal, "proposals_path", {}
+    it_behaves_like "remotely_translatable", :proposal, "proposal_path", { id: "id" }
     it_behaves_like "flaggable", :proposal
   end
 
@@ -341,7 +335,7 @@ describe "Proposals" do
 
     visit new_proposal_path
 
-    fill_in "Proposal title", with: "Help refugees"
+    fill_in_new_proposal_title with: "Help refugees"
     fill_in "Proposal summary", with: "In summary, what we want is..."
     fill_in_ckeditor "Proposal text", with: "This is very important because..."
     fill_in "External video URL", with: "https://www.youtube.com/watch?v=yPQfcG-eimk"
@@ -396,7 +390,7 @@ describe "Proposals" do
     login_as(author)
 
     visit new_proposal_path
-    fill_in "Proposal title", with: "I am a bot"
+    fill_in_new_proposal_title with: "I am a bot"
     fill_in "Proposal summary", with: "This is the summary"
     fill_in_ckeditor "Proposal text", with: "This is the description"
     fill_in "Full name of the person submitting the proposal", with: "Some other robot"
@@ -414,7 +408,7 @@ describe "Proposals" do
     login_as(author)
 
     visit new_proposal_path
-    fill_in "Proposal title", with: "Help refugees"
+    fill_in_new_proposal_title with: "Help refugees"
     fill_in "Proposal summary", with: "In summary, what we want is..."
     fill_in_ckeditor "Proposal text", with: "This is very important because..."
     fill_in "Full name of the person submitting the proposal", with: "Isabel Garcia"
@@ -442,7 +436,7 @@ describe "Proposals" do
 
     expect(page).not_to have_field "Full name of the person submitting the proposal"
 
-    fill_in "Proposal title", with: "Help refugees"
+    fill_in_new_proposal_title with: "Help refugees"
     fill_in "Proposal summary", with: "In summary, what we want is..."
     fill_in_ckeditor "Proposal text", with: "This is very important because..."
     check "I agree to the Privacy Policy and the Terms and conditions of use"
@@ -493,7 +487,7 @@ describe "Proposals" do
     login_as(author)
 
     visit new_proposal_path
-    fill_in "Proposal title", with: "Testing auto link"
+    fill_in_new_proposal_title with: "Testing auto link"
     fill_in "Proposal summary", with: "In summary, what we want is..."
     fill_in_ckeditor "Proposal text", with: "This is a link www.example.org"
     fill_in "Full name of the person submitting the proposal", with: "Isabel Garcia"
@@ -546,7 +540,15 @@ describe "Proposals" do
   end
 
   context "Geozones" do
+    scenario "When there are not gezones defined it does not show the geozone link" do
+      visit proposal_path(create(:proposal))
+
+      expect(page).not_to have_selector "#geozone"
+      expect(page).not_to have_link "All city"
+    end
+
     scenario "Default whole city" do
+      create(:geozone)
       author = create(:user)
       login_as(author)
 
@@ -564,6 +566,25 @@ describe "Proposals" do
       end
     end
 
+    scenario "form shows the geozone selector when there are geozones defined" do
+      create(:geozone)
+      author = create(:user)
+      login_as(author)
+
+      visit new_proposal_path
+
+      expect(page).to have_field("Scope of operation")
+    end
+
+    scenario "form do not show geozone selector when there are no geozones defined" do
+      author = create(:user)
+      login_as(author)
+
+      visit new_proposal_path
+
+      expect(page).not_to have_field("Scope of operation")
+    end
+
     scenario "Specific geozone" do
       create(:geozone, name: "California")
       create(:geozone, name: "New York")
@@ -571,7 +592,7 @@ describe "Proposals" do
 
       visit new_proposal_path
 
-      fill_in "Proposal title", with: "Help refugees"
+      fill_in_new_proposal_title with: "Help refugees"
       fill_in "Proposal summary", with: "In summary, what we want is..."
       fill_in_ckeditor "Proposal text", with: "This is very important because..."
       fill_in "External video URL", with: "https://www.youtube.com/watch?v=yPQfcG-eimk"
@@ -591,8 +612,8 @@ describe "Proposals" do
     end
   end
 
-  context "Retired proposals" do
-    scenario "Retire" do
+  context "Withdrawn proposals" do
+    scenario "Withdraw" do
       proposal = create(:proposal)
       login_as(proposal.author)
 
@@ -605,20 +626,20 @@ describe "Proposals" do
         click_link "Edit my proposal"
       end
 
-      within_window(window_opened_by { click_link "Retire proposal" }) do
+      within_window(window_opened_by { click_link "Withdraw proposal" }) do
         expect(page).to have_current_path(retire_form_proposal_path(proposal))
 
         select "Duplicated", from: "proposal_retired_reason"
         fill_in "Explanation", with: "There are three other better proposals with the same subject"
-        click_button "Retire proposal"
+        click_button "Withdraw proposal"
 
-        expect(page).to have_content "Proposal retired"
+        expect(page).to have_content "The proposal has been withdrawn"
       end
 
       visit proposal_path(proposal)
 
       expect(page).to have_content proposal.title
-      expect(page).to have_content "Proposal retired by the author"
+      expect(page).to have_content "Proposal withdrawn by the author"
       expect(page).to have_content "Duplicated"
       expect(page).to have_content "There are three other better proposals with the same subject"
     end
@@ -629,13 +650,13 @@ describe "Proposals" do
 
       visit retire_form_proposal_path(proposal)
 
-      click_button "Retire proposal"
+      click_button "Withdraw proposal"
 
-      expect(page).not_to have_content "Proposal retired"
+      expect(page).not_to have_content "The proposal has been withdrawn"
       expect(page).to have_content "can't be blank", count: 2
     end
 
-    scenario "Index do not list retired proposals by default" do
+    scenario "Index does not list withdrawn proposals by default" do
       Setting["feature.featured_proposals"] = true
       create_featured_proposals
       not_retired = create(:proposal)
@@ -650,20 +671,20 @@ describe "Proposals" do
       end
     end
 
-    scenario "Index has a link to retired proposals list" do
+    scenario "Index has a link to the list of withdrawn proposals" do
       not_retired = create(:proposal)
       retired = create(:proposal, :retired)
 
       visit proposals_path
 
       expect(page).not_to have_content retired.title
-      click_link "Proposals retired by the author"
+      click_link "Proposals withdrawn by the author"
 
       expect(page).to have_content retired.title
       expect(page).not_to have_content not_retired.title
     end
 
-    scenario "Retired proposals index interface elements" do
+    scenario "Withdrawn proposals index interface elements" do
       visit proposals_path(retired: "all")
 
       expect(page).not_to have_content "Advanced search"
@@ -671,7 +692,7 @@ describe "Proposals" do
       expect(page).not_to have_content "Districts"
     end
 
-    scenario "Retired proposals index has links to filter by retired_reason" do
+    scenario "Withdrawn proposals index has links to filter by retired_reason" do
       unfeasible = create(:proposal, :retired, retired_reason: "unfeasible")
       duplicated = create(:proposal, :retired, retired_reason: "duplicated")
 
@@ -800,8 +821,8 @@ describe "Proposals" do
 
     scenario "Proposals are ordered by newest" do
       best_proposal = create(:proposal, title: "Best proposal", created_at: Time.current)
-      medium_proposal = create(:proposal, title: "Medium proposal", created_at: Time.current - 1.hour)
-      worst_proposal = create(:proposal, title: "Worst proposal", created_at: Time.current - 1.day)
+      medium_proposal = create(:proposal, title: "Medium proposal", created_at: 1.hour.ago)
+      worst_proposal = create(:proposal, title: "Worst proposal", created_at: 1.day.ago)
 
       visit proposals_path
       click_link "newest"
@@ -1119,7 +1140,7 @@ describe "Proposals" do
 
         visit proposals_path
 
-        within(".expanded #search_form") do
+        within "#search_form" do
           fill_in "search", with: "Schwifty"
           click_button "Search"
         end
@@ -1139,7 +1160,7 @@ describe "Proposals" do
 
         visit proposals_path
 
-        within(".expanded #search_form") do
+        within "#search_form" do
           fill_in "search", with: proposal1.code
           click_button "Search"
         end
@@ -1155,7 +1176,7 @@ describe "Proposals" do
       scenario "Maintain search criteria" do
         visit proposals_path
 
-        within(".expanded #search_form") do
+        within "#search_form" do
           fill_in "search", with: "Schwifty"
           click_button "Search"
         end
@@ -1236,7 +1257,7 @@ describe "Proposals" do
       create(:proposal, title: "Abcdefghi")
 
       visit proposals_path
-      within(".expanded #search_form") do
+      within "#search_form" do
         fill_in "search", with: "Abcdefghi"
         click_button "Search"
       end
@@ -1257,9 +1278,9 @@ describe "Proposals" do
     expect(page).not_to have_content "This proposal has been flagged as inappropriate by several users."
   end
 
-  it_behaves_like "followable", "proposal", "proposal_path", { "id": "id" }
+  it_behaves_like "followable", "proposal", "proposal_path", { id: "id" }
 
-  it_behaves_like "imageable", "proposal", "proposal_path", { "id": "id" }
+  it_behaves_like "imageable", "proposal", "proposal_path", { id: "id" }
 
   it_behaves_like "nested imageable",
                   "proposal",
@@ -1272,12 +1293,12 @@ describe "Proposals" do
   it_behaves_like "nested imageable",
                   "proposal",
                   "edit_proposal_path",
-                  { "id": "id" },
+                  { id: "id" },
                   nil,
                   "Save changes",
                   "Proposal updated successfully"
 
-  it_behaves_like "documentable", "proposal", "proposal_path", { "id": "id" }
+  it_behaves_like "documentable", "proposal", "proposal_path", { id: "id" }
 
   it_behaves_like "nested documentable",
                   "user",
@@ -1292,7 +1313,7 @@ describe "Proposals" do
                   "user",
                   "proposal",
                   "edit_proposal_path",
-                  { "id": "id" },
+                  { id: "id" },
                   nil,
                   "Save changes",
                   "Proposal updated successfully"
@@ -1302,8 +1323,7 @@ describe "Proposals" do
                   "proposal",
                   "new_proposal_path",
                   "edit_proposal_path",
-                  "proposal_path",
-                  {}
+                  "proposal_path"
 
   scenario "Erased author" do
     user = create(:user)
@@ -1606,7 +1626,7 @@ describe "Successful proposals" do
 
       expect(page).to have_current_path(new_proposal_path)
 
-      fill_in "Proposal title", with: "Help refugees"
+      fill_in_new_proposal_title with: "Help refugees"
       fill_in "Proposal summary", with: "In summary what we want is..."
       fill_in_ckeditor "Proposal text", with: "This is very important because..."
       fill_in "External video URL", with: "https://www.youtube.com/watch?v=yPQfcG-eimk"
@@ -1630,7 +1650,7 @@ describe "Successful proposals" do
     scenario "create proposal with sdg related list" do
       login_as(user)
       visit new_proposal_path
-      fill_in "Proposal title", with: "A title for a proposal related with SDG related content"
+      fill_in_new_proposal_title with: "A title for a proposal related with SDG related content"
       fill_in "Proposal summary", with: "In summary, what we want is..."
       fill_in "Full name of the person submitting the proposal", with: "Isabel Garcia"
       click_sdg_goal(1)

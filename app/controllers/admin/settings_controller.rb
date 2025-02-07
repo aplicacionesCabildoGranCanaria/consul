@@ -16,7 +16,11 @@ class Admin::SettingsController < Admin::BaseController
   def update
     @setting = Setting.find(params[:id])
     @setting.update!(settings_params)
-    redirect_to request_referer, notice: t("admin.settings.flash.updated")
+
+    respond_to do |format|
+      format.html { redirect_to request_referer, notice: t("admin.settings.flash.updated") }
+      format.js
+    end
   end
 
   def update_map
@@ -39,7 +43,11 @@ class Admin::SettingsController < Admin::BaseController
   private
 
     def settings_params
-      params.require(:setting).permit(:value)
+      params.require(:setting).permit(allowed_params)
+    end
+
+    def allowed_params
+      [:value]
     end
 
     def content_type_params

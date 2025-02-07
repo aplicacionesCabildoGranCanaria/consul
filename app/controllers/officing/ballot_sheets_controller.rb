@@ -47,7 +47,7 @@ class Officing::BallotSheetsController < Officing::BaseController
                   joins(:booth_assignment).
                   final.
                   where(id: current_user.poll_officer.officer_assignment_ids).
-                  where("poll_booth_assignments.poll_id = ?", @poll.id).
+                  where(poll_booth_assignments: { poll_id: @poll.id }).
                   where(date: Date.current)
     end
 
@@ -57,6 +57,10 @@ class Officing::BallotSheetsController < Officing::BaseController
     end
 
     def ballot_sheet_params
-      params.permit(:data, :poll_id, :officer_assignment_id)
+      params.permit(allowed_params)
+    end
+
+    def allowed_params
+      [:data, :poll_id, :officer_assignment_id]
     end
 end

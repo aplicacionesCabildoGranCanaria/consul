@@ -12,7 +12,7 @@ describe "Moderate proposal notifications" do
     click_link "Notifications (1)"
 
     within("#proposal_notification_#{proposal_notification.id}") do
-      accept_confirm { click_link "Hide" }
+      accept_confirm("Are you sure? Hide") { click_button "Hide" }
     end
 
     expect(page).to have_css("#proposal_notification_#{proposal_notification.id}.faded")
@@ -34,8 +34,8 @@ describe "Moderate proposal notifications" do
     click_link "Notifications (1)"
 
     within("#proposal_notification_#{proposal_notification.id}") do
-      expect(page).not_to have_link("Hide")
-      expect(page).not_to have_link("Block author")
+      expect(page).not_to have_button "Hide"
+      expect(page).not_to have_button "Block author"
     end
   end
 
@@ -61,7 +61,7 @@ describe "Moderate proposal notifications" do
         end
 
         scenario "Hide the proposal" do
-          accept_confirm { click_button "Hide proposals" }
+          accept_confirm("Are you sure? Hide proposals") { click_button "Hide proposals" }
 
           expect(page).not_to have_css("#proposal_notification_#{proposal_notification.id}")
 
@@ -70,7 +70,7 @@ describe "Moderate proposal notifications" do
           click_button "Search"
 
           within "tr", text: proposal_notification.author.name do
-            expect(page).to have_link "Block"
+            expect(page).to have_button "Block"
           end
         end
 
@@ -78,7 +78,7 @@ describe "Moderate proposal notifications" do
           author = create(:user)
           proposal_notification.update!(author: author)
 
-          accept_confirm { click_button "Block authors" }
+          accept_confirm("Are you sure? Block authors") { click_button "Block authors" }
 
           expect(page).not_to have_css("#proposal_notification_#{proposal_notification.id}")
 
@@ -118,13 +118,14 @@ describe "Moderate proposal notifications" do
 
       scenario "remembering page, filter and order" do
         stub_const("#{ModerateActions}::PER_PAGE", 2)
-        create_list(:proposal, 4)
+        create_list(:proposal_notification, 4)
 
         visit moderation_proposal_notifications_path(filter: "all", page: "2", order: "created_at")
 
-        accept_confirm { click_button "Mark as viewed" }
+        accept_confirm("Are you sure? Mark as viewed") { click_button "Mark as viewed" }
 
-        expect(page).to have_selector(".js-order-selector[data-order='created_at']")
+        expect(page).to have_link "Most recent", class: "is-active"
+        expect(page).to have_link "Moderated"
 
         expect(page).to have_current_path(/filter=all/)
         expect(page).to have_current_path(/page=2/)
@@ -187,10 +188,10 @@ describe "Moderate proposal notifications" do
     end
 
     scenario "sorting proposal notifications" do
-      moderated_notification = create(:proposal_notification, :moderated, title: "Moderated notification", created_at: Time.current - 1.day)
-      moderated_new_notification = create(:proposal_notification, :moderated, title: "Moderated new notification", created_at: Time.current - 12.hours)
+      moderated_notification = create(:proposal_notification, :moderated, title: "Moderated notification", created_at: 1.day.ago)
+      moderated_new_notification = create(:proposal_notification, :moderated, title: "Moderated new notification", created_at: 12.hours.ago)
       newer_notification = create(:proposal_notification, title: "Newer notification", created_at: Time.current)
-      old_moderated_notification = create(:proposal_notification, :moderated, title: "Older notification", created_at: Time.current - 2.days)
+      old_moderated_notification = create(:proposal_notification, :moderated, title: "Older notification", created_at: 2.days.ago)
 
       visit moderation_proposal_notifications_path(filter: "all", order: "created_at")
 

@@ -1,5 +1,4 @@
 .sdg-related-list-selector {
-  @include grid-column-gutter;
   clear: both;
 
   > legend {
@@ -7,7 +6,7 @@
   }
 
   .amsify-suggestags-area .amsify-select-tag {
-    color: $white;
+    color: $sdg-text;
 
     @each $code, $color in $sdg-colors {
       &[data-val^="#{$code}"] {
@@ -73,11 +72,7 @@
   }
 
   .remove-tag {
-    color: $white;
-
-    &:focus {
-      outline: $outline-focus;
-    }
+    color: $sdg-text;
   }
 
   h3 {

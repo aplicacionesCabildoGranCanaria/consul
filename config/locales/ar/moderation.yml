@@ -3,7 +3,6 @@ ar:
     comments:
       index:
         block_authors: حظر المؤلفين\المشاركين
-        confirm: هل أنت متأكد؟
         filter: ترشيح
         filters:
           all: الكل
@@ -12,9 +11,8 @@ ar:
         headers:
           comment: التعليق
           moderate: المشرف
-        hide_comments: إخفاء التعليقات
+        hide: إخفاء التعليقات
         ignore_flags: شوهد
-        order: طلب
         orders:
           flags: العلامة مطلوبة
           newest: الأحدث
@@ -25,7 +23,6 @@ ar:
     debates:
       index:
         block_authors: حظر المؤلفين\المشاركين
-        confirm: هل أنت متأكد؟
         filter: ترشيح
         filters:
           all: الكل
@@ -34,9 +31,8 @@ ar:
         headers:
           debate: النقاشات
           moderate: المشرف
-        hide_debates: حوارات مخفية
+        hide: حوارات مخفية
         ignore_flags: شوهد
-        order: طلب
         orders:
           created_at: الأحدث
           flags: العلامة مطلوبة
@@ -53,7 +49,6 @@ ar:
     proposals:
       index:
         block_authors: حظر المؤلفين\المشاركين
-        confirm: هل أنت متأكد؟
         filter: ترشيح
         filters:
           all: الكل
@@ -62,9 +57,8 @@ ar:
         headers:
           moderate: المشرف
           proposal: اقتراح
-        hide_proposals: الإقتراحات المخفية
+        hide: الإقتراحات المخفية
         ignore_flags: شوهد
-        order: ترتيب حسب
         orders:
           created_at: الأحدث
           flags: العلامة مطلوبة
@@ -72,7 +66,6 @@ ar:
     budget_investments:
       index:
         block_authors: حظر المؤلفين\المشاركين
-        confirm: هل أنت متأكد؟
         filter: ترشيح
         filters:
           all: الكل
@@ -81,9 +74,8 @@ ar:
         headers:
           moderate: المشرف
           budget_investment: ميزانية الاستثمار
-        hide_budget_investments: إخفاء استثمارات الميزانية
+        hide: إخفاء استثمارات الميزانية
         ignore_flags: شوهد
-        order: ترتيب حسب
         orders:
           created_at: الأحدث
           flags: العلامة مطلوبة
@@ -91,7 +83,6 @@ ar:
     proposal_notifications:
       index:
         block_authors: حظر المؤلفين\المشاركين
-        confirm: هل أنت متأكد؟
         filter: ترشيح
         filters:
           all: الكل
@@ -100,17 +91,16 @@ ar:
         headers:
           moderate: المشرف
           proposal_notification: إشعار المقترح
-        hide_proposal_notifications: الإقتراحات المخفية
+        hide: الإقتراحات المخفية
         ignore_flags: شوهد
-        order: ترتيب حسب
         orders:
           created_at: الأحدث
           moderated: تمت المراجعة
         title: إشعارات المقترح
     users:
       index:
-        hidden: ممنوع
-        hide: حظر
+        block: حظر
+        hide: إخفاء
         search_placeholder: البريد الإلكتروني أو اسم المستخدم
         title: حظر المستخدمين
       notice_hide: تم حظر المستخدم و إخفاء جميع المناقشات والتعليقات الخاصة به.

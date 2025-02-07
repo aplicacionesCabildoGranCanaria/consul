@@ -4,6 +4,7 @@ class Legislation::Question < ApplicationRecord
   include Notifiable
 
   translates :title, touch: true
+  translates :description, touch: true
   include Globalizable
 
   belongs_to :author, -> { with_hidden }, class_name: "User", inverse_of: :legislation_questions
@@ -22,11 +23,11 @@ class Legislation::Question < ApplicationRecord
   scope :sorted, -> { order("id ASC") }
 
   def next_question_id
-    @next_question_id ||= process.questions.where("id > ?", id).sorted.limit(1).pluck(:id).first
+    @next_question_id ||= process.questions.where("id > ?", id).sorted.limit(1).ids.first
   end
 
   def first_question_id
-    @first_question_id ||= process.questions.sorted.limit(1).pluck(:id).first
+    @first_question_id ||= process.questions.sorted.limit(1).ids.first
   end
 
   def answer_for_user(user)

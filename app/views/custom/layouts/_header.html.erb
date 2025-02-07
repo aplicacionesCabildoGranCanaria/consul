@@ -1,6 +1,14 @@
 <header>
-  <%= render "shared/google_analytics" %>
-  <%# <%= render "shared/top_links" %>
+  <%= render Layout::RemoteTranslationsButtonComponent.new(@remote_translations) %>
+
+  <% if false %>
+    <div class="top-links">
+      <%= render Layout::LocaleSwitcherComponent.new %>
+      <div class="hide-for-small-only">
+        <%= render Layout::TopLinksComponent.new %>
+      </div>
+    </div>
+  <% end %>
 
   <div class="row">
     <div class="top-bar">
@@ -21,24 +29,17 @@
           <% end %>
         </div>
 
-
         <div class="top-bar-right small-12 medium-7 column">
-          <ul class="menu" data-responsive-menu="medium-dropdown">
-            <%= render "shared/admin_login_items" %>
-            <%= render "layouts/notification_item" %>
-            <%= render "devise/menu/login_items" %>
+          <%= render Layout::ResponsiveMenuComponent.new do %>
+            <%= render Layout::AccountMenuComponent.new(current_user) %>
 
-          </ul>
-
-          <div class="show-for-small-only">
-            <div class="subnavigation">
-              <%= render "shared/subnavigation" %>
-
-              <!-- <div class="small&#45;12 medium&#45;3 column"> -->
-              <!--   <%= yield :header_addon %> -->
-              <!-- </div> -->
+            <div class="show-for-small-only">
+              <div class="subnavigation subnavigation-with-top-links">
+                <%= render Custom::Layout::SubnavigationComponent.new %>
+                <%= render Layout::TopLinksComponent.new %>
+              </div>
             </div>
-          </div>
+          <% end %>
         </div>
 
         <div class="top-bar-right  medium-2 hide-for-small-only column">
@@ -53,12 +54,12 @@
 
   <div class="subnavigation expanded">
     <div class="row">
+
       <div class="hide-for-small-only">
-        <%= render "shared/subnavigation" %>
+        <%= render Custom::Layout::SubnavigationComponent.new %>
       </div>
+
+      <%= yield :header_addon %>
     </div>
   </div>
-
-
-
 </header>

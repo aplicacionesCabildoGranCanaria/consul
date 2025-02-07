@@ -1,11 +1,15 @@
 cs:
   pages:
+    census_terms:
+      title: "Podmínky přístupu k rejstříku osob"
+      description: "Informační stránka o podmínkách přístupu k rejstříku občanů."
     conditions:
       title: Podmínky používání
       subtitle: PRÁVNÍ OZNÁMENÍ O PODMÍNKÁCH POUŽITÍ, OCHRANY OSOBNÍCH ÚDAJŮ A OCHRANY OSOBNÍCH ÚDAJŮ PORTÁLU OTEVŘENÉ VLÁDY
       description: Informační stránka o podmínkách používání, soukromí a ochraně osobních údajů.
     help:
       title: "%{org} je platforma pro zapojování občanů do spolurozhodování"
+      guide: "Tato příručka vysvětluje, k čemu slouží jednotlivé sekce %{org} a jak fungují."
       menu:
         debates: "Debaty"
         proposals: "Návrhy"
@@ -44,6 +48,7 @@ cs:
         description: "V části %{link} se občané podílejí na přípravě a úpravách předpisů, které mají vliv na město a mohou se vyjádřit např. k návrhům obecních vyhlášek v předchozích debatách."
         link: "procesy"
         feature: "K účasti v hlasování využijte následující odkaz %{link} a ověřte svůj účet."
+        feature_link: "registrovat v %{org_name}"
       faq:
         title: "Technické problémy?"
         description: "Přečtěte si časté otázky a řešit vaše dotazy."
@@ -54,13 +59,14 @@ cs:
       other:
         title: "Další zajímavé informace"
         how_to_use: "Použijte %{org_name} ve vašem městě"
+        sdg: "Cíle udržitelného rozvoje - nápověda"
       how_to_use:
         text: |-
           Použijte tento program ve své lokalitě, nebo nám ho pomozte zlepšit, je to svobodný software.
 
-          Tento otevřený portál používá [CONSUL app] (https://github.com/consul/consul 'consul github), který je svobodným softwarem, s licencí AGPLv3 (http://www.gnu.org/licenses/ agpl-3.0.html 'AGPLv3 gnu'), to znamená prostým slovem, že někdo může tento kód volně použít, zkopírovat jej, podrobně ji prohlédnout, upravit a přenést s modifikacemi, které jsou žádané). Myslíme si, že programy jsou lepší a bohatší, když jsou otevřené.
+          Tento otevřený portál používá [CONSUL app] (https://github.com/consuldemocracy/consuldemocracy 'consul democracy github), který je svobodným softwarem, s licencí AGPLv3 (http://www.gnu.org/licenses/ agpl-3.0.html 'AGPLv3 gnu'), to znamená prostým slovem, že někdo může tento kód volně použít, zkopírovat jej, podrobně ji prohlédnout, upravit a přenést s modifikacemi, které jsou žádané). Myslíme si, že programy jsou lepší a bohatší, když jsou otevřené.
 
-          Pokud jste programátor, můžete tento kód nalézt a pomoci nám jej vylepšit v aplikaci [CONSUL] (https://github.com/consul/consul 'consul github').
+          Pokud jste programátor, můžete tento kód nalézt a pomoci nám jej vylepšit v aplikaci [CONSUL] (https://github.com/consuldemocracy/consuldemocracy 'consul democracy github').
       titles:
         how_to_use: Doporučte tento program k využití veřejnou správou v místě Vašeho bydliště
     privacy:
@@ -157,6 +163,7 @@ cs:
               description_column: Zmenšit velikost textu
       compatibility:
         title: Kompatibilita se standardy a vizuální design
+        description: 'Všechny stránky tohoto webu splňují <strong>Pokyny pro přístupnost</strong> neboli Obecné zásady přístupného designu stanovené pracovní skupinou <abbr title="Web Accessibility Initiative" lang="en">WAI</abbr> patřící pod W3C.'
     titles:
       help: "Co je %{org}? - Zapojování občanů"
     verify:

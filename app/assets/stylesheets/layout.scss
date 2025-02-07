@@ -11,17 +11,14 @@
 // 10. Official levels
 // 11. Tables
 // 12. Social
-// 13. Pages
 // 14. Verification
 // 15. Comments
 // 16. Flags
 // 17. Activity
-// 18. Banners
 // 19. Recommendations
 // 20. Documents
 // 21. Related content
 // 22. Images
-// 23. Maps
 // 24. Homepage
 // 25. LocalCensusRecords
 //
@@ -33,19 +30,50 @@
   @include normal-selection;
 }
 
+// html {
+//   font-size: calc(0.25em + Max(0.75em, 0.75vw));
+// }
+
 html,
 body {
-  height: 100%;
   margin: 0;
+}
+
+html {
+  height: 100%;
 }
 
 body {
   display: flex;
   flex-direction: column;
   font-size: $base-font-size;
+  min-height: 100%;
+
+  &.public {
+    @include breakpoint($global-width) {
+      margin-left: $body-margin;
+      margin-right: $body-margin;
+    }
+  }
 
   > .wrapper {
-    flex: 1;
+    flex-grow: 1;
+  }
+}
+
+main {
+  display: block;
+
+  &.budget-groups-index,
+  &.budget-investment-new,
+  &.debate-new,
+  &.proposal-new,
+  &.sdg-goals-index,
+  &.sdg-goal-show,
+  &.topic-edit,
+  &.topic-new,
+  &.subscriptions-edit {
+    @include grid-column-gutter;
   }
 }
 
@@ -66,29 +94,33 @@ p {
 }
 
 a {
-  color: $link;
+  @include link;
+}
 
-  &:hover,
-  &:active {
-    color: $link-hover;
-    text-decoration: underline;
+a,
+button,
+[type="button"],
+[type="submit"] {
+  &:focus {
+    outline: $outline-focus;
   }
 
-  &:focus {
-    color: $link-hover;
+  &:focus-visible {
+    outline: $outline-focus;
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  &:active,
+  &:focus:active {
     outline: $outline-focus;
   }
 }
 
 .button {
   @extend %button;
-  @include inverted-selection;
-  background: $brand;
-
-  &.warning,
-  &.warning:hover {
-    color: #000;
-  }
 
   &.medium {
     font-size: $small-font-size;
@@ -97,8 +129,15 @@ a {
 
 .button.hollow {
   @include normal-selection;
-  border: 1px solid $link;
-  color: $link;
+  @include anchor-color;
+  border: 1px solid;
+
+  &:hover,
+  &:focus {
+    $hover-color: scale-color($anchor-color, $lightness: $button-hollow-hover-lightness);
+    color: $hover-color;
+    color: var(--anchor-color-hover, $hover-color);
+  }
 }
 
 .button.hollow.error {
@@ -122,35 +161,12 @@ a {
   display: inline-block;
 }
 
-.aling-middle {
-  vertical-align: middle;
-}
-
 .sidebar-divider {
   border-top: 1px solid $border;
   margin-top: $line-height;
 
   &:first-child {
     margin-top: 0;
-  }
-}
-
-.f-dropdown {
-  li a {
-    font-size: $small-font-size;
-
-    &:hover {
-      color: $link-hover;
-    }
-  }
-
-  li:hover,
-  .f-dropdown li:focus {
-    background: #fff;
-  }
-
-  &.open {
-    outline: none;
   }
 }
 
@@ -233,15 +249,11 @@ a {
     }
 
     a {
-      color: $text;
+      @include text-colored-link;
       display: inline-block;
       font-weight: bold;
       position: relative;
       text-align: left;
-
-      &:hover {
-        color: $link;
-      }
     }
 
     + li {
@@ -249,13 +261,9 @@ a {
     }
 
     &.is-active {
-      @include brand-text;
-      border-bottom: 2px solid $brand;
+      @include brand-color;
+      border-bottom: 2px solid;
       padding-bottom: rem-calc(1);
-
-      h2 a {
-        @include brand-text;
-      }
     }
 
     &:not(.is-active) {
@@ -280,7 +288,7 @@ a {
       padding: 0;
 
       &.is-active {
-        @include brand-text;
+        @include brand-color;
         font-weight: bold;
       }
     }
@@ -290,8 +298,8 @@ a {
     }
 
     &.is-active {
-      @include brand-text;
-      border-bottom: 2px solid $brand;
+      @include brand-color;
+      border-bottom: 2px solid;
     }
   }
 
@@ -317,7 +325,6 @@ a {
 }
 
 .close-button {
-  color: $text;
   top: $line-height / 2;
 }
 
@@ -353,20 +360,19 @@ a {
     position: relative;
 
     &:hover {
-      @include brand-text;
+      @include brand-color;
       background: none;
       text-decoration: none;
     }
 
     &[aria-selected="true"],
     &.is-active {
-      @include brand-text;
+      @include brand-color;
       border-bottom: 0;
       font-weight: bold;
 
       &::after {
-        background: $brand;
-        border-bottom: 2px solid $brand;
+        border-bottom: 2px solid;
         bottom: 0;
         content: "";
         left: 0;
@@ -423,6 +429,10 @@ a {
 .help-text {
   line-height: rem-calc(20);
   margin-top: 0;
+
+  strong {
+    font-style: normal;
+  }
 }
 
 .menu-and-content {
@@ -434,6 +444,7 @@ a {
     > nav {
       flex: 20%;
       min-width: $side-menu-min-width;
+      max-width: max-content;
 
       + * {
         flex: 80%;
@@ -490,170 +501,74 @@ a {
 
 body > header,
 .wrapper > header {
-  @extend %brand-background;
-  border-bottom: 1px solid $border;
+  @include grid-column-gutter;
   margin-bottom: $line-height;
 
   @include breakpoint(small down) {
     position: relative;
     z-index: 10;
+    padding-left: 0;
+    padding-right: 0;
   }
 
   .selected {
     border-bottom: 1px solid #fff;
   }
 
-  .locale {
-    float: left;
-    height: $line-height * 1.5;
-    margin-left: $line-height / 2;
-    position: relative;
-
-    &::after {
-      color: #808080;
-      content: "\61";
-      font-family: "icons" !important;
-      font-size: $small-font-size;
-      pointer-events: none;
-      position: absolute;
-      right: 2px;
-      top: 9px;
-    }
-  }
-
-  .remote-translations-button {
-
-    &.callout {
-      margin: 0;
-      padding: rem-calc(6);
-
-      [type="submit"] {
-        @include brand-text;
-        background: none;
-        border: 0;
-        cursor: pointer;
-        font-weight: bold;
-
-        &:hover {
-          text-decoration: underline;
-        }
-      }
-    }
-  }
-
   .external-links {
-    float: none;
     padding: rem-calc(6) 0;
     text-align: center;
+  }
+}
 
-    @include breakpoint(medium) {
-      float: right;
-    }
+.public > .wrapper > header,
+.proposal-dashboard > header {
+  @include full-width-border(bottom, 1px solid $border);
+
+  > * {
+    @include full-width-background($adjust-padding: true);
+  }
+
+  .top-bar {
+    @include background-with-text-contrast($main-header, [main-header, brand]);
+  }
+}
+
+.proposal-dashboard > header {
+
+  @include breakpoint($global-width) {
+    margin-left: $body-margin;
+    margin-right: $body-margin;
   }
 }
 
 .top-bar {
-  @extend %brand-background;
-  padding-bottom: 0;
-  padding-top: 0;
+  align-items: center;
+  display: flex;
+  padding-bottom: $topbar-padding;
+  padding-top: $topbar-padding;
 
-  @include breakpoint(medium) {
-    padding: 0;
-  }
+  @include breakpoint(small only) {
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
 
-  ul {
-    background: none;
-    padding-right: rem-calc(15);
-  }
-
-  .menu .menu-text {
-    padding: 0;
-
-    a {
-      color: #fff;
-      display: inline-block;
-      font-family: "Lato" !important;
-      font-size: rem-calc(24);
-      font-weight: lighter;
-      line-height: $line-height * 2;
-      padding: 0;
-
-      @include breakpoint(medium) {
-        line-height: rem-calc(80);
-        margin-top: 0;
-      }
-
-      img {
-
-        @include breakpoint(medium) {
-          margin-right: $line-height / 2;
-          margin-top: 0;
-        }
-      }
-    }
-  }
-
-  .menu > li {
-    display: block;
-    width: 100%;
-
-    @include breakpoint(medium) {
-      width: auto;
-    }
-
-    a {
-      color: #fff;
-      padding-left: 0;
-
-      @include breakpoint(medium) {
-        font-size: $small-font-size;
-        padding: rem-calc(11) rem-calc(16);
-      }
-    }
-
-    .button {
-      background: none;
-      text-align: left;
-
-      @include breakpoint(medium) {
-        @include brand-text;
-        background: #fff;
-        text-align: center;
-      }
-    }
-  }
-
-  .has-submenu {
-
-    &.is-active a {
-      color: #fff;
-      font-weight: bold;
-    }
-  }
-
-  .menu {
-
-    &.is-dropdown-submenu {
-      background: #fff;
-      margin: 0;
-      margin-top: rem-calc(-12);
-      padding: 0;
-      z-index: 9;
-    }
-
-    .is-submenu-item {
-      display: block;
-      height: auto;
-      margin-bottom: 0;
+    .responsive-menu {
+      width: 100%;
 
       a {
-        color: $text;
+        display: inline-block;
       }
+    }
+
+    [data-responsive-toggle] {
+      flex-grow: 1000;
     }
   }
 
-  .top-bar-title {
+  h1 {
+    flex-grow: 1;
     line-height: $line-height;
+    margin-bottom: 0;
 
     a img {
       height: rem-calc(48);
@@ -679,11 +594,6 @@ body > header,
   cursor: inherit;
 }
 
-.title-bar {
-  background: none;
-  float: right;
-}
-
 .dropdown.menu > li {
 
   a {
@@ -691,22 +601,26 @@ body > header,
   }
 
   &.is-active > a {
-    color: #fff;
+    color: inherit;
   }
 
   &.is-dropdown-submenu-parent > a::after {
-    border-color: #fff transparent transparent;
+    border-top-color: currentcolor;
   }
 }
 
 .top-links {
-  background: $dark;
-  color: #fff;
+  @include background-with-text-contrast($top-links, [top-links, brand-secondary]);
+  display: flex;
+  flex-wrap: wrap;
   font-size: $small-font-size;
-  padding-right: $line-height / 2;
+
+  > :first-child {
+    flex-grow: 1;
+  }
 
   a {
-    color: #fff;
+    color: inherit;
     margin: 0 rem-calc(6);
 
     &:hover {
@@ -735,104 +649,13 @@ body > header,
   }
 }
 
-.subnavigation {
-
-  @include breakpoint(medium) {
-    background: #fff;
-    padding-bottom: 0;
-  }
-
-  ul {
-    list-style-type: none;
-    margin: 0;
-
-    li {
-      @include breakpoint(medium) {
-        display: inline-block;
-        margin-right: rem-calc(20);
-      }
-    }
-  }
-
-  a {
-    color: #fff;
-    display: inline-block;
-    line-height: $line-height * 2;
-    position: relative;
-    text-align: left;
-    width: 100%;
-
-    @include breakpoint(medium) {
-      color: $text;
-      display: block;
-      font-weight: bold;
-      width: auto;
-
-      &:hover {
-        color: $link;
-      }
-    }
-
-    &.is-active {
-      color: #fff;
-
-      @include breakpoint(medium) {
-        @include brand-text;
-        border-bottom: 2px solid $brand;
-      }
-    }
-  }
-
-  .input-group {
-    padding-top: $line-height / 4;
-
-    @include breakpoint(medium) {
-      margin-bottom: 0;
-    }
-  }
-
-  .input-group-field {
-    margin-bottom: 0 !important;
-  }
-
-  .input-group-button {
-    line-height: $line-height * 1.5;
-    padding-bottom: 0;
-
-    button {
-      background: $border;
-      border: 1px solid #ccc;
-      border-left: 0;
-      color: $text;
-      height: $line-height * 1.5;
-      line-height: $line-height * 1.5;
-      padding-top: 0;
-    }
-  }
-
-  input {
-    height: $line-height * 1.5 !important;
-    margin-bottom: 0;
-    margin-right: 0;
-    width: 100%;
-  }
-}
-
-.top-bar-right {
-
-  .is-active {
-    font-weight: bold;
-    text-decoration: underline;
-  }
-}
-
 .submenu {
   border-bottom: 1px solid $border;
   clear: both;
   margin-bottom: $line-height / 2;
 
   a {
-    color: $text;
+    @include text-colored-link;
     display: inline-block;
     font-weight: bold;
     margin-right: $line-height / 2;
@@ -842,15 +665,11 @@ body > header,
     @include breakpoint(medium) {
       margin-right: $line-height;
     }
-
-    &:hover {
-      color: $link;
-    }
   }
 
   .is-active {
-    @include brand-text;
-    border-bottom: 2px solid $brand;
+    @include brand-color;
+    border-bottom: 2px solid;
 
     &:hover {
       text-decoration: none;
@@ -870,7 +689,9 @@ body > header,
 // ----------
 
 footer {
-  color: $text;
+  .logo {
+    color: inherit;
+  }
 
   .logo a {
     font-family: "Lato" !important;
@@ -892,7 +713,7 @@ footer {
   a,
   a:active,
   a:focus {
-    color: $text;
+    color: inherit;
     text-decoration: underline;
 
     &:hover {
@@ -911,11 +732,15 @@ footer {
 }
 
 .footer {
-  background: #f1f1f1;
+  @include background-with-text-contrast($footer, footer);
   clear: both;
   margin-top: $line-height * 2;
   padding-bottom: $line-height;
   padding-top: $line-height;
+
+  .public & {
+    @include full-width-background;
+  }
 }
 
 .subfooter {
@@ -936,8 +761,8 @@ footer {
 
 .categories a,
 .geozone a {
+  @include anchor-color;
   background: $highlight;
-  color: $link;
 
   &:hover,
   &.is-active {
@@ -945,15 +770,8 @@ footer {
   }
 }
 
-.sidebar-map {
-
-  .map {
-    z-index: 0;
-  }
-}
-
 .sidebar-title {
-  border-top: 2px solid $brand;
+  @include brand-border(top, 2px);
   display: inline-block;
   font-size: rem-calc(16);
   font-weight: bold;
@@ -973,7 +791,7 @@ footer {
 }
 
 .auth-image {
-  background: $brand image-url("auth_bg.jpg");
+  @include brand-background;
   background-repeat: no-repeat;
   background-size: cover;
 
@@ -985,7 +803,7 @@ footer {
     margin-top: $line-height;
 
     a {
-      color: #fff;
+      color: inherit;
       display: block;
       text-align: center;
 
@@ -1011,59 +829,22 @@ footer {
 }
 
 .auth-divider {
-  border-bottom: 1px solid $border;
-  height: rem-calc(14);
-  margin: $line-height 0;
+  border-top: 1px solid $border;
+  margin-top: $line-height * 1.5;
   text-align: center;
 
   span {
-    background: #fff;
+    background: $body-background;
+    box-decoration-break: clone;
     font-weight: bold;
     padding: 0 $line-height / 2;
+    position: relative;
+    top: -$line-height / 2;
   }
 }
 
 // 06. Forms
 // ---------
-
-.locale-form {
-  display: inline-block;
-  position: relative;
-
-  label {
-    color: #fff;
-    font-size: $tiny-font-size;
-    font-weight: normal;
-  }
-
-  select {
-
-    option {
-      background: #fff;
-      color: $text;
-      border: 0;
-      outline: none;
-    }
-  }
-
-  .locale-switcher {
-    background: #001d33;
-    border: 0;
-    border-radius: rem-calc(4);
-    color: #fff;
-    font-size: $small-font-size;
-    height: $line-height;
-    margin-bottom: 0;
-    margin-top: $line-height / 4;
-    outline: none;
-    padding: 0 $line-height / 4;
-    width: auto;
-
-    &:focus {
-      outline: $outline-focus;
-    }
-  }
-}
 
 form {
 
@@ -1071,6 +852,10 @@ form {
     font-size: $base-font-size;
     font-weight: bold;
     line-height: $line-height;
+  }
+
+  .checkbox-label {
+    display: table;
   }
 
   fieldset legend {
@@ -1128,7 +913,6 @@ form {
 
   .checkbox,
   .radio {
-    display: inline-block;
     font-weight: normal;
     line-height: $line-height;
     vertical-align: middle;
@@ -1203,13 +987,7 @@ form {
   }
 
   &.primary {
-    background-color: $info-bg;
-    border-color: $info-border;
-    color: $color-info;
-
-    a {
-      color: $link !important;
-    }
+    @include info-colors;
   }
 
   &.warning {
@@ -1268,10 +1046,6 @@ form {
     margin-right: $line-height / 2;
   }
 
-  .verify-account {
-    padding-right: $line-height / 2;
-  }
-
   .final-votes-info {
     background: $warning-bg;
     border: 1px solid $warning-border;
@@ -1308,40 +1082,6 @@ form {
   line-height: rem-calc(32);
   height: rem-calc(32);
   vertical-align: top;
-}
-
-.user-permissions {
-
-  p {
-    span {
-      color: $text-medium;
-      font-size: rem-calc(12);
-    }
-  }
-
-  ul {
-    list-style-type: none;
-    margin-bottom: 0;
-    margin-left: 0;
-  }
-
-  li {
-    font-size: $small-font-size;
-    margin-bottom: $line-height / 2;
-
-    span {
-      color: $text-medium;
-      font-size: rem-calc(12);
-    }
-
-    .icon-check {
-      color: $check;
-    }
-
-    .icon-x {
-      color: $delete;
-    }
-  }
 }
 
 .notifications-list {
@@ -1384,14 +1124,14 @@ form {
     }
   }
 
+  .notification-link {
+    @include text-colored-link;
+  }
+
   &:hover {
 
     a {
       text-decoration: none;
-    }
-
-    p:not(.time) {
-      color: $link;
     }
 
     &::before {
@@ -1400,8 +1140,8 @@ form {
   }
 
   &::before {
-    background: #fff;
-    color: $brand;
+    @include brand-color;
+    background: $body-background;
     content: "\4d";
     font-family: "icons" !important;
     font-size: $small-font-size;
@@ -1414,7 +1154,6 @@ form {
   }
 
   p {
-    color: $text;
     margin-bottom: 0;
     max-width: 80%;
   }
@@ -1481,11 +1220,11 @@ table {
     }
 
     &:nth-child(odd) {
-      background: #fff;
+      background: $table-background;
     }
 
     &:nth-child(even) {
-      background: #fafcfb;
+      background: adjust-color($table-background, $red: -3, $green: -1, $blue: -2);
     }
   }
 
@@ -1512,11 +1251,12 @@ table {
 .button.button-facebook,
 .button.button-google,
 .button.button-wordpress {
-  color: $text;
+  color: inherit;
   font-weight: bold;
 
   &::before {
     font-size: rem-calc(24);
+    margin-right: $font-icon-margin;
   }
 }
 
@@ -1627,73 +1367,11 @@ table {
   }
 }
 
-.social {
-
-  li {
-    display: inline-block;
-  }
-
-  a {
-    font-size: rem-calc(24);
-    margin: 0 $line-height / 2;
-    text-decoration: none;
-
-    &:hover {
-      @include brand-text;
-    }
-  }
-}
-
 .share-supported {
   text-align: center;
 
   .social-share-button {
     display: inline-block;
-  }
-}
-
-// 13. Pages
-// ---------
-
-.help {
-
-  li {
-    border-bottom: 1px solid $border;
-    font-weight: bold;
-    margin-left: rem-calc(-12);
-    position: relative;
-
-    span {
-      color: $text;
-      display: inline-block;
-      font-weight: normal;
-    }
-
-    &::after {
-      content: none;
-      color: $text-medium;
-      font-family: "icons" !important;
-      position: absolute;
-      right: 0;
-      top: 24px;
-
-      @include breakpoint(medium) {
-        content: "c";
-      }
-    }
-  }
-
-  a {
-    display: block;
-    padding: $line-height / 2;
-  }
-
-  a:hover {
-    background: $highlight;
-
-    span {
-      text-decoration: none;
-    }
   }
 }
 
@@ -1766,15 +1444,6 @@ table {
     }
   }
 
-  .send-letter {
-    background: none;
-    color: $link;
-
-    &:hover {
-      color: $link-hover;
-    }
-  }
-
   .button + form {
     display: inline-block;
     margin-left: $line-height / 2;
@@ -1801,21 +1470,6 @@ table {
   }
 }
 
-.verify-account {
-  padding-right: $line-height / 2;
-
-  .already-verified {
-    color: $check;
-    line-height: $line-height * 2;
-
-    .icon-check {
-      font-size: rem-calc(24);
-      line-height: rem-calc(45);
-      vertical-align: middle;
-    }
-  }
-}
-
 .verify {
   margin-bottom: $line-height * 2;
   margin-top: $line-height;
@@ -1837,7 +1491,7 @@ table {
     position: relative;
 
     .icon-letter {
-      background: #fff;
+      background: $body-background;
       color: $color-info;
       font-size: rem-calc(24);
       margin-left: -27px;
@@ -1852,8 +1506,6 @@ table {
 // ------------
 
 .comments {
-  background: #fff;
-  background-repeat: repeat-x;
   padding-bottom: $line-height * 4;
 
   h2 {
@@ -1865,6 +1517,11 @@ table {
       font-weight: normal;
       opacity: 0.8;
     }
+  }
+
+  .order-links {
+    margin-bottom: $line-height;
+    margin-top: $line-height;
   }
 
   .comment {
@@ -1892,7 +1549,6 @@ table {
   }
 
   .reply {
-    background: #fff;
     border: 1px solid $border;
     border-left: 0;
     border-right: 0;
@@ -1901,12 +1557,16 @@ table {
     padding: $line-height / 4;
     position: relative;
 
+    &:empty {
+      display: none;
+    }
+
     .divider {
       color: $text-light;
       display: inline-block;
     }
 
-    form {
+    .comment-form form {
       margin-top: $line-height / 2;
     }
   }
@@ -1922,6 +1582,7 @@ table {
 
     .show-children::before,
     .collapse-children::before {
+      margin-right: $font-icon-margin;
       transform: translateY(-1px);
     }
 
@@ -1942,14 +1603,13 @@ table {
 
   .delete-comment {
     @include has-fa-icon(trash-alt, regular);
-    color: $delete;
 
-    &:hover,
-    &:active {
-      color: $link-hover;
+    &:not(:hover):not(:active) {
+      color: $delete;
     }
 
     &::before {
+      margin-right: $font-icon-margin;
       transform: translateY(-1px);
     }
   }
@@ -2008,34 +1668,43 @@ table {
 }
 
 .comment-info {
-  color: $text-medium;
   display: inline-block;
   font-size: $small-font-size;
   line-height: rem-calc(32); // Same as avatar height
 
   .user-name {
-    color: $text;
     font-weight: bold;
   }
 }
 
 .comment-votes {
 
-  a {
+  button,
+  form {
     color: $text-light;
     display: inline-block;
-    vertical-align: top;
   }
 
-  a:hover {
-    color: $text-medium;
-    text-decoration: none;
+  button {
+    font-size: $base-font-size;
 
-    .icon-like {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .in-favor button {
+    @include has-fa-icon(thumbs-up, solid);
+
+    &:hover {
       color: $like;
     }
+  }
 
-    .icon-unlike {
+  .against button {
+    @include has-fa-icon(thumbs-down, solid);
+
+    &:hover {
       color: $unlike;
     }
   }
@@ -2043,25 +1712,6 @@ table {
 
 .faded {
   opacity: 0.4;
-}
-
-.wide-order-selector {
-  float: none;
-  margin-top: 0;
-
-  @include breakpoint(medium) {
-    float: right;
-    margin-top: rem-calc(-24);
-  }
-
-  label {
-    padding-right: $line-height / 2;
-    float: none;
-
-    @include breakpoint(medium) {
-      float: right;
-    }
-  }
 }
 
 .comment-form {
@@ -2152,26 +1802,6 @@ table {
   }
 }
 
-// 18. Banners
-// -----------
-
-.banner {
-
-  a > * {
-    @include grid-row;
-    padding: 0 rem-calc(16);
-
-    &:empty {
-      display: none;
-    }
-  }
-
-  + .budget-header,
-  + .jumbo {
-    margin-top: 0;
-  }
-}
-
 // 19. Recommendations
 // -------------------
 
@@ -2252,7 +1882,6 @@ table {
   .debates-inner,
   .proposals-inner,
   .budget-investments-inner {
-    background: #fff;
     max-height: rem-calc(350);
 
     @include breakpoint(small) {
@@ -2316,8 +1945,10 @@ table {
 }
 
 .recommended-index {
+  @include full-width-background;
+  @include full-width-border(bottom, 1px solid #eee);
+  @include full-width-border(top, 1px solid #fafafa);
   background: #fafafa;
-  border-bottom: 1px solid #eee;
   margin-bottom: $line-height;
   margin-top: rem-calc(-25);
   padding: $line-height 0 $line-height / 2;
@@ -2344,7 +1975,7 @@ table {
   }
 
   .recommendation {
-    background: #fff;
+    background: $body-background;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15);
     display: block;
     margin-bottom: $line-height / 4;
@@ -2455,56 +2086,16 @@ table {
 }
 
 .add-related-content {
+  @include link;
   display: block;
+  margin-bottom: $line-height;
 
   @include breakpoint(medium) {
     float: right;
   }
-}
 
-.related-content-list {
-  list-style-type: none;
-  margin-left: 0;
-
-  li {
-    border-bottom: 1px solid $border;
-    margin-bottom: 0 !important;
-    padding: $line-height / 2;
-
-    @include breakpoint(medium) {
-
-      .score-actions {
-        display: none;
-        float: right;
-      }
-    }
-
-    &:first-child {
-      border-top: 1px solid $border;
-    }
-
-    &:hover {
-      background: #f9f9f9;
-
-      .score-actions {
-        display: block;
-      }
-    }
-  }
-
-  h3 {
-    font-size: $base-font-size;
-    font-weight: normal;
-  }
-
-  .related-content-title {
-    color: #4f4f4f;
-    font-size: rem-calc(12);
-    text-transform: uppercase;
-  }
-
-  .flag {
-    margin-top: $line-height / 2;
+  &[aria-expanded="false"] + form {
+    display: none;
   }
 }
 
@@ -2518,33 +2109,20 @@ table {
   a {
     font-weight: bold;
     margin-right: $line-height;
-    padding-left: rem-calc(20);
-    position: relative;
     text-decoration: none;
 
-    &.score-positive::before,
-    &.score-negative::before {
-      font-family: "icons";
-      left: 0;
-      position: absolute;
-    }
-
     &.score-positive {
+      @include has-fa-icon(check, solid);
       color: $color-success;
-
-      &::before {
-        color: $color-success;
-        content: "\6c";
-      }
     }
 
     &.score-negative {
+      @include has-fa-icon(times, solid);
       color: $color-alert;
+    }
 
-      &::before {
-        color: $color-alert;
-        content: "\76";
-      }
+    &::before {
+      margin-right: $font-icon-margin;
     }
   }
 }
@@ -2575,48 +2153,6 @@ table {
   }
 }
 
-// 23. Maps
-// -----------------
-
-.location-map-remove-marker {
-  border-bottom: 1px dotted #cf2a0e;
-  color: $delete;
-  display: inline-block;
-  margin-top: $line-height / 2;
-
-  &:hover,
-  &:active,
-  &:focus {
-    border-bottom: 1px solid #cf2a0e;
-    color: #cf2a0e;
-    text-decoration: none;
-  }
-}
-
-.leaflet-bar a {
-
-  &.leaflet-disabled {
-    color: #525252;
-  }
-}
-
-.leaflet-container {
-
-  .leaflet-control-attribution {
-    background: rgba(255, 255, 255, 0.9);
-  }
-
-  a {
-    color: $link;
-  }
-}
-
-.leaflet-bottom,
-.leaflet-pane,
-.leaflet-top {
-  z-index: 4;
-}
-
 // 24. Homepage
 // ------------
 
@@ -2630,7 +2166,7 @@ table {
     p {
 
       &.description {
-        color: $text;
+        color: $body-font-color;
         word-wrap: break-word;
       }
     }
@@ -2641,6 +2177,11 @@ table {
     height: $line-height * 2;
     background: $highlight;
     margin-top: rem-calc(-48);
+
+    @include breakpoint($global-width) {
+      margin-left: calc(#{$full-width-margin});
+      margin-right: calc(#{$full-width-margin});
+    }
   }
 
   .cards-container {
@@ -2689,10 +2230,9 @@ table {
   h3 {
 
     &.title {
+      @include brand-border(top, 4px);
       display: inline-block;
-      border-top: 4px solid $brand;
       margin-bottom: 0;
-      min-width: rem-calc(240);
       padding: $line-height / 2 0;
     }
   }
@@ -2702,6 +2242,10 @@ table {
     width: 100%;
   }
 }
+
+// .home-page .feeds-participation {
+//   @include grid-column-gutter;
+// }
 
 .feeds-list {
 
@@ -2774,9 +2318,8 @@ table {
     }
 
     span {
-      background: #fff;
+      @extend %body-colors;
       border-radius: rem-calc(4);
-      color: #000;
       display: inline-block;
       font-size: $small-font-size;
       font-weight: bold;

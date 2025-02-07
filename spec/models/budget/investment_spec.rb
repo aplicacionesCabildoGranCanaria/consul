@@ -160,7 +160,7 @@ describe Budget::Investment do
     end
 
     it "returns false in any other phase" do
-      Budget::Phase::PHASE_KINDS.reject { |phase| phase == "selecting" }.each do |phase|
+      Budget::Phase::PHASE_KINDS.excluding("selecting").each do |phase|
         budget = create(:budget, phase: phase)
         investment = create(:budget_investment, budget: budget)
 
@@ -178,7 +178,7 @@ describe Budget::Investment do
     end
 
     it "returns false in any other phase" do
-      Budget::Phase::PHASE_KINDS.reject { |phase| phase == "valuating" }.each do |phase|
+      Budget::Phase::PHASE_KINDS.excluding("valuating").each do |phase|
         budget = create(:budget, phase: phase)
         investment = create(:budget_investment, budget: budget)
 
@@ -203,7 +203,7 @@ describe Budget::Investment do
     end
 
     it "returns false in any other phase" do
-      Budget::Phase::PHASE_KINDS.reject { |phase| phase == "balloting" }.each do |phase|
+      Budget::Phase::PHASE_KINDS.excluding("balloting").each do |phase|
         budget = create(:budget, phase: phase)
         investment = create(:budget_investment, :selected, budget: budget)
 
@@ -242,6 +242,12 @@ describe Budget::Investment do
 
     it "returns false if price is not present" do
       investment.price = nil
+
+      expect(investment.should_show_price?).to eq(false)
+    end
+
+    it "returns false if budget hide money is active" do
+      budget.update!(hide_money: true)
 
       expect(investment.should_show_price?).to eq(false)
     end
@@ -408,6 +414,55 @@ describe Budget::Investment do
     end
   end
 
+  describe ".visible_to_valuator" do
+    let(:valuator) { create(:valuator) }
+
+    it "returns investments assigned to the valuator" do
+      investment = create(:budget_investment, :visible_to_valuators, valuators: [valuator])
+
+      expect(Budget::Investment.visible_to_valuator(valuator)).to eq [investment]
+    end
+
+    it "does not return investments assigned to other valuators" do
+      create(:budget_investment, :visible_to_valuators, valuators: [create(:valuator)])
+
+      expect(Budget::Investment.visible_to_valuator(valuator)).to be_empty
+    end
+
+    it "does not return duplicate investments when they're assigned more than once" do
+      investment = create(:budget_investment, :visible_to_valuators)
+      2.times { Budget::ValuatorAssignment.create!(valuator: valuator, investment: investment) }
+
+      expect(Budget::Investment.visible_to_valuator(valuator)).to eq [investment]
+    end
+
+    it "does not return duplicate investments when assigned to both a valuator and their group" do
+      valuator_group = create(:valuator_group, valuators: [valuator])
+      investment = create(:budget_investment, :visible_to_valuators, valuators: [valuator],
+                                                                     valuator_groups: [valuator_group])
+
+      expect(Budget::Investment.visible_to_valuator(valuator)).to eq [investment]
+    end
+
+    it "returns investments assigned to the valuator's group" do
+      valuator_group = create(:valuator_group, valuators: [valuator])
+      investment = create(:budget_investment, :visible_to_valuators, valuator_groups: [valuator_group])
+
+      expect(Budget::Investment.visible_to_valuator(valuator)).to eq [investment]
+    end
+
+    it "does not return investments assigned to other valuator groups" do
+      valuator_group = create(:valuator_group, valuators: [create(:valuator)])
+      create(:budget_investment, :visible_to_valuators, valuator_groups: [valuator_group])
+
+      expect(Budget::Investment.visible_to_valuator(valuator)).to be_empty
+    end
+
+    it "returns an empty relation when valuator is nil" do
+      expect(Budget::Investment.visible_to_valuator(nil)).to be_empty
+    end
+  end
+
   describe ".scoped_filter" do
     let(:budget)     { create(:budget, :balloting, slug: "budget_slug") }
     let(:investment) { create(:budget_investment, budget: budget) }
@@ -430,9 +485,7 @@ describe Budget::Investment do
     describe "with without_admin filter" do
       let(:params) { { advanced_filters: ["without_admin"], budget_id: budget.id } }
       it "returns only investment without admin" do
-        create(:budget_investment,
-               :with_administrator,
-               budget: budget)
+        create(:budget_investment, :with_administrator, budget: budget)
         investment2 = create(:budget_investment, budget: budget)
 
         expect(Budget::Investment.scoped_filter(params, "all")).to eq([investment2])
@@ -442,14 +495,9 @@ describe Budget::Investment do
     describe "with without_valuator filter" do
       let(:params) { { advanced_filters: ["without_valuator"], budget_id: budget.id } }
       it "returns only investment without valuator" do
-        create(:budget_investment,
-               :with_valuator,
-               budget: budget)
-        investment2 = create(:budget_investment,
-                             :with_administrator,
-                             budget: budget)
-        investment3 = create(:budget_investment,
-                             budget: budget)
+        create(:budget_investment, :with_valuator, budget: budget)
+        investment2 = create(:budget_investment, :with_administrator, budget: budget)
+        investment3 = create(:budget_investment, budget: budget)
 
         expect(Budget::Investment.scoped_filter(params, "all"))
           .to contain_exactly(investment2, investment3)
@@ -471,14 +519,9 @@ describe Budget::Investment do
     describe "with valuation_finished filter" do
       let(:params) { { advanced_filters: ["valuation_finished"], budget_id: budget.id } }
       it "returns only investment with valuation finished" do
-        investment1 = create(:budget_investment,
-                             :selected,
-                             budget: budget)
-        create(:budget_investment,
-               :with_administrator,
-               budget: budget)
-        create(:budget_investment,
-               budget: budget)
+        investment1 = create(:budget_investment, :selected, budget: budget)
+        create(:budget_investment, :with_administrator, budget: budget)
+        create(:budget_investment, budget: budget)
 
         expect(Budget::Investment.scoped_filter(params, "all")).to eq([investment1])
       end
@@ -1204,7 +1247,7 @@ describe Budget::Investment do
       end
 
       it "returns false if budget is not balloting phase" do
-        Budget::Phase::PHASE_KINDS.reject { |phase| phase == "balloting" }.each do |phase|
+        Budget::Phase::PHASE_KINDS.excluding("balloting").each do |phase|
           budget.update!(phase: phase)
           investment = create(:budget_investment, heading: heading1)
 

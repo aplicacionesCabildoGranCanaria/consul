@@ -3,7 +3,9 @@ class Poll
     belongs_to :booth
     belongs_to :poll
 
-    before_destroy :destroy_poll_shifts, only: :destroy
+    delegate :name, to: :booth
+
+    before_destroy :destroy_poll_shifts
 
     has_many :officer_assignments, dependent: :destroy
     has_many :officers, through: :officer_assignments
@@ -12,7 +14,7 @@ class Poll
     has_many :recounts
 
     def shifts?
-      shifts.empty? ? false : true
+      !shifts.empty?
     end
 
     def unable_to_destroy?

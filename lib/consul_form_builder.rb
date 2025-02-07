@@ -20,12 +20,15 @@ class ConsulFormBuilder < FoundationRailsHelper::FormBuilder
   end
 
   def check_box(attribute, options = {})
-    if options[:label] != false
+    if options[:label] == false
+      super
+    else
       label = tag.span sanitize(label_text(attribute, options[:label])), class: "checkbox"
 
-      super(attribute, options.merge(label: label, label_options: label_options_for(options)))
-    else
-      super
+      super(attribute, options.merge(
+        label: label,
+        label_options: { class: "checkbox-label" }.merge(label_options_for(options))
+      ))
     end
   end
 
@@ -76,14 +79,14 @@ class ConsulFormBuilder < FoundationRailsHelper::FormBuilder
     end
 
     def help_text(attribute, options)
-      if options[:hint]
+      if options[:hint].present?
         tag.span options[:hint], class: "help-text", id: help_text_id(attribute, options)
       end
     end
 
     def help_text_id(attribute, options)
-      if options[:hint]
-        "#{custom_label(attribute, nil, nil).match(/for="([^"]+)"/)[1]}-help-text"
+      if options[:hint].present?
+        "#{custom_label(attribute, "Example", nil).match(/for="([^"]+)"/)[1]}-help-text"
       end
     end
 end

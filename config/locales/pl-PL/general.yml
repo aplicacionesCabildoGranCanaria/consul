@@ -1,28 +1,19 @@
 pl:
   account:
     show:
-      change_credentials_link: Zmień moje dane logowania
+      change_credentials_link: Zmień moje referencje
       erase_account_link: Usuń moje konto
       finish_verification: Zakończ weryfikację
       notifications: 'Informuj mnie drogą mailową:'
-      organization_name_label: Nazwa organizacji
-      organization_responsible_name_placeholder: Reprezentant organizacji/kolektywu
       personal: Dane osobowe
-      phone_number_label: Numer telefonu
       public_interests_my_title_list: Tagi elementów, które obserwuję
       public_interests_user_title_list: Tagi elementów, które obserwuje ten użytkownik
       save_changes_submit: Zapisz zmiany
       recommendations: Rekomendacje
       title: Moje konto
-      user_permission_debates: Uczestnicz w debatach
       user_permission_info: Z Twoim kontem możesz...
-      user_permission_proposal: Stwórz nowy pomysł
-      user_permission_support_proposal: Poprzyj wnioski
       user_permission_title: Partycypacja
       user_permission_verify: Aby wykonać wszystkie czynności, zweryfikuj swoje konto.
-      user_permission_verify_info: "* Tylko dla użytkowników Census."
-      user_permission_votes: Weź udział w głosowaniu ostatecznym
-      username_label: Nazwa użytkownika
       verified_account: Konto zweryfikowane
       verify_my_account: Zweryfikuj moje konto
   application:
@@ -42,6 +33,10 @@ pl:
         few: "%{count} odpowiedzi"
         many: "%{count} odpowiedzi"
         other: "%{count} odpowiedzi"
+      responses_show:
+        zero: Brak odpowiedzi
+      responses_collapse:
+        zero: Brak odpowiedzi
       user_deleted: Użytkownik usunięty
       votes:
         zero: Brak głosów
@@ -58,7 +53,6 @@ pl:
       newest: Najpierw najnowsze
       oldest: Najpierw najstarsze
       most_commented: Najczęściej komentowane
-    select_order: Sortuj według
     show:
       return_to_commentable: "Wróć do "
   comments_helper:
@@ -72,12 +66,6 @@ pl:
       form:
         submit_button: Rozpocznij debatę
     debate:
-      comments:
-        zero: Brak komentarzy
-        one: 1 komentarz
-        few: "%{count} komentarze"
-        many: "%{count} komentarze"
-        other: "%{count} komentarze"
       votes:
         zero: Brak głosów
         one: 1 głos
@@ -90,7 +78,6 @@ pl:
         submit_button: Zapisz zmiany
       show_link: Zobacz debatę
     form:
-      debate_title: Tytuł debaty
       tags_instructions: Oznacz tę debatę.
       tags_placeholder: "Wprowadź oznaczenia, których chciałbyś użyć, rozdzielone przecinkami (',')"
     index:
@@ -113,7 +100,6 @@ pl:
         button: Szukaj
         placeholder: Szukaj debat...
         title: Szukaj
-      select_order: Uporządkuj według
       start_debate: Rozpocznij debatę
       title: Debaty
       section_header:
@@ -128,8 +114,6 @@ pl:
     new:
       form:
         submit_button: Rozpocznij debatę
-      info: Jeśli chcesz złożyć wniosek, jest to niewłaściwa sekcja, wejdź w %{info_link}.
-      info_link: utwórz nową propozycję
       more_info: Więcej informacji
       recommendation_four: Ciesz się tą przestrzenią oraz głosami, które ją wypełniają. To należy również do Ciebie.
       recommendation_one: Nie używaj wielkich liter do tytułu debaty lub całych zdań. W Internecie jest to uważane za krzyki. Nikt nie lubi, gdy ktoś krzyczy.
@@ -139,12 +123,6 @@ pl:
       start_new: Rozpocznij debatę
     show:
       author_deleted: Użytkownik usunięty
-      comments:
-        zero: Brak komentarzy
-        one: 1 komentarz
-        few: "%{count} komentarzy"
-        many: "%{count} komentarzy"
-        other: "%{count} komentarzy"
       comments_title: Komentarze
       edit_debate_link: Edytuj
       flag: Ta debata została oznaczona jako nieodpowiednia przez kilku użytkowników.
@@ -165,6 +143,7 @@ pl:
     direct_message: prywatna wiadomość
     error: błąd
     errors: błędy
+    not_saved: "uniemożliwił zapisanie tego %{resource}. <br>Sprawdź zaznaczone pola, aby dowiedzieć się, jak je poprawić:"
     policy: Polityka prywatności
     proposal: Wniosek
     proposal_notification: "Powiadomienie"
@@ -187,12 +166,18 @@ pl:
       firefox: Firefox
       ie: Wykryliśmy, że przeglądasz za pomocą Internet Explorera. Aby uzyskać lepsze wrażenia, zalecamy użycie% %{firefox} lub %{chrome}.
       ie_title: Ta strona internetowa nie jest zoptymalizowana pod kątem Twojej przeglądarki
+    dashboard:
+      proposal_header:
+        published: Opublikowany
+        draft: Projekt
+      proposal_totals:
+        supports:
+          zero: Brak poparcia
     footer:
       accessibility: Ułatwienia dostępu
       conditions: Regulamin
       consul: Aplikacja CONSUL
-      consul_url: https://github.com/consul/consul
-      contact_us: Do centrów pomocy technicznej
+      consul_url: https://github.com/consuldemocracy/consuldemocracy
       copyright: CONSUL, %{year}
       description: Ten portal używa %{consul}, który jest %{open_source}.
       open_source: oprogramowanie open-source
@@ -203,7 +188,6 @@ pl:
     header:
       administration_menu: Administrator
       administration: Administracja
-      available_locales: Dostępne wersje językowe
       collaborative_legislation: Procesy legislacyjne
       debates: Debaty
       locale: "Język:"
@@ -273,12 +257,16 @@ pl:
       sign_in: Zaloguj się przez Twitter
       sign_up: Zarejestruj się przez Twitter
       name: Twitter
+    info:
+      sign_in: "Zaloguj się przez:"
+      sign_up: "Zarejestruj się przez:"
     or_fill: "Lub wypełnij formularz:"
   proposals:
     create:
       form:
         submit_button: Stwórz pomysł
     share:
+      dashboard: Zobacz więcej informacji
       message: "Poparłem/am wniosek %{title} w %{handle}. Dołącz do mnie i także go poprzyj!"
     edit:
       editing: Edytuj wniosek
@@ -308,7 +296,6 @@ pl:
       map_location: "Lokalizacja na mapie"
       map_location_instructions: "Przejdź na mapie do lokalizacji i umieść znacznik."
       map_remove_marker: "Usuń znacznik"
-      map_skip_checkbox: "Niniejszy wniosek nie ma konkretnej lokalizacji lub o niej nie wiem."
     index:
       featured_proposals: Opisany
       orders:
@@ -339,11 +326,14 @@ pl:
         button: Szukaj
         placeholder: Szukaj wniosków...
         title: Szukaj
-      select_order: Uporządkuj według
+      search_results:
+        one: " zawierające termin <strong>%{search_term}</strong>"
+        few: " zawierające termin <strong>%{search_term}</strong>"
+        many: " zawierające termin <strong>%{search_term}</strong>"
+        other: " zawierające termin <strong>%{search_term}</strong>"
       select_order_long: "Przeglądasz wnioski według:"
       start_proposal: Zaproponuj swój pomysł
       title: Zrealizowane projekty
-      top: TOP w tym tygodniu
       top_link_proposals: Najbardziej popularne propozycje według kategorii
       section_header:
         icon_alt: Ikona wniosków
@@ -370,12 +360,6 @@ pl:
         edit: "Zanim zostanie udostępniony, będziesz mógł zmieniać tekst według własnego uznania."
         view_proposal: Nie teraz, idź do mojego wniosku
       already_supported: Już poparłeś ten wniosek. Udostępnij go!
-      comments:
-        zero: Brak komentarzy
-        one: 1 komentarz
-        few: "%{count} komentarzy"
-        many: "%{count} komentarzy"
-        other: "%{count} komentarzy"
       support: Wsparcie
       support_title: Poprzyj ten wniosek
       supports:
@@ -397,12 +381,6 @@ pl:
     show:
       author_deleted: Użytkownik usunięty
       code: "Kod wniosku:"
-      comments:
-        zero: Brak komentarzy
-        one: 1 komentarz
-        few: "%{count} komentarzy"
-        many: "%{count} komentarzy"
-        other: "%{count} komentarzy"
       comments_tab: Komentarze
       flag: Ten wniosek został oznaczona jako nieodpowiedni przez kilku użytkowników.
       notifications_tab: Powiadomienia
@@ -418,6 +396,48 @@ pl:
     update:
       form:
         submit_button: Zapisz zmiany
+  dashboard:
+    menu:
+      progress: Postęp
+      community: Społeczność
+      polls: Ankiety
+      related_content: Powiązana zawartość
+    progress:
+      supports: Wsparcie
+    index:
+      edit_proposal_link: Edytuj wniosek
+      retire: Wycofaj wniosek
+    recommended_actions:
+      pending_title: Oczekujące
+      done_title: Gotowe
+    community:
+      access_community: Uzyskaj dostęp do społeczności
+      participants: Uczestnicy
+      debates: Debaty
+      comments: Komentarze
+    polls:
+      index:
+        title: Ankiety
+        create: Utwórz sondaż
+        additiontal_information: Dodatkowe informacje
+      new:
+        title: Nowy sondaż
+        submit: Utwórz sondaż
+      edit:
+        submit: Aktualizuj sondę
+      form:
+        add_question: Dodaj pytanie
+      question_fields:
+        add_answer: Dodaj odpowiedź
+    poster:
+      options:
+        preview: Podgląd
+    mailing:
+      mailing_options:
+        preview: Podgląd
+    mailer:
+      forward:
+        support_button: Poprzyj ten wniosek
   polls:
     all: "Wszystkie"
     no_dates: "brak przypisanej daty"
@@ -451,6 +471,7 @@ pl:
       back: Wróć do głosowania
       cant_answer_not_logged_in: "%{signin} lub %{signup} aby wziąć udział."
       comments_tab: Komentarze
+      cant_answer_verify: "Aby odpowiedzieć, musisz %{verify_link}."
       verify_link: "zweryfikuj swoje konto"
       cant_answer_expired: "Ta sonda została zakończona."
       cant_answer_wrong_geozone: "To pytanie nie jest dostępne w Twojej strefie geograficznej."
@@ -488,14 +509,13 @@ pl:
       back: "Wróć do mojej aktywności"
   shared:
     edit: "Edytuj"
+    filter: "Filtruj"
     save: "Zapisz"
     delete: "Usuń"
     "yes": "Tak"
     "no": "Nie"
     search_results: "Szukaj wyników"
     advanced_search:
-      author_type: "Wg kategorii autora"
-      author_type_blank: "Wybierz kategorię"
       date: "Według daty"
       date_placeholder: "DD/MM/RRRR"
       date_range_blank: "Wybierz datę"
@@ -506,7 +526,6 @@ pl:
       date_5: "Dostosowane"
       from: "Od"
       general: "Wyszukaj tekst w treści"
-      general_placeholder: "Tu wpisz szukaną frazę..."
       search: "Filtruj"
       title: "Wyszukiwanie zaawansowane"
       to: "Do"
@@ -555,6 +574,7 @@ pl:
       districts: "Podział dzielnicy"
       districts_list: "Lista dzielnic"
       categories: "Kategorie"
+    target_blank: " (link otwiera się w nowym oknie)"
     you_are_in: "Jesteś w"
     unflag: Odznacz
     unfollow_entity: "Nie obserwuj %{entity}"
@@ -574,6 +594,9 @@ pl:
       title: Rekomendacje
       see_more: Zobacz więcej rekomendacji
       hide: Ukryj rekomendacje
+    translations:
+      remove_language: Usuń język
+      add_language: Dodaj język
   social:
     facebook: "%{org} Facebook"
     twitter: "%{org} Twitter"
@@ -597,6 +620,11 @@ pl:
     manage:
       all: "Nie masz uprawnień do wykonania akcji %{action} odnośnie %{subject}."
   users:
+    login_to_comment: "%{signin} lub %{signup} by zostawić komentarz."
+    login_to_continue: "Aby kontynuować, musisz %{signin} lub %{signup}."
+    signin: "zaloguj się"
+    signup: "zarejestruj się"
+    verify_account: "zweryfikuj swoje konto"
     direct_messages:
       new:
         direct_messages_bloqued: "Ten użytkownik postanowił nie otrzymywać wiadomości bezpośrednich"
@@ -611,6 +639,7 @@ pl:
       deleted_proposal: Ta propozycja została usunięta
       deleted_budget_investment: Ten projekt inwestycyjny został usunięty
       proposals: Zrealizowane projekty
+      proposals_status: Status
       debates: Debaty
       budget_investments: Inwestycje budżetowe
       comments: Komentarze
@@ -648,19 +677,19 @@ pl:
       delete_alert: "Czy na pewno chcesz usunąć swój projekt inwestycyjny? Tego działania nie można cofnąć"
     proposals:
       retired: "Wniosek wycofany"
+      draft: Projekt
+      published: Opublikowany
       see: "Zobacz wniosek"
+      actions: Akcje
   votes:
     agree: Zgadzam się
     anonymous: Zbyt wiele anonimowych głosów, by móc głosować %{verify_account}.
-    comment_unauthenticated: Aby zagłosować, musisz %{signin} lub %{signup}.
     disagree: Nie zgadzam się
     organizations: Organizacje nie mogą głosować
     supports: Wspiera
     verified_only: Tylko zweryfikowani użytkownicy mogą głosować na propozycje; %{verify_account}.
     budget_investments:
-      not_logged_in: Aby kontynuować, musisz %{signin} lub %{signup}.
       not_verified: Tylko zweryfikowani użytkownicy mogą głosować na projekty inwestycyjne; %{verify_account}.
-      organization: Organizacje nie mogą głosować
       unfeasible: Nie można zrealizować niemożliwych do zrealizowania projektów inwestycyjnych
       not_voting_allowed: Faza głosowania jest zamknięta
   welcome:
@@ -689,23 +718,13 @@ pl:
       budget_investments:
         title: Rekomendowane inwestycje
       slide: "Zobacz %{title}"
-    verification:
-      i_dont_have_an_account: Nie mam konta
-      i_have_an_account: Mam już konto
-      question: Czy masz już konto w %{org_name}?
-      title: Weryfikacja konta
     welcome:
       go_to_index: Zobacz propozycje i debaty
       start_using_consul: Przejdź do strony indeksu
       title: Twoje konto zostało poprawnie zweryfikowane
-      user_permission_debates: ' '
       user_permission_info: Z Twoim kontem możesz...
-      user_permission_proposal: Twórz i dołączaj do pomysłów
-      user_permission_support_proposal: Popieraj propozycje*
       user_permission_verify: "Aby wykonać wszystkie czynności, zweryfikuj swoje konto."
-      user_permission_verify_info: "* Tylko dla użytkowników Census."
       user_permission_verify_my_account: Zweryfikuj swoje konto
-      user_permission_votes: ' '
   invisible_captcha:
     sentence_for_humans: "Jeśli jesteś człowiekiem, zignoruj to pole"
     timestamp_error_message: "Wybacz, to było zbyt szybkie! Prześlij ponownie."
@@ -734,3 +753,7 @@ pl:
       alt: Zaznacz tekst, który chcesz skomentować i naciśnij przycisk z ołówkiem.
       text: Aby skomentować ten dokument musisz się %{sign_in} lub %{sign_up}. Zaznacz tekst, który chcesz skomentować i naciśnij przycisk z ołówkiem.
       title: Jak mogę skomentować ten dokument?
+  links:
+    form:
+      delete_button: Usuń
+      cancel_button: Anuluj

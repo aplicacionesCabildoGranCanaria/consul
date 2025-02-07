@@ -11,7 +11,7 @@ describe "Moderate comments" do
     visit debate_path(comment.commentable)
 
     within("#comment_#{comment.id}") do
-      accept_confirm { click_link "Hide" }
+      accept_confirm("Are you sure? Hide") { click_button "Hide" }
       expect(page).to have_css(".comment .faded")
     end
 
@@ -31,8 +31,8 @@ describe "Moderate comments" do
     visit debate_path(comment.commentable)
 
     within("#comment_#{comment.id}") do
-      expect(page).not_to have_link("Hide")
-      expect(page).not_to have_link("Block author")
+      expect(page).not_to have_button "Hide"
+      expect(page).not_to have_button "Block author"
     end
   end
 
@@ -84,7 +84,9 @@ describe "Moderate comments" do
         end
 
         scenario "Hide the comment" do
-          accept_confirm { click_button "Hide comments" }
+          accept_confirm("Are you sure? Hide comments") do
+            click_button "Hide comments"
+          end
 
           expect(page).not_to have_css("#comment_#{comment.id}")
 
@@ -93,12 +95,14 @@ describe "Moderate comments" do
           click_button "Search"
 
           within "tr", text: comment.user.name do
-            expect(page).to have_link "Block"
+            expect(page).to have_button "Block"
           end
         end
 
         scenario "Block the user" do
-          accept_confirm { click_button "Block authors" }
+          accept_confirm("Are you sure? Block authors") do
+            click_button "Block authors"
+          end
 
           expect(page).not_to have_css("#comment_#{comment.id}")
 
@@ -142,9 +146,10 @@ describe "Moderate comments" do
 
         visit moderation_comments_path(filter: "all", page: "2", order: "newest")
 
-        accept_confirm { click_button "Mark as viewed" }
+        accept_confirm("Are you sure? Mark as viewed") { click_button "Mark as viewed" }
 
-        expect(page).to have_selector(".js-order-selector[data-order='newest']")
+        expect(page).to have_link "Newest", class: "is-active"
+        expect(page).to have_link "Most flagged"
 
         expect(page).to have_current_path(/filter=all/)
         expect(page).to have_current_path(/page=2/)
@@ -206,8 +211,8 @@ describe "Moderate comments" do
     end
 
     scenario "sorting comments" do
-      flagged_comment = create(:comment, body: "Flagged comment", created_at: Time.current - 1.day, flags_count: 5)
-      flagged_new_comment = create(:comment, body: "Flagged new comment", created_at: Time.current - 12.hours, flags_count: 3)
+      flagged_comment = create(:comment, body: "Flagged comment", created_at: 1.day.ago, flags_count: 5)
+      flagged_new_comment = create(:comment, body: "Flagged new comment", created_at: 12.hours.ago, flags_count: 3)
       newer_comment = create(:comment, body: "Newer comment", created_at: Time.current)
 
       visit moderation_comments_path(order: "newest")

@@ -2,18 +2,25 @@ fr:
   mailers:
     title: "Ouvrir Gouvernement"
     no_reply: "Ce message a été envoyé d'une adresse qui n'accepte pas les réponses."
+    already_confirmed:
+      info: "Nous avons reçu une demande pour vous envoyer des instructions pour confirmer votre compte. Cependant, votre compte est déjà confirmé, il n'est donc pas nécessaire de le refaire."
+      new_password: "Si vous avez oublié votre mot de passe, vous pouvez le réinitialiser au lien suivant :"
+      subject: Votre compte est déjà confirmé
     comment:
       hi: Bonjour
       new_comment_by: Il y a un nouveau commentaire de <strong>%{commenter}</strong>
       subject: Quelqu'un a commenté votre %{commentable}
       title: Nouveau commentaire
     config:
-      manage_email_subscriptions: Pour ne plus recevoir ces courriels, changer vos options dans
+      unsubscribe_text: 'Pour vous désabonner de ces e-mails, vous pouvez saisir %{notifications} et décocher l''option "%{notification}".'
     email_verification:
       click_here_to_verify: sur ce lien
+      instructions_2: Ce courriel va vérifier votre compte avec <b>%{document_type}%{document_number}</b>. Si ce compte ne vous appartient pas, veuillez ne pas cliquer sur le lien et ignorer ce courriel.
+      instructions: Procéder à la vérification de votre compte utilisateur, vous devez cliquer sur %{verification_link}.
       subject: Confirmer votre courriel
       thanks: Merci beaucoup.
-      title: Confirmer votre compte en utilisant le lien suivant
+      title: "Confirmer votre compte en utilisant le lien suivant"
+      text: "Vérifiez votre compte avec le lien suivant."
     reply:
       hi: Bonjour
       new_reply_by: Il y a une nouvelle réponse de <strong>%{commenter}</strong> à votre commentaire sur
@@ -24,15 +31,16 @@ fr:
       title: "Notifications des propositions sur %{org_name}"
       share: Partager une proposition
       comment: Commenter une proposition
-      unsubscribe: "Si vous ne souhaitez pas recevoir les notifications des propositions, rendez-vous sur %{account} et décochez 'Recevoir un résumé des notifications de proposition'."
-      unsubscribe_account: Mon compte
+      unsubscribe_text: "Si vous ne souhaitez pas recevoir de notifications de proposition, vous pouvez accéder à %{notifications} et décocher l'option 'Recevoir des notifications récapitulatives sur les propositions'."
+      unfollow: "Accédez à cette proposition et désabonnez-vous pour ne plus recevoir de notifications."
     direct_message_for_receiver:
       subject: "Vous avez un nouveau message privé"
       reply: Répondre à %{sender}
-      unsubscribe: "Si vous ne souhaitez pas recevoir de messages directs, rendez-vous sur %{account} et décochez 'Recevoir des courriels à propos de messages directs'."
-      unsubscribe_account: Mon compte
+      unsubscribe_text: "Si vous ne souhaitez pas recevoir de messages privés, vous pouvez accéder à %{notifications} et décocher l'option 'Recevoir des e-mails avec des messages privés'."
     direct_message_for_sender:
       subject: "Vous avez envoyé un nouveau message privé"
+      title: "Vous avez envoyé un nouveau message privé"
+      text: "Vous avez envoyé un nouveau message privé à <strong>%{receiver}</strong> avec le contenu suivant :"
     user_invite:
       ignore: "Si vous n'avez pas requis cette invitation, pas d'inquiétude, vous pouvez ignorer ce courriel."
       text: "Merci d'avoir demandé à rejoindre %{org}! Dans quelques secondes vous pourrez commencer à participer, remplissez simplement le formulaire ci-dessous :"
@@ -44,17 +52,22 @@ fr:
       subject: "Merci d'avoir créer une proposition !"
       title: "Merci d'avoir créer une proposition !"
       intro: "Bonjour <strong>%{author}</strong>"
+      text: "Merci d'avoir créer votre proposition <strong>%{investment}</strong> avec le budget participatif <strong>%{budget}</strong>."
+      follow: "Nous vous informerons de la progression du processus, que vous pouvez également suivre sur <strong>%{link}</strong>."
       follow_link: "Budgets participatifs"
       sincerely: "Cordialement,"
       share: "Partager votre projet"
     budget_investment_unfeasible:
+      title: "Votre projet de dépenses a été marqué comme irréalisable"
       hi: "Cher(e) utilisateur(trice),"
+      new: "Pour tout cela, nous vous invitons à élaborer un <strong>nouveau projet de dépenses</strong> qui soit conforme aux conditions de ce processus. Vous pouvez faire cela en allant sur le lien suivant: %{url}."
       new_href: "nouvelle proposition d'investissement"
       sincerely: "Cordialement"
       sorry: "Désolé du dérangement et nous vous remercions à nouveau pour votre inestimable participation."
       subject: "Votre proposition d'investissement '%{code}' a été marquée comme infaisable"
     budget_investment_selected:
       subject: "Votre proposition d'investissement '%{code}' a été sélectionnée"
+      title: "Votre projet de dépense a été sélectionné"
       hi: "Cher(e) utilisateur(trice),"
       share: "Pour commencer à recueillir des votes, partager votre projet sur les réseaux sociaux. C'est essentiel pour qu'il devienne réalité."
       share_button: "Partager votre projet"
@@ -62,35 +75,26 @@ fr:
       sincerely: "Cordialement,"
     budget_investment_unselected:
       subject: "Votre proposition d'investissement '%{code}' n'a été sélectionnée"
+      title: "Votre projet de dépenses n'a pas été sélectionné"
       hi: "Cher(e) utilisateur(trice),"
       thanks: "Merci de nouveau pour votre participation."
       sincerely: "Cordialement,"
     evaluation_comment:
+      subject: "Nouveau commentaire d'évaluation"
+      title: Nouveau commentaire d'évaluation pour %{investment}
       hi: Bonjour
-    new_actions_notification_rake_created:
-      subject: "Plus de nouveautés à propos de votre propositions citoyenne"
-      hi: "Bonjour %{name},\n"
-      new_resource: "NOUVELLE RESSOURCE DEBLOQUÉE"
-      introduction: "Comme vous le savez, le %{created_at_day} %{created_at_month} vous avez crée une proposition en mode brouillon %{title}."
-      text_1: "Vous pouvez publier n'importe quand avec ce lien %{link_to_published}. Si vous n'êtes toujours pas sûrs..."
-      text_2: "Capturez ce moment! Apprenez, ajouter d'autres personnes avec les mêmes intêrets et préparez la diffusion dont vous aurez besoin avant de publier votre proposition définitivement."
-      text_3: "Et pour vous accompagner dans ce défi, voici les informations..."
-      text_4: "Jetez un coup d'oeil à ces NOUVELLES ACTIONS recommandées:"
-      text_5: "La prochaine action que nous vous recommandons est:"
-      footer_text: "Comme toujours, entrez dans le Panel de Propositions et nous vous expliquerons en détail comment utiliser ces ressources et comment en tirer un profit maximal."
-      dashboard_button: "Allez-y, découvrez les!"
-    new_actions_notification_rake_published:
-      subject: "Plus de nouveautés à propos de votre propositions citoyenne"
-      hi: "Bonjour %{name},"
-      new_resource: "NOUVELLE RESSOURCE DEBLOQUÉE"
-      introduction: "Comme vous le savez, le %{published_at_day} %{published_at_month} vous avez crée une proposition en mode brouillon %{title}."
-      text_1: "Vous avez reçu %{votes_count} supports jusqu'à maintenant Félicitations!"
-      text_2: "Par conséquent, vous avez accès à une nouvelle ressource pour vous aider à progresser."
-      text_3: "Il vous manque %{days_count} jours avant que votre proposition atteigne %{max_votes_count} support et puisse être soumise à un referundum. Courage et continuez à faire passer le mots. Êtes-vous à court d'idées?"
-      text_4: "NOUVELLE ACTION DE DIFFUSION RECOMMANDÉE"
-      text_5: "Et ce n'est pas tout, regardez l'action suivante:"
-      footer_text: "Comme toujours, entrez dans le Panel de Propositions et nous vous expliquerons en détail comment utiliser ces ressources et comment en tirer un profit maximal."
-      dashboard_button: "Allez-y, découvrez les!"
+      new_comment_by: Il y a un nouveau commentaire d'évaluation de <strong>%{commenter}</strong> au budget d'investissement %{investment}
+      commenter_info: "%{commenter}, %{time}:"
+    machine_learning_error:
+      link: "Visiter le panneau Machine Learning"
+      subject: "Machine Learning - Une erreur s'est produite lors de l'exécution du script"
+      text: "Une erreur s'est produite lors de l'exécution du script Machine Learning."
+      title: "Script d'apprentissage automatique"
+    machine_learning_success:
+      link: "Visiter le panneau Machine Learning"
+      subject: "Apprentissage automatique - Contenu généré avec succès"
+      text: "Le contenu a été généré avec succès."
+      title: "Script d'apprentissage automatique"
     new_actions_notification_on_create:
       subject: "Votre brouillon citoyen est crée"
       hi: "Salut %{name}!"
@@ -102,7 +106,9 @@ fr:
       list_1: "Entrez tous les jours dans le panel de votre proposition pour utiliser les astuces et ressources que vous partagerons avec vous."
       list_2: "Ces astuces, actions et ressources vous donnerons des idées et des solutions pratiques pour obtenir plus de soutien et une plus grande communauté. Ne les oubliez pas!"
       list_3: "Au fur et à mesure que vous gagnez plus de soutien, vous débloquerez de meilleures et de nouvelles ressources. Actuellement, vous avez un modèle d'e-mail que vous pouvez envoyer massivement à tous vos contacts, une affiche à imprimer, d'autres fonctionnalités et récompenses que vous allez découvrir. N'arrêtez pas de gagner du soutien et nous n'arrêterons pas de vous aider!"
+      list_4: "Vous avez %{max_month} mois à partir du moment où vous publiez votre proposition pour obtenir %{max_votes} de soutien et faire de votre proposition une réalité. Mais les premiers jours sont les plus importants. C'est un défi, préparez-vous !"
       text_5: "Et pour que vous commenciez bien motivés,"
+      text_6: "vous avez ici plusieurs ressources et toute une liste d'astuces qui viendront à vous tous les jours pour préparer la diffusion !"
       dashboard_button: "Allez-y, découvrez les!"
     new_actions_notification_on_published:
       subject: "Votre proposition citoyenne est déjà publiée N'arrêtez pas de faire passer le mot!"
@@ -119,3 +125,4 @@ fr:
       text_8: "Nous vous offrons une super ressource!"
       text_9: "Vous trouverez également cette nouvelle action recommandée de diffusion..."
       text_10: "Bien sûr, vous avez accès à plus de ressources!"
+      dashboard_button: "Allez-y, découvrez les!"

@@ -1,16 +1,4 @@
 module PollsHelper
-  def poll_select_options(include_all = nil)
-    options = @polls.map do |poll|
-      [poll.name, current_path_with_query_params(poll_id: poll.id)]
-    end
-    options << all_polls if include_all
-    options_for_select(options, request.fullpath)
-  end
-
-  def all_polls
-    [I18n.t("polls.all"), admin_questions_path]
-  end
-
   def poll_dates(poll)
     if poll.starts_at.blank? || poll.ends_at.blank?
       I18n.t("polls.no_dates")
@@ -24,21 +12,13 @@ module PollsHelper
     booth.name + location
   end
 
-  def poll_voter_token(poll, user)
-    Poll::Voter.find_by(poll: poll, user: user, origin: "web")&.token || ""
-  end
-
-  def voted_before_sign_in(question)
-    question.answers.where(author: current_user).any? { |vote| current_user.current_sign_in_at > vote.updated_at }
-  end
-
-  def link_to_poll(text, poll)
+  def link_to_poll(text, poll, options = {})
     if can?(:results, poll)
-      link_to text, results_poll_path(id: poll.slug || poll.id)
+      link_to text, results_poll_path(id: poll.slug || poll.id), options
     elsif can?(:stats, poll)
-      link_to text, stats_poll_path(id: poll.slug || poll.id)
+      link_to text, stats_poll_path(id: poll.slug || poll.id), options
     else
-      link_to text, poll_path(id: poll.slug || poll.id)
+      link_to text, poll_path(id: poll.slug || poll.id), options
     end
   end
 

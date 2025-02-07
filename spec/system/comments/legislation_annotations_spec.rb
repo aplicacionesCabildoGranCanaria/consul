@@ -116,24 +116,22 @@ describe "Commenting legislation questions" do
     expect(c1.body).to appear_before(c2.body)
     expect(c2.body).to appear_before(c3.body)
 
-    visit legislation_process_draft_version_annotation_path(legislation_annotation.draft_version.process,
-                                                            legislation_annotation.draft_version,
-                                                            legislation_annotation,
-                                                            order: :newest)
+    click_link "Newest first"
 
+    expect(page).to have_link "Newest first", class: "is-active"
+    expect(page).to have_current_path(/#comments/, url: true)
     expect(c3.body).to appear_before(c2.body)
     expect(c2.body).to appear_before(c1.body)
 
-    visit legislation_process_draft_version_annotation_path(legislation_annotation.draft_version.process,
-                                                            legislation_annotation.draft_version,
-                                                            legislation_annotation,
-                                                            order: :oldest)
+    click_link "Oldest first"
 
+    expect(page).to have_link "Oldest first", class: "is-active"
+    expect(page).to have_current_path(/#comments/, url: true)
     expect(c1.body).to appear_before(c2.body)
     expect(c2.body).to appear_before(c3.body)
   end
 
-  xscenario "Creation date works differently in roots and in child comments, even when sorting by confidence_score" do
+  scenario "Creation date works differently in roots and in child comments, even when sorting by confidence_score" do
     old_root = create(:comment, commentable: legislation_annotation, created_at: Time.current - 10)
     new_root = create(:comment, commentable: legislation_annotation, created_at: Time.current)
     old_child = create(:comment, commentable: legislation_annotation, parent_id: new_root.id, created_at: Time.current - 10)
@@ -212,6 +210,7 @@ describe "Commenting legislation questions" do
     end
 
     expect(page).to have_css(".comment", count: 3)
+    expect(page).to have_current_path(/#comments/, url: true)
   end
 
   describe "Not logged user" do
@@ -253,6 +252,25 @@ describe "Commenting legislation questions" do
     click_button "Publish comment"
 
     expect(page).to have_content "Can't be blank"
+  end
+
+  scenario "Comments are disabled when the allegations phase is closed" do
+    process = create(:legislation_process,
+                     allegations_start_date: 1.month.ago,
+                     allegations_end_date: Date.yesterday)
+
+    version = create(:legislation_draft_version, process: process)
+    annotation = create(:legislation_annotation, draft_version: version, text: "One annotation")
+
+    login_as(user)
+
+    visit legislation_process_draft_version_annotation_path(version.process, version, annotation)
+
+    within "#comments" do
+      expect(page).to have_content "Comments are closed"
+      expect(page).not_to have_content "Leave your comment"
+      expect(page).not_to have_button "Publish comment"
+    end
   end
 
   scenario "Reply" do
@@ -524,7 +542,7 @@ describe "Commenting legislation questions" do
                                                               annotation)
 
       within("#comment_#{comment.id}_votes") do
-        within(".in_favor") do
+        within(".in-favor") do
           expect(page).to have_content "1"
         end
 
@@ -542,9 +560,9 @@ describe "Commenting legislation questions" do
                                                               annotation)
 
       within("#comment_#{comment.id}_votes") do
-        find(".in_favor a").click
+        click_button "I agree"
 
-        within(".in_favor") do
+        within(".in-favor") do
           expect(page).to have_content "1"
         end
 
@@ -562,15 +580,15 @@ describe "Commenting legislation questions" do
                                                               annotation)
 
       within("#comment_#{comment.id}_votes") do
-        find(".in_favor a").click
+        click_button "I agree"
 
-        within(".in_favor") do
+        within(".in-favor") do
           expect(page).to have_content "1"
         end
 
-        find(".against a").click
+        click_button "I disagree"
 
-        within(".in_favor") do
+        within(".in-favor") do
           expect(page).to have_content "0"
         end
 
@@ -588,13 +606,13 @@ describe "Commenting legislation questions" do
                                                               annotation)
 
       within("#comment_#{comment.id}_votes") do
-        find(".in_favor a").click
-        within(".in_favor") do
+        click_button "I agree"
+        within(".in-favor") do
           expect(page).to have_content "1"
         end
 
-        find(".in_favor a").click
-        within(".in_favor") do
+        click_button "I agree"
+        within(".in-favor") do
           expect(page).not_to have_content "2"
           expect(page).to have_content "1"
         end

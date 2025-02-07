@@ -51,14 +51,14 @@ namespace :admin do
     end
   end
 
-  resources :budgets do
+  resources :budgets, except: [:create, :new] do
     member do
       patch :publish
       put :calculate_winners
     end
 
-    resources :groups, except: [:show], controller: "budget_groups" do
-      resources :headings, except: [:show], controller: "budget_headings"
+    resources :groups, except: [:index, :show], controller: "budget_groups" do
+      resources :headings, except: [:index, :show], controller: "budget_headings"
     end
 
     resources :budget_investments, only: [:index, :show, :edit, :update] do
@@ -69,7 +69,27 @@ namespace :admin do
       resources :progress_bars, except: :show, controller: "budget_investment_progress_bars"
     end
 
-    resources :budget_phases, only: [:edit, :update]
+    resources :budget_phases, only: [:edit, :update] do
+      member do
+        patch :enable
+        patch :disable
+      end
+    end
+  end
+
+  namespace :budgets_wizard do
+    resources :budgets, only: [:create, :new, :edit, :update] do
+      resources :groups, only: [:index, :create, :edit, :update, :destroy] do
+        resources :headings, only: [:index, :create, :edit, :update, :destroy]
+      end
+
+      resources :phases, as: "budget_phases", only: [:index, :edit, :update] do
+        member do
+          patch :enable
+          patch :disable
+        end
+      end
+    end
   end
 
   resources :milestone_statuses, only: [:index, :new, :create, :update, :edit, :destroy]
@@ -127,7 +147,6 @@ namespace :admin do
   scope module: :poll do
     resources :polls do
       get :booth_assignments, on: :collection
-      patch :add_question, on: :member
 
       resources :booth_assignments, only: [:index, :show, :create, :destroy] do
         get :search_booths, on: :collection
@@ -156,10 +175,11 @@ namespace :admin do
     end
 
     resources :questions, shallow: true do
-      resources :answers, except: [:index, :destroy], controller: "questions/answers" do
+      resources :answers, except: [:index, :show], controller: "questions/answers", shallow: false
+      resources :answers, only: [], controller: "questions/answers" do
         resources :images, controller: "questions/answers/images"
-        resources :videos, controller: "questions/answers/videos"
-        get :documents, to: "questions/answers#documents"
+        resources :videos, controller: "questions/answers/videos", shallow: false
+        resources :documents, only: [:index, :create], controller: "questions/answers/documents"
       end
       post "/answers/order_answers", to: "questions/answers#order_answers"
     end
@@ -258,6 +278,18 @@ namespace :admin do
   namespace :local_census_records do
     resources :imports, only: [:new, :create, :show]
   end
+
+  resource :machine_learning, controller: :machine_learning, only: [:show] do
+    post :execute, on: :collection
+    delete :cancel, on: :collection
+  end
+
+  resources :tenants, except: [:show, :destroy] do
+    member do
+      put :hide
+      put :restore
+    end
+  end
 end
 
 resolve "Milestone" do |milestone|
@@ -304,6 +336,10 @@ resolve "Poll::Officer" do |officer, options|
   [:officer, options.merge(id: officer)]
 end
 
+resolve "Poll::Question::Answer" do |answer, options|
+  [:question, :answer, options.merge(question_id: answer.question, id: answer)]
+end
+
 resolve "Poll::Question::Answer::Video" do |video, options|
-  [:video, options.merge(id: video)]
+  [:answer, :video, options.merge(answer_id: video.answer, id: video)]
 end

@@ -65,7 +65,7 @@ describe "Admin collaborative legislation", :admin do
 
       base_date = Date.current
 
-      within_fieldset text: "Draft phase" do
+      within "fieldset", text: "Draft phase" do
         check "Enabled"
         fill_in "Start", with: base_date - 3.days
         fill_in "End", with: base_date - 1.day
@@ -134,7 +134,7 @@ describe "Admin collaborative legislation", :admin do
 
       base_date = Date.current - 2.days
 
-      within_fieldset text: "Draft phase" do
+      within "fieldset", text: "Draft phase" do
         check "Enabled"
         fill_in "Start", with: base_date
         fill_in "End", with: base_date + 3.days
@@ -175,7 +175,7 @@ describe "Admin collaborative legislation", :admin do
         fill_in "End", with: base_date + 5.days
       end
 
-      imageable_attach_new_file(create(:image), Rails.root.join("spec/fixtures/files/clippy.jpg"))
+      imageable_attach_new_file(file_fixture("clippy.jpg"))
 
       click_button "Create process"
 
@@ -369,6 +369,22 @@ describe "Admin collaborative legislation", :admin do
     before do
       Setting["feature.sdg"] = true
       Setting["sdg.process.legislation"] = true
+    end
+
+    scenario "do not show SDG columns if disabled" do
+      process = create(:legislation_process, title: "Legislation process with SDG related content")
+      process.sdg_goals = [SDG::Goal[1], SDG::Goal[17]]
+
+      Setting["feature.sdg"] = false
+
+      visit admin_legislation_processes_path
+
+      expect(page).not_to have_content "Goals"
+      expect(page).not_to have_content "Targets"
+
+      within "tr", text: "Legislation process with SDG related content" do
+        expect(page).not_to have_content "1, 17"
+      end
     end
 
     scenario "create Collaborative Legislation with sdg related list" do

@@ -4,22 +4,21 @@ class Admin::Poll::PollsController < Admin::Poll::BaseController
   include ReportAttributes
   load_and_authorize_resource
 
-  before_action :load_search, only: [:search_booths, :search_officers]
   before_action :load_geozones, only: [:new, :create, :edit, :update]
 
   def index
-    @polls = Poll.not_budget.created_by_admin.order(starts_at: :desc)
+    @polls = @polls.not_budget.created_by_admin.order(starts_at: :desc)
   end
 
   def show
-    @poll = Poll.find(params[:id])
   end
 
   def new
   end
 
   def create
-    @poll = Poll.new(poll_params.merge(author: current_user))
+    @poll.author = current_user
+
     if @poll.save
       notice = t("flash.actions.create.poll")
       if @poll.budget.present?
@@ -43,18 +42,6 @@ class Admin::Poll::PollsController < Admin::Poll::BaseController
     end
   end
 
-  def add_question
-    question = ::Poll::Question.find(params[:question_id])
-
-    if question.present?
-      @poll.questions << question
-      notice = t("admin.polls.flash.question_added")
-    else
-      notice = t("admin.polls.flash.error_on_question_added")
-    end
-    redirect_to admin_poll_path(@poll), notice: notice
-  end
-
   def booth_assignments
     @polls = Poll.current.created_by_admin
   end
@@ -76,21 +63,13 @@ class Admin::Poll::PollsController < Admin::Poll::BaseController
     end
 
     def poll_params
+      params.require(:poll).permit(allowed_params)
+    end
+
+    def allowed_params
       attributes = [:name, :starts_at, :ends_at, :geozone_restricted, :budget_id, :related_sdg_list,
                     geozone_ids: [], image_attributes: image_attributes]
 
-      params.require(:poll).permit(*attributes, *report_attributes, translation_params(Poll))
-    end
-
-    def search_params
-      params.permit(:poll_id, :search)
-    end
-
-    def load_search
-      @search = search_params[:search]
-    end
-
-    def resource
-      @poll ||= Poll.find(params[:id])
+      [*attributes, *report_attributes, translation_params(Poll)]
     end
 end

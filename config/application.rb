@@ -5,9 +5,11 @@ require "rails"
 require "active_model/railtie"
 require "active_job/railtie"
 require "active_record/railtie"
-# require "active_storage/engine"
+require "active_storage/engine"
 require "action_controller/railtie"
 require "action_mailer/railtie"
+# require "action_mailbox/engine"
+# require "action_text/engine"
 require "action_view/railtie"
 require "action_cable/engine"
 require "sprockets/railtie"
@@ -19,7 +21,7 @@ Bundler.require(*Rails.groups)
 
 module Consul
   class Application < Rails::Application
-    config.load_defaults 5.2
+    config.load_defaults 6.0
 
     # Keep belongs_to fields optional by default, because that's the way
     # Rails 4 models worked
@@ -28,13 +30,28 @@ module Consul
     # Use local forms with `form_with`, so it works like `form_for`
     config.action_view.form_with_generates_remote_forms = false
 
-    # Keep disabling cache versioning until we verify it's compatible
-    # with `:dalli_store` and with the way we cache stats
-    config.active_record.cache_versioning = false
-
     # Keep using AES-256-CBC for message encryption in case it's used
-    # in any CONSUL installations
+    # in any CONSUL DEMOCRACY installations
     config.active_support.use_authenticated_message_encryption = false
+
+    # Keep using the classic autoloader until we decide how custom classes
+    # should work with zeitwerk
+    config.autoloader = :classic
+
+    # Use the default queue for ActiveStorage like we were doing with Rails 5.2
+    # because it will also be the default in Rails 6.1.
+    config.active_storage.queues.analysis = nil
+    config.active_storage.queues.purge    = nil
+
+    # Keep reading existing data in the legislation_annotations ranges column
+    config.active_record.yaml_column_permitted_classes = [ActiveSupport::HashWithIndifferentAccess, Symbol]
+
+    # Handle custom exceptions
+    config.action_dispatch.rescue_responses["FeatureFlags::FeatureDisabled"] = :forbidden
+    config.action_dispatch.rescue_responses["Apartment::TenantNotFound"] = :not_found
+
+    # Store uploaded files on the local file system (see config/storage.yml for options).
+    config.active_storage.service = :local
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
@@ -64,6 +81,7 @@ module Consul
       "id",
       "it",
       "ka",
+      "ne",
       "nl",
       "oc",
       "pl",
@@ -81,7 +99,7 @@ module Consul
       "zh-CN",
       "zh-TW"]
     config.i18n.available_locales = available_locales
-    config.i18n.fallbacks = {
+    config.i18n.fallbacks = [I18n.default_locale, {
       "ca"    => "es",
       "es-PE" => "es",
       "eu"    => "es",
@@ -91,7 +109,7 @@ module Consul
       "oc"    => "fr",
       "pt-BR" => "es",
       "val"   => "es"
-    }
+    }]
 
     config.i18n.load_path += Dir[Rails.root.join("config", "locales", "**[^custom]*", "*.{rb,yml}")]
     config.i18n.load_path += Dir[Rails.root.join("config", "locales", "custom", "**", "*.{rb,yml}")]
@@ -108,22 +126,27 @@ module Consul
     config.time_zone = "Madrid"
     config.active_job.queue_adapter = :delayed_job
 
-    # CONSUL specific custom overrides
+    # CONSUL DEMOCRACY specific custom overrides
     # Read more on documentation:
-    # * English: https://github.com/consul/consul/blob/master/CUSTOMIZE_EN.md
-    # * Spanish: https://github.com/consul/consul/blob/master/CUSTOMIZE_ES.md
+    # * English: https://github.com/consuldemocracy/consuldemocracy/blob/master/CUSTOMIZE_EN.md
+    # * Spanish: https://github.com/consuldemocracy/consuldemocracy/blob/master/CUSTOMIZE_ES.md
     #
     config.autoload_paths << "#{Rails.root}/app/components/custom"
     config.autoload_paths << "#{Rails.root}/app/controllers/custom"
+    config.autoload_paths << "#{Rails.root}/app/graphql/custom"
+    config.autoload_paths << "#{Rails.root}/app/mailers/custom"
     config.autoload_paths << "#{Rails.root}/app/models/custom"
     config.paths["app/views"].unshift(Rails.root.join("app", "views", "custom"))
+
+    # Set to true to enable managing different tenants using the same application
+    config.multitenancy = Rails.application.secrets.multitenancy
   end
 end
 
 class Rails::Engine
   initializer :prepend_custom_assets_path, group: :all do |app|
     if self.class.name == "Consul::Application"
-      %w[images fonts javascripts].each do |asset|
+      %w[images fonts].each do |asset|
         app.config.assets.paths.unshift(Rails.root.join("app", "assets", asset, "custom").to_s)
       end
     end

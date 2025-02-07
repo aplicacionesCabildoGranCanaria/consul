@@ -2,15 +2,16 @@ require "rails_helper"
 
 describe "Admin edit translatable records", :admin do
   before do
+    translatable.main_link_url = "https://consuldemocracy.org" if translatable.is_a?(Budget::Phase)
     translatable.update!(attributes)
   end
 
   let(:fields) { translatable.translated_attribute_names }
 
   let(:attributes) do
-    fields.product(%i[en es]).map do |field, locale|
+    fields.product(%i[en es]).to_h do |field, locale|
       [:"#{field}_#{locale}", text_for(field, locale)]
-    end.to_h
+    end
   end
 
   context "Add a translation" do
@@ -111,7 +112,7 @@ describe "Admin edit translatable records", :admin do
         click_button "Save changes"
 
         visit path
-        select "Português brasileiro", from: "locale-switcher"
+        select "Português brasileiro", from: "Language:"
 
         expect(page).to have_field "Questão", with: "Português"
       end
@@ -122,7 +123,7 @@ describe "Admin edit translatable records", :admin do
     let(:translatable) { create(:budget_investment) }
 
     context "Input field" do
-      let(:translatable) { create(:budget) }
+      let(:translatable) { create(:budget, main_link_url: "https://consuldemocracy.org") }
 
       scenario "Shows validation erros" do
         visit edit_admin_budget_path(translatable)
@@ -204,7 +205,7 @@ describe "Admin edit translatable records", :admin do
 
         expect(page).to have_field "Title", with: "Title in English"
 
-        select("Español", from: "locale-switcher")
+        select "Español", from: "Language:"
 
         expect(page).to have_field "Título", with: "Título corregido"
         expect(page).to have_field "Descripción", with: "Descripción corregida"
@@ -214,8 +215,8 @@ describe "Admin edit translatable records", :admin do
     end
 
     context "CKEditor fields" do
-      let(:translatable) { create(:poll_question_answer) }
-      let(:path) { edit_admin_answer_path(translatable) }
+      let(:translatable) { create(:poll_question_answer, poll: create(:poll, :future)) }
+      let(:path) { edit_admin_question_answer_path(translatable.question, translatable) }
 
       scenario "Changes the existing translation" do
         visit path
@@ -233,7 +234,7 @@ describe "Admin edit translatable records", :admin do
 
         expect(page).to have_field "Answer", with: "Answer in English"
 
-        select("Español", from: "locale-switcher")
+        select "Español", from: "Language:"
 
         expect(page).to have_field "Respuesta", with: "Respuesta corregida"
         expect(page).to have_ckeditor "Descripción", with: "Descripción corregida"
@@ -241,7 +242,7 @@ describe "Admin edit translatable records", :admin do
     end
 
     context "Change value of a translated field to blank" do
-      let(:translatable) { create(:poll) }
+      let(:translatable) { create(:poll, :future) }
       let(:path) { edit_admin_poll_path(translatable) }
 
       scenario "Updates the field to a blank value" do
@@ -354,7 +355,9 @@ describe "Admin edit translatable records", :admin do
   context "Remove all translations" do
     let(:translatable) { create(:milestone) }
 
-    scenario "Shows an error message" do
+    scenario "Shows an error message when there's a mandatory translatable field" do
+      translatable.update!(status: nil)
+
       visit admin_polymorphic_path(translatable, action: :edit)
 
       click_link "Remove language"
@@ -364,10 +367,23 @@ describe "Admin edit translatable records", :admin do
 
       expect(page).to have_content "Is mandatory to provide one translation at least"
     end
+
+    scenario "Is successful when there isn't a mandatory translatable field" do
+      translatable.update!(status: Milestone::Status.first)
+
+      visit admin_polymorphic_path(translatable, action: :edit)
+
+      click_link "Remove language"
+      click_link "Remove language"
+
+      click_button "Update milestone"
+
+      expect(page).to have_content "Milestone updated successfully"
+    end
   end
 
   context "Remove a translation with invalid data" do
-    let(:translatable) { create(:poll_question) }
+    let(:translatable) { create(:poll_question, poll: create(:poll, :future)) }
     let(:path) { edit_admin_question_path(translatable) }
 
     scenario "Doesn't remove the translation" do
@@ -465,7 +481,7 @@ describe "Admin edit translatable records", :admin do
 
       expect_to_have_language_selected "English"
 
-      select("Español", from: "locale-switcher")
+      select "Español", from: "Language:"
 
       expect_to_have_language_selected "Español"
     end

@@ -16,7 +16,7 @@ describe "Proposals" do
         expect(page).to have_content user.document_number.to_s
       end
 
-      fill_in "Proposal title", with: "Help refugees"
+      fill_in_new_proposal_title with: "Help refugees"
       fill_in "Proposal summary", with: "In summary, what we want is..."
       fill_in_ckeditor "Proposal text", with: "This is very important because..."
       fill_in "External video URL", with: "https://www.youtube.com/watch?v=yRYFKcMa_Ek"
@@ -149,7 +149,7 @@ describe "Proposals" do
       click_link "Support proposals"
 
       within(".proposals-list") do
-        click_link("Support")
+        click_button "Support"
         expect(page).to have_content "1 support"
         expect(page).to have_content "You have already supported this proposal. Share it!"
       end
@@ -164,7 +164,7 @@ describe "Proposals" do
 
       within(".proposals-list") { click_link proposal.title }
       expect(page).to have_content proposal.code
-      within("#proposal_#{proposal.id}_votes") { click_link("Support") }
+      within("#proposal_#{proposal.id}_votes") { click_button "Support" }
 
       expect(page).to have_content "1 support"
       expect(page).to have_content "You have already supported this proposal. Share it!"
@@ -214,16 +214,16 @@ describe "Proposals" do
       login_as_manager
       click_link "Print proposals"
 
-      expect(page).to have_selector(".js-order-selector[data-order='confidence_score']")
+      expect(page).to have_link "highest rated", class: "is-active"
 
       within(".proposals-list") do
         expect(best_proposal.title).to appear_before(medium_proposal.title)
         expect(medium_proposal.title).to appear_before(worst_proposal.title)
       end
 
-      select "newest", from: "order-selector"
+      click_link "newest"
 
-      expect(page).to have_selector(".js-order-selector[data-order='created_at']")
+      expect(page).to have_link "newest", class: "is-active"
 
       expect(page).to have_current_path(/order=created_at/)
       expect(page).to have_current_path(/page=1/)
@@ -241,7 +241,7 @@ describe "Proposals" do
 
       click_link "Print proposals"
       within ".proposals-list" do
-        click_link "Support"
+        click_button "Support"
       end
 
       expect(page).to have_content "To perform this action you must select a user"

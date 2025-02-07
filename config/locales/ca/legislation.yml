@@ -4,9 +4,6 @@ ca:
       comments:
         see_all: veure tots
         see_complete: veure complet
-        comments_count:
-          one: "%{count} comentari"
-          other: "%{count} comentaris"
         replies_count:
           one: "%{count} resposta"
           other: "%{count} respostes"
@@ -18,9 +15,6 @@ ca:
         title: Comentarios
         comments_about: comentaris sobre
         see_in_context: Veure en context
-        comments_count:
-          one: "%{count} comentari"
-          other: "%{count} comentaris"
       show:
         title: Comentar
       version_chooser:
@@ -54,7 +48,6 @@ ca:
           winners: seleccionada
       debate:
         empty_questions: No hi ha preguntes
-        participate: Fes les aportacions al debat previ participant en els següents temes.
       index:
         filter: Filtrar
         filters:
@@ -93,10 +86,6 @@ ca:
         form:
           leave_comment: Deixa la teva resposta
       question:
-        comments:
-          zero: Sense comentaris
-          one: "%{count} comentari"
-          other: "%{count} comentaris"
         debate: debat previ
       show:
         answer_question: Enviar resposta
@@ -118,3 +107,12 @@ ca:
         tags_label: "Categories"
       not_verified: "Per a propostes de vot %{verify_account}."
       process_title: Procés de legislació col·laborativa
+    summary:
+      title: "Resumen"
+      votes:
+        zero: "%{count} vots"
+      debate_phase: "fase prèvia"
+      proposals_phase: "Fase de propostes"
+      allegations_phase: "Fase de comentaris"
+      top_comments:
+        zero: "Sense comentaris"

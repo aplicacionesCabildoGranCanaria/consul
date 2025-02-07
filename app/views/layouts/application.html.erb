@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html lang="<%= I18n.locale %>" data-current-user-id="<%= current_user&.id %>">
+<html <%= common_html_attributes %> data-current-user-id="<%= current_user&.id %>">
   <head>
     <%= render "layouts/common_head", default_title: setting["org_name"] %>
-    <%= render "layouts/tracking_data" %>
     <%= render "layouts/meta_tags" %>
     <%= render "layouts/analytics_head" %>
     <%= content_for :canonical %>
@@ -13,9 +12,10 @@
     <%= content_for :social_media_meta_tags %>
     <%= raw setting["html.per_page_code_head"] %>
   </head>
-  <body class="<%= yield (:body_class) %>">
+  <body class="<%= yield(:body_class) %>">
     <%= raw setting["html.per_page_code_body"] %>
-    <div class="wrapper <%= yield (:wrapper_class) %>">
+
+    <div class="wrapper <%= yield(:wrapper_class) %>">
       <%= render "layouts/header", with_subnavigation: true %>
       <% if request.headers["User-Agent"] =~ /MSIE/ && cookies["ie_alert_closed"] != "true" %>
         <!--[if lt IE 9]>
@@ -40,7 +40,7 @@
       <%= yield %>
     </div>
     <div class="footer">
-      <%= render "layouts/footer" %>
+      <%= render Layout::FooterComponent.new %>
     </div>
     <%= render 'layouts/cookie_banner' %>
     <%= render "layouts/analytics_body" %>

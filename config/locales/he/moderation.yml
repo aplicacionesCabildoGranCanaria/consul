@@ -3,7 +3,6 @@ he:
     comments:
       index:
         block_authors: חסימת כותבים
-        confirm: האם את/ה בטוח/ה?
         filter: סינון
         filters:
           all: הכל
@@ -12,9 +11,8 @@ he:
         headers:
           comment: הערות
           moderate: מנחה
-        hide_comments: הסתר הערות
+        hide: הסתר הערות
         ignore_flags: סימון כמסמך שנצפה
-        order: סדר
         orders:
           flags: הנצפה ביותר
           newest: החדש ביותר
@@ -25,7 +23,6 @@ he:
     debates:
       index:
         block_authors: חסימת הכותב/ת
-        confirm: האם את/ה בטוח/ה?
         filter: סינון
         filters:
           all: הכל
@@ -34,9 +31,8 @@ he:
         headers:
           debate: דיון
           moderate: מנחה
-        hide_debates: הסתירו את הדיון
+        hide: הסתירו את הדיון
         ignore_flags: סימון כמסמך שנצפה
-        order: הזמן
         orders:
           created_at: החדש ביותר
           flags: הנצפה ביותר
@@ -53,7 +49,6 @@ he:
     proposals:
       index:
         block_authors: חסימת הכותב/ת
-        confirm: האם את/ה בטוח/ה?
         filter: סינון
         filters:
           all: הכל
@@ -62,9 +57,8 @@ he:
         headers:
           moderate: מנחה
           proposal: הצעה
-        hide_proposals: הסתרת הצעות
+        hide: הסתרת הצעות
         ignore_flags: סימון כמסמך שנצפה
-        order: הזמנה באמצעות
         orders:
           created_at: האחרון
           flags: הנצפה ביותר
@@ -72,7 +66,6 @@ he:
     budget_investments:
       index:
         block_authors: חסימת הכותב/ת
-        confirm: האם את/ה בטוח/ה?
         filter: סינון
         filters:
           all: הכל
@@ -81,9 +74,8 @@ he:
         headers:
           moderate: מנחה
           budget_investment: השקעות בתקציב
-        hide_budget_investments: הסתר השקעות תקציביות
+        hide: הסתר השקעות תקציביות
         ignore_flags: סימון כמסמך שנצפה
-        order: הזמנה באמצעות
         orders:
           created_at: האחרון
           flags: הנצפה ביותר
@@ -91,7 +83,6 @@ he:
     proposal_notifications:
       index:
         block_authors: חסימת הכותב/ת
-        confirm: האם את/ה בטוח/ה?
         filter: סינון
         filters:
           all: כולם
@@ -100,16 +91,14 @@ he:
         headers:
           moderate: מנחה
           proposal_notification: התראות להצעות
-        hide_proposal_notifications: הסתרת הצעות
+        hide: הסתרת הצעות
         ignore_flags: סימון כמסמך שנצפה
-        order: הזמנה באמצעות
         orders:
           created_at: האחרון
           moderated: מונחה
         title: הצעת התראות
     users:
       index:
-        hidden: מוסתרים
         hide: הסתרה
         search_placeholder: דוא"ל או שם משתמש
         title: חסימת משתמשים

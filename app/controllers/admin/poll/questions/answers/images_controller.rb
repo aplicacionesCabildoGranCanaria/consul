@@ -1,18 +1,18 @@
 class Admin::Poll::Questions::Answers::ImagesController < Admin::Poll::BaseController
   include ImageAttributes
 
-  before_action :load_answer, except: :destroy
+  load_and_authorize_resource :answer, class: "::Poll::Question::Answer"
+  load_and_authorize_resource only: [:destroy]
 
   def index
   end
 
   def new
-    @answer = ::Poll::Question::Answer.find(params[:answer_id])
   end
 
   def create
-    @answer = ::Poll::Question::Answer.find(params[:answer_id])
     @answer.attributes = images_params
+    authorize! :update, @answer
 
     if @answer.save
       redirect_to admin_answer_images_path(@answer),
@@ -23,7 +23,6 @@ class Admin::Poll::Questions::Answers::ImagesController < Admin::Poll::BaseContr
   end
 
   def destroy
-    @image = ::Image.find(params[:id])
     @image.destroy!
 
     respond_to do |format|
@@ -34,11 +33,10 @@ class Admin::Poll::Questions::Answers::ImagesController < Admin::Poll::BaseContr
   private
 
     def images_params
-      params.require(:poll_question_answer).permit(:answer_id,
-        images_attributes: image_attributes)
+      params.require(:poll_question_answer).permit(allowed_params)
     end
 
-    def load_answer
-      @answer = ::Poll::Question::Answer.find(params[:answer_id])
+    def allowed_params
+      [:answer_id, images_attributes: image_attributes]
     end
 end

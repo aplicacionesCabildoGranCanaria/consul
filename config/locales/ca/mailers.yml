@@ -7,15 +7,13 @@ ca:
       new_comment_by: Hi ha un nou comentari de <strong>%{commenter}</strong> en
       subject: Algú ha comentat en el teu %{commentable}
       title: Nou comentari
-    config:
-      manage_email_subscriptions: Pots deixar de rebre aquests emails canviant la teua configuració en
     email_verification:
       click_here_to_verify: en aquest enllaç
       instructions_2: Aquest correu electrònic verificarà el vostre compte <b>%{document_type} %{document_number}</b>. Si aquests no us pertanyen, no feu clic a l’enllaç anterior i ignorau aquest correu electrònic.
       instructions: Per completar la verificació del compte d’usuari, heu de fer clic %{verification_link}.
       subject: Verifica el teu email
       thanks: Moltes gràcies.
-      title: Verifica el teu compte amb el següent enllaç
+      title: "Verifica el teu compte amb el següent enllaç"
     reply:
       hi: Hola
       new_reply_by: Hi ha una nova resposta de <strong>%{commenter}</strong> al teu comentari en
@@ -26,17 +24,14 @@ ca:
       title: "Notificacions de propostes en %{org_name}"
       share: Compartir proposta
       comment: Comentar proposta
-      unsubscribe: "Si no voleu rebre cap notificació de proposta, visit %{account} i desmarqueu \"Rep un resum de les notificacions de les propostes\"."
-      unsubscribe_account: El meu compte
       unfollow: "Visita aquesta proposta i deixa-la sense deixar de rebre notificacions."
     direct_message_for_receiver:
       subject: "Has rebut un nou missatge privat"
       reply: Respondre a %{sender}
-      unsubscribe: "Si no voleu rebre missatges directes, visiteu %{account} i desmarqueu \"Rep missatges de correu electrònic sobre missatges directes\"."
-      unsubscribe_account: El meu compte
     direct_message_for_sender:
       subject: "Heu enviat un missatge privat nou"
-      title: "Heu enviat un missatge privat nou a <strong>%{receiver}</strong> amb el contingut:"
+      title: "Heu enviat un missatge privat nou"
+      text: "Heu enviat un missatge privat nou a <strong>%{receiver}</strong> amb el contingut:"
     user_invite:
       ignore: "Si no has sol·licitat aquesta invitació no et preocupes, pots ignorar aquest correu."
       text: "Gràcies per sol·licitar la inscripció %{org}! En segons pots començar a participar, només has d’omplir el formulari següent:"
@@ -78,30 +73,6 @@ ca:
       hi: Hola
       new_comment_by: Hi ha un nou comentari d'avaluació de <strong>%{commenter}</strong> a la inversió pressupostària %{investment}
       commenter_info: "%{commenter}, %{time}:"
-    new_actions_notification_rake_created:
-      subject: "Més notícies sobre la vostra proposta ciutadana"
-      hi: "Hola %{name},"
-      new_resource: "NOU RECURS SENSE BLOC"
-      introduction: "Com ja sabeu, a la web %{created_at_day} dia de la %{created_at_month} heu creat la proposta en mode d'esborrany %{title}."
-      text_1: "Sempre que vulgueu, podeu publicar en aquest enllaç: %{link_to_published}. Si encara no esteu segur..."
-      text_2: "Aprofiteu aquest moment! Apreneu, afegiu altres persones amb els mateixos interessos i prepareu la difusió que necessitareu quan publiqueu definitivament la vostra proposta."
-      text_3: "I per acompanyar-vos en aquest repte, aquí teniu les novetats..."
-      text_4: "Doneu un cop d'ull a aquesta NOVA ACCIÓ recomanada:"
-      text_5: "La següent acció que recomanem és:"
-      footer_text: "Com sempre, entra al tauler de propostes i t’explicarem amb detall com utilitzar aquests recursos i com treure’n el màxim partit."
-      dashboard_button: "Endavant, descobreix-los!"
-    new_actions_notification_rake_published:
-      subject: "Més notícies sobre la vostra proposta ciutadana"
-      hi: "Hola %{name},"
-      new_resource: "NOU RECURS SENSE BLOC"
-      introduction: "Com ja sabeu, a la web %{published_at_day} dia de la %{published_at_month} vas publicar la proposta %{title}."
-      text_1: "Bé, tens %{votes_count} suport fins ara Felicitats!"
-      text_2: "Així doncs, teniu disponible un nou recurs que us ajudarà a seguir endavant."
-      text_3: "Et trobes a faltar %{days_count} dies abans de la proposta %{max_votes_count} recolza i va a referèndum. Animar-se i seguir estenent. Et falten idees?"
-      text_4: "NOVA ACCIÓ DE DIFUSIÓ RECOMANADA"
-      text_5: "Encara n’hi ha més, consulteu l’acció següent:"
-      footer_text: "Com sempre, entra al tauler de propostes i t’explicarem amb detall com utilitzar aquests recursos i com treure’n el màxim partit."
-      dashboard_button: "Endavant, descobreix-los!"
     new_actions_notification_on_create:
       subject: "La proposta de ciutadà del projecte es crea"
       hi: "Hola %{name}!"
