@@ -1,9 +1,10 @@
 sv:
   moderation:
+    actions:
+      confirm_action: "Är du säker? %{action}"
     comments:
       index:
         block_authors: Blockera användare
-        confirm: Är du säker?
         filter: Filtrera
         filters:
           all: Alla
@@ -12,9 +13,8 @@ sv:
         headers:
           comment: Kommentar
           moderate: Moderera
-        hide_comments: Dölj kommentarer
+        hide: Dölj kommentarer
         ignore_flags: Markera som läst
-        order: Sortera efter
         orders:
           flags: Mest flaggade
           newest: Senaste
@@ -25,7 +25,6 @@ sv:
     debates:
       index:
         block_authors: Blockera förslagslämnare
-        confirm: Är du säker?
         filter: Filtrera
         filters:
           all: Alla
@@ -34,9 +33,8 @@ sv:
         headers:
           debate: Debattera
           moderate: Moderera
-        hide_debates: Dölj debatter
+        hide: Dölj debatter
         ignore_flags: Markera som läst
-        order: Sortera
         orders:
           created_at: Senaste
           flags: Mest flaggade
@@ -53,7 +51,6 @@ sv:
     proposals:
       index:
         block_authors: Blockera förslagslämnare
-        confirm: Är du säker?
         filter: Filtrera
         filters:
           all: Alla
@@ -62,9 +59,8 @@ sv:
         headers:
           moderate: Moderera
           proposal: Förslag
-        hide_proposals: Dölj förslag
+        hide: Dölj förslag
         ignore_flags: Markera som läst
-        order: Sortera efter
         orders:
           created_at: Senaste
           flags: Mest flaggade
@@ -72,7 +68,6 @@ sv:
     budget_investments:
       index:
         block_authors: Blockera användare
-        confirm: Är du säker?
         filter: Filtrera
         filters:
           all: Alla
@@ -81,9 +76,8 @@ sv:
         headers:
           moderate: Moderera
           budget_investment: Budgetförslag
-        hide_budget_investments: Dölj budgetförslag
+        hide: Dölj budgetförslag
         ignore_flags: Markera som läst
-        order: Sortera efter
         orders:
           created_at: Senaste
           flags: Mest flaggade
@@ -91,7 +85,6 @@ sv:
     proposal_notifications:
       index:
         block_authors: Blockera användare
-        confirm: Är du säker?
         filter: Filtrera
         filters:
           all: Alla
@@ -100,17 +93,19 @@ sv:
         headers:
           moderate: Moderera
           proposal_notification: Förslagsavisering
-        hide_proposal_notifications: Dölj förslag
+        hide: Dölj förslag
         ignore_flags: Markera som läst
-        order: Sortera efter
         orders:
           created_at: Senaste
           moderated: Modererad
         title: Aviseringar om förslag
     users:
       index:
-        hidden: Blockerad
+        block: Blockera
+        confirm_block: "Är du säker? Det här kommer att dölja användaren \"%{name}\" och användarens hela innehåll."
+        confirm_hide: "Är du säker? Det här kommer att dölja användaren \"%{name}\" utan att dölja användarens innehåll."
         hide: Blockera
         search_placeholder: användares e-postadress eller namn
         title: Blockera användare
+      notice_block: Användaren har blockerats. Allt innehåll som har skapats av denna användare har dolts.
       notice_hide: Användaren blockerades. Användarens alla inlägg och kommentarer har dolts.

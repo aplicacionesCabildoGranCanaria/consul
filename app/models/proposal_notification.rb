@@ -1,6 +1,7 @@
 class ProposalNotification < ApplicationRecord
   include Graphqlable
   include Notifiable
+  include Searchable
 
   belongs_to :author, class_name: "User"
   belongs_to :proposal
@@ -10,7 +11,7 @@ class ProposalNotification < ApplicationRecord
   validates :proposal, presence: true
   validate :minimum_interval
 
-  scope :public_for_api,     -> { where(proposal_id: Proposal.public_for_api.pluck(:id)) }
+  scope :public_for_api,     -> { where(proposal: Proposal.public_for_api) }
   scope :sort_by_created_at, -> { reorder(created_at: :desc) }
   scope :sort_by_moderated,  -> { reorder(moderated: :desc) }
 
@@ -55,9 +56,20 @@ class ProposalNotification < ApplicationRecord
     update(moderated: false)
   end
 
+  def searchable_values
+    {
+      title => "A",
+      body  => "B"
+    }
+  end
+
+  def self.search(terms)
+    pg_search(terms)
+  end
+
   private
 
     def set_author
-      self.update(author_id: self.proposal.author_id) if self.proposal
+      update(author_id: proposal.author_id) if proposal
     end
 end

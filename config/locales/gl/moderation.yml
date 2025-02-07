@@ -3,7 +3,6 @@ gl:
     comments:
       index:
         block_authors: Bloquear autores
-        confirm: Queres continuar?
         filter: Filtro
         filters:
           all: Todo
@@ -12,9 +11,8 @@ gl:
         headers:
           comment: Comentar
           moderate: Moderar
-        hide_comments: Ocultar comentarios
+        hide: Ocultar comentarios
         ignore_flags: Marcar como revisadas
-        order: Orde
         orders:
           flags: Máis denunciadas
           newest: Máis novos
@@ -25,7 +23,6 @@ gl:
     debates:
       index:
         block_authors: Bloquear autores/as
-        confirm: Queres continuar?
         filter: Filtro
         filters:
           all: Todo
@@ -34,9 +31,8 @@ gl:
         headers:
           debate: o debate
           moderate: Moderar
-        hide_debates: Ocultar debates
+        hide: Ocultar debates
         ignore_flags: Marcar como revisado
-        order: Orde
         orders:
           created_at: Máis novos
           flags: Máis denunciadas
@@ -53,7 +49,6 @@ gl:
     proposals:
       index:
         block_authors: Bloquear autores/as
-        confirm: Queres continuar?
         filter: Filtro
         filters:
           all: Todo
@@ -62,9 +57,8 @@ gl:
         headers:
           moderate: Moderar
           proposal: a proposta
-        hide_proposals: Ocultar propostas
+        hide: Ocultar propostas
         ignore_flags: Marcar como revisado
-        order: Ordenar por
         orders:
           created_at: Máis recentes
           flags: Máis denunciadas
@@ -72,7 +66,6 @@ gl:
     budget_investments:
       index:
         block_authors: Bloquear autores/as
-        confirm: Queres continuar?
         filter: Filtro
         filters:
           all: Todo
@@ -81,9 +74,8 @@ gl:
         headers:
           moderate: Moderar
           budget_investment: Proposta de investimento
-        hide_budget_investments: Agochar investimentos orzamentarios
+        hide: Agochar investimentos orzamentarios
         ignore_flags: Marcar como revisado
-        order: Ordenar por
         orders:
           created_at: Máis recentes
           flags: Máis denunciadas
@@ -91,7 +83,6 @@ gl:
     proposal_notifications:
       index:
         block_authors: Bloquear autores/as
-        confirm: Queres continuar?
         filter: Filtro
         filters:
           all: Todo
@@ -100,16 +91,14 @@ gl:
         headers:
           moderate: Moderar
           proposal_notification: Aviso de proposta
-        hide_proposal_notifications: Agochar propostas
+        hide: Ocultar propostas
         ignore_flags: Marcar como revisado
-        order: Ordenar por
         orders:
           created_at: Máis recentes
           moderated: Moderado
         title: Notificacións das propostas
     users:
       index:
-        hidden: Bloqueado
         hide: Bloquear
         search_placeholder: correo electrónico ou nome de usuario
         title: Bloquear usuarios

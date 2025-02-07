@@ -5,24 +5,15 @@ ka:
       erase_account_link: ჩემი ანგარიშის წაშლა
       finish_verification: ვერიფიკაციის დასრულება
       notifications: შეტყობინებები
-      organization_name_label: ორგანიზაციის დასახელება
-      organization_responsible_name_placeholder: ორგანიზაციის/ჯგუფის წარმომადგენელი
       personal: პერსონალური მონაცემები
-      phone_number_label: ტელეფონის ნომერი
       public_interests_my_title_list: იმ ელემენტების ტეგები, რომლებსაც თქვენ მიჰყვებით
       public_interests_user_title_list: იმ ელემენტების ტეგები, რომლებსაც ეს მომხმარებელი მიჰყვება
       save_changes_submit: ცვლილებების შენახვა
       recommendations: რეკომენდაციები
       title: ჩემი პროფილი
-      user_permission_debates: დებატებში მონაწილეობა
       user_permission_info: თქვენი ანგარიშით თქვენ შეგიძლიათ...
-      user_permission_proposal: ახალი ინიციატივის შექმნა
-      user_permission_support_proposal: ინიციატივებზე ხმის მიცემა
       user_permission_title: მონაწილეობა
       user_permission_verify: ყველა ფუნქციით სარგებლობისთვის, გაიარეთ ანგარიშის გადამოწმება.
-      user_permission_verify_info: "* მხოლოდ აღწერაში მონაწილე მომხმარებლებისთვის."
-      user_permission_votes: საბოლოო კენჭისყრაში მონაწილეობა
-      username_label: მომხმარებლის სახელი
       verified_account: ანგარიში გადამოწმებულია
       verify_my_account: ჩემი ანგარიშის დადასტურება
   application:
@@ -62,7 +53,6 @@ ka:
       newest: უახლესი პირველ რიგში
       oldest: უძველესი პირველ რიგში
       most_commented: ყველაზე მეტი კომენტარის მქონე
-    select_order: დალაგება
     show:
       return_to_commentable: "უკან დაბრუნება "
   comments_helper:
@@ -76,10 +66,6 @@ ka:
       form:
         submit_button: დებატის დაწყება
     debate:
-      comments:
-        zero: კომენტარები არ მოიძებნა
-        one: 1 კომენტარი
-        other: "%{count} კომენტარი"
       votes:
         zero: ხმები არ მოიძებნა
         one: 1 ხმა
@@ -90,7 +76,6 @@ ka:
         submit_button: ცვლილებების შენახვა
       show_link: დებატის ნახვა
     form:
-      debate_title: დებატების დასახელება
       tags_instructions: დებატის მონიშვნა.
       tags_placeholder: "შეიყვანეთ ის ტეგები, რომელთა გამოყენებაც გსურთ, გამოყავით ისინი მძიმით (',')"
     index:
@@ -113,10 +98,6 @@ ka:
         button: ძებნა
         placeholder: დებატების ძებნა...
         title: ძებნა
-      search_results:
-        one: " შეიცავდეს საძიებო სიტყვას <strong>%{search_term}</strong>"
-        other: " შეიცავდეს საძიებო სიტყვას <strong>%{search_term}</strong>"
-      select_order: დალაგება
       start_debate: დებატის დაწყება
       title: დებატები
       section_header:
@@ -131,8 +112,6 @@ ka:
     new:
       form:
         submit_button: დებატის დაწყება
-      info: 'თუ გსურთ ინიციატივის გაკეთება, თქვენ არასწორ ადგილას აღმოჩნდით, გადადით შემდეგ ბმულზე: %{info_link}.'
-      info_link: ახალი ინიციატივის შექმნა
       more_info: დამატებითი ინფორმაცია
       recommendation_four: გამოიყენეთ ეს სივრცე საკუთარი აზრის გამოსახატავად.
       recommendation_one: ნუ გამოიყენებთ მხოლოდ დიდ ასოებს დებატის დასასათაურებლად ან წინადადებების შესადგენად.
@@ -142,10 +121,6 @@ ka:
       start_new: დებატების დაწყება
     show:
       author_deleted: მომხმარებელი წაშლილია
-      comments:
-        zero: კომენტარები არ მოიძებნა
-        one: 1 კომენტარი
-        other: "%{count} კომენტარი"
       comments_title: კომენტარები
       edit_debate_link: რედაქტირება
       flag: მომხმარებელთა გარკვეულმა ნაწილმა ეს დებატები გაასაჩივრა.
@@ -217,8 +192,7 @@ ka:
       accessibility: ხელმისაწვდომობა
       conditions: გამოყენების წესები და პირობები
       consul: CONSUL-ის აპლიკაცია
-      consul_url: https://github.com/consul/consul
-      contact_us: ტექნიკური მხარდაჭერის მისაღებად ეწვიეთ
+      consul_url: https://github.com/consuldemocracy/consuldemocracy
       copyright: CONSUL, %{year}
       description: აღნიშნული პორტალი იყენებს %{consul}, რომელიც არის %{open_source}.
       open_source: ღია წყაროების პროგრამული უზრუნველყოფა
@@ -229,7 +203,6 @@ ka:
     header:
       administration_menu: მენიუ
       administration: ადმინისტრაცია
-      available_locales: ხელმისაწვდომი ენები
       collaborative_legislation: ერთობლივი სამოქალაქო ინიციატივა
       debates: დებატები
       locale: "ენა:"
@@ -342,7 +315,6 @@ ka:
       map_location: "ლოკაცია რუკაზე"
       map_location_instructions: "დასვით მარკერი რუკის სასურველ პოზიციაზე."
       map_remove_marker: "მარკერის წაშლა"
-      map_skip_checkbox: "ამ ინიციატივას არ აქვს ზუსტად განსაზღვრული ლოკაცია, ან მე მის შესახებ ინფორმაციას არ ვფლობ."
     index:
       featured_proposals: გამორჩეული
       orders:
@@ -380,11 +352,9 @@ ka:
       search_results:
         one: " შეიცავდეს საძიებო სიტყვას <strong>%{search_term}</strong>"
         other: " შეიცავდეს საძიებო სიტყვას <strong>%{search_term}</strong>"
-      select_order: დალაგება
       select_order_long: "ინიციატივები ნაჩვენებია:"
       start_proposal: ახალი ინიციატივის შექმნა
       title: ინიციატივები
-      top: კვირის მოწინავე
       top_link_proposals: კატეგორიის მიხედვით ყველაზე მეტი ხმის მქონე ინიციატივები
       section_header:
         icon_alt: ინიციატივების ნიშანი
@@ -412,10 +382,6 @@ ka:
         edit: "გაზიარებამდე ტექსტის შეცვლა შესაძლებელია."
         view_proposal: ახლა არა, გადავიდეთ ჩემს ინიციატივაზე
       already_supported: თქვენ უკვე მიეცით ხმა ამ ინიციატივას. შეგიძლიათ მისი გაზიარება!
-      comments:
-        zero: კომენტარები არ მოიძებნა
-        one: 1 კომენტარი
-        other: "%{count} კომენტარი"
       support: ხმის მიცემა
       support_title: ინიციატივაზე ხმის მიცემა
       supports:
@@ -434,10 +400,6 @@ ka:
     show:
       author_deleted: მომხმარებელი წაშლილია
       code: "ინიციატივის კოდი:"
-      comments:
-        zero: კომენტარები არ მოიძებნა
-        one: 1 კომენტარი
-        other: "%{count} კომენტარი"
       comments_tab: კომენტარები
       dashboard_proposal_link: მოქმედებათა დაფა
       flag: მომხმარებელთა გარკვეულმა ნაწილმა ეს ინიციატივა გაასაჩივრა.
@@ -672,14 +634,13 @@ ka:
       back: "'ჩემს აქტივობაში' დაბრუნება"
   shared:
     edit: "რედაქტირება"
+    filter: "ფილტრი"
     save: "დამახსოვრება"
     delete: "წაშლა"
     "yes": "დიახ"
     "no": "არა"
     search_results: "ძებნის შედეგები"
     advanced_search:
-      author_type: "კატეგორიის ავტორის მიხედვით"
-      author_type_blank: "კატეგორიის შერჩევა"
       date: "თარიღის მიხედვით"
       date_placeholder: "DD/MM/YYYY"
       date_range_blank: "თარიღის არჩევა"
@@ -690,7 +651,6 @@ ka:
       date_5: "პერსონალიზებული"
       from: "დან"
       general: "ტექსტით"
-      general_placeholder: "ტექსტის დაწერა"
       search: "ფილტრი"
       title: "დეტალური ძებნა"
       to: "მდე"
@@ -834,7 +794,7 @@ ka:
           one: 1 ინვესტიცია
           other: "%{count} ინვესტიცია"
         follows:
-          one: '%{count} გამომწერი'
+          one: 1 გამომწერი
           other: "%{count} გამომწერი"
       no_activity: მომხმარებელს არ განუხორციელებია რაიმე სახის საჯარო აქტივობა
       no_private_messages: "ამ მომხმარებელს არ სურს პირადი შეტყობინებების მიღება."
@@ -851,15 +811,12 @@ ka:
   votes:
     agree: ვეთანხმები
     anonymous: ზედმეტად ბევრი ანონიმური ხმაა იმისათვის, რომ ეს ხმა ჩაითვალოს %{verify_account}.
-    comment_unauthenticated: ხმის მისაცემად გაიარეთ %{signin} ან %{signup}.
     disagree: არ ვეთანხმები
     organizations: ორგანიზაციებს ხმის მიცემა არ შეუძლიათ
     supports: მხარდამჭერები
     verified_only: მხოლოდ გადამოწმებული ანგარიშის მქონე მომხმარებლებს შეუძლიათ ინიციატივაზე ხმის მიცემა; %{verify_account}.
     budget_investments:
-      not_logged_in: გასაგრძელებლად თქვენ უნდა გაიაროთ %{signin} ან %{signup}.
       not_verified: მხოლოდ გადამოწმებული ანგარიშის მქონე მომხმარებლებს შეუძლიათ საინვესტიციო პროექტებზე ხმის მიცემა; %{verify_account}.
-      organization: ორგანიზაციებს ხმის მიცემა არ შეუძლიათ
       unfeasible: არაგანხორციელებად საინვესტიციო პროექტებზე ხმის მიცემა შეუძლებელია
       not_voting_allowed: ხმის მიცემის ფაზა დასრულებულია
       different_heading_assigned:
@@ -891,23 +848,13 @@ ka:
       budget_investments:
         title: რეკომენდირებული ინვესტიციები
       slide: "იხილეთ %{title}"
-    verification:
-      i_dont_have_an_account: არ მაქვს ანგარიში
-      i_have_an_account: უკვე მაქვს ანგარიში
-      question: უკვე გაქვთ ანგარი შექმნილი %{org_name}-ში?
-      title: ანგარიშის ვერიფიკაცია
     welcome:
       go_to_index: ახლა არა, გადადით მთავარ გვერდზე
       start_using_consul: მთავარ გვერდზე გადასვლა
       title: მონაწილეობა
-      user_permission_debates: დებატებში მონაწილეობა
       user_permission_info: თქვენი ანგარიშით თქვენ შეგიძლიათ...
-      user_permission_proposal: ახალი ინიციატივების შექმნა
-      user_permission_support_proposal: ინიციატივებზე ხმის მიცემა*
       user_permission_verify: "ამ ფუნქციებით სარგებლობისათვის, დაადასტურეთ თქვენი ანგარიში."
-      user_permission_verify_info: "* მხოლოდ აღწერაში მონაწილე მომხმარებლებისთვის."
       user_permission_verify_my_account: ჩემი ანგარიშის დადასტურება
-      user_permission_votes: საბოლოო კენჭისყრაში მონაწილეობა
   invisible_captcha:
     sentence_for_humans: "თუ რობოტი არ ხართ, არ მიაქციოთ ამ ველს ყურადღება"
     timestamp_error_message: "ძალიან იჩქარეთ, გთხოვთ სცადოთ ხელახლა."
@@ -934,7 +881,7 @@ ka:
   annotator:
     help:
       alt: შეარჩიეთ ტექსტი, რომელზეც გსურთ კომენტარის გაკეთება და დააჭირეთ ღილაკს ფანქრის ნიშნით.
-      text: კომენტარის გასაკეთებლად გაიარეთ %{sign_in} ან %{sign_up}. შემდეგ მონიშნეთ ტექსტი, რომლის კომენტირებაც გსურთ და დააწექით ღილაკს ფანქრის გამოსახულებით. 
+      text: კომენტარის გასაკეთებლად გაიარეთ %{sign_in} ან %{sign_up}. შემდეგ მონიშნეთ ტექსტი, რომლის კომენტირებაც გსურთ და დააწექით ღილაკს ფანქრის გამოსახულებით.
       title: როგორ გავაკეთო კომენტარი ამ დოკუმენტზე?
   links:
     form:
@@ -944,9 +891,6 @@ ka:
       title: ბმულები
       note: საინტერესო ბმულების დამატება
       add_new_link: ახალი ბმულის დამატება
-    link_fields:
-      label_placeholder: ბმულის დასახელება
-      url_placeholder: ბმულის მისამართი
   communities:
     show:
       surveys: გამოკითხვები

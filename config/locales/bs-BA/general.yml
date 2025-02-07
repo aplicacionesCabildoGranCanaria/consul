@@ -5,24 +5,15 @@ bs:
       erase_account_link: Obriši moj profil
       finish_verification: Završi verifikaciju
       notifications: Obavijesti
-      organization_name_label: Naziv organizacije
-      organization_responsible_name_placeholder: Predstavnik organizacije/zajednice
       personal: Lični podaci
-      phone_number_label: Broj telefona
       public_interests_my_title_list: Tagovi za ono što pratim
       public_interests_user_title_list: Tagovi za ono što korisnik prati
       save_changes_submit: Spasi izmjene
       recommendations: Preporuke
       title: Moj nalog
-      user_permission_debates: Učestvuj u debatama
       user_permission_info: Sa svojim nalogom, možeš...
-      user_permission_proposal: Formulisati nove prijedloge
-      user_permission_support_proposal: Iskazati podršku za prijedloge
       user_permission_title: Učešće
       user_permission_verify: Potvrdi nalog za obavljanje svih radnji.
-      user_permission_verify_info: "* Samo za korisnike popisa."
-      user_permission_votes: Učestvujte u finalnom glasanju
-      username_label: Korisničko ime
       verified_account: Nalog potvrđen
       verify_my_account: Potvrdi moj nalog
   application:
@@ -41,6 +32,10 @@ bs:
         one: 1 odgovor
         few: "%{count} odgovora"
         other: "%{count} odgovora"
+      responses_show:
+        zero: Nema odgovora
+      responses_collapse:
+        zero: Nema odgovora
       user_deleted: Korisnik obrisan
       votes:
         zero: Nema glasova
@@ -56,7 +51,6 @@ bs:
       newest: Prvo najnovije
       oldest: Prvo najstarije
       most_commented: Najviše komentara
-    select_order: Poredaj po
     show:
       return_to_commentable: "Vrati se na "
   comments_helper:
@@ -70,11 +64,6 @@ bs:
       form:
         submit_button: Pokreni debatu
     debate:
-      comments:
-        zero: Nema komentara
-        one: 1 komentar
-        few: "%{count} komentara"
-        other: "%{count} komentara"
       votes:
         zero: Nema glasova
         one: 1 glas
@@ -86,7 +75,6 @@ bs:
         submit_button: Spasi izmjene
       show_link: Pogledaj debatu
     form:
-      debate_title: Naziv debate
       tags_instructions: Taguj debatu.
       tags_placeholder: "Unesite tagove koje želite koristiti, razdvojene zarezima (,)"
     index:
@@ -109,7 +97,6 @@ bs:
         button: Traži
         placeholder: Pretraga po debatama...
         title: Traži
-      select_order: Poredaj po
       start_debate: Pokreni debatu
       title: Debate
       section_header:
@@ -124,8 +111,6 @@ bs:
     new:
       form:
         submit_button: Pokreni debatu
-      info: Na pogrešnom ste mjestu ako želite da date prijedlog. Idite na %{info_link}.
-      info_link: formuliši novi prijedlog
       more_info: Više informacija
       recommendation_four: Uživaj u ovom prostoru i različitim glasovima koji ga prožimaju, on pripada i tebi.
       recommendation_one: Ne koristite velika slova za naziv debate, ne pišite cijele rečenice velikim slovima. Na internetu se to smatra vikanjem, a niko ne voli kad se na njega viče.
@@ -135,11 +120,6 @@ bs:
       start_new: Pokreni debatu
     show:
       author_deleted: Korisnik obrisan
-      comments:
-        zero: Nema komentara
-        one: 1 komentar
-        few: "%{count} komentara"
-        other: "%{count} komentara"
       comments_title: Komentari
       edit_debate_link: Edituj
       flag: Nekoliko korisnika je označilo debatu neprikladnom.
@@ -160,6 +140,7 @@ bs:
     direct_message: privatna poruka
     error: greška
     errors: greške
+    not_saved: "je onemogućilo da se spasi ovaj %{resource}. <br> Štrihiraj označena polja da vidiš kako ispraviti greške:"
     policy: Politika privatnosti
     proposal: Prijedlog
     proposal_notification: "Obavijest"
@@ -202,8 +183,7 @@ bs:
       accessibility: Pristupačnost
       conditions: Uvjeti korištenja
       consul: Aplikacija CONSUL
-      consul_url: https://github.com/consul/consul
-      contact_us: Posjeti za tehničku podršku
+      consul_url: https://github.com/consuldemocracy/consuldemocracy
       copyright: CONSUL, (godina) %{year}
       description: Ovaj portal koristi %{consul}, koji je %{open_source} aplikacija.
       open_source: softver otvorenog koda
@@ -214,7 +194,6 @@ bs:
     header:
       administration_menu: Admin
       administration: Administracija
-      available_locales: Dostupni jezici
       collaborative_legislation: Legislativna saradnja
       debates: Debate
       locale: "Jezik:"
@@ -280,6 +259,9 @@ bs:
       sign_in: Prijava preko Twittera
       sign_up: Otvori nalog preko Twittera
       name: Twitter
+    info:
+      sign_in: "Prijavi se preko:"
+      sign_up: "Otvori nalog preko:"
     or_fill: "Ili ispuni ovaj formular:"
   proposals:
     create:
@@ -288,6 +270,7 @@ bs:
     created:
       title: Čestitke! Napravili ste prvi korak.
       motivation: "Važno je pripremiti promotivnu kampanju kako bi vaš prijedlog bio uspješan. Prvih nekoliko dana je ključno."
+      motivation_2: "<strong> Ako želite preporuke da biste se pripremili za objavu, ostavite svoj prijedlog u formi nacrta i mi ćemo vam dati smjernice.</strong>"
       publish: Ne, želim da objavim prijedlog
       dashboard: Da, tražim pomoć, objaviću kasnije
       preview_title: Evo kako će izgledati vaš prijedlog kad ga objavite
@@ -323,7 +306,6 @@ bs:
       map_location: "Lokacija mape"
       map_location_instructions: "Idite mapom do lokacije i stavite marker."
       map_remove_marker: "Uklonite marker na mapi"
-      map_skip_checkbox: "Prijedlog nema konkretnu lokaciju, ili je ja ne vidim."
     index:
       featured_proposals: Glavni prijedlozi
       orders:
@@ -354,11 +336,13 @@ bs:
         button: Traži
         placeholder: Pretraga po prijedlozima...
         title: Traži
-      select_order: Poredaj po
+      search_results:
+        one: " sadrži pojam <strong>'%{search_term}'</strong>"
+        few: " sadrži pojam <strong>'%{search_term}'</strong>"
+        other: " sadrži pojam <strong>'%{search_term}'</strong>"
       select_order_long: "Gledate prijedloge poredane po:"
       start_proposal: Formuliši prijedlog
       title: Prijedlozi
-      top: Najpopularnije na kraju sedmice
       top_link_proposals: Prijedlozi s najvećom podrškom, poredani po kategorijama
       section_header:
         icon_alt: Ikonica za prijedloge
@@ -386,11 +370,6 @@ bs:
         edit: "Prije nego ga podijelite, možete izmjeniti tekst kako želite."
         view_proposal: Ne sada, idi na moj prijedlog
       already_supported: Već ste podržali ovaj prijedlog. Podijelite ga!
-      comments:
-        zero: Nema komentara
-        one: 1 komentar
-        few: "%{count} komentara"
-        other: "%{count} komentara"
       support: Podrška
       support_title: Podrži prijedlog
       supports:
@@ -410,11 +389,6 @@ bs:
     show:
       author_deleted: Korisnik obrisan
       code: "Šifra prijedloga:"
-      comments:
-        zero: Nema komentara
-        one: 1 komentar
-        few: "%{count} komentara"
-        other: "%{count} komentara"
       comments_tab: Komentari
       dashboard_proposal_link: Kontrolna ploča
       flag: Nekoliko korisnika je označilo prijedlog neprikladnim.
@@ -442,6 +416,7 @@ bs:
       mailing: Email
       poster: Poster
       recommended_actions: Preporučene radnje
+      related_content: Vezani sadržaj
     form:
       request: Zahtjev
     create_request:
@@ -559,6 +534,7 @@ bs:
         sent: Email je poslan
     mailer:
       forward:
+        subtitle: "Ako me podržite, <br>uradićemo to."
         support_button: Podrži ovaj prijedlog
         share_in: Uključi se
         hi: "Pozdrav!"
@@ -598,6 +574,7 @@ bs:
       back: Nazad na glasanje
       cant_answer_not_logged_in: "Morate se prijaviti %{signin} ili otvoriti nalog %{signup} da bi učestvovali."
       comments_tab: Komentari
+      cant_answer_verify: "Moraš (potvrditi link) %{verify_link} kako bi odgovorio."
       verify_link: "potvrdite svoj nalog"
       cant_answer_expired: "Ova glasačka anketa je završena."
       cant_answer_wrong_geozone: "Ovo pitanje nije dostupno na vašem području."
@@ -638,14 +615,13 @@ bs:
       back: "Vrati se na moje aktivnosti"
   shared:
     edit: "Edituj"
+    filter: "Filter (suzi pretragu)"
     save: "Spasi"
     delete: "Obriši"
     "yes": "Da"
     "no": "Ne"
     search_results: "Rezultati pretrage"
     advanced_search:
-      author_type: "Po kategoriji autora"
-      author_type_blank: "Odaberi kategoriju"
       date: "Po datumu"
       date_placeholder: "DD/MM/GGGG"
       date_range_blank: "Odaberi datum"
@@ -656,7 +632,6 @@ bs:
       date_5: "Prilagođeno"
       from: "Od"
       general: "Sa tekstom"
-      general_placeholder: "Napiši tekst"
       search: "Filter (suzi pretragu)"
       title: "Napredna pretraga"
       to: "Za"
@@ -702,6 +677,7 @@ bs:
       districts: "Okruzi"
       districts_list: "Lista okruga"
       categories: "Kategorije"
+    target_blank: " (link se otvara u novom prozoru)"
     you_are_in: "Vi ste u"
     unflag: Ukloni oznaku
     unfollow_entity: "Ne prati više %{entity}"
@@ -721,6 +697,9 @@ bs:
       title: Preporuke
       see_more: Vidi više preporuka
       hide: Sakrij preporuke
+    translations:
+      remove_language: Ukloni tekst
+      add_language: Dodaj tekst
   social:
     facebook: "%{org} Facebook"
     twitter: "%{org} Twitter"
@@ -744,6 +723,11 @@ bs:
     manage:
       all: "Nemate dozvolu da poduzmete radnju %{action} na %{subject}."
   users:
+    login_to_comment: "Morate se prijaviti %{signin} ili otvoriti nalog %{signup} kako bi napisali komentar."
+    login_to_continue: "Morate se prijaviti %{signin} ili otvoriti nalog %{signup} kako bi nastavili."
+    signin: "prijava"
+    signup: "otvaranje naloga"
+    verify_account: "potvrdite svoj nalog"
     direct_messages:
       new:
         direct_messages_bloqued: "Korisnik je odabrao da ne prima direktne poruke"
@@ -799,15 +783,12 @@ bs:
   votes:
     agree: Slažem se
     anonymous: Previše anonimnih glasova da bi se priznalo glasanje (potvrdi nalog) %{verify_account}.
-    comment_unauthenticated: Morate se prijaviti %{signin} ili otvoriti nalog %{signup} da bi glasali.
     disagree: Ne slažem se
     organizations: Organizacije ne mogu glasati
     supports: Glasovi podrške
     verified_only: Samo korisnici sa potvrđenim nalogom mogu glasati za prijedloge; %{verify_account}.
     budget_investments:
-      not_logged_in: Morate se prijaviti %{signin} ili otvoriti nalog %{signup} kako bi nastavili.
       not_verified: Samo korisnici sa potvrđenim nalogom mogu glasati za investicione projekte; %{verify_account}.
-      organization: Organizacije ne mogu glasati
       unfeasible: Neizvodivi investicioni projekti ne mogu dobiti podršku
       not_voting_allowed: Faza glasanja je završena
       different_heading_assigned:
@@ -840,23 +821,13 @@ bs:
       budget_investments:
         title: Preporučene investicije
       slide: "Vidi %{title}"
-    verification:
-      i_dont_have_an_account: Nemam nalog
-      i_have_an_account: Imam nalog
-      question: Imate nalog u %{org_name}?
-      title: Potvrda naloga
     welcome:
       go_to_index: Ne sada, idi na indeksnu stranicu
       start_using_consul: Idi na indeksnu stranicu
       title: Učestvuj
-      user_permission_debates: Učestvuj u debatama
       user_permission_info: Sa svojim nalogom, možeš...
-      user_permission_proposal: Formulisati nove prijedloge
-      user_permission_support_proposal: Dati podršku prijedlozima*
       user_permission_verify: "Potvrdi nalog za obavljanje sljedećih radnji."
-      user_permission_verify_info: "* Samo za korisnike popisa."
       user_permission_verify_my_account: Potvrdi moj nalog
-      user_permission_votes: Učestvuj u finalnom glasanju
   invisible_captcha:
     sentence_for_humans: "Ako ste ljudsko biće, zanemarite ovo polje"
     timestamp_error_message: "To je bilo prebrzo! Podnesi ponovo."
@@ -893,9 +864,6 @@ bs:
       title: Linkovi
       note: Dodaj relevantne linkove
       add_new_link: Dodaj novi link
-    link_fields:
-      label_placeholder: Link za naziv
-      url_placeholder: Link za adresu
   communities:
     show:
       surveys: Ankete

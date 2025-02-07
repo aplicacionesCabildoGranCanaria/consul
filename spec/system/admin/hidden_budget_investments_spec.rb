@@ -18,7 +18,7 @@ describe "Admin hidden budget investments", :admin do
 
     visit admin_hidden_budget_investments_path
 
-    accept_confirm { click_link "Restore" }
+    accept_confirm { click_button "Restore" }
 
     expect(page).not_to have_content(investment.title)
 
@@ -31,10 +31,9 @@ describe "Admin hidden budget investments", :admin do
     investment = create(:budget_investment, :hidden, heading: heading)
     visit admin_hidden_budget_investments_path
 
-    click_link("Pending")
     expect(page).to have_content(investment.title)
 
-    click_link "Confirm moderation"
+    click_button "Confirm moderation"
 
     expect(page).not_to have_content(investment.title)
 
@@ -44,18 +43,18 @@ describe "Admin hidden budget investments", :admin do
 
   scenario "Current filter is properly highlighted" do
     visit admin_hidden_budget_investments_path
-    expect(page).not_to have_link("All")
-    expect(page).to have_link("Pending")
-    expect(page).to have_link("Confirmed")
-
-    visit admin_hidden_budget_investments_path(filter: "without_confirmed_hide")
+    expect(page).not_to have_link("Pending")
     expect(page).to have_link("All")
     expect(page).to have_link("Confirmed")
-    expect(page).not_to have_link("Pending")
+
+    visit admin_hidden_budget_investments_path(filter: "all")
+    expect(page).to have_link("Pending")
+    expect(page).not_to have_link("All")
+    expect(page).to have_link("Confirmed")
 
     visit admin_hidden_budget_investments_path(filter: "with_confirmed_hide")
-    expect(page).to have_link("All")
     expect(page).to have_link("Pending")
+    expect(page).to have_link("All")
     expect(page).not_to have_link("Confirmed")
   end
 
@@ -82,7 +81,7 @@ describe "Admin hidden budget investments", :admin do
 
     visit admin_hidden_budget_investments_path(filter: "with_confirmed_hide", page: 2)
 
-    accept_confirm { click_link "Restore", match: :first, exact: true }
+    accept_confirm { click_button "Restore", match: :first, exact: true }
 
     expect(page).to have_current_path(/filter=with_confirmed_hide/)
     expect(page).to have_current_path(/page=2/)

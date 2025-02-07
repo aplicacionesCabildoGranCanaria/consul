@@ -10,10 +10,10 @@ describe DirectUpload do
     end
 
     it "is not valid for different kind of combinations with invalid atttachment content types" do
-      expect(build(:direct_upload, :proposal, :documents, attachment: File.new("spec/fixtures/files/clippy.png"))).not_to be_valid
-      expect(build(:direct_upload, :proposal, :image, attachment: File.new("spec/fixtures/files/empty.pdf"))).not_to be_valid
-      expect(build(:direct_upload, :budget_investment, :documents, attachment: File.new("spec/fixtures/files/clippy.png"))).not_to be_valid
-      expect(build(:direct_upload, :budget_investment, :image, attachment: File.new("spec/fixtures/files/empty.pdf"))).not_to be_valid
+      expect(build(:direct_upload, :proposal, :documents, attachment: fixture_file_upload("clippy.png"))).not_to be_valid
+      expect(build(:direct_upload, :proposal, :image, attachment: fixture_file_upload("empty.pdf"))).not_to be_valid
+      expect(build(:direct_upload, :budget_investment, :documents, attachment: fixture_file_upload("clippy.png"))).not_to be_valid
+      expect(build(:direct_upload, :budget_investment, :image, attachment: fixture_file_upload("empty.pdf"))).not_to be_valid
     end
 
     it "is not valid without resource_type" do
@@ -34,25 +34,14 @@ describe DirectUpload do
   end
 
   context "save_attachment" do
-    it "saves uploaded file" do
-      proposal_document_direct_upload = build(:direct_upload, :proposal, :documents)
+    it "saves uploaded file without creating an attachment record" do
+      direct_upload = build(:direct_upload, :proposal, :documents)
 
-      proposal_document_direct_upload.save_attachment
+      direct_upload.save_attachment
 
-      expect(File.exist?(proposal_document_direct_upload.relation.attachment.path)).to eq(true)
-      expect(proposal_document_direct_upload.relation.attachment.path).to include("cached_attachments")
-    end
-  end
-
-  context "destroy_attachment" do
-    it "removes uploaded file" do
-      proposal_document_direct_upload = build(:direct_upload, :proposal, :documents)
-
-      proposal_document_direct_upload.save_attachment
-      uploaded_path = proposal_document_direct_upload.relation.attachment.path
-      proposal_document_direct_upload.destroy_attachment
-
-      expect(File.exist?(uploaded_path)).to eq(false)
+      expect(File.exist?(direct_upload.relation.file_path)).to be true
+      expect(direct_upload.relation.attachment.blob).to be_persisted
+      expect(direct_upload.relation.attachment.attachment).not_to be_persisted
     end
   end
 end

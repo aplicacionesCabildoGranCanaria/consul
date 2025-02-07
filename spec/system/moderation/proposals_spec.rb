@@ -10,7 +10,7 @@ describe "Moderate proposals" do
     visit proposal_path(proposal)
 
     within("#proposal_#{proposal.id}") do
-      accept_confirm { click_link "Hide" }
+      accept_confirm("Are you sure? Hide") { click_button "Hide" }
     end
 
     expect(page).to have_css("#proposal_#{proposal.id}.faded")
@@ -29,8 +29,8 @@ describe "Moderate proposals" do
     visit proposal_path(proposal)
 
     within("#proposal_#{proposal.id}") do
-      expect(page).to have_link("Hide")
-      expect(page).not_to have_link("Block author")
+      expect(page).to have_button "Hide"
+      expect(page).not_to have_button "Block author"
     end
   end
 
@@ -56,7 +56,7 @@ describe "Moderate proposals" do
         end
 
         scenario "Hide the proposal" do
-          accept_confirm { click_button "Hide proposals" }
+          accept_confirm("Are you sure? Hide proposals") { click_button "Hide proposals" }
 
           expect(page).not_to have_css("#proposal_#{proposal.id}")
 
@@ -65,12 +65,12 @@ describe "Moderate proposals" do
           click_button "Search"
 
           within "tr", text: proposal.author.name do
-            expect(page).to have_link "Block"
+            expect(page).to have_button "Block"
           end
         end
 
         scenario "Block the author" do
-          accept_confirm { click_button "Block authors" }
+          accept_confirm("Are you sure? Block authors") { click_button "Block authors" }
 
           expect(page).not_to have_css("#proposal_#{proposal.id}")
 
@@ -114,9 +114,10 @@ describe "Moderate proposals" do
 
         visit moderation_proposals_path(filter: "all", page: "2", order: "created_at")
 
-        accept_confirm { click_button "Mark as viewed" }
+        accept_confirm("Are you sure? Mark as viewed") { click_button "Mark as viewed" }
 
-        expect(page).to have_selector(".js-order-selector[data-order='created_at']")
+        expect(page).to have_link "Most recent", class: "is-active"
+        expect(page).to have_link "Most flagged"
 
         expect(page).to have_current_path(/filter=all/)
         expect(page).to have_current_path(/page=2/)
@@ -178,8 +179,8 @@ describe "Moderate proposals" do
     end
 
     scenario "sorting proposals" do
-      flagged_proposal = create(:proposal, title: "Flagged proposal", created_at: Time.current - 1.day, flags_count: 5)
-      flagged_new_proposal = create(:proposal, title: "Flagged new proposal", created_at: Time.current - 12.hours, flags_count: 3)
+      flagged_proposal = create(:proposal, title: "Flagged proposal", created_at: 1.day.ago, flags_count: 5)
+      flagged_new_proposal = create(:proposal, title: "Flagged new proposal", created_at: 12.hours.ago, flags_count: 3)
       newer_proposal = create(:proposal, title: "Newer proposal", created_at: Time.current)
 
       visit moderation_proposals_path(order: "created_at")

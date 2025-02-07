@@ -1,7 +1,10 @@
 fr:
   pages:
+    census_terms:
+      title: "Modalités et conditions d'accès au Registre"
+      description: "Page d'information sur les modalités d'accès au Registre."
     conditions:
-      title: Conditions légales
+      title: Termes et conditions d'utilisation
       subtitle: AVIS JURIDIQUE SUR LES CONDITIONS D’UTILISATION, CONFIDENTIALITÉ ET PROTECTION DES DONNÉES PERSONNELLES DU PORTAIL
       description: Page d’information sur les conditions d’utilisation, de confidentialité et de protection des données personnelles.
     help:
@@ -18,6 +21,7 @@ fr:
         title: "Débats"
         description: "Dans la section %{link}, vous pouvez présenter et partager votre opinion avec d’autres personnes sur des sujets liés à la ville qui vous sont chers. C’est aussi un lieu pour générer des idées qui, associées aux autres sections de %{org}, pourront conduire à des actions concrètes du conseil municipal."
         link: "débats citoyens"
+        feature: "Vous pouvez ouvrir des débats, les commenter et les évaluer avec les boutons <strong>Je suis d'accord</strong> ou <strong>Je ne suis pas d’accord</strong>. Pour cela, vous devez %{link}."
         feature_link: "s’inscrire à %{org}"
         image_alt: "Boutons pour noter les débats"
         figcaption: 'Les boutons ''Je suis d''accord'' et ''Je ne suis pas d''accord'' pour noter les débats.'
@@ -26,11 +30,13 @@ fr:
         description: "Dans la section %{link}, vous pouvez faire des propositions que la mairie pourrait réaliser. Les propositions ont besoin de soutiens, et si elles atteignent un nombre suffisant, elles sont soumises à un vote public. Les propositions approuvées par ces votes citoyens sont acceptées par le conseil municipal et réalisées."
         link: "propositions citoyennes"
         image_alt: "Bouton pour supporter une proposition"
+        figcaption: 'Bouton pour "Soutenir" une proposition.'
       budgets:
         title: "Budgets participatifs"
         description: "La section %{link} permet aux citoyens de participer à la répartition du budget municipal."
         link: "budgets participatifs"
         image_alt: "Différentes phases d'un budget participatif"
+        figcaption: '"Phase de soutien" et "phase de vote" des budgets participatifs.'
       polls:
         title: "Votes"
         description: "La section %{link} est activée chaque fois qu’une proposition atteint 1% de soutiens et passe au vote ou lorsque le conseil municipal propose aux gens de se prononcer sur une mesure."
@@ -41,6 +47,8 @@ fr:
         title: "Processus"
         description: "Dans la section des %{link} , les citoyens participent à l’élaboration et la modification des réglements qui s'appliquent à la ville et peuvent donner leur avis sur les politiques municipales lors des débats préalables."
         link: "processus législatifs"
+        feature: "Pour participer aux processus, vous devez %{link} et vérifier votre compte."
+        feature_link: "s’inscrire à %{org_name}"
       faq:
         title: "Problèmes techniques ?"
         description: "Lisez la FAQ et trouvez la réponse à vos questions."
@@ -51,13 +59,14 @@ fr:
       other:
         title: "Autre information utile"
         how_to_use: "Utiliser %{org_name} dans votre ville"
+        sdg: "Aide Objectifs de développement durable"
       how_to_use:
         text: |-
           Utilisez-le pour votre administration locale ou aidez-nous à l'améliorer, il s'agit d'un logiciel libre.
 
-          Ce Portail Gouvernement Ouvert est basé sur l'application [CONSUL](https://github.com/consul/consul 'consul github'), un logiciel libre publié sous [licence AGPLv3](http://www.gnu.org/licenses/agpl-3.0.html 'AGPLv3 gnu' ), ce qui signifie que n'importe qui peut utiliser le code librement, le copier, le parcourir, le modifier et le redistribuer (pour permettre à d'autres d'en faire autant). Parce que nous croyons en une culture qui s'enrichit et se renforce quand elle est ouverte à tous.
+          Ce Portail Gouvernement Ouvert est basé sur l'application [CONSUL](https://github.com/consuldemocracy/consuldemocracy 'consul democracy github'), un logiciel libre publié sous [licence AGPLv3](http://www.gnu.org/licenses/agpl-3.0.html 'AGPLv3 gnu' ), ce qui signifie que n'importe qui peut utiliser le code librement, le copier, le parcourir, le modifier et le redistribuer (pour permettre à d'autres d'en faire autant). Parce que nous croyons en une culture qui s'enrichit et se renforce quand elle est ouverte à tous.
 
-          Si vous êtes un développeur, vous pouvez accéder au code et nous aider à l'améliorer à [CONSUL](https://github.com/consul/consul 'consul github').
+          Si vous êtes un développeur, vous pouvez accéder au code et nous aider à l'améliorer à [CONSUL](https://github.com/consuldemocracy/consuldemocracy 'consul democracy github').
       titles:
         how_to_use: Utilisez-le pour votre gouvernement
     privacy:
@@ -66,7 +75,7 @@ fr:
     accessibility:
       title: Accessibilité
       description: |-
-        L'accessibilité du Web se réfère à la possibilité d'accès au Web et à ses contenus par toutes les personnes, indépendamment des handicaps (physiques, intellectuels ou techniques) qui peuvent survenir ou de ceux qui découlent du contexte d'utilisation (technologique ou environnemental). 
+        L'accessibilité du Web se réfère à la possibilité d'accès au Web et à ses contenus par toutes les personnes, indépendamment des handicaps (physiques, intellectuels ou techniques) qui peuvent survenir ou de ceux qui découlent du contexte d'utilisation (technologique ou environnemental).
 
         Lorsque les sites Web sont conçus en tenant compte de l'accessibilité, tous les utilisateurs peuvent accéder au contenu dans les mêmes conditions, par exemple :
       examples:
@@ -154,6 +163,7 @@ fr:
               description_column: Diminue la taille du texte
       compatibility:
         title: Compatibilité avec les normes et la conception visuelle
+        description: 'Toutes les pages de ce site Web sont conformes aux <strong>Directives d''accessibilité</strong> ou aux principes généraux de conception accessible établis par le groupe de travail <abbr title="Web Accessibility Initiative" lang="fr">WAI</abbr> appartenant à W3C.'
     titles:
       help: "Qu'est-ce que %{org} ? - Participation citoyenne"
     verify:

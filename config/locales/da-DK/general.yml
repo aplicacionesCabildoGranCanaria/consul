@@ -5,30 +5,24 @@ da:
       erase_account_link: Slet min konto
       finish_verification: Færdiggør verificering
       notifications: Notifikationer
-      organization_name_label: Navn på organisation
-      organization_responsible_name_placeholder: Repræsentant for organisationen/gruppen
       personal: Personlige oplysninger
-      phone_number_label: Telefonnummer
       public_interests_my_title_list: Tags jeg følger
       public_interests_user_title_list: Tags denne bruger følger
       save_changes_submit: Gem ændringer
       recommendations: Anbefalinger
       title: Min konto
-      user_permission_debates: Deltage i debat
       user_permission_info: Med din konto kan du...
-      user_permission_proposal: Oprette nye forslag
-      user_permission_support_proposal: Støtte op om forslag
       user_permission_title: Deltage
       user_permission_verify: For at kunne foretage handlingerne, skal din konto være verificeret.
-      user_permission_verify_info: "* Kun for brugere af Census."
-      user_permission_votes: Deltage i den endelige afstemning
-      username_label: Brugernavn
       verified_account: Konto verificeret
       verify_my_account: Verificer min konto
   application:
     close: Luk
     menu: Menu
   comments:
+    actions:
+      confirm_delete: "Er du sikker? Denne handling vil slette din kommentar."
+      delete: "Slet kommentar"
     comments_closed: Lukket for kommentarer
     verified_only: For at deltage %{verify_account}
     comment:
@@ -62,7 +56,6 @@ da:
       newest: Nyeste først
       oldest: Ældste først
       most_commented: Flest kommentarer
-    select_order: Sorter efter
     show:
       return_to_commentable: "Gå tilbage til "
   comments_helper:
@@ -76,10 +69,6 @@ da:
       form:
         submit_button: Start en debat
     debate:
-      comments:
-        zero: Ingen kommentarer
-        one: 1 kommentar
-        other: "%{count} kommentarer"
       votes:
         zero: Ingen stemmer
         one: 1 stemme
@@ -90,7 +79,6 @@ da:
         submit_button: Gem ændringer
       show_link: Se debatindlæg
     form:
-      debate_title: Titel på debatindlæg
       tags_instructions: Tag denne debat.
       tags_placeholder: "Tilføj de tags du gerne vil anvende og adskil dem med komma (',')"
     index:
@@ -113,10 +101,6 @@ da:
         button: Søg
         placeholder: Søg debatindlæg...
         title: Søg
-      search_results:
-        one: " som indeholder <strong>'%{search_term}'</strong>"
-        other: " som indeholder <strong>'%{search_term}'</strong>"
-      select_order: Sorter efter
       start_debate: Start en debat
       title: Debatforum
       section_header:
@@ -131,8 +115,6 @@ da:
     new:
       form:
         submit_button: Start en debat
-      info: Hvis du ønsker at oprette et forslag, befinder du dig i den forkerte sektion, klik på %{info_link}.
-      info_link: opret et forslag
       more_info: Flere oplysninger
       recommendation_four: Tag del i debatten. Den tilhører også dig.
       recommendation_one: Anvend ikke udelukkende store bogstaver i debattitlen eller i hele sætninger. På internettet betragtes dette som råberi. Og ingen kan lide at blive råbt af.
@@ -142,10 +124,6 @@ da:
       start_new: Start en debat
     show:
       author_deleted: Bruger slettet
-      comments:
-        zero: Ingen kommentarer
-        one: 1 kommentar
-        other: "%{count} kommentarer"
       comments_title: Kommentarer
       edit_debate_link: Rediger
       flag: Denne debat er blevet markeret som upassende af flere brugere.
@@ -156,8 +134,13 @@ da:
         submit_button: Gem ændringer
   errors:
     messages:
+      allowed_file_content_types: "indholdstype skal være af %{types}"
       user_not_found: Brugeren blev ikke fundet
       invalid_date_range: "Ugyldigt datointerval"
+      past_date: "Må ikke være en udløbet dato"
+      cannot_change_date:
+        poll_started: "Kan ikke ændres, hvis afstemning er startet"
+        poll_ended: "Kan ikke ændres, hvis afstemning er slut"
   form:
     accept_terms: Jeg accepterer %{policy} og %{conditions}
     accept_terms_title: Jeg accepterer Persondatapolitikken og Brugervilkår
@@ -190,6 +173,7 @@ da:
     local_census_records/import: Lokal census data import
     site_customization/content_block: indholdsblok
     site_customization/page: side
+    sdg/local_target: lokale delmål
   geozones:
     none: Hele byen
   layouts:
@@ -217,8 +201,7 @@ da:
       accessibility: Tilgængelighed
       conditions: Brugervilkår og betingelser
       consul: Consul programmet
-      consul_url: https://github.com/consul/consul
-      contact_us: For teknisk assistance besøg
+      consul_url: https://github.com/consuldemocracy/consuldemocracy
       copyright: CONSUL, %{year}
       description: Denne portal anvender %{consul}, som er en %{open_source}.
       open_source: open-source software
@@ -229,7 +212,6 @@ da:
     header:
       administration_menu: Admin
       administration: Administration
-      available_locales: Sprog
       collaborative_legislation: Kollaborativ lovgivning
       debates: Debatforum
       locale: "Sprog:"
@@ -250,6 +232,7 @@ da:
           one: Du har en ny notifikation
           other: Du har %{count} nye notifikationer
         notifications: Notifikationer
+      sdg: "Verdensmål"
   notifications:
     index:
       empty_notifications: Du har ingen nye notifikationer.
@@ -295,6 +278,9 @@ da:
       sign_in: Log ind med Twitter
       sign_up: Tilmeld dig via Twitter
       name: Twitter
+    info:
+      sign_in: "Log ind med:"
+      sign_up: "Tilmeld dig med:"
     or_fill: "Eller udfyld nedenstående formular:"
   proposals:
     create:
@@ -339,7 +325,6 @@ da:
       map_location: "Lokation"
       map_location_instructions: "Naviger kortet til den rette lokation og placer markøren."
       map_remove_marker: "Flyt markøren"
-      map_skip_checkbox: "Dette forslag omhandler ikke en specifik lokation, eller også kender jeg ikke til den."
     index:
       featured_proposals: Vist
       orders:
@@ -377,11 +362,9 @@ da:
       search_results:
         one: " indeholder betegnelserne <strong>'%{search_term}'</strong>"
         other: " indeholder betegnelserne <strong>'%{search_term}'</strong>"
-      select_order: Sorter efter
       select_order_long: "Forslag i henhold til:"
       start_proposal: Opret et borgerforslag
       title: Borgerforslag
-      top: Ugens mest populære forslag
       top_link_proposals: Mest populære forslag fra hver kategori
       section_header:
         icon_alt: Forslagsikon
@@ -409,11 +392,8 @@ da:
         edit: "Før forslaget deles har du mulighed for at ændre i teksten."
         view_proposal: Ikke nu, gå til mit forslag
       already_supported: Du har allerede støttet dette forslag. Del det!
-      comments:
-        zero: Ingen kommentarer
-        one: 1 kommentar
-        other: "%{count} kommentarer"
       support: Støt
+      support_label: "Støt %{proposal}"
       support_title: Støt dette forslag
       supports:
         zero: Ingen støtte
@@ -431,10 +411,6 @@ da:
     show:
       author_deleted: Bruger slettet
       code: "Forslagskode:"
-      comments:
-        zero: Ingen kommentarer
-        one: 1 kommentar
-        other: "%{count} kommentarer"
       comments_tab: Kommentarer
       dashboard_proposal_link: Dashboard
       flag: Dette forslag er blevet markeret som upassende af flere brugere.
@@ -659,6 +635,10 @@ da:
     show:
       vote_answer: "Stem %{answer}"
       voted: "Du har stemt %{answer}"
+    description:
+      unique: "Du kan maksimalt vælge et svar."
+      multiple: "Du kan maksimalt vælge %{maximum} svar."
+    read_more_about: "Læs mere om:"
   proposal_notifications:
     new:
       title: "Send besked"
@@ -669,14 +649,13 @@ da:
       back: "Gå tilbage til min aktivitet"
   shared:
     edit: "Rediger"
+    filter: "Filtrere"
     save: "Gem"
     delete: "Slet"
     "yes": "Ja"
     "no": "Nej"
     search_results: "Søgeresultater"
     advanced_search:
-      author_type: "Sorteret efter brugere"
-      author_type_blank: "Vælg en kategori"
       date: "Efter dato"
       date_placeholder: "DD/MM/ÅÅÅÅ"
       date_range_blank: "Vælg en dato"
@@ -687,8 +666,11 @@ da:
       date_5: "Brugertilpasset"
       from: "Fra"
       general: "Med teksten"
-      general_placeholder: "Skriv tekst"
+      goal: "Efter Verdensmål"
+      goal_blank: "Vælg et mål"
       search: "Filtre"
+      target: "Efter mål"
+      target_blank: "Vælg et mål"
       title: "Avanceret søgning"
       to: "Til"
     author_info:
@@ -770,6 +752,12 @@ da:
         zero: "0 sprog i brug"
         one: "1 sprog i brug"
         other: "%{count} sprog i brug"
+    optional: "Valgfrit"
+    required: "Påkrævet"
+    comments:
+      zero: "Ingen kommentarer"
+      one: "1 kommentar"
+      other: "%{count} kommentarer"
   social:
     facebook: "%{org} Facebook"
     twitter: "%{org} Twitter"
@@ -847,16 +835,15 @@ da:
       retired_help_text: Dashboardet er ikke tilgængeligt for forslag, der er trukket tilbage
   votes:
     agree: Jeg er enig
+    agree_label: "Jeg er enig med %{title}"
     anonymous: For mange anonyme stemmer til at godkende stemme %{verify_account}.
-    comment_unauthenticated: Du skal %{signin} eller %{signup} for at stemme.
     disagree: Jeg er uenig
+    disagree_label: "Jeg er ikke enig med %{title}"
     organizations: Det er ikke tilladt for organisationer at stemme
     supports: Støtte
     verified_only: Kun verificerede brugere kan stemme på forslag; %{verify_account}.
     budget_investments:
-      not_logged_in: Du skal %{signin} eller %{signup} for at fortsætte.
       not_verified: Kun verificerede brugere kan stemme på projektidéer; %{verify_account}.
-      organization: Det er ikke tilladt for organisationer at stemme
       unfeasible: Du kan ikke støtte op om projekter, der ikke kan gennemføres
       not_voting_allowed: Afstemningsfasen er afsluttet
       different_heading_assigned:
@@ -892,23 +879,13 @@ da:
       budget_investments:
         title: Projekter, der kunne have din interesse
       slide: "Se %{title}"
-    verification:
-      i_dont_have_an_account: Jeg er ikke tilmeldt
-      i_have_an_account: Jeg er allerede tilmeldt
-      question: Har du allerede en konto i %{org_name}?
-      title: Kontoverificering
     welcome:
       go_to_index: Se borgerforslag og debatindlæg
       start_using_consul: Gå til indekssiden
       title: Deltag
-      user_permission_debates: Deltage i debatten
       user_permission_info: Med din konto kan du...
-      user_permission_proposal: Oprette nye borgerforslag
-      user_permission_support_proposal: Støtte op om borgerforslag*
       user_permission_verify: "For at kunne foretage handlingerne, skal din konto være verificeret."
-      user_permission_verify_info: "* Kun for byens beboere."
       user_permission_verify_my_account: Verificer min konto
-      user_permission_votes: Deltage i den endelige afstemning
   invisible_captcha:
     sentence_for_humans: "Hvis du er menneske, så kan du ignorere dette felt"
     timestamp_error_message: "Åh, det gik lidt for hurtigt! Prøv igen."
@@ -920,6 +897,7 @@ da:
     help: "Du kan tilføje links af %{models} inden for %{org}."
     submit: "Tilføj"
     error: "Linket er ikke gyldigt. Husk at begynde med %{url}."
+    error_duplicate: "Det indhold du tilføjer eksisterer allerede."
     error_itself: "Linket er ikke gyldigt. Du kan ikke relatere indholdet til sig selv."
     success: "Du har tilføjet nyt relateret indhold"
     is_related: "Er det relateret indhold?"
@@ -945,9 +923,6 @@ da:
       title: Links
       note: Tilføj de links. der kan have interesse
       add_new_link: Tilføj nyt link
-    link_fields:
-      label_placeholder: Titel på link
-      url_placeholder: Link
   communities:
     show:
       surveys: Undersøgelser
@@ -963,7 +938,11 @@ da:
       enqueue_remote_translation: Oversættelser er blevet korrekt anmodet.
     button: Oversæt side
   tags:
-    filter:
-      more:
-        one: "Et tag mere"
-        other: "%{count} flere tags"
+    list:
+      filter:
+        more:
+          one: "Et tag mere"
+          other: "%{count} flere tags"
+  machine_learning:
+    comments_summary: "Kommentar resume"
+    info_text: "Indhold generet af AI"

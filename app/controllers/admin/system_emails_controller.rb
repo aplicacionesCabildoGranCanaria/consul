@@ -43,6 +43,7 @@ class Admin::SystemEmailsController < Admin::BaseController
     case @system_email
     when "proposal_notification_digest"
       @previews = ProposalNotification.where(id: unsent_proposal_notifications_ids)
+                                      .order(:id)
                                       .page(params[:page])
     end
   end
@@ -103,7 +104,7 @@ class Admin::SystemEmailsController < Admin::BaseController
       comment = Comment.where(commentable_type: "Budget::Investment").last
       if comment
         @email = EvaluationCommentEmail.new(comment)
-        @email_to = @email.to.first
+        @email_to = @email.to.first || current_user
       else
         redirect_to admin_system_emails_path,
                     alert: t("admin.system_emails.alert.no_evaluation_comments")

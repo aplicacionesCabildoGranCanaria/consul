@@ -14,6 +14,7 @@ describe Abilities::Common do
   let(:own_debate)   { create(:debate,   author: user) }
   let(:own_comment)  { create(:comment,  author: user) }
   let(:own_proposal) { create(:proposal, author: user) }
+  let(:own_legislation_proposal) { create(:legislation_proposal, author: user) }
 
   let(:accepting_budget) { create(:budget, :accepting) }
   let(:reviewing_budget) { create(:budget, :reviewing) }
@@ -68,7 +69,6 @@ describe Abilities::Common do
   it { should     be_able_to(:index, Proposal) }
   it { should     be_able_to(:show, proposal) }
   it { should_not be_able_to(:vote, Proposal) }
-  it { should_not be_able_to(:vote_featured, Proposal) }
 
   it { should_not be_able_to(:comment_as_administrator, debate)   }
   it { should_not be_able_to(:comment_as_moderator, debate)       }
@@ -167,6 +167,9 @@ describe Abilities::Common do
     it { should_not be_able_to(:destroy, proposal_document)      }
   end
 
+  it { should_not be_able_to(:edit, own_legislation_proposal) }
+  it { should_not be_able_to(:update, own_legislation_proposal) }
+
   describe "proposals dashboard" do
     it { should be_able_to(:dashboard, own_proposal) }
     it { should_not be_able_to(:dashboard, proposal) }
@@ -208,7 +211,6 @@ describe Abilities::Common do
 
     describe "Proposal" do
       it { should be_able_to(:vote, Proposal) }
-      it { should be_able_to(:vote_featured, Proposal) }
     end
 
     describe "Direct Message" do
@@ -230,6 +232,18 @@ describe Abilities::Common do
       it { should_not be_able_to(:answer, expired_poll_question_from_all_geozones)  }
       it { should_not be_able_to(:answer, expired_poll_question_from_other_geozone) }
 
+      context "Poll::Answer" do
+        let(:own_answer) { create(:poll_answer, author: user) }
+        let(:other_user_answer) { create(:poll_answer) }
+        let(:expired_poll) { create(:poll, :expired) }
+        let(:question) { create(:poll_question, :yes_no, poll: expired_poll) }
+        let(:expired_poll_answer) { create(:poll_answer, author: user, question: question, answer: "Yes") }
+
+        it { should be_able_to(:destroy, own_answer) }
+        it { should_not be_able_to(:destroy, other_user_answer) }
+        it { should_not be_able_to(:destroy, expired_poll_answer) }
+      end
+
       context "without geozone" do
         before { user.geozone = nil }
 
@@ -248,9 +262,12 @@ describe Abilities::Common do
       it { should_not be_able_to(:create, investment_in_selecting_budget) }
       it { should_not be_able_to(:create, investment_in_balloting_budget) }
 
-      it { should be_able_to(:vote, investment_in_selecting_budget) }
-      it { should_not be_able_to(:vote, investment_in_accepting_budget) }
-      it { should_not be_able_to(:vote, investment_in_balloting_budget) }
+      it { should be_able_to(:create, user.votes.build(votable: investment_in_selecting_budget)) }
+      it { should_not be_able_to(:create, user.votes.build(votable: investment_in_accepting_budget)) }
+      it { should_not be_able_to(:create, user.votes.build(votable: investment_in_balloting_budget)) }
+      it { should be_able_to(:destroy, create(:vote, voter: user, votable: investment_in_selecting_budget)) }
+      it { should_not be_able_to(:destroy, create(:vote, voter: user, votable: investment_in_accepting_budget)) }
+      it { should_not be_able_to(:destroy, create(:vote, voter: user, votable: investment_in_balloting_budget)) }
 
       it { should_not be_able_to(:destroy, investment_in_accepting_budget) }
       it { should_not be_able_to(:destroy, investment_in_reviewing_budget) }
@@ -284,8 +301,7 @@ describe Abilities::Common do
 
     before { user.update(verified_at: Time.current) }
 
-    it { should be_able_to(:vote, Proposal)          }
-    it { should be_able_to(:vote_featured, Proposal) }
+    it { should be_able_to(:vote, Proposal) }
 
     it { should     be_able_to(:new, DirectMessage)            }
     it { should     be_able_to(:create, DirectMessage)         }

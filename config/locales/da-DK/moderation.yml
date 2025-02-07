@@ -3,7 +3,6 @@ da:
     comments:
       index:
         block_authors: Bloker bruger
-        confirm: Er du sikker?
         filter: Filter
         filters:
           all: Alle
@@ -12,9 +11,8 @@ da:
         headers:
           comment: Kommentar
           moderate: Moderér
-        hide_comments: Skjul kommentarer
+        hide: Skjul kommentarer
         ignore_flags: Markér som set
-        order: Orden
         orders:
           flags: Mest markeret
           newest: Nyeste
@@ -25,7 +23,6 @@ da:
     debates:
       index:
         block_authors: Bloker forfattere
-        confirm: Er du sikker?
         filter: Filter
         filters:
           all: Alle
@@ -34,9 +31,8 @@ da:
         headers:
           debate: Debat
           moderate: Moderér
-        hide_debates: Skjul debatindlæg
+        hide: Skjul debatindlæg
         ignore_flags: Markér som set
-        order: Orden
         orders:
           created_at: Nyeste
           flags: Mest markeret
@@ -53,7 +49,6 @@ da:
     proposals:
       index:
         block_authors: Bloker forfattere
-        confirm: Er du sikker?
         filter: Filter
         filters:
           all: Alle
@@ -62,9 +57,8 @@ da:
         headers:
           moderate: Moderér
           proposal: Borgerforslag
-        hide_proposals: Skjul forslag
+        hide: Skjul forslag
         ignore_flags: Markér som set
-        order: Sorter efter
         orders:
           created_at: Seneste
           flags: Mest markeret
@@ -72,7 +66,6 @@ da:
     budget_investments:
       index:
         block_authors: Bloker forfattere
-        confirm: Er du sikker?
         filter: Filter
         filters:
           all: Alle
@@ -81,9 +74,8 @@ da:
         headers:
           moderate: Moderér
           budget_investment: Budgetidéer
-        hide_budget_investments: Skjul
+        hide: Skjul
         ignore_flags: Markér som set
-        order: Sorter efter
         orders:
           created_at: Seneste
           flags: Mest markeret
@@ -91,7 +83,6 @@ da:
     proposal_notifications:
       index:
         block_authors: Bloker forfattere
-        confirm: Er du sikker?
         filter: Filter
         filters:
           all: Alle
@@ -100,16 +91,14 @@ da:
         headers:
           moderate: Moderér
           proposal_notification: Notifikationer om forslag
-        hide_proposal_notifications: Skjul forslag
+        hide: Skjul forslag
         ignore_flags: Markér som set
-        order: Sorter efter
         orders:
           created_at: Seneste
           moderated: Modereret
         title: Notifikationer om forslag
     users:
       index:
-        hidden: Blokeret
         hide: Bloker
         search_placeholder: e-mail eller brugernavn
         title: Bloker brugere

@@ -4,14 +4,8 @@ describe "Debates" do
   context "Concerns" do
     it_behaves_like "notifiable in-app", :debate
     it_behaves_like "relationable", Debate
-    it_behaves_like "remotely_translatable",
-                    :debate,
-                    "debates_path",
-                    {}
-    it_behaves_like "remotely_translatable",
-                    :debate,
-                    "debate_path",
-                    { "id": "id" }
+    it_behaves_like "remotely_translatable", :debate, "debates_path", {}
+    it_behaves_like "remotely_translatable", :debate, "debate_path", { id: "id" }
     it_behaves_like "flaggable", :debate
   end
 
@@ -196,7 +190,7 @@ describe "Debates" do
     login_as(author)
 
     visit new_debate_path
-    fill_in "Debate title", with: "A title for a debate"
+    fill_in_new_debate_title with: "A title for a debate"
     fill_in_ckeditor "Initial debate text", with: "This is very important because..."
     check "debate_terms_of_service"
 
@@ -233,7 +227,7 @@ describe "Debates" do
     login_as(author)
 
     visit new_debate_path
-    fill_in "Debate title", with: "I am a bot"
+    fill_in_new_debate_title with: "I am a bot"
     fill_in_ckeditor "Initial debate text", with: "This is the description"
     check "debate_terms_of_service"
 
@@ -253,20 +247,32 @@ describe "Debates" do
     expect(page).to have_content error_message
   end
 
+  scenario "Short description errors" do
+    login_as(create(:user))
+
+    visit new_debate_path
+    fill_in_ckeditor "Initial debate text", with: "Go!"
+    click_button "Start a debate"
+
+    within ".form-error.html-area" do
+      expect(page).to have_content "is too short"
+    end
+  end
+
   scenario "JS injection is prevented but safe html is respected", :no_js do
     author = create(:user)
     login_as(author)
 
     visit new_debate_path
     fill_in "Debate title", with: "Testing an attack"
-    fill_in "Initial debate text", with: "<p>This is <script>alert('an attack');</script></p>"
+    fill_in "Initial debate text", with: "<p>This is a JS <script>alert('an attack');</script></p>"
     check "debate_terms_of_service"
 
     click_button "Start a debate"
 
     expect(page).to have_content "Debate created successfully."
     expect(page).to have_content "Testing an attack"
-    expect(page.html).to include "<p>This is alert('an attack');</p>"
+    expect(page.html).to include "<p>This is a JS alert('an attack');</p>"
     expect(page.html).not_to include "<script>alert('an attack');</script>"
     expect(page.html).not_to include "&lt;p&gt;This is"
   end
@@ -276,7 +282,7 @@ describe "Debates" do
     login_as(author)
 
     visit new_debate_path
-    fill_in "Debate title", with: "Testing auto link"
+    fill_in_new_debate_title with: "Testing auto link"
     fill_in_ckeditor "Initial debate text", with: "This is a link www.example.org"
     check "debate_terms_of_service"
 
@@ -321,7 +327,7 @@ describe "Debates" do
     visit edit_debate_path(debate)
     expect(page).not_to have_current_path(edit_debate_path(debate))
     expect(page).to have_current_path(root_path)
-    expect(page).to have_content "You do not have permission to carry out the action 'edit' on debate."
+    expect(page).to have_content "You do not have permission to carry out the action 'edit' on Debate."
   end
 
   scenario "Update should not be posible if debate is not editable" do
@@ -405,8 +411,8 @@ describe "Debates" do
 
     scenario "Debates are ordered by newest" do
       best_debate = create(:debate, title: "Best", created_at: Time.current)
-      medium_debate = create(:debate, title: "Medium", created_at: Time.current - 1.hour)
-      worst_debate = create(:debate, title: "Worst", created_at: Time.current - 1.day)
+      medium_debate = create(:debate, title: "Medium", created_at: 1.hour.ago)
+      worst_debate = create(:debate, title: "Worst", created_at: 1.day.ago)
 
       visit debates_path
       click_link "newest"
@@ -536,7 +542,7 @@ describe "Debates" do
 
         visit debates_path
 
-        within(".expanded #search_form") do
+        within "#search_form" do
           fill_in "search", with: "Schwifty"
           click_button "Search"
         end
@@ -553,7 +559,7 @@ describe "Debates" do
       scenario "Maintain search criteria" do
         visit debates_path
 
-        within(".expanded #search_form") do
+        within "#search_form" do
           fill_in "search", with: "Schwifty"
           click_button "Search"
         end
@@ -629,7 +635,7 @@ describe "Debates" do
       create(:debate, title: "Abcdefghi")
 
       visit debates_path
-      within(".expanded #search_form") do
+      within "#search_form" do
         fill_in "search", with: "Abcdefghi"
         click_button "Search"
       end
@@ -660,69 +666,6 @@ describe "Debates" do
 
     visit debate_path(debate)
     expect(page).to have_content("User deleted")
-  end
-
-  context "Filter" do
-    context "By geozone" do
-      let(:california) { Geozone.create(name: "California") }
-      let(:new_york)   { Geozone.create(name: "New York") }
-
-      before do
-        create(:debate, geozone: california, title: "Bigger sequoias")
-        create(:debate, geozone: california, title: "Green beach")
-        create(:debate, geozone: new_york, title: "Sully monument")
-      end
-
-      pending "From map" do
-        visit debates_path
-
-        click_link "map"
-        within("#html_map") do
-          url = find("area[title='California']")[:href]
-          visit url
-        end
-
-        within("#debates") do
-          expect(page).to have_css(".debate", count: 2)
-          expect(page).to have_content("Bigger sequoias")
-          expect(page).to have_content("Green beach")
-          expect(page).not_to have_content("Sully monument")
-        end
-      end
-
-      pending "From geozone list" do
-        visit debates_path
-
-        click_link "map"
-        within("#geozones") do
-          click_link "California"
-        end
-        within("#debates") do
-          expect(page).to have_css(".debate", count: 2)
-          expect(page).to have_content("Bigger sequoias")
-          expect(page).to have_content("Green beach")
-          expect(page).not_to have_content("Sully monument")
-        end
-      end
-
-      pending "From debate" do
-        debate = create(:debate, geozone: california, title: "Surf college")
-
-        visit debate_path(debate)
-
-        within("#geozone") do
-          click_link "California"
-        end
-
-        within("#debates") do
-          expect(page).to have_css(".debate", count: 3)
-          expect(page).to have_content("Surf college")
-          expect(page).to have_content("Bigger sequoias")
-          expect(page).to have_content("Green beach")
-          expect(page).not_to have_content("Sully monument")
-        end
-      end
-    end
   end
 
   context "Suggesting debates" do
@@ -794,7 +737,7 @@ describe "Debates" do
     end
 
     click_link debate.title
-    accept_confirm { click_link "Featured" }
+    accept_confirm("Are you sure? Featured") { click_link "Featured" }
 
     within("#debates") do
       expect(page).to have_content "FEATURED"
@@ -806,7 +749,7 @@ describe "Debates" do
       click_link debate.title
     end
 
-    accept_confirm { click_link "Unmark featured" }
+    accept_confirm("Are you sure? Unmark featured") { click_link "Unmark featured" }
 
     within("#debates") do
       expect(page).not_to have_content "FEATURED"
@@ -845,7 +788,7 @@ describe "Debates" do
     scenario "create debate with sdg related list" do
       login_as(user)
       visit new_debate_path
-      fill_in "Debate title", with: "A title for a debate related with SDG related content"
+      fill_in_new_debate_title with: "A title for a debate related with SDG related content"
       fill_in_ckeditor "Initial debate text", with: "This is very important because..."
       click_sdg_goal(1)
       check "debate_terms_of_service"

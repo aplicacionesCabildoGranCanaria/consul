@@ -124,13 +124,17 @@ describe "Commenting debates" do
     expect(c1.body).to appear_before(c2.body)
     expect(c2.body).to appear_before(c3.body)
 
-    visit debate_path(debate, order: :newest)
+    click_link "Newest first"
 
+    expect(page).to have_link "Newest first", class: "is-active"
+    expect(page).to have_current_path(/#comments/, url: true)
     expect(c3.body).to appear_before(c2.body)
     expect(c2.body).to appear_before(c1.body)
 
-    visit debate_path(debate, order: :oldest)
+    click_link "Oldest first"
 
+    expect(page).to have_link "Oldest first", class: "is-active"
+    expect(page).to have_current_path(/#comments/, url: true)
     expect(c1.body).to appear_before(c2.body)
     expect(c2.body).to appear_before(c3.body)
   end
@@ -198,6 +202,7 @@ describe "Commenting debates" do
     end
 
     expect(page).to have_css(".comment", count: 2)
+    expect(page).to have_current_path(/#comments/, url: true)
   end
 
   describe "Not logged user" do
@@ -326,7 +331,7 @@ describe "Commenting debates" do
       fill_in "Leave your comment", with: "Probably if government approves."
       click_button "Publish reply"
 
-      expect(page).not_to have_selector("form")
+      expect(page).not_to have_css ".comment-form"
 
       within ".comment" do
         expect(page).to have_content "Probably if government approves."
@@ -363,6 +368,16 @@ describe "Commenting debates" do
       click_button "Publish reply"
 
       expect(page).to have_content("It will be done next week.")
+    end
+  end
+
+  scenario "Show comment when the author is hidden" do
+    create(:comment, body: "This is pointless", commentable: debate, author: create(:user, :hidden))
+
+    visit debate_path(debate)
+
+    within ".comment", text: "This is pointless" do
+      expect(page).to have_content "User deleted"
     end
   end
 
@@ -543,7 +558,7 @@ describe "Commenting debates" do
       visit debate_path(debate)
 
       within("#comment_#{comment.id}_votes") do
-        within(".in_favor") do
+        within(".in-favor") do
           expect(page).to have_content "1"
         end
 
@@ -559,9 +574,9 @@ describe "Commenting debates" do
       visit debate_path(debate)
 
       within("#comment_#{comment.id}_votes") do
-        find(".in_favor a").click
+        click_button "I agree"
 
-        within(".in_favor") do
+        within(".in-favor") do
           expect(page).to have_content "1"
         end
 
@@ -577,15 +592,15 @@ describe "Commenting debates" do
       visit debate_path(debate)
 
       within("#comment_#{comment.id}_votes") do
-        find(".in_favor a").click
+        click_button "I agree"
 
-        within(".in_favor") do
+        within(".in-favor") do
           expect(page).to have_content "1"
         end
 
-        find(".against a").click
+        click_button "I disagree"
 
-        within(".in_favor") do
+        within(".in-favor") do
           expect(page).to have_content "0"
         end
 
@@ -601,13 +616,13 @@ describe "Commenting debates" do
       visit debate_path(debate)
 
       within("#comment_#{comment.id}_votes") do
-        find(".in_favor a").click
-        within(".in_favor") do
+        click_button "I agree"
+        within(".in-favor") do
           expect(page).to have_content "1"
         end
 
-        find(".in_favor a").click
-        within(".in_favor") do
+        click_button "I agree"
+        within(".in-favor") do
           expect(page).not_to have_content "2"
           expect(page).to have_content "1"
         end

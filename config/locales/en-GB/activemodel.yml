@@ -1,5 +1,1 @@
 en-GB:
-  activemodel:
-    models:
-      verification:
-        sms: "SMS"

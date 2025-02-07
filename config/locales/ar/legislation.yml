@@ -4,13 +4,6 @@ ar:
       comments:
         see_all: اظهار الكل
         see_complete: رؤية الكلّ
-        comments_count:
-          zero: "%{count} تعليقات"
-          one: "تعليق %{count}"
-          two: "%{count} تعليقات"
-          few: "%{count} تعليقات"
-          many: "%{count} تعليقات"
-          other: "%{count} تعليقات"
         replies_count:
           zero: "%{count} ردود"
           one: "ردّ %{count}"
@@ -26,13 +19,6 @@ ar:
         title: تعليقات
         comments_about: تعليقات حول
         see_in_context: رؤيتها في السياق
-        comments_count:
-          zero: "%{count} تعليقات"
-          one: "%{count} تعليقات"
-          two: "%{count} تعليقات"
-          few: "%{count} تعليقات"
-          many: "%{count} تعليقات"
-          other: "%{count} تعليقات"
       show:
         title: التعليق
       version_chooser:
@@ -66,7 +52,6 @@ ar:
           winners: محدّد
       debate:
         empty_questions: لا توجد أي أسئلة
-        participate: المشاركة بالحوارات
       index:
         filter: ترشيح
         filters:
@@ -105,14 +90,6 @@ ar:
         form:
           leave_comment: اترك إجابتك
       question:
-        comments:
-          zero: لا توجد تعليقات
-          zero: "%{count} تعليق"
-          one: "تعليق %{count}"
-          two: "%{count} تعليقات"
-          few: "%{count} تعليقات"
-          many: "%{count} تعليقات"
-          other: "%{count} تعليقات"
         debate: الحوارات
       show:
         answer_question: سلم الاجابة
@@ -134,3 +111,36 @@ ar:
         tags_label: "فئات"
       not_verified: "لمقترحات التصويت %{verify_account}."
       process_title: عملية تشريع تشاركية
+    summary:
+      title: "ملخص"
+      votes:
+        zero: "%{count} أصوات"
+        one: "%{count} تصويت"
+        two: "%{count} أصوات"
+        few: "%{count} أصوات"
+        many: "%{count} أصوات"
+        other: "%{count} أصوات"
+      debate_phase: "مرحلة النقاش"
+      proposals_phase: "مرحلة الاقتراحات"
+      allegations_phase: "مرحلة التعليقات"
+      debates:
+        zero: "مناقشتان %{count}"
+        one: "مناقشة %{count}"
+        two: "مناقشتان %{count}"
+        few: "مناقشتان %{count}"
+        many: "مناقشتان %{count}"
+        other: "مناقشتان %{count}"
+      proposals:
+        zero: "%{count} مقترحات"
+        one: "مقترح %{count}"
+        two: "%{count} مقترحات"
+        few: "%{count} مقترحات"
+        many: "%{count} مقترحات"
+        other: "%{count} مقترحات"
+      top_comments:
+        zero: "لا توجد تعليقات"
+        one: "تعليق %{count}"
+        two: "أعلى تعليقات"
+        few: "أعلى تعليقات"
+        many: "أعلى تعليقات"
+        other: "أعلى تعليقات"

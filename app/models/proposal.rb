@@ -1,5 +1,4 @@
 class Proposal < ApplicationRecord
-  include Rails.application.routes.url_helpers
   include Flaggable
   include Taggable
   include Conflictable
@@ -41,6 +40,7 @@ class Proposal < ApplicationRecord
   has_many :dashboard_executed_actions, dependent: :destroy, class_name: "Dashboard::ExecutedAction"
   has_many :dashboard_actions, through: :dashboard_executed_actions, class_name: "Dashboard::Action"
   has_many :polls, as: :related, inverse_of: :related
+  has_one :summary_comment, as: :commentable, class_name: "MlSummaryComment", dependent: :destroy
 
   validates_translation :title, presence: true, length: { in: 4..Proposal.title_max_length }
   validates_translation :description, length: { maximum: Proposal.description_max_length }
@@ -51,7 +51,7 @@ class Proposal < ApplicationRecord
   validates :responsible_name, presence: true, unless: :skip_user_verification?
 
   validates :responsible_name, length: { in: 6..Proposal.responsible_name_max_length }, unless: :skip_user_verification?
-  validates :retired_reason, presence: true, inclusion: { in: RETIRE_OPTIONS }, unless: -> { retired_at.blank? }
+  validates :retired_reason, presence: true, inclusion: { in: ->(*) { RETIRE_OPTIONS }}, unless: -> { retired_at.blank? }
 
   validates :terms_of_service, acceptance: { allow_nil: false }, on: :create
 
@@ -87,10 +87,6 @@ class Proposal < ApplicationRecord
   scope :draft,                    -> { where(published_at: nil) }
   scope :created_by,               ->(author) { where(author: author) }
 
-  def url
-    proposal_path(self)
-  end
-
   def publish
     update!(published_at: Time.current)
     send_new_actions_notification_on_published
@@ -106,7 +102,7 @@ class Proposal < ApplicationRecord
 
   def self.recommendations(user)
     tagged_with(user.interests, any: true)
-      .where("author_id != ?", user.id)
+      .where.not(author_id: user.id)
       .unsuccessful
       .not_followed_by_user(user)
       .not_archived
@@ -114,7 +110,7 @@ class Proposal < ApplicationRecord
   end
 
   def self.not_followed_by_user(user)
-    where.not(id: followed_by_user(user).pluck(:id))
+    where.not(id: followed_by_user(user).ids)
   end
 
   def to_param

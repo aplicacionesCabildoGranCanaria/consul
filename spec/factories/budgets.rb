@@ -64,6 +64,18 @@ FactoryBot.define do
     trait :approval do
       voting_style { "approval" }
     end
+
+    trait :with_image do
+      after(:create) { |budget| create(:image, imageable: budget) }
+    end
+
+    trait :with_winner do
+      after(:create) { |budget| create(:budget_investment, :winner, budget: budget) }
+    end
+
+    trait :hide_money do
+      hide_money { true }
+    end
   end
 
   factory :budget_group, class: "Budget::Group" do
@@ -105,7 +117,6 @@ FactoryBot.define do
     description          { "Spend money on this" }
     price                { 10 }
     unfeasibility_explanation { "" }
-    skip_map             { "1" }
     terms_of_service     { "1" }
     incompatible         { false }
 
@@ -186,6 +197,10 @@ FactoryBot.define do
       valuators { [create(:valuator)] }
     end
 
+    trait :with_map_location do
+      map_location
+    end
+
     trait :flagged do
       after :create do |investment|
         Flag.flag(create(:user), investment)
@@ -228,8 +243,8 @@ FactoryBot.define do
   factory :budget_phase, class: "Budget::Phase" do
     budget
     kind        { :balloting }
-    summary     { Faker::Lorem.sentence(3) }
-    description { Faker::Lorem.sentence(10) }
+    summary     { Faker::Lorem.sentence(word_count: 3) }
+    description { Faker::Lorem.sentence(word_count: 10) }
     starts_at   { Date.yesterday }
     ends_at     { Date.tomorrow }
     enabled     { true }

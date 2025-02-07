@@ -11,6 +11,13 @@ describe Comment do
     expect(comment).to be_valid
   end
 
+  it "dynamically validates the commentable types" do
+    stub_const("#{Comment}::COMMENTABLE_TYPES", %w[Debate])
+
+    expect(build(:comment, commentable: create(:debate))).to be_valid
+    expect(build(:comment, commentable: create(:proposal))).not_to be_valid
+  end
+
   it "updates cache_counter in debate after hide and restore" do
     debate  = create(:debate)
     comment = create(:comment, commentable: debate)
@@ -85,34 +92,32 @@ describe Comment do
     let(:comment) { create(:comment) }
 
     it "expires cache when it has a new vote" do
-      expect { create(:vote, votable: comment) }
-      .to change { comment.updated_at }
+      expect { create(:vote, votable: comment) }.to change { comment.cache_version }
     end
 
     it "expires cache when hidden" do
-      expect { comment.hide }
-      .to change { comment.updated_at }
+      expect { comment.hide }.to change { comment.cache_version }
     end
 
     it "expires cache when the author is hidden" do
       expect { comment.user.hide }
-      .to change { [comment.reload.updated_at, comment.author.updated_at] }
+      .to change { [comment.reload.cache_version, comment.author.cache_version] }
     end
 
     it "expires cache when the author is erased" do
       expect { comment.user.erase }
-      .to change { [comment.reload.updated_at, comment.author.updated_at] }
+      .to change { [comment.reload.cache_version, comment.author.cache_version] }
     end
 
     it "expires cache when the author changes" do
       expect { comment.user.update(username: "Isabel") }
-      .to change { [comment.reload.updated_at, comment.author.updated_at] }
+      .to change { [comment.reload.cache_version, comment.author.cache_version] }
     end
 
     it "expires cache when the author's organization get verified" do
       create(:organization, user: comment.user)
       expect { comment.user.organization.verify }
-      .to change { [comment.reload.updated_at, comment.author.updated_at] }
+      .to change { [comment.reload.cache_version, comment.author.cache_version] }
     end
   end
 
@@ -186,6 +191,27 @@ describe Comment do
       create(:comment, :valuation)
 
       expect(Comment.public_for_api).to be_empty
+    end
+  end
+
+  describe ".search" do
+    it "searches by body" do
+      comment = create(:comment, body: "I agree")
+
+      expect(Comment.search("agree")).to eq([comment])
+    end
+
+    it "searches by commentable title" do
+      proposal = create(:proposal, title: "More wood!")
+      comment = create(:comment, body: "I agree", commentable: proposal)
+
+      expect(Comment.search("wood")).to eq([comment])
+    end
+
+    it "does not return non-matching records" do
+      create(:comment, body: "I agree")
+
+      expect(Comment.search("disagree")).to be_empty
     end
   end
 end

@@ -6,26 +6,12 @@ module ApplicationHelper
     url_for(request.query_parameters.merge(query_parameters).merge(only_path: true))
   end
 
-  def markdown(text)
-    return text if text.blank?
+  def rtl?(locale = I18n.locale)
+    %i[ar fa he].include?(locale)
+  end
 
-    # See https://github.com/vmg/redcarpet for options
-    render_options = {
-      filter_html:     false,
-      hard_wrap:       true,
-      link_attributes: {  target: "_blank" }
-    }
-    renderer = Redcarpet::Render::HTML.new(render_options)
-    extensions = {
-      autolink:           true,
-      fenced_code_blocks: true,
-      lax_spacing:        true,
-      no_intra_emphasis:  true,
-      strikethrough:      true,
-      superscript:        true
-    }
-
-    AdminLegislationSanitizer.new.sanitize(Redcarpet::Markdown.new(renderer, extensions).render(text))
+  def markdown(text, **render_options)
+    MarkdownConverter.new(text, **render_options).render
   end
 
   def wysiwyg(text)
@@ -45,10 +31,18 @@ module ApplicationHelper
   end
 
   def image_path_for(filename)
-    SiteCustomization::Image.image_path_for(filename) || filename
+    image = SiteCustomization::Image.image_for(filename)
+
+    if image
+      polymorphic_path(image)
+    elsif AssetFinder.find_asset(File.join(Tenant.subfolder_path, filename))
+      File.join(Tenant.subfolder_path, filename)
+    else
+      filename
+    end
   end
 
-  def content_block(name, locale)
+  def content_block(name, locale = I18n.locale)
     SiteCustomization::ContentBlock.block_for(name, locale)
   end
 

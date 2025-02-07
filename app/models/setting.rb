@@ -8,7 +8,7 @@ class Setting < ApplicationRecord
   end
 
   def type
-    if %w[feature process proposals map html homepage uploads sdg].include? prefix
+    if %w[feature process proposals map html homepage uploads sdg machine_learning].include? prefix
       prefix
     elsif %w[remote_census].include? prefix
       key.rpartition(".").first
@@ -31,7 +31,7 @@ class Setting < ApplicationRecord
 
   class << self
     def [](key)
-      where(key: key).pluck(:value).first.presence
+      where(key: key).pick(:value).presence
     end
 
     def []=(key, value)
@@ -42,7 +42,7 @@ class Setting < ApplicationRecord
 
     def rename_key(from:, to:)
       if where(key: to).empty?
-        value = where(key: from).pluck(:value).first.presence
+        value = where(key: from).pick(:value).presence
         create!(key: to, value: value)
       end
       remove(from)
@@ -100,7 +100,9 @@ class Setting < ApplicationRecord
         "feature.remote_census": nil,
         "feature.valuation_comment_notification": true,
         "feature.graphql_api": true,
-        "feature.sdg": false,
+        "feature.sdg": true,
+        "feature.machine_learning": false,
+        "feature.remove_investments_supports": true,
         "homepage.widgets.feeds.debates": true,
         "homepage.widgets.feeds.processes": true,
         "homepage.widgets.feeds.proposals": true,
@@ -157,21 +159,23 @@ class Setting < ApplicationRecord
         "twitter_handle": nil,
         "twitter_hashtag": nil,
         "youtube_handle": nil,
-        "url": "http://example.com", # Public-facing URL of the app.
-        # CONSUL installation's organization name
-        "org_name": "CONSUL",
+        "org_name": default_org_name,
         "meta_title": nil,
         "meta_description": nil,
         "meta_keywords": nil,
         "proposal_notification_minimum_interval_in_days": 3,
         "direct_message_max_per_day": 3,
-        "mailer_from_name": "CONSUL",
-        "mailer_from_address": "noreply@consul.dev",
+        "mailer_from_name": default_org_name,
+        "mailer_from_address": default_mailer_from_address,
         "min_age_to_participate": 16,
         "hot_score_period_in_days": 31,
         "related_content_score_threshold": -0.3,
         "featured_proposals_number": 3,
         "feature.dashboard.notification_emails": nil,
+        "machine_learning.comments_summary": false,
+        "machine_learning.related_content": false,
+        "machine_learning.tags": false,
+        "postal_codes": "",
         "remote_census.general.endpoint": "",
         "remote_census.request.method_name": "",
         "remote_census.request.structure": "",
@@ -192,6 +196,18 @@ class Setting < ApplicationRecord
         "sdg.process.budgets": true,
         "sdg.process.legislation": true
       }
+    end
+
+    def default_org_name
+      Tenant.current&.name || default_main_org_name
+    end
+
+    def default_main_org_name
+      "CONSUL DEMOCRACY"
+    end
+
+    def default_mailer_from_address
+      "noreply@#{Tenant.current_host.presence || "consuldemocracy.dev"}"
     end
 
     def reset_defaults

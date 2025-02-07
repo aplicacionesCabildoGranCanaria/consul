@@ -4,24 +4,24 @@ en:
       title: Administration
     actions:
       actions: Actions
-      confirm: Are you sure?
+      block_author: "Block author"
+      confirm_action: "Are you sure? %{action} \"%{name}\""
+      confirm_delete: "Are you sure? This action will delete \"%{name}\" and can't be undone."
       confirm_hide: Confirm moderation
+      delete: "Delete"
       hide: Hide
-      hide_author: Hide author
+      label: "%{action} %{name}"
       restore: Restore
       mark_featured: Featured
       unmark_featured: Unmark featured
       edit: Edit
       configure: Configure
-      delete: Delete
     officing_booth:
       title: "You are officing the booth located at %{booth}. If this is not correct, do not continue and call the help phone number. Thank you."
     banners:
       index:
         title: Banners
         create: Create banner
-        edit: Edit banner
-        delete: Delete banner
         filters:
           all: All
           with_active: Active
@@ -38,6 +38,8 @@ en:
           sdg: SDG
       create:
         notice: "Banner created successfully"
+      destroy:
+        notice: "Banner deleted successfully"
       edit:
         editing: Edit banner
         form:
@@ -68,7 +70,17 @@ en:
         no_activity: There are no moderators activity.
     budgets:
       actions:
-        preview: "Preview budget"
+        ballots: "Create booths"
+        confirm:
+          ballots: "Are you sure? This action is only necessary if you're going to use physical booths during the final voting phase. Citizens will still be able to vote via web with or without physical booths."
+          destroy: "Are you sure? This will delete the budget and all its associated groups and headings. This action cannot be undone."
+        descriptions:
+          ballots: "This will let you manage physical ballots. Only use this option if you're going to use physical booths to collect ballots during the final voting phase."
+          calculate_winners: 'After calculating the results, only administrators will be able to access them. They will be public when the project reaches the "%{phase}" phase <strong>if the option "Show results" is enabled</strong> when editing the budget.'
+          destroy: "This will delete the budget and all its associated groups and headings. This action cannot be undone."
+        edit: "Edit budget"
+        preview: "Preview"
+        preview_results: "Preview results"
       index:
         title: Participatory budgets
         new_link: Create new budget
@@ -77,17 +89,18 @@ en:
           all: All
           open: Open
           finished: Finished
-        help: "Participatory budgets allow citizens to propose and decide directly how to spend part of the budget, with monitoring and rigorous evaluation of proposals by the institution."
-        budget_investments: Manage projects
+        budget_investments: Investment projects
+        table_budget_type: "Type"
         table_completed: Completed
         table_draft: "Draft"
         table_duration: "Duration"
         table_name: Name
         table_phase: Phase
         table_phase_progress: "(%{current_phase_number}/%{total_phases})"
-        edit_groups: Edit headings groups
-        edit_budget: Edit budget
-        admin_ballots: Admin ballots
+        type_multiple: "Multiple headings"
+        type_pending: "Pending: No headings yet"
+        type_single: "Single heading"
+        admin_ballots: Ballots
         no_budgets: "There are no budgets."
       create:
         notice: New participatory budget created successfully!
@@ -102,10 +115,11 @@ en:
         delete: Delete budget
         phase: Phase
         phases_caption: "Phases"
+        phases_table_help_text: "The configuration of these phases is used for information purposes only. Its function is to define the phases information displayed on the public page of the participatory budget."
         duration: "Duration"
         enabled: Enabled
         actions: Actions
-        edit_phase: Edit phase
+        enable_phase: "Enable %{phase} phase"
         active: Active
         blank_dates: Dates are blank
         administrators:
@@ -119,24 +133,45 @@ en:
         empty_administrators: "There are no administrators"
         empty_valuators: "There are no valuators"
         name_description: "This is the name of the participatory budget used on the header and cards whenever it is active"
+        image_description: "If an image is uploaded it will be used as the banner on top of this participatory budget, otherwise the default color for budgets will be used."
+        main_call_to_action: "Main call to action (optional)"
+        main_call_to_action_description: "This link will appear on main banner of this participatory budget and encourages your user to perform a specific action like creating a proposal, voting for existing ones, or learn more about the process."
         info:
           budget_settings: "General participatory budget settings"
-          phases_settings: "Phases settings"
           staff_settings: "Administrators and Valuators assigned to the budget"
+        hide_money: "Hide money"
+        hide_money_help_text: "If this option is checked, all fields showing the amount of money will be hidden throughout the process."
       destroy:
         success_notice: Budget deleted successfully
         unable_notice: You cannot delete a budget that has associated investments
         unable_notice_polls: You cannot delete a budget that has an associated poll
       new:
-        title: New participatory budget
+        title_multiple: New multiple headings budget
+        title_single: New single heading budget
+      help:
+        budgets: "Participatory budgets allow citizens to propose and decide directly how to spend part of the budget, with monitoring and rigorous evaluation of proposals by the institution."
+        groups:
+          multiple: "Groups are meant to organize headings. After a group is created and it contains headings, it's possible to determine in how many headings a user can vote per group."
+          single: "Groups are meant to organize headings, since this budget will only contain one heading, the same name can be used because it will not appear anywhere. You can just continue with the next step."
+        headings:
+          multiple: "Headings are meant to divide the money of the participatory budget. Here you can add headings for this group and assign the amount of money that will be used for each heading."
+          single: "Headings are meant to divide the money of the participatory budget. Since this budget will only contain one heading, this is the place where you stablish the money that will be spent in this participaroty budget."
+        phases: "Participatory budgets have different phases. Here you can enable or disable phases and also customize each individual phase. The configuration of these phases is used for information purposes only and will be displayed on the public page of the participatory budget."
+      show:
+        add_group: "Add group"
+        add_heading: "Add heading"
+        groups_and_headings: "Heading groups"
+        headings_caption: "Headings in %{group}"
       winners:
         calculate: Calculate Winner Investments
         calculated: Winners being calculated, it may take a minute.
         recalculate: Recalculate Winner Investments
+      ballots:
+        feature_disabled: 'The feature <strong>Polls</strong> must be enabled to create booths. You can enable it from the <a href="%{link}">settings configuration</a> page.'
     budget_groups:
       name: "Name"
       headings_name: "Headings"
-      headings_manage: "Manage headings"
+      headings_manage: "Headings"
       no_groups: "There are no groups."
       amount:
         one: "There is 1 group"
@@ -154,13 +189,9 @@ en:
         max_votable_headings_info: "Only applies to the selecting projects phase. During the voting projects phase users can only vote in one heading per group."
         submit: "Save group"
       index:
-        back: "Go back to budgets"
-        help: "Groups are meant to organize headings. After a group is created and it contais headings, it's possible to determine in how many headings a user can vote per group."
+        new_button: "Add new group"
     budget_headings:
-      no_headings: "There are no headings."
-      amount:
-        one: "There is 1 heading"
-        other: "There are %{count} headings"
+      no_headings: "There are no headings in the <strong>%{group}</strong> group."
       create:
         notice: "Heading created successfully!"
       update:
@@ -169,6 +200,7 @@ en:
         success_notice: "Heading deleted successfully"
         unable_notice: "You cannot delete a Heading that has associated investments"
       form:
+        geozone_info: "When a heading is associated with a geozone, the geozone will appear on this budget's map if the geozone includes GeoJSON data."
         max_ballot_lines_info: 'Maximum number of projects a user can vote on this heading during the "Voting projects" phase. Only for budgets using approval voting.'
         population_info: "Budget Heading population field is used for Statistic purposes at the end of the Budget to show for each Heading that represents an area with population what percentage voted. The field is optional so you can leave it empty if it doesn't apply."
         coordinates_info: "If latitude and longitude are provided, the investments page for this heading will include a map. This map will be centered using those coordinates."
@@ -176,19 +208,29 @@ en:
         create: "Create new heading"
         edit: "Edit heading"
         submit: "Save heading"
+      group_switcher:
+        currently_showing: "Showing headings from the <strong>%{group}</strong> group."
+        different_group: "Manage headings from a different group"
+        the_other_group: "Manage headings from the %{group} group."
       index:
         back: "Go back to groups"
-        help: "Headings are meant to divide the money of the participatory budget. Here you can add headings for this group and assign the amount of money that will be used for each heading."
+        new_button: "Add new heading"
+        title: "%{budget} / %{group} headings"
     budget_phases:
       edit:
+        title: "Edit phase"
+        dates_help_text: "For information purposes only"
         description_help_text: This text will appear in the header when the phase is active
         duration: "Phase's duration"
-        duration_description: "The period of time this phase will be active."
-        enabled_help_text: This phase will be public in the budget's phases timeline, as well as active for any other purpose
+        duration_description: "These fields are used for information purposes only and <strong>do not trigger an automatic update of the active phase.</strong> In order to update it, edit the budget and select the active phase."
+        enabled_help_text: This phase will be public in the budget's phases timeline.
+        image_description: "If an image is uploaded it will be displayed next to the description of this phase."
+        main_call_to_action: "Main call to action (optional)"
+        main_call_to_action_description: "This link will appear on main banner of this participatory budget when this phase is enabled and encourages your user to perform a specific action like creating a proposal, voting for existing ones, or learn more about the process."
         name_help_text: "This is the title of the phase users will read on the header whenever this phase is active."
         save_changes: Save changes
       index:
-        help: "Participatory budgets have different phases. Here you can enable or disable phases and also customize each individual phase."
+        title: "%{budget} phases"
     budget_investments:
       index:
         heading_filter_all: All headings
@@ -243,7 +285,7 @@ en:
           incompatible: Incompatible
           price: Price
           author: Author
-        cannot_calculate_winners: The budget has to stay on phase "Balloting projects", "Reviewing Ballots" or "Finished budget" in order to calculate winners projects
+        cannot_calculate_winners: The budget has to stay on phase "%{phase}" in order to calculate winners projects
         see_results: "See results"
         milestone_tags_filter_all: "All milestone tags"
       show:
@@ -284,6 +326,37 @@ en:
         tags_placeholder: "Write the tags you want separated by commas (,)"
         undefined: Undefined
       search_unfeasible: Search unfeasible
+    budgets_wizard:
+      creation_timeline:
+        budget: Budget
+        groups: Groups
+        headings: Headings
+        phases: Phases
+      budgets:
+        continue: "Continue to groups"
+      groups:
+        back: "Go back to edit budget"
+        continue: "Continue to headings"
+      headings:
+        continue: "Continue to phases"
+        single:
+          back: "Go back to edit group"
+      heading_mode:
+        multiple:
+          description: "Create a process with multiple groups, districts or topics. You have something like several bags of money. For example, 25,000€ for \"North District\", 30,000€ for \"Center District\", 28,000€ for \"South District\" and the whole city. Or for several themes like sport, culture or health."
+          link: "Create multiple headings budget"
+          title: "<strong>Multiple headings</strong> budget"
+        single:
+          description: "Create a process with a group, district or topic. You have something like a bag of money. For example, 25,000€ for the district, or 10,000€ for culture."
+          link: "Create single heading budget"
+          title: "<strong>Single heading</strong> budget"
+        title: "Participatory budget type"
+      phases:
+        continue: "Finish"
+        multiple:
+          back: "Go back to headings"
+        single:
+          back: "Go back to edit heading"
     milestones:
       index:
         table_id: "ID"
@@ -292,7 +365,6 @@ en:
         table_publication_date: "Publication date"
         table_status: Status
         table_actions: "Actions"
-        delete: "Delete milestone"
         no_milestones: "Don't have defined milestones"
         image: "Image"
         show_image: "Show image"
@@ -459,10 +531,10 @@ en:
         size: "Size"
         url: "URL"
       create:
-        success_notice: "Document uploaded succesfully"
+        success_notice: "Document uploaded successfully"
         unable_notice: "Invalid document"
       destroy:
-        success_notice: "Document deleted succesfully"
+        success_notice: "Document deleted successfully"
     hidden_users:
       index:
         filter: Filter
@@ -509,10 +581,6 @@ en:
           allegations_phase: Comments phase
           proposals_phase: Proposals phase
           use_markdown: Use Markdown to format the text
-          title_placeholder: The title of the process
-          summary_placeholder: Short summary of the description
-          description_placeholder: Add a description of the process
-          additional_info_placeholder: Add an additional information you consider useful
           homepage_description: Here you can explain the content of the process
           banner_title: Header colors
         index:
@@ -526,11 +594,10 @@ en:
           title: Create new collaborative legislation process
           submit_button: Create process
         proposals:
-          select_order: Sort by
           orders:
-            id: Id
-            title: Title
-            supports: Total supports
+            id: "Sort by ID"
+            title: "Sort by title"
+            supports: "Sort by total supports"
         process:
           title: Process
           comments: Comments
@@ -555,7 +622,6 @@ en:
           title: Proposals
           back: Back
           id: Id
-          title: Title
           supports: Total supports
         form:
           custom_categories: Categories
@@ -585,9 +651,7 @@ en:
             status:
               draft: You can preview as admin, no one else can see it
               published: Visible for everybody
-          title_placeholder: Write the title of the draft version
           changelog_placeholder: Add the main changes from the previous version
-          body_placeholder: Write down the draft text
         index:
           title: Draft versions
           create: Create version
@@ -618,7 +682,6 @@ en:
           submit_button: Save changes
         form:
           add_option: Add option
-          title_placeholder: Add question
           value_placeholder: Add a closed answer
           question_options: "Possible answers (optional, by default open answers)"
         index:
@@ -701,7 +764,10 @@ en:
           community: "Community"
           proposals: "Proposals"
           polls: "Polls"
+          legislation: "Collaborative legislation"
+          budgets: "Budgets"
           layouts: "Layouts"
+          machine_learning: "AI / Machine Learning"
           mailers: "Emails"
           management: "Management"
           welcome: "Welcome"
@@ -722,6 +788,8 @@ en:
       debates: "Debates"
       comments: "Comments"
       local_census_records: Manage local census
+      machine_learning: "AI / Machine learning"
+      multitenancy: Multitenancy
     administrators:
       index:
         title: Administrators
@@ -746,7 +814,7 @@ en:
     segment_recipient:
       all_users: All users
       administrators: Administrators
-      all_proposal_authors: Proposal authors (including archived and retired)
+      all_proposal_authors: Proposal authors (including archived and withdrawn)
       proposal_authors: Proposal authors
       investment_authors: Investment authors in the current budget
       feasible_and_undecided_investment_authors: "Authors of some investment in the current budget that does not comply with: [valuation finished unfesasible]"
@@ -831,7 +899,7 @@ en:
         pending_to_be_sent: This is the content pending to be sent
         moderate_pending: Moderate notification send
         send_pending: Send pending
-        send_pending_notification: Pending notifications sent succesfully
+        send_pending_notification: Pending notifications sent successfully
       proposal_notification_digest:
         title: "Proposal notification digest"
         description: "Gathers all proposal notifications for an user in a single message, to avoid too much emails."
@@ -1040,13 +1108,14 @@ en:
         table_title: "Title"
         edit_answers: Edit answers
         see_proposal: "(See proposal)"
-      flash:
-        question_added: "Question added to this poll"
-        error_on_question_added: "Question could not be assigned to this poll"
       destroy:
         alert: "This action will remove the poll and all its associated questions."
         success_notice: "Poll deleted successfully"
         unable_notice: "You cannot delete a poll that has votes"
+      votation_type:
+        title: "Votation type"
+        unique_description: "It's only possible to answer one time to the question."
+        multiple_description: "Allows to choose multiple answers. It's possible to set the maximum number of answers."
     questions:
       index:
         title: "Questions"
@@ -1063,9 +1132,13 @@ en:
         poll_not_assigned: "Poll not assigned"
       edit:
         title: "Edit Question"
+      form:
+        poll_help: "You can only select polls that have not started yet"
       new:
         title: "Create question to poll %{poll}"
         title_proposal: "Create question"
+      destroy:
+        notice: "Question deleted successfully"
       answers:
         images:
           add_image: "Add image"
@@ -1089,17 +1162,17 @@ en:
           documents_list: Documents list
           document_title: Title
           document_actions: Actions
+      no_edit: "Once the poll has started it will not be possible to create, edit or delete questions, answers or any content associated with the poll."
     answers:
       new:
         title: New answer
-      show:
-        title: Title
-        description: Description
-        images: Images
-        images_list: Images list
-        edit: Edit answer
       edit:
         title: Edit answer
+      destroy:
+        success_notice: "Answer deleted successfully"
+      images:
+        index:
+          title: Images
       videos:
         index:
           title: Videos
@@ -1153,7 +1226,6 @@ en:
         location: "Location"
       booth:
         shifts: "Manage shifts"
-        edit: "Edit booth"
     officials:
       edit:
         destroy: Remove "Official" status
@@ -1175,7 +1247,6 @@ en:
       level_4: Level 4
       level_5: Level 5
       search:
-        edit_official: Edit official
         make_official: Make official
         title: "Official positions: User search"
         no_results: Official positions not found.
@@ -1249,15 +1320,12 @@ en:
         images_and_documents: "Images and documents"
         feature_flags: Features
         features:
-          enabled: "Feature enabled"
-          disabled: "Feature disabled"
-          enable: "Enable"
-          disable: "Disable"
+          enabled: "Enabled"
         map:
           title: Map configuration
           help: Here you can customize the way the map is displayed to users. Drag map marker or click anywhere over the map, set desired zoom and click button "Update".
           flash:
-            update: Map configuration updated succesfully.
+            update: Map configuration updated successfully.
           form:
             submit: Update
           how_to_enable: 'To show the map to users you must enable "Proposals and budget investments geolocation" on "Features" tab.'
@@ -1273,14 +1341,10 @@ en:
       remote_census_request_name: Request Data
       remote_census_response_name: Response Data
       setting: Feature
-      setting_actions: Actions
       setting_name: Setting
-      setting_status: Status
       setting_value: Value
       no_description: "No description"
     shared:
-      true_value: "Yes"
-      false_value: "No"
       search:
         advanced_filters:
           sdg_goals:
@@ -1292,6 +1356,7 @@ en:
         label:
           booths: "Search booth by name or location"
           budget_investments: "Search investments by title, description or heading"
+          comments: "Search comments"
           debates: "Search debates by title or description"
           legislation_processes: "Search processes by title or description"
           legislation_proposals: "Search proposals by title or description"
@@ -1301,6 +1366,7 @@ en:
           poll_questions: "Search poll questions"
           polls: "Search polls by name or description"
           proposals: "Search proposals by title, code, description or question"
+          proposal_notifications: "Search notifications by title or description"
           users: "Search user by name or email"
         search: "Search"
       search_results: "Search results"
@@ -1319,6 +1385,8 @@ en:
       color_help: Hexadecimal format
       show_results_and_stats: "Show results and stats"
       results_and_stats_reminder: "Marking these checkboxes the results and/or stats will be publicly available and every user will see them."
+      close_modal: Close modal
+      example_url: "For example, https://consuldemocracy.org or /help"
     geozones:
       index:
         title: Geozone
@@ -1328,8 +1396,13 @@ en:
         external_code: External code
         census_code: Census code
         code_help: Response code for this geozone on the census API
-        coordinates: Coordinates
+        color_help: "Color of the zone in a budget's map. %{format_help}"
+        coordinates: Coordinates available
         coordinates_help: Coordinates that will generate a clickable area on an HTML image map
+        geojson: GeoJSON available
+        geojson_help: "Must follow the \"Polygon\" or \"MultiPolygon\" type format; on a budget's map, a polygon based on this data will appear when a heading is associated to this geozone"
+      create:
+        notice: "Geozone created successfully"
       edit:
         form:
           submit_button: Save changes
@@ -1341,6 +1414,8 @@ en:
       delete:
         success: Geozone successfully deleted
         error: This geozone can't be deleted since there are elements attached to it
+      update:
+        notice: "Geozone updated successfully"
     signature_sheets:
       author: Author
       created_at: Creation date
@@ -1456,7 +1531,6 @@ en:
         title: "Sustainable Development Goals - Stats"
     tags:
       create: Create topic
-      destroy: Delete topic
       index:
         add_tag: Add a new proposal topic
         title: Proposal topics
@@ -1471,6 +1545,10 @@ en:
         document_number: Document number
         roles: Roles
         verification_level: Verification level
+        activation_status: Activation Status
+      account:
+        active_status: Account activated
+        inactive_status: Account not activated
       index:
         title: User
         no_users: There are no users.
@@ -1544,17 +1622,17 @@ en:
           create: Create new page
           delete: Delete page
           title: Custom Pages
-          see_page: See page
+          see_page: View
         new:
           title: Create new custom page
-          slug_help: "Text to identify this page on URL, for example <code>https://consulproject.org/page-slug</code>"
+          slug_help: "Text to identify this page on URL, for example <code>https://consuldemocracy.org/page-slug</code>"
         page:
           created_at: Created at
           status: Status
           updated_at: Updated at
           title: Title
           slug: Slug
-          see_cards: See Cards
+          see_cards: Manage cards
         cards:
           cards_title: cards
           create_card: Create card
@@ -1566,6 +1644,25 @@ en:
             notice: "Card updated successfully"
           destroy:
             notice: "Card removed successfully"
+    tenants:
+      create:
+        notice: Tenant created successfully
+      form:
+        use_subdomain: "Use a subdomain in the %{domain} domain to access this tenant"
+        use_domain: "Use a different domain to access this tenant"
+      hide:
+        notice: Tenant disabled successfully
+      index:
+        create: Create tenant
+        enable: "Enable tenant %{tenant}"
+        enabled: Enabled
+      new:
+        admin_information: "When you create a tenant, your current user <strong>\"%{username}\"</strong> with the email <strong>\"%{email}\"</strong> and your password will be copied into the new tenant's database and will be automatically granted administration permissions. Note that these user accounts are stored in completely separate databases, so if you change the password of your user in one tenant, your accounts in other tenants will remain intact."
+        title: New tenant
+      restore:
+        notice: Tenant enabled successfully
+      update:
+        notice: Tenant updated successfully
     homepage:
       title: Homepage
       description: The active modules appear in the homepage in the same order as here.
@@ -1634,3 +1731,53 @@ en:
           created: Created records
         local_census_records:
           no_records_found: No records found.
+    machine_learning:
+      cancel: "Cancel operation"
+      cancel_alert: "This action will cancel the current script and it will be necessary to run the script again."
+      comments_summary: "Comments summary"
+      comments_summary_description: "Displays an automatically generated comment summary on all items that can be commented on."
+      data_folder_content: "Data folder content"
+      error: "Error:"
+      execute_script: "Execute script"
+      executed_by: "Executed by:"
+      executed_script: "Executed script:"
+      feature_disabled: "This feature is disabled. To use Machine Learning you can enable it from the %{link}."
+      feature_disabled_link: "settings page"
+      help:
+        title_1: "What is AI / Machine Learning?"
+        description_1: "Traditionally, computer programs are designed by establishing precise rules about what the program should do in each situation, and how to process the available information at each moment. What is commonly known as AI/Machine Learning is a type of programs for which what is precisely established is what the task to be performed is and how it is assessed whether the task is better or worse performed. But unlike the former, the system discovers or learns what would be the most suitable method to perform the task."
+        title_2: "What does the AI / Machine Learning module in CONSUL DEMOCRACY?"
+        description_2: "This module allows any type of AI/Machine Learning programs to be implemented in CONSUL DEMOCRACY. The programs can process the information available in CONSUL DEMOCRACY and produce results that help both users and administrators to carry out more effective and intelligent citizen participation. The module has been developed to make it easy to implement and run new programs, keeping the general code of CONSUL DEMOCRACY and the code of these new programs independent from each other."
+        title_3: "How to use this module"
+        description_3: "To use it for the first time it is necessary to follow the instructions available in the CONSUL DEMOCRACY documentation to properly activate this module. Once the module is correctly activated, the programs are executed from the \"Execute scripts\" tab. Before executing it, we can see in the same tab an estimation of the execution time and other relevant information. At the end of the execution, we can activate the content that will be shown in CONSUL DEMOCRACY from the \"Settings\" tab, as well as download other generated files that may be useful to us."
+        title_4: "How to implement new AI / Machine Learning scripts"
+        description_4: "Please use previous scripts as examples."
+        description_4b: "The new scripts should be located in the folder <code>public/machine_learning/scripts</code>"
+        description_4c: "The input data to be used by the script will be created as JSON files in the folder <code>../data</code>"
+        description_4d: "Any generated output should be placed in the folder <code>../data</code>"
+        description_4e: "It is recommended to create an independent <code>.ini</code> text file with the settings of the script, with the same name of the script and readable by configparser. This file will facilitate settings change by the administrators."
+        description_4f: "It is recommended to include as the first line of the script an initial triple-quote string with some brief information about it and links to any relevant information. This string will be automatically shown in the Administration interface."
+        description_4g: "It is recommended to log the relevant information of the script in a <code>.log</code> text file, with the same name of the script."
+        title_5: "To use AI / Machine Learning scripts you need to have Python installed on your server"
+        description_5: "Here you can see the example instructions for an Ubuntu 18.04 server:"
+      help_text: "This functionality is experimental."
+      last_execution: "Last execution"
+      no_content: "No content generated yet."
+      notice:
+        success: "The last script has been executed successfully."
+        error: "An error has occurred. You can see the details below."
+        working: "The script is running. The administrator who executed it will receive an email when it is finished."
+        delete_generated_content: "Generated content has been successfully deleted."
+      output_files: "Output files:"
+      related_content: "Related content"
+      related_content_description: "Adds automatically generated related content to proposals and participatory budget projects."
+      script_info: "You will receive an email in %{email} when the script finishes running."
+      script_name: "Script name:"
+      select_script: "Select python script to execute"
+      started_at: "Started at:"
+      tab_help: "Help"
+      tab_scripts: "Execute script"
+      tab_settings: "Settings / Generated content"
+      tags: "Tags"
+      tags_description: "Generates automatic tags on all items that can be tagged on."
+      title: "AI / Machine learning"

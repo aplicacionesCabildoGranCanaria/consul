@@ -6,9 +6,7 @@ describe "Admin budget investments", :admin do
     create(:administrator, user: create(:user, username: "Ana", email: "ana@admins.org"))
   end
 
-  it_behaves_like "admin_milestoneable",
-                  :budget_investment,
-                  "admin_polymorphic_path"
+  it_behaves_like "admin_milestoneable", :budget_investment, "admin_polymorphic_path"
 
   context "Load" do
     let!(:investment) { create(:budget_investment, budget: budget) }
@@ -30,6 +28,19 @@ describe "Admin budget investments", :admin do
       expect(page).to have_content(budget_investment.heading.name)
       expect(page).to have_content(budget_investment.id)
       expect(page).to have_content(budget_investment.total_votes)
+    end
+
+    scenario "Do not show price column on budgets with hide money" do
+      budget_hide_money = create(:budget, :hide_money)
+      budget_investment = create(:budget_investment, budget: budget_hide_money)
+
+      visit admin_budget_budget_investments_path(budget_hide_money)
+
+      expect(page).to have_content(budget_investment.title)
+      expect(page).to have_content(budget_investment.heading.name)
+      expect(page).to have_content(budget_investment.id)
+      expect(page).not_to have_content("Price")
+      expect(page).not_to have_content("€")
     end
 
     scenario "If budget is finished do not show 'Selected' button" do
@@ -101,7 +112,7 @@ describe "Admin budget investments", :admin do
       expect(page).to have_link("Change name")
       expect(page).to have_link("Plant trees")
 
-      select "Central Park", from: "heading_id"
+      select "Parks: Central Park", from: "heading_id"
       click_button "Filter"
 
       expect(page).not_to have_link("Realocate visitors")
@@ -240,13 +251,8 @@ describe "Admin budget investments", :admin do
     end
 
     scenario "Filtering by without assigned admin" do
-      create(:budget_investment,
-        title: "Investment without admin",
-        budget: budget)
-      create(:budget_investment,
-        :with_administrator,
-        title: "Investment with admin",
-        budget: budget)
+      create(:budget_investment, title: "Investment without admin", budget: budget)
+      create(:budget_investment, :with_administrator, title: "Investment with admin", budget: budget)
 
       visit admin_budget_budget_investments_path(budget_id: budget)
       expect(page).to have_link("Investment without admin")
@@ -269,15 +275,8 @@ describe "Admin budget investments", :admin do
     end
 
     scenario "Filtering by without assigned valuator" do
-      user = create(:user)
-      valuator = create(:valuator, user: user)
-      create(:budget_investment,
-        title: "Investment without valuator",
-        budget: budget)
-      create(:budget_investment,
-        title: "Investment with valuator",
-        budget: budget,
-        valuators: [valuator])
+      create(:budget_investment, title: "Investment without valuator", budget: budget)
+      create(:budget_investment, :with_valuator, title: "Investment with valuator", budget: budget)
 
       visit admin_budget_budget_investments_path(budget_id: budget)
       expect(page).to have_link("Investment without valuator")
@@ -300,14 +299,12 @@ describe "Admin budget investments", :admin do
     end
 
     scenario "Filtering by under valuation" do
-      user = create(:user)
-      valuator = create(:valuator, user: user)
       create(:budget_investment,
         :with_administrator,
+        :with_valuator,
         :open,
         title: "Investment without valuation",
-        budget: budget,
-        valuators: [valuator])
+        budget: budget)
       create(:budget_investment,
         :with_administrator,
         title: "Investment with valuation",
@@ -334,13 +331,8 @@ describe "Admin budget investments", :admin do
     end
 
     scenario "Filtering by valuation finished" do
-      create(:budget_investment,
-        title: "Investment valuation open",
-        budget: budget)
-      create(:budget_investment,
-        :finished,
-        title: "Investment valuation finished",
-        budget: budget)
+      create(:budget_investment, title: "Investment valuation open", budget: budget)
+      create(:budget_investment, :finished, title: "Investment valuation finished", budget: budget)
 
       visit admin_budget_budget_investments_path(budget_id: budget)
       expect(page).to have_link("Investment valuation open")
@@ -363,14 +355,8 @@ describe "Admin budget investments", :admin do
     end
 
     scenario "Filtering by winners" do
-      create(:budget_investment,
-        :winner,
-        :finished,
-        title: "Investment winner",
-        budget: budget)
-      create(:budget_investment,
-        title: "Investment without winner",
-        budget: budget)
+      create(:budget_investment, :winner, :finished, title: "Investment winner", budget: budget)
+      create(:budget_investment, title: "Investment without winner", budget: budget)
 
       visit admin_budget_budget_investments_path(budget_id: budget)
       expect(page).to have_link("Investment winner")
@@ -523,13 +509,14 @@ describe "Admin budget investments", :admin do
       check "Winners"
       click_button "Filter"
 
-      expect(page).to have_link "Calculate Winner Investments"
+      expect(page).to have_button "Calculate Winner Investments"
 
-      visit edit_admin_budget_path(budget)
+      visit admin_budget_path(budget)
 
-      expect(page).to have_link "Calculate Winner Investments"
+      expect(page).to have_button "Calculate Winner Investments"
 
-      select "Accepting projects", from: "Phase"
+      click_link "Edit budget"
+      select "Accepting projects", from: "Active phase"
       click_button "Update Budget"
 
       expect(page).to have_content "Participatory budget updated successfully"
@@ -540,14 +527,13 @@ describe "Admin budget investments", :admin do
       check "Winners"
       click_button "Filter"
 
-      expect(page).not_to have_link "Calculate Winner Investments"
-      expect(page).to have_content 'The budget has to stay on phase "Balloting projects", '\
-                                   '"Reviewing Ballots" or "Finished budget" in order '\
-                                   "to calculate winners projects"
+      expect(page).not_to have_button "Calculate Winner Investments"
+      expect(page).to have_content 'The budget has to stay on phase "Reviewing voting" '\
+                                   "in order to calculate winners projects"
 
-      visit edit_admin_budget_path(budget)
+      visit admin_budget_path(budget)
 
-      expect(page).not_to have_link "Calculate Winner Investments"
+      expect(page).not_to have_button "Calculate Winner Investments"
     end
 
     scenario "Filtering by minimum number of votes" do
@@ -1040,7 +1026,7 @@ describe "Admin budget investments", :admin do
 
       fill_in "Title", with: "Potatoes"
       fill_in_ckeditor "Description", with: "Carrots"
-      select "#{budget_investment.group.name}: Barbate", from: "budget_investment[heading_id]"
+      select "Barbate", from: "budget_investment[heading_id]"
       uncheck "budget_investment_incompatible"
       check "budget_investment_selected"
 
@@ -1083,7 +1069,7 @@ describe "Admin budget investments", :admin do
       select "Marta desc (marta@admins.org)", from: "budget_investment[administrator_id]"
       click_button "Update"
 
-      expect(page).to have_content "Investment project updated succesfully."
+      expect(page).to have_content "Investment project updated successfully."
       expect(page).to have_content "Assigned administrator: Marta"
     end
 
@@ -1116,7 +1102,7 @@ describe "Admin budget investments", :admin do
 
       click_button "Update"
 
-      expect(page).to have_content "Investment project updated succesfully."
+      expect(page).to have_content "Investment project updated successfully."
 
       within("#assigned_valuators") do
         expect(page).to have_content("Valentina (v1@valuators.org)")
@@ -1141,7 +1127,7 @@ describe "Admin budget investments", :admin do
 
       click_button "Update"
 
-      expect(page).to have_content "Investment project updated succesfully."
+      expect(page).to have_content "Investment project updated successfully."
 
       within("#assigned_valuator_groups") do
         expect(page).to have_content("Health")
@@ -1165,7 +1151,7 @@ describe "Admin budget investments", :admin do
 
       click_button "Update"
 
-      expect(page).to have_content "Investment project updated succesfully."
+      expect(page).to have_content "Investment project updated successfully."
 
       within("#assigned_valuator_groups") { expect(page).to have_content("Health") }
       within("#assigned_valuators") do
@@ -1187,7 +1173,7 @@ describe "Admin budget investments", :admin do
 
       click_button "Update"
 
-      expect(page).to have_content "Investment project updated succesfully."
+      expect(page).to have_content "Investment project updated successfully."
 
       within "#tags" do
         expect(page).to have_content "Education"
@@ -1204,7 +1190,7 @@ describe "Admin budget investments", :admin do
       fill_in "budget_investment_valuation_tag_list", with: "Refugees, Solidarity"
       click_button "Update"
 
-      expect(page).to have_content "Investment project updated succesfully."
+      expect(page).to have_content "Investment project updated successfully."
 
       within "#tags" do
         expect(page).to have_content "Refugees"
@@ -1230,7 +1216,7 @@ describe "Admin budget investments", :admin do
       fill_in "budget_investment_valuation_tag_list", with: "Education, Environment"
       click_button "Update"
 
-      expect(page).to have_content "Investment project updated succesfully"
+      expect(page).to have_content "Investment project updated successfully"
 
       visit admin_budget_budget_investment_path(budget_investment.budget, budget_investment)
 
@@ -1258,7 +1244,7 @@ describe "Admin budget investments", :admin do
       fill_in "budget_investment_valuation_tag_list", with: "Refugees, Solidarity"
       click_button "Update"
 
-      expect(page).to have_content "Investment project updated succesfully."
+      expect(page).to have_content "Investment project updated successfully."
 
       visit budget_investment_path(budget_investment.budget, budget_investment)
       expect(page).to have_content "Park"
@@ -1278,19 +1264,17 @@ describe "Admin budget investments", :admin do
       expect(find("#js-investment-report-alert")).to be_checked
     end
 
-    # The feature tested in this scenario works as expected but some underlying reason
-    # we're not aware of makes it fail at random
-    xscenario "Shows alert with unfeasible status when 'Valuation finished' is checked" do
+    scenario "Shows alert with unfeasible status when 'Valuation finished' is checked" do
       budget_investment = create(:budget_investment, :unfeasible)
 
       visit admin_budget_budget_investment_path(budget_investment.budget, budget_investment)
       click_link "Edit dossier"
 
-      expect(page).to have_content("Valuation finished")
-      valuation = find_field("budget_investment[valuation_finished]")
+      expect(page).to have_field "Valuation finished", checked: false
+
       accept_confirm { check("Valuation finished") }
 
-      expect(valuation).to be_checked
+      expect(page).to have_field "Valuation finished", checked: true
     end
 
     scenario "Undoes check in 'Valuation finished' if user clicks 'cancel' on alert" do
@@ -1330,7 +1314,7 @@ describe "Admin budget investments", :admin do
 
       click_button "Update"
 
-      expect(page).to have_content "Investment project updated succesfully."
+      expect(page).to have_content "Investment project updated successfully."
       expect(page).to have_content("Milestone Tags: tag1, tag2")
     end
   end
@@ -1583,6 +1567,7 @@ describe "Admin budget investments", :admin do
     end
 
     scenario "Shows the correct investments to valuators" do
+      budget.update!(phase: :valuating)
       investment1.update!(visible_to_valuators: true)
       investment2.update!(visible_to_valuators: false)
 
@@ -1725,7 +1710,7 @@ describe "Admin budget investments", :admin do
 
       header = page.response_headers["Content-Disposition"]
       expect(header).to match(/^attachment/)
-      expect(header).to match(/filename="budget_investments.csv"$/)
+      expect(header).to match(/filename="budget_investments.csv"/)
 
       csv_contents = "ID,Title,Supports,Administrator,Valuator,Valuation Group,Scope of operation,"\
                      "Feasibility,Val. Fin.,Selected,Show to valuators,Author username\n"\

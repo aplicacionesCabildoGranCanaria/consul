@@ -20,23 +20,21 @@ describe "Commenting polls" do
   end
 
   scenario "Show" do
-    skip "Feature not implemented yet, review soon"
-
-    parent_comment = create(:comment, commentable: poll)
-    first_child    = create(:comment, commentable: poll, parent: parent_comment)
-    second_child   = create(:comment, commentable: poll, parent: parent_comment)
+    parent_comment = create(:comment, commentable: poll, body: "Parent")
+    create(:comment, commentable: poll, parent: parent_comment, body: "First subcomment")
+    create(:comment, commentable: poll, parent: parent_comment, body: "Last subcomment")
 
     visit comment_path(parent_comment)
 
-    expect(page).to have_css(".comment", count: 3)
-    expect(page).to have_content parent_comment.body
-    expect(page).to have_content first_child.body
-    expect(page).to have_content second_child.body
+    expect(page).to have_css ".comment", count: 3
+    expect(page).to have_content "Parent"
+    expect(page).to have_content "First subcomment"
+    expect(page).to have_content "Last subcomment"
     expect(page).to have_link "Go back to #{poll.name}", href: poll_path(poll)
 
-    expect(page).to have_selector("ul#comment_#{parent_comment.id}>li", count: 2)
-    expect(page).to have_selector("ul#comment_#{first_child.id}>li", count: 1)
-    expect(page).to have_selector("ul#comment_#{second_child.id}>li", count: 1)
+    within ".comment", text: "Parent" do
+      expect(page).to have_css ".comment", count: 2
+    end
   end
 
   scenario "Link to comment show" do
@@ -104,13 +102,17 @@ describe "Commenting polls" do
     expect(c1.body).to appear_before(c2.body)
     expect(c2.body).to appear_before(c3.body)
 
-    visit poll_path(poll, order: :newest)
+    click_link "Newest first"
 
+    expect(page).to have_link "Newest first", class: "is-active"
+    expect(page).to have_current_path(/#comments/, url: true)
     expect(c3.body).to appear_before(c2.body)
     expect(c2.body).to appear_before(c1.body)
 
-    visit poll_path(poll, order: :oldest)
+    click_link "Oldest first"
 
+    expect(page).to have_link "Oldest first", class: "is-active"
+    expect(page).to have_current_path(/#comments/, url: true)
     expect(c1.body).to appear_before(c2.body)
     expect(c2.body).to appear_before(c3.body)
   end
@@ -178,6 +180,7 @@ describe "Commenting polls" do
     end
 
     expect(page).to have_css(".comment", count: 2)
+    expect(page).to have_current_path(/#comments/, url: true)
   end
 
   describe "Not logged user" do
@@ -312,8 +315,6 @@ describe "Commenting polls" do
 
   describe "Moderators" do
     scenario "can create comment as a moderator" do
-      skip "Feature not implemented yet, review soon"
-
       moderator = create(:moderator)
 
       login_as(moderator.user)
@@ -332,8 +333,6 @@ describe "Commenting polls" do
     end
 
     scenario "can create reply as a moderator" do
-      skip "Feature not implemented yet, review soon"
-
       citizen = create(:user, username: "Ana")
       manuela = create(:user, username: "Manuela")
       moderator = create(:moderator, user: manuela)
@@ -361,8 +360,6 @@ describe "Commenting polls" do
     end
 
     scenario "can not comment as an administrator" do
-      skip "Feature not implemented yet, review soon"
-
       moderator = create(:moderator)
 
       login_as(moderator.user)
@@ -374,8 +371,6 @@ describe "Commenting polls" do
 
   describe "Administrators" do
     scenario "can create comment as an administrator" do
-      skip "Feature not implemented yet, review soon"
-
       admin = create(:administrator)
 
       login_as(admin.user)
@@ -394,8 +389,6 @@ describe "Commenting polls" do
     end
 
     scenario "can create reply as an administrator" do
-      skip "Feature not implemented yet, review soon"
-
       citizen = create(:user, username: "Ana")
       manuela = create(:user, username: "Manuela")
       admin   = create(:administrator, user: manuela)
@@ -423,8 +416,6 @@ describe "Commenting polls" do
     end
 
     scenario "can not comment as a moderator", :admin do
-      skip "Feature not implemented yet, review soon"
-
       visit poll_path(poll)
 
       expect(page).not_to have_content "Comment as moderator"
@@ -448,7 +439,7 @@ describe "Commenting polls" do
       visit poll_path(poll)
 
       within("#comment_#{comment.id}_votes") do
-        within(".in_favor") do
+        within(".in-favor") do
           expect(page).to have_content "1"
         end
 
@@ -464,9 +455,9 @@ describe "Commenting polls" do
       visit poll_path(poll)
 
       within("#comment_#{comment.id}_votes") do
-        find(".in_favor a").click
+        click_button "I agree"
 
-        within(".in_favor") do
+        within(".in-favor") do
           expect(page).to have_content "1"
         end
 
@@ -482,15 +473,15 @@ describe "Commenting polls" do
       visit poll_path(poll)
 
       within("#comment_#{comment.id}_votes") do
-        find(".in_favor a").click
+        click_button "I agree"
 
-        within(".in_favor") do
+        within(".in-favor") do
           expect(page).to have_content "1"
         end
 
-        find(".against a").click
+        click_button "I disagree"
 
-        within(".in_favor") do
+        within(".in-favor") do
           expect(page).to have_content "0"
         end
 
@@ -506,15 +497,15 @@ describe "Commenting polls" do
       visit poll_path(poll)
 
       within("#comment_#{comment.id}_votes") do
-        find(".in_favor a").click
+        click_button "I agree"
 
-        within(".in_favor") do
+        within(".in-favor") do
           expect(page).to have_content "1"
         end
 
-        find(".in_favor a").click
+        click_button "I agree"
 
-        within(".in_favor") do
+        within(".in-favor") do
           expect(page).to have_content "1"
         end
 

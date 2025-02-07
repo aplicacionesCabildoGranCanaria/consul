@@ -37,31 +37,27 @@ class Poll < ApplicationRecord
 
   validates_translation :name, presence: true
   validate :date_range
+  validate :start_date_is_not_past_date, on: :create
+  validate :start_date_change, on: :update
+  validate :end_date_is_not_past_date, on: :update
+  validate :end_date_change, on: :update
   validate :only_one_active, unless: :public?
 
   accepts_nested_attributes_for :questions, reject_if: :all_blank, allow_destroy: true
 
   scope :for, ->(element) { where(related: element) }
-  scope :current,  -> { where("starts_at <= ? and ? <= ends_at", Date.current.beginning_of_day, Date.current.beginning_of_day) }
-  scope :expired,  -> { where("ends_at < ?", Date.current.beginning_of_day) }
-  scope :recounting, -> { where(ends_at: (Date.current.beginning_of_day - RECOUNT_DURATION)..Date.current.beginning_of_day) }
-  scope :published, -> { where("published = ?", true) }
+  scope :current, -> { where("starts_at <= :time and ends_at >= :time", time: Time.current) }
+  scope :expired, -> { where("ends_at < ?", Time.current) }
+  scope :recounting, -> { where(ends_at: (RECOUNT_DURATION.ago)...Time.current) }
+  scope :published, -> { where(published: true) }
   scope :by_geozone_id, ->(geozone_id) { where(geozones: { id: geozone_id }.joins(:geozones)) }
   scope :public_for_api, -> { all }
   scope :not_budget, -> { where(budget_id: nil) }
   scope :created_by_admin, -> { where(related_type: nil) }
 
-  def self.sort_for_list
+  def self.sort_for_list(user = nil)
     all.sort do |poll, another_poll|
-      if poll.geozone_restricted? == another_poll.geozone_restricted?
-        [poll.starts_at, poll.name] <=> [another_poll.starts_at, another_poll.name]
-      else
-        if poll.geozone_restricted?
-          1
-        else
-          -1
-        end
-      end
+      [poll.weight(user), poll.starts_at, poll.name] <=> [another_poll.weight(user), another_poll.starts_at, another_poll.name]
     end
   end
 
@@ -75,11 +71,15 @@ class Poll < ApplicationRecord
     name
   end
 
-  def current?(timestamp = Date.current.beginning_of_day)
+  def started?(timestamp = Time.current)
+    starts_at.present? && starts_at < timestamp
+  end
+
+  def current?(timestamp = Time.current)
     starts_at <= timestamp && timestamp <= ends_at
   end
 
-  def expired?(timestamp = Date.current.beginning_of_day)
+  def expired?(timestamp = Time.current)
     ends_at < timestamp
   end
 
@@ -106,15 +106,13 @@ class Poll < ApplicationRecord
   end
 
   def self.votable_by(user)
-    answerable_by(user).
-    not_voted_by(user)
+    answerable_by(user).not_voted_by(user)
   end
 
   def votable_by?(user)
     return false if user_has_an_online_ballot?(user)
 
-    answerable_by?(user) &&
-    not_voted_by?(user)
+    answerable_by?(user) && not_voted_by?(user)
   end
 
   def user_has_an_online_ballot?(user)
@@ -122,7 +120,7 @@ class Poll < ApplicationRecord
   end
 
   def self.not_voted_by(user)
-    where("polls.id not in (?)", poll_ids_voted_by(user))
+    where.not(id: poll_ids_voted_by(user))
   end
 
   def self.poll_ids_voted_by(user)
@@ -150,6 +148,34 @@ class Poll < ApplicationRecord
   def date_range
     unless starts_at.present? && ends_at.present? && starts_at <= ends_at
       errors.add(:starts_at, I18n.t("errors.messages.invalid_date_range"))
+    end
+  end
+
+  def start_date_is_not_past_date
+    if starts_at.present? && starts_at < Time.current
+      errors.add(:starts_at, I18n.t("errors.messages.past_date"))
+    end
+  end
+
+  def start_date_change
+    if will_save_change_to_starts_at?
+      if starts_at_in_database < Time.current
+        errors.add(:starts_at, I18n.t("errors.messages.cannot_change_date.poll_started"))
+      elsif starts_at < Time.current
+        errors.add(:starts_at, I18n.t("errors.messages.past_date"))
+      end
+    end
+  end
+
+  def end_date_is_not_past_date
+    if will_save_change_to_ends_at? && ends_at < Time.current
+      errors.add(:ends_at, I18n.t("errors.messages.past_date"))
+    end
+  end
+
+  def end_date_change
+    if will_save_change_to_ends_at? && ends_at_in_database < Time.current
+      errors.add(:ends_at, I18n.t("errors.messages.cannot_change_date.poll_ended"))
     end
   end
 
@@ -191,5 +217,17 @@ class Poll < ApplicationRecord
 
   def self.search(terms)
     pg_search(terms)
+  end
+
+  def weight(user)
+    if geozone_restricted?
+      if answerable_by?(user)
+        50
+      else
+        100
+      end
+    else
+      0
+    end
   end
 end

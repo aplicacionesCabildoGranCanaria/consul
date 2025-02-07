@@ -24,7 +24,7 @@ class Legislation::Process < ApplicationRecord
   PHASES_AND_PUBLICATIONS = %i[homepage_phase draft_phase debate_phase allegations_phase
                                proposals_phase draft_publication result_publication].freeze
 
-  CSS_HEX_COLOR = /\A#?(?:[A-F0-9]{3}){1,2}\z/i.freeze
+  CSS_HEX_COLOR = /\A#?(?:[A-F0-9]{3}){1,2}\z/i
 
   has_many :draft_versions, -> { order(:id) },
     foreign_key: "legislation_process_id",
@@ -55,8 +55,8 @@ class Legislation::Process < ApplicationRecord
   end
 
   validate :valid_date_ranges
-  validates :background_color, format: { allow_blank: true, with: CSS_HEX_COLOR }
-  validates :font_color, format: { allow_blank: true, with: CSS_HEX_COLOR }
+  validates :background_color, format: { allow_blank: true, with: ->(*) { CSS_HEX_COLOR }}
+  validates :font_color, format: { allow_blank: true, with: ->(*) { CSS_HEX_COLOR }}
 
   class << self; undef :open; end
   scope :open, -> { where("start_date <= ? and end_date >= ?", Date.current, Date.current) }
@@ -110,7 +110,7 @@ class Legislation::Process < ApplicationRecord
   end
 
   def total_comments
-    questions.sum(:comments_count) + draft_versions.map(&:total_comments).sum
+    questions.sum(:comments_count) + draft_versions.sum(&:total_comments)
   end
 
   def status

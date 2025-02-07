@@ -1,6 +1,6 @@
 class ProgressBar < ApplicationRecord
   self.inheritance_column = nil
-  RANGE = (0..100).freeze
+  RANGE = (0..100)
 
   enum kind: %i[primary secondary]
 
@@ -16,7 +16,7 @@ class ProgressBar < ApplicationRecord
               scope: [:progressable_type, :progressable_id],
               conditions: -> { primary }
             }
-  validates :percentage, presence: true, inclusion: RANGE, numericality: { only_integer: true }
+  validates :percentage, presence: true, inclusion: { in: ->(*) { RANGE }}, numericality: { only_integer: true }
 
   validates_translation :title, presence: true, unless: :primary?
 end

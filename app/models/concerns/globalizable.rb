@@ -25,21 +25,26 @@ module Globalizable
       translated_attribute_names.any? { |attr| required_attribute?(attr) }
     end
 
-    if self.paranoid? && translation_class.attribute_names.include?("hidden_at")
+    if paranoid? && translation_class.attribute_names.include?("hidden_at")
       translation_class.send :acts_as_paranoid, column: :hidden_at
     end
 
     private
 
       def required_attribute?(attribute)
-        presence_validators = [ActiveModel::Validations::PresenceValidator,
-          ActiveRecord::Validations::PresenceValidator]
-
-        attribute_validators(attribute).any? { |validator| presence_validators.include? validator }
+        self.class.validators_on(attribute).any? do |validator|
+          validator.kind == :presence && !conditional_validator?(validator)
+        end
       end
 
-      def attribute_validators(attribute)
-        self.class.validators_on(attribute).map(&:class)
+      def conditional_validator?(validator)
+        return false unless validator.options[:unless]
+
+        if validator.options[:unless].to_proc.arity.zero?
+          instance_exec(&validator.options[:unless])
+        else
+          validator.options[:unless].to_proc.call(self)
+        end
       end
 
       def check_translations_number
@@ -94,6 +99,23 @@ module Globalizable
 
     def translation_class_delegate(method)
       translation_class.instance_eval { delegate method, to: :globalized_model }
+    end
+
+    def with_fallback_translation
+      translations_foreign_key = reflect_on_association(:translations).foreign_key
+      fallbacks = Globalize.fallbacks(Globalize.locale)
+
+      fallbacks_with_order = fallbacks.map.with_index do |locale, order|
+        "('#{locale}', #{order})"
+      end.join(", ")
+
+      translations_ids = translation_class
+        .select("DISTINCT ON (#{translations_foreign_key}) id")
+        .where(locale: fallbacks)
+        .joins("LEFT JOIN (VALUES #{fallbacks_with_order}) AS locales(name, ordering) ON locale = locales.name")
+        .order(translations_foreign_key, "locales.ordering")
+
+      with_translations(fallbacks).where("#{translations_table_name}.id": translations_ids)
     end
   end
 end

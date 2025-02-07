@@ -1,6 +1,6 @@
 class Management::UsersController < Management::BaseController
   def new
-    @user = User.new(user_params)
+    @user = User.new(user_params.merge(verified_at: Time.current))
   end
 
   def create
@@ -37,7 +37,11 @@ class Management::UsersController < Management::BaseController
   private
 
     def user_params
-      params.require(:user).permit(:document_type, :document_number, :username, :email, :date_of_birth)
+      params.require(:user).permit(allowed_params)
+    end
+
+    def allowed_params
+      [:document_type, :document_number, :username, :email, :date_of_birth]
     end
 
     def destroy_session
@@ -47,7 +51,7 @@ class Management::UsersController < Management::BaseController
     end
 
     def user_without_email
-      new_password = "aAbcdeEfghiJkmnpqrstuUvwxyz23456789$!".split("").sample(10).join("")
+      new_password = "aAbcdeEfghiJkmnpqrstuUvwxyz23456789$!".chars.sample(10).join
       @user.password = new_password
       @user.password_confirmation = new_password
 
@@ -55,7 +59,6 @@ class Management::UsersController < Management::BaseController
       @user.confirmed_at = Time.current
 
       @user.newsletter = false
-      @user.email_on_proposal_notification = false
       @user.email_digest = false
       @user.email_on_direct_message = false
       @user.email_on_comment = false

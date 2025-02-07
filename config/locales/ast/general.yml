@@ -5,21 +5,12 @@ ast:
       erase_account_link: Dame de baxa
       finish_verification: Rematar verificación
       notifications: Notificaciones
-      organization_name_label: Nome de l'organización
-      organization_responsible_name_placeholder: Representante de l'asociación/coleutivu
       personal: Datos personales
-      phone_number_label: Númberu de teléfonu
       save_changes_submit: Guardar Cambeos
       title: La mio cuenta
-      user_permission_debates: Participar n'alderiques
       user_permission_info: Cola to cuenta yá pues...
-      user_permission_proposal: Crear nueves propuestes
-      user_permission_support_proposal: Sofitar propuestes
       user_permission_title: Participación
       user_permission_verify: Pa poder realizar toles acciones, verifica la to cuenta.
-      user_permission_verify_info: "* Namás usuarios empadronaos."
-      user_permission_votes: Participar nes votaciones finales
-      username_label: Nome d'usuariu
       verified_account: Cuenta verificada
       verify_my_account: Verificar mi cuenta
   application:
@@ -48,7 +39,6 @@ ast:
       most_voted: Más votados
       newest: Más nuevos primero
       oldest: Más antiguos primero
-    select_order: Ordenar por
     show:
       return_to_commentable: "Volver a "
   comments_helper:
@@ -62,9 +52,6 @@ ast:
       form:
         submit_button: Empezar un debate
     debate:
-      comments:
-        one: 1 Comentario
-        other: "%{count} comentarios"
       votes:
         one: 1 voto
         other: "%{count} votos"
@@ -74,7 +61,6 @@ ast:
         submit_button: Guardar Cambeos
       show_link: Ver debate
     form:
-      debate_title: Título del debate
       tags_instructions: Etiqueta este debate.
       tags_placeholder: "Escribe les etiquetes que deseyes separaes por una coma (',')"
     index:
@@ -89,7 +75,6 @@ ast:
         button: Atopar
         placeholder: Buscar debates...
         title: Atopar
-      select_order: Ordenar por
       start_debate: Empezar un debate
       title: Alderique
       section_header:
@@ -97,8 +82,6 @@ ast:
     new:
       form:
         submit_button: Empezar un debate
-      info: Si lo que quieres es hacer una propuesta, esta es la sección incorrecta, entra en %{info_link}.
-      info_link: crear nueva propuesta
       more_info: Más información
       recommendation_four: Disfruta de este espacio, de las voces que lo llenan, también es tuyo.
       recommendation_one: No escribas el título del debate o frases enteras en mayúsculas. En internet eso se considera gritar. Y a nadie le gusta que le griten.
@@ -108,9 +91,6 @@ ast:
       start_new: Empezar un debate
     show:
       author_deleted: Usuariu esaniciáu
-      comments:
-        one: 1 Comentario
-        other: "%{count} comentarios"
       comments_title: Comentarios
       edit_debate_link: Editar propuesta
       flag: Este debate ha sido marcado como inapropiado por varios usuarios.
@@ -148,10 +128,15 @@ ast:
       firefox: Firefox
       ie: Hemos detectado que estás navegando desde Internet Explorer. Para una mejor experiencia te recomendamos utilizar %{firefox} o %{chrome}.
       ie_title: Esta web no está optimizada para tu navegador
+    dashboard:
+      proposal_header:
+        published: Publicáu
+        draft: Borrador
+        retired: Retirada
     footer:
       accessibility: Accesibilidad
       conditions: Condiciones de uso
-      consul_url: https://github.com/consul/consul
+      consul_url: https://github.com/consuldemocracy/consuldemocracy
       description: Este portal usa la %{consul} que es %{open_source}.
       open_source: software libre
       open_source_url: http://www.gnu.org/licenses/agpl-3.0.html
@@ -159,8 +144,8 @@ ast:
       participation_title: Participación
       privacy: Política de Privacidad
     header:
+      administration_menu: Menú
       administration: Alministración
-      available_locales: Idiomas disponibles
       collaborative_legislation: Procesos legislativos
       debates: Alderique
       locale: "Idioma:"
@@ -217,11 +202,16 @@ ast:
       sign_in: Entra con Twitter
       sign_up: Regístrate con Twitter
       name: Twitter
+    info:
+      sign_in: "Entra con:"
+      sign_up: "Regístrate con:"
     or_fill: "O rellena el siguiente formulario:"
   proposals:
     create:
       form:
         submit_button: Crear propuesta
+    share:
+      dashboard: Ver más información
     edit:
       editing: Editar propuesta
       form:
@@ -268,11 +258,12 @@ ast:
         button: Atopar
         placeholder: Buscar propuestas...
         title: Atopar
-      select_order: Ordenar por
+      search_results:
+        one: " que contien <strong>'%{search_term}'</strong>"
+        other: " que contien <strong>'%{search_term}'</strong>"
       select_order_long: "Estas viendo las propuestas"
       start_proposal: Crea una propuesta
       title: Propuestes
-      top: Top semanal
       top_link_proposals: Propuestas más apoyadas por categoría
       section_header:
         title: Propuestes
@@ -294,9 +285,6 @@ ast:
         edit: "Antes de que se publique podrás modificar el texto a tu gusto."
         view_proposal: Ahora no, ir a mi propuesta
       already_supported: '¡Ya has apoyado esta propuesta, compártela!'
-      comments:
-        one: 1 Comentario
-        other: "%{count} comentarios"
       support: Sofitar
       support_title: Apoyar esta propuesta
       supports:
@@ -311,9 +299,6 @@ ast:
     show:
       author_deleted: Usuariu esaniciáu
       code: "Código de la propuesta:"
-      comments:
-        one: 1 Comentario
-        other: "%{count} comentarios"
       comments_tab: Comentarios
       flag: Esta propuesta ha sido marcada como inapropiada por varios usuarios.
       notifications_tab: Notificaciones
@@ -327,6 +312,38 @@ ast:
     update:
       form:
         submit_button: Guardar Cambeos
+  dashboard:
+    menu:
+      polls: Votaciones
+    progress:
+      supports: Sofitos
+    index:
+      edit_proposal_link: Editar propuesta
+      retire: Retirar propuesta
+    recommended_actions:
+      pending_title: Pindios
+      done_title: Realizadas
+    community:
+      debates: Alderique
+      comments: Comentarios
+    polls:
+      index:
+        title: Votaciones
+        create: Crear votación
+      new:
+        title: Nueva votación
+        submit: Crear votación
+      edit:
+        submit: Actualizar votación
+    poster:
+      options:
+        preview: Previsualizar
+    mailing:
+      mailing_options:
+        preview: Previsualizar
+    mailer:
+      forward:
+        support_button: Apoyar esta propuesta
   polls:
     all: "Toes"
     no_dates: "sin fecha asignada"
@@ -350,6 +367,7 @@ ast:
     show:
       cant_answer_not_logged_in: "Necesitas %{signin} o %{signup} para participar en el debate."
       comments_tab: Comentarios
+      cant_answer_verify: "Por favor %{verify_link} para poder responder."
       verify_link: "verifica la to cuenta"
       cant_answer_expired: "Esta votación ha terminado."
       cant_answer_wrong_geozone: "Esta votación no está disponible en tu zona."
@@ -371,14 +389,13 @@ ast:
       back: "Volver a mi actividad"
   shared:
     edit: "Editar propuesta"
+    filter: "Filtru"
     save: "Guardar"
     delete: "Borrar"
     "yes": "Sí"
     "no": "Non"
     search_results: "Resultados de búsqueda"
     advanced_search:
-      author_type: "Por categoría de autor"
-      author_type_blank: "Elige una categoría"
       date: "Por fecha"
       date_placeholder: "DD/MM/AAAA"
       date_range_blank: "Elige una fecha"
@@ -389,7 +406,6 @@ ast:
       date_5: "Personalizada"
       from: "Desde"
       general: "Con el texto"
-      general_placeholder: "Escribe el texto"
       search: "Filtru"
       title: "Búsqueda avanzada"
       to: "Hasta"
@@ -429,6 +445,7 @@ ast:
       districts: "Distritos"
       districts_list: "Listado de distritos"
       categories: "Categoríes"
+    target_blank: " (se abre en ventana nueva)"
     you_are_in: "Estás en"
     unflag: Deshacer denuncia
     outline:
@@ -458,6 +475,11 @@ ast:
     manage:
       all: "No tienes permiso para realizar la acción '%{action}' sobre %{subject}."
   users:
+    login_to_comment: "Necesitas %{signin} o %{signup} para comentar."
+    login_to_continue: "Precises %{signin} o %{signup} pa siguir."
+    signin: "accesu"
+    signup: "rexistrate"
+    verify_account: "verifica la to cuenta"
     direct_messages:
       new:
         direct_messages_bloqued: "Este usuario ha decidido no recibir mensajes privados"
@@ -471,6 +493,7 @@ ast:
       deleted_debate: Este debate ha sido eliminado
       deleted_proposal: Este propuesta ha sido eliminada
       proposals: Propuestes
+      proposals_status: Estáu
       debates: Alderique
       comments: Comentarios
       actions: Acciones
@@ -490,17 +513,18 @@ ast:
       no_activity: Usuario sin actividad pública
       no_private_messages: "Este usuario no acepta mensajes privados."
       send_private_message: "Enviar un mensaje privado"
+    proposals:
+      draft: Borrador
+      published: Publicáu
+      actions: Acciones
   votes:
     agree: Estoy de acuerdo
     anonymous: Demasiados votos anónimos, para poder votar %{verify_account}.
-    comment_unauthenticated: Necesitas %{signin} o %{signup} para poder votar.
     disagree: No estoy de acuerdo
     organizations: Les organizaciones nun puen votar
     supports: Sofitos
     verified_only: Las propuestas de inversión sólo pueden ser apoyadas por usuarios verificados, %{verify_account}.
     budget_investments:
-      not_logged_in: Precises %{signin} o %{signup} pa siguir.
-      organization: Les organizaciones nun puen votar
       unfeasible: No se pueden votar propuestas inviables.
       not_voting_allowed: El periodo de votación está cerrado.
   welcome:
@@ -510,22 +534,12 @@ ast:
       process_label: Procesu
     cards:
       title: Destacadas
-    verification:
-      i_dont_have_an_account: No tengo cuenta, quiero crear una y verificarla
-      i_have_an_account: Ya tengo una cuenta que quiero verificar
-      question: '¿Tienes ya una cuenta en %{org_name}?'
-      title: Verificación de cuenta
     welcome:
       go_to_index: Ahora no, ver propuestas
       title: Colabora en la elaboración de la normativa sobre
-      user_permission_debates: Participar n'alderiques
       user_permission_info: Cola to cuenta yá pues...
-      user_permission_proposal: Crear nueves propuestes
-      user_permission_support_proposal: Apoyar propuestas
       user_permission_verify: "Pa poder realizar toles acciones, verifica la to cuenta."
-      user_permission_verify_info: "* Namás usuarios empadronaos."
       user_permission_verify_my_account: Verificar mi cuenta
-      user_permission_votes: Participar nes votaciones finales
   invisible_captcha:
     sentence_for_humans: "Si eres humano, por favor ignora este campo"
     timestamp_error_message: "Eso ha sido demasiado rápido. Por favor, reenvía el formulario."
@@ -544,3 +558,7 @@ ast:
       alt: Selecciona el texto que quieres comentar y pulsa en el botón con el lápiz.
       text: Para comentar este documento debes %{sign_in} o %{sign_up}. Después selecciona el texto que quieres comentar y pulsa en el botón con el lápiz.
       title: '¿Cómo puedo comentar este documento?'
+  links:
+    form:
+      delete_button: Borrar
+      cancel_button: Cancelar

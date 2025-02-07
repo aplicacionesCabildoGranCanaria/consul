@@ -7,15 +7,13 @@ oc:
       new_comment_by: I a un nòu comentari de <strong>%{commenter}</strong> en
       subject: Quauquarrés a comentat en lo tieu %{commentable}
       title: Nòu comentari
-    config:
-      manage_email_subscriptions: Pòdes quitar de recebre aqueles emails en cambiant la tiá configuracion en
     email_verification:
       click_here_to_verify: en aquel ligam
       instructions_2: Aquel corrièr electronic verificarà lo vòstre compte <b>%{document_type} %{document_number}</b>. S'aqueles vos apertenon pas, faguèt pas clic a l’ligam anterior e ignoratz aquel corrièr electronic.
       instructions: Per completar la verificacion de l'atencion d’usatgièr, vos cal far clic %{verification_link}.
       subject: Verifica lo tieu email
       thanks: Fòrça gràcias.
-      title: Verifica lo tieu compte amb lo seguent ligam
+      title: "Verifica lo tieu compte amb lo seguent ligam"
     reply:
       hi: Adieu
       new_reply_by: I a una nòva responsa de <strong>%{commenter}</strong> a lo tieu comentari en
@@ -26,17 +24,14 @@ oc:
       title: "Notificacions de proposicions en %{org_name}"
       share: Partejar proposicion
       comment: Comentar proposicion
-      unsubscribe: "se Volètz pas recebre cap de notificacion de proposicion, visitatz %{account} e desmarcatz \"Recep un resumit de las notificacions de las proposicions\"."
-      unsubscribe_account: Lo mieu compte
       unfollow: "Visita aquela proposicion e daissa-la sens quitar de recebre de notificacions."
     direct_message_for_receiver:
       subject: "As recebut un nòu messatge privat"
       reply: Respondre a %{sender}
-      unsubscribe: "se Volètz pas recebre de messatges dirèctes, visitatz %{account} e desmarcatz \"Recep de messatges de corrièr electronic sus messatges dirèctes\"."
-      unsubscribe_account: Lo mieu compte
     direct_message_for_sender:
       subject: "Avètz enviat un messatge privat nòu"
-      title: "Avètz enviat un messatge privat nòu a <strong>%{receiver}</strong> amb lo contengut:"
+      title: "Avètz enviat un messatge privat nòu"
+      text: "Avètz enviat un messatge privat nòu a <strong>%{receiver}</strong> amb lo contengut:"
     user_invite:
       ignore: "s'As pas sollicitat aquela invitacion te preocupas pas, pòdes ignorar aquel corrièr."
       text: "Gràcias per sollicitar l'inscripcion %{org}! En segon pòdes començar a participar, as solament d’emplir lo formulari seguent:"
@@ -78,30 +73,6 @@ oc:
       hi: Adieu
       new_comment_by: I a un nòu comentari d'avaloracion de <strong>%{commenter}</strong> a l'inversion budgetària %{investment}
       commenter_info: "%{commenter}, %{time}:"
-    new_actions_notification_rake_created:
-      subject: "Mai de notícias sus la vòstra proposicion ciutadana"
-      hi: "Adieu %{name},"
-      new_resource: "NÒU RECORS SENS BLÒC"
-      introduction: "Cossí sabètz ja, a la web %{created_at_day} jorn de detla %{created_at_month} avètz creat la proposicion en faiçon de borrolhon %{title}."
-      text_1: "Cada còp que volgatz, podètz publicar en aquel ligam: %{link_to_published}. Se sètz pas encara segur ..."
-      text_2: "Aprofechatz aquel moment! Aprenètz, apondètz d'autras personas amb los meteisses interèsses e preparatz la difusion qu'auretz de besonh quand publicatz definitivament la vòstra proposicion."
-      text_3: "E per vos acompanhar en aquel rèpte, avètz aicí las novetats ..."
-      text_4: "Donatz un còp d'uèlh a aquela NÒVA ACCION recomandada:"
-      text_5: "La seguenta accion que recomandam es:"
-      footer_text: "Cossí totjorn, dintra al panèl de proposicions e t’explicarem amb detalh coma utilizar aqueles recorses e coma traire’n lo maximal partit.."
-      dashboard_button: "Endavant, descobrís-los!"
-    new_actions_notification_rake_published:
-      subject: "Mai de notícias sus la vòstra proposicion ciutadana"
-      hi: "Adieu %{name},"
-      new_resource: "NÒU RECORS SENS BLÒC"
-      introduction: "Cossí sabètz ja, a la web %{published_at_day} jorn de detla %{published_at_month} publiquès la proposicion %{title}."
-      text_1: "Plan, tibat %{votes_count} supòrt fins ara Felicitat!"
-      text_2: "Aital doncas, avètz disponible un nòu recors que vos ajudarà a seguir endavant."
-      text_3: "Te tròbas de manca %{days_count} de jorns abans de la proposicion %{max_votes_count} apieja e va a referendum. S'animar e seguir en estendent. Te mancan d'idèas?"
-      text_4: "NÒVA ACCION DE DIFUSION RECOMANDADA"
-      text_5: "Encara n’i a mai, consultatz l’accion seguenta:"
-      footer_text: "Cossí totjorn, dintra al panèl de proposicions e t’explicarem amb detalh coma utilizar aqueles recorses e coma traire’n lo maximal partit.."
-      dashboard_button: "Endavant, descobrís-los!"
     new_actions_notification_on_create:
       subject: "La proposicion de ciutadan del projècte se crèa"
       hi: "Adieu %{name}!"

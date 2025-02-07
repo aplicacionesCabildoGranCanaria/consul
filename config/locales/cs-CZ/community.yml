@@ -25,8 +25,6 @@ cs:
       topic:
         edit: Upravit téma
         destroy: Smazat téma
-        comments:
-          zero: Žádné komentáře
       author: Autor
       back: Zpět na %{community} %{proposal}
     topic:

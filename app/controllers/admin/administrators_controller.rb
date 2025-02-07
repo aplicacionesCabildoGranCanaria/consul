@@ -6,9 +6,7 @@ class Admin::AdministratorsController < Admin::BaseController
   end
 
   def search
-    @users = User.search(params[:search])
-                 .includes(:administrator)
-                 .page(params[:page])
+    @users = User.search(params[:search]).includes(:administrator).page(params[:page])
   end
 
   def create
@@ -43,6 +41,10 @@ class Admin::AdministratorsController < Admin::BaseController
   private
 
     def update_administrator_params
-      params.require(:administrator).permit(:description)
+      params.require(:administrator).permit(allowed_params)
+    end
+
+    def allowed_params
+      [:description]
     end
 end

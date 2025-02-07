@@ -14,14 +14,13 @@ namespace :legislation do
       resources :answers, only: [:create]
     end
 
-    resources :proposals do
+    resources :proposals, except: [:index] do
       member do
         post :vote
         put :flag
         put :unflag
       end
       collection do
-        get :map
         get :suggest
       end
     end
