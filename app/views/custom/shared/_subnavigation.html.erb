@@ -45,7 +45,7 @@
       <% end %>
     </li>
     <li class="collaborative_legislation">
-      <%= link_to legislation_processes_path, class: "collaborative_legislation #{"active" if controller.class.parent == Legislation }", accesskey: "c"  do %>
+      <%= link_to legislation_processes_path, class: "collaborative_legislation #{"active" if controller.class.module_parent == Legislation }", accesskey: "c"  do %>
         <h1 class="hide-for-small-only"> <%= t("layouts.header.collaborative_legislation")%></h1>
         <span class="show-for-small-only"><%= t("layouts.header.collaborative_legislation")%> </span>
       <% end %>

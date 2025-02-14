@@ -40,6 +40,7 @@ class Image < ApplicationRecord
   end
 
   def variant(style)
+    byebug
     if style
       attachment.variant(self.class.styles[style].merge(strip: true))
     else
