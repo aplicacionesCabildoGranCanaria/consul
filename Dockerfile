@@ -1,4 +1,4 @@
-FROM ruby:3.0.6-buster
+FROM ruby:3.1.4-bullseye
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -9,7 +9,6 @@ RUN apt-get update -qq \
     cmake \
     imagemagick \
     libappindicator1 \
-    libindicator7 \
     libpq-dev \
     libxss1 \
     memcached \
@@ -23,12 +22,12 @@ RUN apt-get update -qq \
 # Install Chromium for E2E integration tests
 RUN apt-get update -qq && apt-get install -y chromium
 
-# Files created inside the container repect the ownership
+# Files created inside the container respect the ownership
 RUN adduser --shell /bin/bash --disabled-password --gecos "" consul \
  && adduser consul sudo \
  && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-RUN echo 'Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bundle/bin"' > /etc/sudoers.d/secure_path
+RUN echo 'Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bundle/bin:/usr/local/node/bin"' > /etc/sudoers.d/secure_path
 RUN chmod 0440 /etc/sudoers.d/secure_path
 
 # Define where our application will live inside the image
@@ -40,13 +39,22 @@ RUN mkdir -p $RAILS_ROOT/tmp/pids
 # Set our working directory inside the image
 WORKDIR $RAILS_ROOT
 
+# Install Node
+COPY .node-version ./
+ENV PATH=/usr/local/node/bin:$PATH
+RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \
+    /tmp/node-build-master/bin/node-build `cat .node-version` /usr/local/node && \
+    rm -rf /tmp/node-build-master
+
 # Use the Gemfiles as Docker cache markers. Always bundle before copying app src.
 # (the src likely changed and we don't want to invalidate Docker's cache too early)
-# http://ilikestuffblog.com/2014/01/06/how-to-skip-bundle-install-when-deploying-a-rails-app-to-docker/
-COPY Gemfile Gemfile
+COPY Gemfile* ./
 
-COPY Gemfile.lock Gemfile.lock
+# Delete Gemfile.lock if exists
+RUN rm -f Gemfile.lock
+RUN bundle install
 
+# Include Gemfile_custom
 COPY Gemfile_custom Gemfile_custom
 
 # Prevent bundler warnings; ensure that the bundler version executed is >= that which created Gemfile.lock
@@ -55,8 +63,9 @@ RUN gem install bundler -v 2.4.22
 # Finish establishing our Ruby environment
 RUN bundle install --full-index
 
-# Install Chromium for E2E integration tests
-RUN apt-get update -qq && apt-get install -y chromium
+# Install Node dependencies
+COPY package* ./
+RUN npm install
 
 # Copy the Rails application into place
 COPY . .
@@ -64,5 +73,4 @@ COPY . .
 ENTRYPOINT ["./docker-entrypoint.sh"]
 # Define the script we want run once the container boots
 # Use the "exec" form of CMD so our script shuts down gracefully on SIGTERM (i.e. `docker stop`)
-# CMD [ "config/containers/app_cmd.sh" ]
 CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
