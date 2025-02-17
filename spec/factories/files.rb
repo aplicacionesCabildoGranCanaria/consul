@@ -12,10 +12,6 @@ FactoryBot.define do
       imageable factory: :budget
     end
 
-    trait :budget_image do
-      association :imageable, factory: :budget
-    end
-
     trait :budget_investment_image do
       imageable factory: :budget_investment
     end

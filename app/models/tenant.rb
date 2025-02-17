@@ -30,7 +30,6 @@ class Tenant < ApplicationRecord
       schema
     end
   end
-  
   def self.schema_for(host)
     host_without_www = host.delete_prefix("www.")
 
@@ -41,9 +40,6 @@ class Tenant < ApplicationRecord
     else
       host_domain = allowed_domains.find { |domain| host == domain || host.ends_with?(".#{domain}") }
       schema = host_without_www.sub(/\.?#{host_domain}\Z/, "").presence
-
-      # Si el dominio está en allowed_domains pero no tiene schema en la BD, usa "public"
-      return "public" if host_domain && !find_by_domain(schema)
 
       if find_by_domain(schema)
         raise Apartment::TenantNotFound

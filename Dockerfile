@@ -22,6 +22,9 @@ RUN apt-get update -qq \
 # Install Chromium for E2E integration tests
 RUN apt-get update -qq && apt-get install -y chromium
 
+# Install Chromium for E2E integration tests
+RUN apt-get update -qq && apt-get install -y chromium
+
 # Files created inside the container respect the ownership
 RUN adduser --shell /bin/bash --disabled-password --gecos "" consul \
  && adduser consul sudo \
@@ -52,7 +55,6 @@ COPY Gemfile* ./
 
 # Delete Gemfile.lock if exists
 RUN rm -f Gemfile.lock
-RUN bundle install
 
 # Include Gemfile_custom
 COPY Gemfile_custom Gemfile_custom
@@ -61,7 +63,7 @@ COPY Gemfile_custom Gemfile_custom
 RUN gem install bundler -v 2.4.22
 
 # Finish establishing our Ruby environment
-RUN bundle install --full-index
+RUN bundle install
 
 # Install Node dependencies
 COPY package* ./

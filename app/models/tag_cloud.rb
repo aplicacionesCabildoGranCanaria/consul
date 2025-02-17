@@ -22,14 +22,6 @@ class TagCloud
     end
   end
 
-  def counts
-    if Tag.machine_learning? && [Proposal, Budget::Investment].include?(resource_model)
-      :ml_tag_counts
-    else
-      :tag_counts
-    end
-  end
-
   def category_names
     Tag.category_names.map(&:downcase)
   end

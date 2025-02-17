@@ -12,10 +12,6 @@ def load_dev_seeds(dev_seeds_file)
   load Rails.root.join("db", "dev_seeds", "#{dev_seeds_file}.rb")
 end
 
-def load_dev_seeds(dev_seeds_file)
-  load Rails.root.join("db", "dev_seeds", "#{dev_seeds_file}.rb")
-end
-
 def section(section_title)
   @logger.info section_title
   yield

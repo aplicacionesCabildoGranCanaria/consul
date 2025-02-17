@@ -212,8 +212,6 @@ shared_examples "nested documentable" do |login_as_name, documentable_factory_na
 
       expect(page).to have_content documentable_success_notice
 
-      expect(page).to have_content documentable_success_notice
-
       documentable_redirected_to_resource_show_or_navigate_to
 
       expect(page).to have_content "Documents"
@@ -301,26 +299,6 @@ shared_examples "nested documentable" do |login_as_name, documentable_factory_na
 
         expect(page).to have_content documentable_success_notice
         expect(find_link(text: "Updated")[:href]).to eq original_url
-      end
-
-      scenario "Same attachment URL after editing the title" do
-        do_login_for user_to_login, management: management
-
-        visit send(path, arguments)
-        documentable_attach_new_file(file_fixture("empty.pdf"))
-        within_fieldset("Documents") { fill_in "Title", with: "Original" }
-        click_button submit_button
-
-        expect(page).to have_content documentable_success_notice
-
-        original_url = find_link("Download file")[:href]
-
-        visit send(path, arguments)
-        within_fieldset("Documents") { fill_in "Title", with: "Updated" }
-        click_button submit_button
-
-        expect(page).to have_content documentable_success_notice
-        expect(find_link("Download file")[:href]).to eq original_url
       end
     end
 

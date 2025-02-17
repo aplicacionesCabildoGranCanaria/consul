@@ -22,12 +22,14 @@ Bundler/OrderedGems:
 
 Capybara/ClickLinkOrButtonStyle:
   Enabled: true
+  EnforcedStyle: strict
 
 Capybara/CurrentPathExpectation:
   Enabled: true
 
 Capybara/NegationMatcher:
   Enabled: true
+  EnforcedStyle: not_to
 
 Capybara/RSpec/HaveSelector:
   Enabled: true
@@ -375,6 +377,9 @@ Rails/CreateTableWithTimestamps:
 Rails/Date:
   Enabled: true
 
+Rails/DeprecatedActiveModelErrorsMethods: # TODO: Remove after upgrading to Rails 7
+  Enabled: true
+
 Rails/DurationArithmetic:
   Enabled: true
 
@@ -505,6 +510,9 @@ Rails/Validation:
 Rails/WhereEquals:
   Enabled: true
 
+Rails/WhereMissing:
+  Enabled: true
+
 Rails/WhereNot:
   Enabled: true
 
@@ -520,8 +528,6 @@ RSpec/BeEq:
 RSpec/BeforeAfterAll:
   Enabled: true
 
-RSpec/Capybara/CurrentPathExpectation:
-  Enabled: true
 RSpec/BeNil:
   Enabled: true
   EnforcedStyle: be
@@ -531,9 +537,6 @@ RSpec/Capybara/FeatureMethods:
   EnabledMethods:
     - scenario
     - xscenario
-
-RSpec/Capybara/VisibilityMatcher:
-  Enabled: true
 
 RSpec/ContextMethod:
   Enabled: true
@@ -561,10 +564,6 @@ RSpec/EmptyLineAfterExampleGroup:
 RSpec/ExampleWording:
   Enabled: true
 
-RSpec/FactoryBot/FactoryClassName:
-  Enabled: true
-
-RSpec/FilePath:
 RSpec/ExcessiveDocstringSpacing:
   Enabled: true
 
@@ -684,12 +683,6 @@ Style/HashExcept:
 Style/HashSyntax:
   Enabled: true
   EnforcedShorthandSyntax: either
-
-Style/HashTransformKeys:
-  Enabled: true
-
-Style/HashTransformValues:
-  Enabled: true
 
 Style/HashTransformKeys:
   Enabled: true
