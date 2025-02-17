@@ -7,7 +7,10 @@
 @import "font-awesome/path";
 @import "font-awesome/mixins";
 @import "font-awesome/core";
-@import "jquery-ui";
+@import "jquery-ui/themes/base/theme";
+@import "jquery-ui/themes/base/autocomplete";
+@import "jquery-ui/themes/base/datepicker";
+@import "jquery-ui/themes/base/sortable";
 @import "leaflet/dist/leaflet";
 @import "leaflet.markercluster/dist/MarkerCluster";
 @import "leaflet.markercluster/dist/MarkerCluster.Default";

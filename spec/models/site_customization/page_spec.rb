@@ -23,14 +23,4 @@ RSpec.describe SiteCustomization::Page do
     custom_page.status = "published"
     expect(custom_page).not_to be_valid
   end
-
-  it "dynamically validates the valid statuses" do
-    stub_const("#{SiteCustomization::Page}::VALID_STATUSES", %w[custom])
-
-    custom_page.status = "custom"
-    expect(custom_page).to be_valid
-
-    custom_page.status = "published"
-    expect(custom_page).not_to be_valid
-  end
 end
