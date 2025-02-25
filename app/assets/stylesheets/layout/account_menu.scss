@@ -1,13 +1,13 @@
 .account-menu.menu {
-
+  
   @include breakpoint(small only) {
-    margin-top: $line-height / 2;
+    margin-top: calc(#{$line-height} / 2);
 
     &,
     .menu {
       border-bottom: 1px solid $border;
-      margin-bottom: $line-height;
-      padding-bottom: $line-height;
+      // margin-bottom: $line-height;
+      // padding-bottom: $line-height;
     }
   }
 

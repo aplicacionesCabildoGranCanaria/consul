@@ -1,2 +1,4 @@
-class Layout::FooterComponent < ApplicationComponent
+module Layout
+    class FooterComponent < ApplicationComponent
+    end
 end

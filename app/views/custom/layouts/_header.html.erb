@@ -11,52 +11,44 @@
   <% end %>
 
   <div class="row">
-    <div class="top-bar">
-
-      <%= link_to root_path, class: "logo show-for-small-only"  do %>
-        <%= image_tag('logo_participaGC.png', class: 'show-for-small-only float-left logo', alt: t("layouts.header.logo"), title: t("layouts.header.logo")) %>
+  <div class="top-bar">
+    <h1>
+      <%= link_to root_path, class: "hide-for-small-only", accesskey: "/" do %>
+        <%= image_tag('logo_participaGC.png', class: 'hide-for-small-only float-left logo', alt: t("layouts.header.logo"), title: t("layouts.header.logo")) %>
       <% end %>
-      <span data-responsive-toggle="responsive-menu" data-hide-for="medium" class="float-right">
-        <button type="button" class="menu-button" data-toggle="responsive-menu">
-          <span class="menu-icon"></span>
-        </button>
-      </span>
+    </h1>
+    <%= link_to root_path, class: "logo show-for-small-only"  do %>
+      <%= image_tag('logo_participaGC.png', class: 'show-for-small-only float-left logo', alt: t("layouts.header.logo"), title: t("layouts.header.logo")) %>
+    <% end %>
+    <%= render Layout::ResponsiveMenuComponent.new do %>
+      
+      <%= render Layout::AccountMenuComponent.new(current_user) %>
 
-      <div id="responsive-menu">
-        <div class="top-bar-title large-3 medium-2 hide-for-small-only column">
-          <%= link_to root_path, class: "hide-for-small-only", accesskey: "/" do %>
-            <%= image_tag('logo_participaGC.png', class: 'hide-for-small-only float-left logo', alt: t("layouts.header.logo"), title: t("layouts.header.logo")) %>
-          <% end %>
+      <div class="show-for-small-only">
+        <div class="subnavigation subnavigation-with-top-links">
+          <%= render Layout::SubnavigationComponent.new %>
+          <%= render Layout::TopLinksComponent.new %>
         </div>
+      </div>
+    <% end %>
 
-        <div class="top-bar-right small-12 medium-7 column">
-          <%= render Layout::ResponsiveMenuComponent.new do %>
-            <%= render Layout::AccountMenuComponent.new(current_user) %>
-
-            <div class="show-for-small-only">
-              <div class="subnavigation subnavigation-with-top-links">
-                <%= render Custom::Layout::SubnavigationComponent.new %>
-                <%= render Layout::TopLinksComponent.new %>
-              </div>
-            </div>
-          <% end %>
-        </div>
-
-        <div class="top-bar-right  medium-2 hide-for-small-only column">
+    <div class="top-bar-right  medium-2 hide-for-small-only column">
           <%= link_to t("layouts.header.external_link_institution_url"), onclick: "ga('send', 'event','Enlaces','Click','enlace_cabildo', 1);" do %>
             <%= image_tag(("CabildoGranCanaria.jpg"), class: 'logo', alt: t('layouts.header.external_link_institution'), title: t('layouts.header.external_link_institution')) %>
           <% end %>
         </div>
+  </div>
 
-      </div>
-    </div>
+  
+
+    
   </div>
 
   <div class="subnavigation expanded">
     <div class="row">
 
       <div class="hide-for-small-only">
-        <%= render Custom::Layout::SubnavigationComponent.new %>
+        <%= render Layout::SubnavigationComponent.new %>
       </div>
 
       <%= yield :header_addon %>

@@ -55,8 +55,70 @@ body > .wrapper {
     }
     .top-bar {
       background-color: transparent!important;
+      justify-content: space-between;
+      align-items: center;
+      @include breakpoint(small only) {
+        flex-direction: row;
+        width: auto;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+      }
+      h1{
+        @include breakpoint(small only) {
+          display: none;
+        }
+        flex-grow: unset;
+        a{
+          img{
+            @include breakpoint(small up) {
+              margin-bottom: -50px;
+            }
+          }
+        }
+      }
+      span{
+        &[data-responsive-toggle]{
+          flex-grow: unset;
+        }
+      }
+      #responsive_menu{
+        @include breakpoint(small only) {
+          background-color: white;
+        }
+        background-color: unset;
+        .account-menu{
+          background-color: transparent;
+          &.menu{
+            li{
+              &:first-child{
+                a {
+                  margin-right: 20px;
+                }
+              }
+              a{
+                width: 100%;
+                text-align: right;
+                font-size: 0.8em;
+              }
+              .button{
+                @include breakpoint(small up) {
+                  background-color: unset;
+                }
+              }
+            }
+          }
+        }
+        .show-for-small-only{
+          .social{
+            text-align: right;
+          }
+        }
+      }
       #responsive-menu {
         width: 100%;
+        @include breakpoint(small only) {
+          width: auto;
+        }
         .top-bar-title {
           margin-right: 0;
           line-height: 0;
@@ -110,7 +172,6 @@ body > .wrapper {
           text-align: right;
           padding: 0;
           margin-top: 0;
-          background-color: white;
           line-height: 1;
           ul.menu {
             li{
@@ -130,6 +191,9 @@ body > .wrapper {
   & .subnavigation {
     border-top: 1px solid $header-color;
     .social{
+      @include breakpoint(medium) {
+        width: calc(100% / 4);
+      }
       ul li a{
         font-size: 1.3rem;
         margin: 0.5rem;

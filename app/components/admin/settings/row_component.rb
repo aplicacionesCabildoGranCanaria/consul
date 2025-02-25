@@ -9,10 +9,6 @@ class Admin::Settings::RowComponent < ApplicationComponent
   end
 
   def setting
-    byebug
-    puts "hehehehe"
-    puts key
-    puts Setting.find_by(key: key)
     @setting ||= Setting.find_by!(key: key)
   end
 

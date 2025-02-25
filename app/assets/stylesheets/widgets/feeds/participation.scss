@@ -25,8 +25,8 @@
   .feed-proposals,
   .feed-debates {
     display: flex;
-    margin-top: $line-height;
     flex-direction: column;
+    margin-top: $line-height;
 
     .feed-content {
       flex-grow: 1;
@@ -34,6 +34,6 @@
   }
 
   .sdg-tag-list {
-    margin-top: $line-height / 2;
+    margin-top: calc(#{$line-height} / 2);
   }
 }
