@@ -12,15 +12,17 @@
     <%= content_for :social_media_meta_tags %>
     <%= raw setting["html.per_page_code_head"] %>
   </head>
-
   <body class="<%= yield(:body_class) %>">
-
+    <%= render Layout::SkipToMainContentComponent.new %>
     <%= raw setting["html.per_page_code_body"] %>
 
     <div class="wrapper <%= yield(:wrapper_class) %>">
       <%= render "layouts/header", with_subnavigation: true %>
-      <%= render "layouts/flash" %>
-      <%= yield %>
+
+      <main id="main" class="public-content <%= yield(:main_class) %>">
+        <%= render "layouts/flash" %>
+        <%= yield %>
+      </main>
     </div>
 
     <div class="footer">

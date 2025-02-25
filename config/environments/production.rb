@@ -12,11 +12,6 @@ Rails.application.configure do
   # Rake tasks automatically ignore this option for performance.
   config.eager_load = true
 
-  # Because autoloading is disabled in production environments with Rails 5,
-  # using autoload_paths will not load needed classes from specified paths.
-  # The solution to this, is to ask Rails to eager load classes.
-  config.eager_load_paths += ["#{config.root}/lib"]
-
   # Full error reports are disabled and caching is turned on.
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
@@ -79,12 +74,13 @@ Rails.application.configure do
     config.action_mailer.smtp_settings = Rails.application.secrets.smtp_settings
   end
 
-  # Disable locale fallbacks for I18n
-  # (prevents using fallback locales set in application.rb).
-  # config.i18n.fallbacks = false
+  # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
+  # the I18n.default_locale when a translation cannot be found).
+  # (commented because it prevents using fallback locales set in application.rb).
+  # config.i18n.fallbacks = true
 
-  # Send deprecation notices to registered listeners.
-  config.active_support.deprecation = :notify
+  # Don't log any deprecations.
+  config.active_support.report_deprecations = false
 
   # Log disallowed deprecations.
   config.active_support.disallowed_deprecation = :log

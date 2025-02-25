@@ -32,7 +32,6 @@ tmp/
 .bundle/
 .ruby-gemset
 
-public/sitemap.xml
 public/system/
 /public/ckeditor_assets/
 
