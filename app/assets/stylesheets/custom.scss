@@ -194,6 +194,9 @@ body > .wrapper {
       @include breakpoint(medium) {
         width: calc(100% / 4);
       }
+      ul{
+        flex-direction: row;
+      }
       ul li a{
         font-size: 1.3rem;
         margin: 0.5rem;
@@ -208,8 +211,18 @@ body > .wrapper {
     &:last-child ul{
       font-size: 0.8em;
     }
+    nav{
+      li{
+        @include breakpoint(small only) {
+          padding: 0.5rem 1rem 0.5rem 1rem;
+        }
+      }
+    }
     ul {
       display: inline-flex;
+      @include breakpoint(small only) {
+        flex-direction: column;
+      }
       li{ margin: 0}
       li a{
         line-height: initial;
@@ -879,4 +892,33 @@ h6, .h6 {
 
 .figure-card figcaption h3 {
   color: #fff !important;
+}
+
+.sdg-goals-index{
+  .section-header{
+    @include breakpoint(small up) {
+      padding-right: 0.9375rem;
+      padding-left: 0.9375rem;
+    }
+  }
+  .section-header h1 {
+    max-width: 75rem;
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 0.625rem;
+    padding-left: 0.625rem;
+  }
+  .sdg-phase {
+    @include breakpoint(small up) {
+      padding-right: 0.9375rem;
+      padding-left: 0.9375rem;
+    }
+  }
+  .sdg-phase {
+    max-width: 75rem;
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 0.625rem;
+    padding-left: 0.625rem;
+  }
 }

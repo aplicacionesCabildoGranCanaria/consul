@@ -84,17 +84,47 @@ end
 task :install_ruby do
   on roles(:app) do
     within release_path do
-      begin
-        current_ruby = capture(:rvm, "current")
-      rescue SSHKit::Command::Failed
+      current_ruby = capture(:rvm, "current")
+    rescue SSHKit::Command::Failed
+      after "install_ruby", "rvm1:install:rvm"
+      after "install_ruby", "rvm1:install:ruby"
+    else
+      if current_ruby.include?("not installed")
         after "install_ruby", "rvm1:install:rvm"
         after "install_ruby", "rvm1:install:ruby"
       else
-        if current_ruby.include?("not installed")
-          after "install_ruby", "rvm1:install:rvm"
-          after "install_ruby", "rvm1:install:ruby"
-        else
-          info "Ruby: Using #{current_ruby}"
+        info "Ruby: Using #{current_ruby}"
+      end
+    end
+  end
+end
+
+task :install_node do
+  on roles(:app) do
+    with rails_env: fetch(:rails_env) do
+      execute fetch(:fnm_install_node_command)
+    rescue SSHKit::Command::Failed
+      begin
+        execute fetch(:fnm_setup_command)
+      rescue SSHKit::Command::Failed
+        execute fetch(:fnm_install_command)
+      else
+        execute fetch(:fnm_update_command)
+      end
+
+      execute fetch(:fnm_install_node_command)
+    end
+  end
+end
+
+task :map_node_bins do
+  on roles(:app) do
+    within release_path do
+      with rails_env: fetch(:rails_env) do
+        prefix = -> { "EXECJS_RUNTIME='' #{fetch(:fnm_path)}/fnm exec" }
+
+        fetch(:fnm_map_bins).each do |command|
+          SSHKit.config.command_map.prefix[command.to_sym].unshift(prefix)
         end
       end
     end

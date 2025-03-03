@@ -53,24 +53,6 @@ module Consul
     # Store uploaded files on the local file system (see config/storage.yml for options).
     config.active_storage.service = :local
 
-    # Keep using the classic autoloader until we decide how custom classes
-    # should work with zeitwerk
-    config.autoloader = :classic
-
-    # Don't enable has_many_inversing because it doesn't seem to currently
-    # work with the _count database columns we use for caching purposes
-    config.active_record.has_many_inversing = false
-
-    # Keep reading existing data in the legislation_annotations ranges column
-    config.active_record.yaml_column_permitted_classes = [ActiveSupport::HashWithIndifferentAccess, Symbol]
-
-    # Handle custom exceptions
-    config.action_dispatch.rescue_responses["FeatureFlags::FeatureDisabled"] = :forbidden
-    config.action_dispatch.rescue_responses["Apartment::TenantNotFound"] = :not_found
-
-    # Store uploaded files on the local file system (see config/storage.yml for options).
-    config.active_storage.service = :local
-
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     config.time_zone = Rails.application.secrets.time_zone.presence || "Madrid"
@@ -104,6 +86,7 @@ module Consul
       "nl",
       "oc",
       "pl",
+      "pt",
       "pt-BR",
       "ro",
       "ru",
@@ -143,6 +126,7 @@ module Consul
     config.assets.paths << Rails.root.join("app", "assets", "fonts")
     config.assets.paths << Rails.root.join("vendor", "assets", "fonts")
     config.assets.paths << Rails.root.join("node_modules", "jquery-ui", "themes", "base")
+    config.assets.paths << Rails.root.join("node_modules", "leaflet", "dist")
     config.assets.paths << Rails.root.join("node_modules")
 
     config.active_job.queue_adapter = :delayed_job
@@ -177,6 +161,12 @@ module Consul
 
     # Set to true to enable managing different tenants using the same application
     config.multitenancy = true
+    # Set to true if you want that the default tenant only to be used to manage other tenants
+    config.multitenancy_management_mode = Rails.application.secrets.multitenancy_management_mode
+
+    def multitenancy_management_mode?
+      config.multitenancy && Tenant.default? && config.multitenancy_management_mode
+    end
   end
 end
 

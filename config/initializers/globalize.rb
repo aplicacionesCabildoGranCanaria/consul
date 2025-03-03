@@ -1,6 +1,6 @@
 Rails.application.reloader.to_prepare do
   Globalize::ActiveRecord::Translation.class_eval do
-    # include SkipValidation
+    include SkipValidation
   end
 end
 

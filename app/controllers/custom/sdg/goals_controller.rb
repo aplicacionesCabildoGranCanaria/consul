@@ -1,4 +1,4 @@
-require_dependency Rails.root.join("app", "controllers", "sdg", "goals_controller").to_s
+load Rails.root.join("app", "controllers", "sdg", "goals_controller.rb")
 
 class SDG::GoalsController
   def index

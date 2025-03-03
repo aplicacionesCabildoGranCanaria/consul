@@ -1,5 +1,4 @@
 .account-menu.menu {
-  
   @include breakpoint(small only) {
     margin-top: calc(#{$line-height} / 2);
 

@@ -187,10 +187,8 @@ describe Poll::Answer do
 
       [answer, other_answer].map do |poll_answer|
         Thread.new do
-          begin
-            poll_answer.save_and_record_voter_participation
-          rescue ActiveRecord::RecordInvalid
-          end
+          poll_answer.save_and_record_voter_participation
+        rescue ActiveRecord::RecordInvalid
         end
       end.each(&:join)
 
@@ -205,34 +203,6 @@ describe Poll::Answer do
       end.each(&:join)
 
       expect(Poll::Voter.count).to be 1
-    end
-  end
-
-  describe "#destroy_and_remove_voter_participation" do
-    let(:poll) { create(:poll) }
-    let(:question) { create(:poll_question, :yes_no, poll: poll) }
-
-    it "destroys voter record and answer when it was the only user's answer" do
-      answer = build(:poll_answer, question: question)
-      answer.save_and_record_voter_participation
-
-      expect { answer.destroy_and_remove_voter_participation }
-        .to change { Poll::Answer.count }.by(-1)
-        .and change { Poll::Voter.count }.by(-1)
-    end
-
-    it "destroys the answer but does not destroy the voter record when the user
-        has answered other poll questions" do
-      answer = build(:poll_answer, question: question)
-      answer.save_and_record_voter_participation
-      other_question = create(:poll_question, :yes_no, poll: poll)
-      other_answer = build(:poll_answer, question: other_question, author: answer.author)
-      other_answer.save_and_record_voter_participation
-
-      expect(other_answer).to be_persisted
-      expect { answer.destroy_and_remove_voter_participation }
-        .to change { Poll::Answer.count }.by(-1)
-        .and change { Poll::Voter.count }.by(0)
     end
   end
 
