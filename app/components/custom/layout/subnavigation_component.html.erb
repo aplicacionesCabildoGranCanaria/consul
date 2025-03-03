@@ -36,7 +36,8 @@
   </ul>
 </div>
 
-<div class="principal-menu small-12 medium-7 large-7 column float-right">
+
+<nav class="<%= menu if menu %> small-12 medium-7 large-7 column float-right">
   <ul>
     <li class="proposals ">
       <%= link_to proposals_path, class: "proposals #{"active" if  controller_name == "proposals"}", accesskey: "i" do %>
@@ -69,6 +70,7 @@
       <% end %>
     </li>
   </ul>
-</div>
+</nav>
+
 
 

@@ -1,4 +1,4 @@
-require_dependency Rails.root.join("app", "models", "signature").to_s
+load Rails.root.join("app", "models", "signature.rb")
 
 class Signature < ApplicationRecord
 

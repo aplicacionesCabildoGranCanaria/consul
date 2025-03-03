@@ -23,8 +23,7 @@ class Setting
         consul_defaults
       else
         consul_defaults.merge({
-          # Sobreescribir o añadir nuevos ajustes para producción o desarrollo
-          "feature.red_sara_service" => true
+          # Overwrite default CONSUL DEMOCRACY settings or add new settings here
         })
       end
     end

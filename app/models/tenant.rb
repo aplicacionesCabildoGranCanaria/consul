@@ -50,7 +50,7 @@ class Tenant < ApplicationRecord
   end
 
   def self.allowed_domains
-    dev_domains = %w[participa.grancanaria.com participapre.nublo.grancanaria.com localhost lvh.me example.com]
+    dev_domains = %w[localhost lvh.me example.com]
     dev_domains + [default_host]
   end
 

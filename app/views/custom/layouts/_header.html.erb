@@ -26,7 +26,7 @@
 
       <div class="show-for-small-only">
         <div class="subnavigation subnavigation-with-top-links">
-          <%= render Layout::SubnavigationComponent.new %>
+          <%= render Layout::SubnavigationComponent.new("") %>
           <%= render Layout::TopLinksComponent.new %>
         </div>
       </div>
@@ -48,7 +48,7 @@
     <div class="row">
 
       <div class="hide-for-small-only">
-        <%= render Layout::SubnavigationComponent.new %>
+        <%= render Layout::SubnavigationComponent.new("principal-menu") %>
       </div>
 
       <%= yield :header_addon %>

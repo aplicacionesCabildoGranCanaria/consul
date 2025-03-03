@@ -58,7 +58,6 @@
 //= require ckeditor/loader
 //= require_directory ./ckeditor
 //= require social-share-button
-//= require ahoy
 //= require app
 //= require check_all_none
 //= require comments
@@ -102,7 +101,6 @@
 //= require imageable
 //= require tree_navigator
 //= require tag_autocomplete
-//= require polls_admin
 //= require leaflet/dist/leaflet
 //= require leaflet.markercluster/dist/leaflet.markercluster
 //= require map
@@ -115,6 +113,7 @@
 //= require globalize
 //= require settings
 //= require cookies
+//= require cookies_consent
 //= require columns_selector
 //= require budget_edit_associations
 //= require budget_hide_money
@@ -123,7 +122,6 @@
 //= require_tree ./admin
 //= require_tree ./sdg
 //= require_tree ./sdg_management
-//= require cookie_banner
 //= require custom
 //= require_tree ./custom
 
@@ -159,7 +157,6 @@ var initialize_modules = function () {
   App.Documentable.initialize();
   App.Imageable.initialize();
   App.TagAutocomplete.initialize();
-  App.PollsAdmin.initialize();
   App.Map.initialize();
   App.Polls.initialize();
   App.Sortable.initialize();
@@ -173,6 +170,7 @@ var initialize_modules = function () {
   }
   App.AdminBudgetsWizardCreationStep.initialize();
   App.AdminMachineLearningScripts.initialize();
+  App.AdminPollShiftsForm.initialize();
   App.AdminTenantsForm.initialize();
   App.AdminVotationTypesFields.initialize();
   App.AdminMenu.initialize();
@@ -182,6 +180,7 @@ var initialize_modules = function () {
   App.SDGRelatedListSelector.initialize();
   App.SDGManagementRelationSearch.initialize();
   App.AuthenticityTokenRefresh.initialize();
+  App.CookiesConsent.initialize();
 };
 
 var destroy_non_idempotent_modules = function () {

@@ -995,7 +995,7 @@ describe User do
 
     context "when secrets are configured" do
       before do
-        allow(Rails.application).to receive(:secrets).and_return(ActiveSupport::OrderedOptions.new.merge(
+        stub_secrets(
           security: {
             password_complexity: true
           },
@@ -1006,7 +1006,7 @@ describe User do
               }
             }
           }
-        ))
+        )
       end
 
       it "uses the general secrets for the main tenant" do
@@ -1028,7 +1028,7 @@ describe User do
 
     context "when secrets are configured" do
       before do
-        allow(Rails.application).to receive(:secrets).and_return(ActiveSupport::OrderedOptions.new.merge(
+        stub_secrets(
           security: {
             lockable: { maximum_attempts: "14" }
           },
@@ -1039,7 +1039,7 @@ describe User do
               }
             }
           }
-        ))
+        )
       end
 
       it "uses the general secrets for the main tenant" do
@@ -1061,7 +1061,7 @@ describe User do
 
     context "when secrets are configured" do
       before do
-        allow(Rails.application).to receive(:secrets).and_return(ActiveSupport::OrderedOptions.new.merge(
+        stub_secrets(
           security: {
             lockable: { unlock_in: "2" }
           },
@@ -1072,7 +1072,7 @@ describe User do
               }
             }
           }
-        ))
+        )
       end
 
       it "uses the general secrets for the main tenant" do
