@@ -6,8 +6,14 @@ module SearchCache
   end
 
   def calculate_tsvector
+    # Si todos los valores de `searchable_values` son nil o están vacíos, no hacemos nada
+    return if searchable_values.keys.all?(&:blank?)
+
+    values_sql = searchable_values_sql
+    return if values_sql.blank?
     self.class.with_hidden.where(id: id).update_all("tsv = (#{searchable_values_sql})")
   end
+
 
   private
 
