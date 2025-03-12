@@ -71,7 +71,8 @@ body > .wrapper {
         a{
           img{
             @include breakpoint(small up) {
-              margin-bottom: -50px;
+              // margin-bottom: -50px;
+              width: 8rem;
             }
           }
         }
