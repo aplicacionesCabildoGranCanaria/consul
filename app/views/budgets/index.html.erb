@@ -7,17 +7,8 @@
   <%= render "shared/canonical", href: budgets_url %>
 <% end %>
 
-<main class="budgets-index">
-  <% if @budget.present? %>
-    <%= render Budgets::BudgetComponent.new(@budget) %>
-
-    <% if @finished_budgets.present? %>
-      <%= render "finished", budgets: @finished_budgets %>
-    <% end %>
-  <% else %>
-    <header>
-      <h1><%= t("budgets.index.title") %></h1>
-    </header>
+<% if @budget.present? %>
+  <%= render Budgets::BudgetComponent.new(@budget) %>
 
   <% if @finished_budgets.present? %>
     <%= render "finished", budgets: @finished_budgets %>
@@ -27,5 +18,13 @@
     <h1><%= t("budgets.index.title") %></h1>
   </header>
 
-  <%= render Budgets::FooterComponent.new %>
-</main>
+  <div class="row">
+    <div class="small-12 column">
+      <div class="callout primary">
+        <%= t("budgets.index.empty_budgets") %>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<%= render Budgets::FooterComponent.new %>
