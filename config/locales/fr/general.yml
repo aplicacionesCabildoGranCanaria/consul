@@ -65,6 +65,12 @@ fr:
     comments_title: Commentaires
     reply_button: Publier la réponse
     reply_link: Répondre
+  contact:
+    form:
+      email: "Courriel"
+      subject: "Sujet"
+      description: "Description du message"
+      submit: "Envoyer"
   debates:
     create:
       form:

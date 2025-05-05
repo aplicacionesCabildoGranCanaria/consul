@@ -64,6 +64,12 @@ de:
     comments_title: Kommentare
     reply_button: Antwort veröffentlichen
     reply_link: Antwort
+  contact:
+    form:
+      email: "E-Mail"
+      subject: "Betreff"
+      description: "Nachrichtenbeschreibung"
+      submit: "Senden"
   debates:
     create:
       form:

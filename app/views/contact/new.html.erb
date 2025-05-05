@@ -1,0 +1,31 @@
+
+<div class="help-header">
+  <div class="row">
+    <div class="small-12 column">
+      <span class="icon icon-letter"></span>
+      <h1 class="inline-block"><%= t("layouts.footer.contact_us") %></h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <%= form_with url: contact_path, method: :post, local: true do |form| %>
+        <%= form.invisible_captcha :spam_bot %>
+
+        <div class="small-12 column">
+        <%= form.email_field :email, required: true, label: t("contact.form.email") %>
+        </div>
+
+        <div class="small-12 column">
+        <%= form.text_field :subject, required: true, label: t("contact.form.subject") %>
+        </div>
+
+        <div class="small-12 column">
+        <%= form.text_area :summary, required: true, label: t("contact.form.description"), rows: 4, maxlength: 200, class: "html-area" %>
+        </div>
+
+        <div class="small-12 medium-6 small-centered">
+        <%= form.submit t("contact.form.submit"), class: 'success button expanded large' %>
+        </div>
+    <% end %>
+  </div>
+</div>
