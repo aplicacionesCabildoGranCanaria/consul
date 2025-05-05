@@ -65,6 +65,12 @@ en:
     comments_title: Comments
     reply_button: Publish reply
     reply_link: Reply
+  contact:
+    form:
+      email: "Email"
+      subject: "Subject"
+      description: "Message description"
+      submit: "Send"
   debates:
     create:
       form:

@@ -1,0 +1,6 @@
+<h1><%= t('contact_mailer.body.greeting') %></h1>
+
+<p><strong><%= t('contact_mailer.body.from') %>:</strong> <%= @email %></p>
+<p><strong><%= t('contact_mailer.body.subject') %>:</strong> <%= @asunto %></p>
+<p><strong><%= t('contact_mailer.body.message') %>:</strong></p>
+<p><%= @descripcion.html_safe %></p>
