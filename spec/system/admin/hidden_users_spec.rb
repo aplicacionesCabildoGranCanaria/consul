@@ -6,7 +6,9 @@ describe "Admin hidden users", :admin do
 
     debate1 = create(:debate, :hidden, author: user)
     debate2 = create(:debate, author: user)
-    comment1 = create(:comment, :hidden, user: user, commentable: debate2, body: "You have the manners of a beggar")
+    comment1 = create(:comment, :hidden, user: user,
+                                         commentable: debate2,
+                                         body: "You have the manners of a beggar")
     comment2 = create(:comment, user: user, commentable: debate2, body: "Not Spam")
 
     visit admin_hidden_user_path(user)
@@ -21,7 +23,7 @@ describe "Admin hidden users", :admin do
     user = create(:user, :hidden)
     visit admin_hidden_users_path
 
-    accept_confirm { click_link "Restore" }
+    accept_confirm("Are you sure? Restore \"#{user.name}\"") { click_button "Restore" }
 
     expect(page).not_to have_content(user.username)
 
@@ -34,7 +36,7 @@ describe "Admin hidden users", :admin do
     user = create(:user, :hidden)
     visit admin_hidden_users_path
 
-    click_link "Confirm moderation"
+    click_button "Confirm moderation"
 
     expect(page).not_to have_content(user.username)
     click_link("Confirmed")
@@ -78,11 +80,14 @@ describe "Admin hidden users", :admin do
 
   scenario "Action links remember the pagination setting and the filter" do
     allow(User).to receive(:default_per_page).and_return(2)
-    4.times { create(:user, :hidden, :with_confirmed_hide) }
+
+    users = 4.times.map { create(:user, :hidden, :with_confirmed_hide) }
 
     visit admin_hidden_users_path(filter: "with_confirmed_hide", page: 2)
 
-    accept_confirm { click_link "Restore", match: :first, exact: true }
+    accept_confirm("Are you sure? Restore \"#{users[-3].name}\"") do
+      click_button "Restore", match: :first, exact: true
+    end
 
     expect(page).to have_current_path(/filter=with_confirmed_hide/)
     expect(page).to have_current_path(/page=2/)

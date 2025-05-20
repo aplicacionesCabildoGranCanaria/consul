@@ -4,9 +4,6 @@ oc:
       comments:
         see_all: veire totas
         see_complete: veire complet
-        comments_count:
-          one: "%{count} comentari"
-          other: "%{count} de comentaris"
         replies_count:
           one: "%{count} responsa"
           other: "%{count} de responsas"
@@ -18,9 +15,6 @@ oc:
         title: Comentarios
         comments_about: de comentaris dessús
         see_in_context: Veire en contèxt
-        comments_count:
-          one: "%{count} comentari"
-          other: "%{count} de comentaris"
       show:
         title: Comentar
       version_chooser:
@@ -54,7 +48,6 @@ oc:
           winners: seleccionada
       debate:
         empty_questions: E a passatge de questions
-        participate: de Fes las aportacions al debat prealable participant en los seguents tèmas.
       index:
         filter: Filtrar
         filters:
@@ -93,10 +86,6 @@ oc:
         form:
           leave_comment: Daissa la tiá responsa
       question:
-        comments:
-          zero: Sens comentaris
-          one: "%{count} comentari"
-          other: "%{count} de comentaris"
         debate: debat prealable
       show:
         answer_question: Enviar responsa
@@ -118,3 +107,12 @@ oc:
         tags_label: "de Categorias"
       not_verified: "Per proposicions de vòt %{verify_account}."
       process_title: Procès de legislacion col·laborativa
+    summary:
+      title: "Resumen"
+      votes:
+        zero: "%{count} de vòts"
+      debate_phase: "fasa prealabla"
+      proposals_phase: "Fasa de proposicions"
+      allegations_phase: "Fasa de comentaris"
+      top_comments:
+        zero: "Sens comentaris"

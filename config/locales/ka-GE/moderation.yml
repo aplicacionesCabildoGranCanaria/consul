@@ -3,7 +3,6 @@ ka:
     comments:
       index:
         block_authors: ავტორების დაბლოკვა
-        confirm: დარწმუნებული ხართ?
         filter: ფილტრი
         filters:
           all: ყველა
@@ -12,9 +11,8 @@ ka:
         headers:
           comment: კომენტარი
           moderate: მოდერაცია
-        hide_comments: კომენტარების დამალვა
+        hide: კომენტარების დამალვა
         ignore_flags: მოვნიშნოთ, როგორც ნანახი
-        order: თანმიმდევრობა
         orders:
           flags: ყველაზე მეტი საჩივრის მქონე
           newest: უახლესი
@@ -25,7 +23,6 @@ ka:
     debates:
       index:
         block_authors: ავტორების დაბლოკვა
-        confirm: დარწმუნებული ხართ?
         filter: ფილტრი
         filters:
           all: ყველა
@@ -34,9 +31,8 @@ ka:
         headers:
           debate: დებატები
           moderate: მოდერაცია
-        hide_debates: დებატების დამალვა
+        hide: დებატების დამალვა
         ignore_flags: მოვნიშნოთ, როგორც ნანახი
-        order: თანმიმდევრობა
         orders:
           created_at: უახლესი
           flags: ყველაზე მეტი საჩივრის მქონე
@@ -53,7 +49,6 @@ ka:
     proposals:
       index:
         block_authors: ავტორების დაბლოკვა
-        confirm: დარწმუნებული ხართ?
         filter: ფილტრი
         filters:
           all: ყველა
@@ -62,9 +57,8 @@ ka:
         headers:
           moderate: მოდერაცია
           proposal: ინიციატივა
-        hide_proposals: ინიციატივების დამალვა
+        hide: ინიციატივების დამალვა
         ignore_flags: მოვნიშნოთ, როგორც ნანახი
-        order: დალაგება
         orders:
           created_at: უახლესი
           flags: ყველაზე ხშირად მონიშვნადი
@@ -72,7 +66,6 @@ ka:
     budget_investments:
       index:
         block_authors: ავტორების დაბლოკვა
-        confirm: დარწმუნებული ხართ?
         filter: ფილტრი
         filters:
           all: ყველა
@@ -81,9 +74,8 @@ ka:
         headers:
           moderate: მოდერაცია
           budget_investment: საბიუჯეტო ინვესტიცია
-        hide_budget_investments: საბიუჯეტო ინვესტიციების დამალვა
+        hide: საბიუჯეტო ინვესტიციების დამალვა
         ignore_flags: მოვნიშნოთ, როგორც ნანახი
-        order: დალაგება
         orders:
           created_at: უახლესი
           flags: ყველაზე მეტჯერ მონიშნული
@@ -91,7 +83,6 @@ ka:
     proposal_notifications:
       index:
         block_authors: ავტორების დაბლოკვა
-        confirm: დარწმუნებული ხართ?
         filter: ფილტრი
         filters:
           all: ყველა
@@ -100,16 +91,14 @@ ka:
         headers:
           moderate: მოდერაცია
           proposal_notification: შეტყობინება ინიციატივის თაობაზე
-        hide_proposal_notifications: ინიციატივების დამალვა
+        hide: ინიციატივების დამალვა
         ignore_flags: მოვნიშნოთ, როგორც ნანახი
-        order: დალაგება
         orders:
           created_at: უახლესი
           moderated: მოდერირებული
         title: შეტყობინებები ინიციატივის თაობაზე
     users:
       index:
-        hidden: დაბლოკილი
         hide: დაბლოკვა
         search_placeholder: ელ. ფოსტა ან მომხმარებლის სახელი
         title: მომხმარებლების დაბლოკვა

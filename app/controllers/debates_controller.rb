@@ -4,7 +4,7 @@ class DebatesController < ApplicationController
   include FlagActions
   include Translatable
 
-  before_action :authenticate_user!, except: [:index, :show, :map]
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :set_view, only: :index
   before_action :debates_recommendations, only: :index, if: :current_user
 
@@ -19,19 +19,24 @@ class DebatesController < ApplicationController
   helper_method :resource_model, :resource_name
   respond_to :html, :js
 
+  def create
+    @debate = Debate.new(debate_params)
+    @debate.author = current_user
+
+    if @debate.save
+      redirect_to debate_path(@debate), notice: t("flash.actions.create.debate")
+    else
+      render :new
+    end
+  end
+
   def index_customization
     @featured_debates = @debates.featured
   end
 
   def show
     super
-    @related_contents = Kaminari.paginate_array(@debate.relationed_contents).page(params[:page]).per(5)
     redirect_to debate_path(@debate), status: :moved_permanently if request.path != debate_path(@debate)
-  end
-
-  def vote
-    @debate.register_vote(current_user, params[:value])
-    set_debate_votes(@debate)
   end
 
   def unmark_featured
@@ -55,8 +60,11 @@ class DebatesController < ApplicationController
   private
 
     def debate_params
-      attributes = [:tag_list, :terms_of_service, :related_sdg_list]
-      params.require(:debate).permit(attributes, translation_params(Debate))
+      params.require(:debate).permit(allowed_params)
+    end
+
+    def allowed_params
+      [:tag_list, :terms_of_service, :related_sdg_list, translation_params(Debate)]
     end
 
     def resource_model

@@ -35,14 +35,12 @@ class Admin::SiteCustomization::PagesController < Admin::SiteCustomization::Base
   private
 
     def page_params
-      attributes = [:slug, :more_info_flag, :print_content_flag, :status]
-
-      params.require(:site_customization_page).permit(*attributes,
-        translation_params(SiteCustomization::Page)
-      )
+      params.require(:site_customization_page).permit(allowed_params)
     end
 
-    def resource
-      SiteCustomization::Page.find(params[:id])
+    def allowed_params
+      attributes = [:slug, :more_info_flag, :print_content_flag, :status]
+
+      [*attributes, translation_params(SiteCustomization::Page)]
     end
 end

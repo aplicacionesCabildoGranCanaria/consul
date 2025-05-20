@@ -35,7 +35,7 @@ ro:
     document_verifications:
       already_verified: Acest cont este deja verificat.
       has_no_account: Pentru a crea un cont, mergeți la %{link} și faceți click în <b>"Înregistrare"</b> în partea stânga-sus a ecranului.
-      link: CONSUL
+      link: CONSUL DEMOCRACY
       in_census_has_following_permissions: "Acest utilizator poate participa pe site-ul web cu următoarele permisiuni:"
       not_in_census: Acest document nu este înregistrat.
       not_in_census_info: "Cetățenii care nu sunt în recensământ pot participa pe site-ul web cu următoarele permisiuni:"
@@ -43,14 +43,12 @@ ro:
       title: Administrarea utilizatorilor
       under_age: "Nu aveți vârsta necesară pentru a vă verifica contul."
       verify: Verifică
-    email_label: Email
     date_of_birth: Data nașterii
     email_verifications:
       already_verified: Acest cont este deja verificat.
       choose_options: "Vă rugăm alegeți una dintre următoarele opțiuni:"
       document_found_in_census: Acest document a fost găsit în recensământ, dar nu este nici un cont de utilizator asociat acestuia.
       document_mismatch: "Acest email aparține unui utilizator care deja are asociat un id: %{document_number}(%{document_type})"
-      email_placeholder: Scrieți emailul pe care această persoană l-a folosit pentru a-și crea contul
       email_sent_instructions: Pentru a verifica complet acest utilizator, este necesar ca utilizatorul să facă clic pe un link pe care l-am trimis la adresa de e-mail de mai sus. Acest pas este necesar pentru a confirma că adresa îi aparține.
       if_existing_account: Dacă persoana are deja un cont de utilizator creat în site,
       if_no_existing_account: Dacă această persoană nu a creat un cont încă
@@ -66,11 +64,6 @@ ro:
       users: Administrarea utilizatorilor
       user_invites: Trimite invitații
       select_user: Selectează utilizator
-    permissions:
-      create_proposals: Crează propuneri
-      debates: Implicați-vă în dezbateri
-      support_proposals: Sprijină propuneri
-      vote_proposals: Votează propuneri
     print:
       proposals_info: Crează-ți propunerea pe http://url.consul
       proposals_title: "Propuneri:"

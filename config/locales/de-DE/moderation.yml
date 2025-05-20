@@ -1,9 +1,10 @@
 de:
   moderation:
+    actions:
+      confirm_action: "Bist du sicher? %{action}"
     comments:
       index:
         block_authors: Autoren blockieren
-        confirm: Sind Sie sich sicher?
         filter: Filter
         filters:
           all: Alle
@@ -12,9 +13,8 @@ de:
         headers:
           comment: Kommentar
           moderate: Moderieren
-        hide_comments: Kommentare ausblenden
+        hide: Kommentare ausblenden
         ignore_flags: Als gelesen markieren
-        order: Bestellung
         orders:
           flags: Am meisten markiert
           newest: Neueste
@@ -25,7 +25,6 @@ de:
     debates:
       index:
         block_authors: Autoren blockieren
-        confirm: Sind Sie sich sicher?
         filter: Filter
         filters:
           all: Alle
@@ -34,9 +33,8 @@ de:
         headers:
           debate: Diskussion
           moderate: Moderieren
-        hide_debates: Diskussionen ausblenden
+        hide: Diskussionen ausblenden
         ignore_flags: Als gelesen markieren
-        order: Bestellung
         orders:
           created_at: Neueste
           flags: Am meisten markiert
@@ -53,7 +51,6 @@ de:
     proposals:
       index:
         block_authors: Autoren blockieren
-        confirm: Sind Sie sich sicher?
         filter: Filter
         filters:
           all: Alle
@@ -62,9 +59,8 @@ de:
         headers:
           moderate: Moderieren
           proposal: Vorschlag
-        hide_proposals: Anträge ausblenden
+        hide: Anträge ausblenden
         ignore_flags: Als gelesen markieren
-        order: Sortieren nach
         orders:
           created_at: Neuste
           flags: Am meisten markiert
@@ -72,7 +68,6 @@ de:
     budget_investments:
       index:
         block_authors: Autoren blockieren
-        confirm: Sind Sie sich sicher?
         filter: Filter
         filters:
           all: Alle
@@ -81,9 +76,8 @@ de:
         headers:
           moderate: Moderieren
           budget_investment: Haushaltsinvestitionen
-        hide_budget_investments: Budgetinvestitionen verbergen
+        hide: Budgetinvestitionen verbergen
         ignore_flags: Als gelesen markieren
-        order: Sortieren nach
         orders:
           created_at: neuestes
           flags: Am meisten markiert
@@ -91,7 +85,6 @@ de:
     proposal_notifications:
       index:
         block_authors: Autoren blockieren
-        confirm: Sind Sie sich sicher?
         filter: Filter
         filters:
           all: Alle
@@ -100,17 +93,19 @@ de:
         headers:
           moderate: Moderieren
           proposal_notification: Benachrichtigung zu einem Vorschlag
-        hide_proposal_notifications: Vorschläge ausblenden
+        hide: Anträge ausblenden
         ignore_flags: Als gelesen markieren
-        order: Sortieren nach
         orders:
           created_at: neuestes
           moderated: Moderiert
         title: Benachrichtigungen zu einem Vorschlag
     users:
       index:
-        hidden: Blockiert
+        block: Block
+        confirm_block: "Bist du sicher? Dies wir den User \"%{name}\" and all seine Inhalte ausblenden. "
+        confirm_hide: "Bist du sicher? Dies wir den User \"%{name}\" ausblenden, aber nicht seine Inhalte."
         hide: Block
         search_placeholder: E-Mail oder Benutzername
         title: Benutzer blockieren
+      notice_block: Der User wurde blockiert. Alle Inhalte dieses Users sind nun ausgeblendet.
       notice_hide: Benutzer gesperrt. Alle Diskussionen und Kommentare dieses Benutzers wurden ausgeblendet.

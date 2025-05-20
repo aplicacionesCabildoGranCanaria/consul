@@ -124,6 +124,9 @@ es:
       images:
         one: "Imagen"
         other: "Imágenes"
+      tenant:
+        one: "entidad"
+        other: "entidades"
       topic:
         one: "Tema"
         other: "Temas"
@@ -145,6 +148,12 @@ es:
       local_census_record:
         one: Registro del censo local
         other: Registros del censo local
+      votation_type:
+        one: Tipo de votación
+        other: Tipos de votación
+      cookies/vendor:
+        one: proveedor de cookies
+        other: proveedores de cookies
     attributes:
       budget:
         name: "Nombre"
@@ -155,12 +164,15 @@ es:
         description_balloting: "Descripción durante la fase de votación"
         description_reviewing_ballots: "Descripción durante la fase de revisión de votos"
         description_finished: "Descripción cuando el presupuesto ha finalizado / Resultados"
-        phase: "Fase"
+        phase: "Fase activa"
         currency_symbol: "Divisa"
         voting_style: "Estilo de la votación final"
         voting_style_knapsack: Bolsa de dinero
         voting_style_approval: Por aprobación
+        hide_money: "Ocultar la cantidad de dinero para este presupuesto"
       budget/translation:
+        main_link_text: "Texto del enlace"
+        main_link_url: "El enlace te lleva a (añade un enlace)"
         name: "Nombre"
       budget/investment:
         heading_id: "Partida presupuestaria"
@@ -191,8 +203,10 @@ es:
         description: "Descripción"
       geozone:
         name: Nombre
+        color: "Color (opcional)"
         external_code: "Código externo (opcional)"
         census_code: "Código del censo (opcional)"
+        geojson: "Datos GeoJSON (opcional)"
         html_map_coordinates: "Coordenadas HTML <map> (opcional)"
       milestone:
         status_id: "Estado actual (opcional)"
@@ -220,7 +234,7 @@ es:
         latitude: "Latitud (opcional)"
         longitude: "Longitud (opcional)"
         name: "Nombre de la partida"
-        price: "Cantidad"
+        price: "Cantidad de dinero"
         population: "Población (opcional)"
         max_ballot_lines: "Votos permitidos"
       budget/heading/translation:
@@ -233,6 +247,8 @@ es:
         name: "Nombre"
         description: "Descripción"
         summary: "Resumen"
+        main_link_text: "Texto del enlace"
+        main_link_url: "El enlace te lleva a (añade un enlace)"
       comment:
         body: "Comentario"
         user: "Usuario"
@@ -268,7 +284,7 @@ es:
         password: "Contraseña"
         current_password: "Contraseña actual"
         email_digest: "Recibir resumen de notificaciones sobre propuestas"
-        email_on_comment: "Recibir un email cuando alguien comenta en mis propuestas o debates"
+        email_on_comment: "Recibir un email cuando alguien comenta en mis contenidos"
         email_on_comment_reply: "Recibir un email cuando alguien contesta a mis comentarios"
         email_on_direct_message: "Recibir emails con mensajes privados"
         newsletter: "Recibir emails con información interesante sobre la web"
@@ -277,7 +293,7 @@ es:
         official_level: "Nivel del cargo"
         phone_number: "Teléfono"
         public_activity: "Mostrar públicamente mi lista de actividades"
-        public_interests: "Mostrar públicamente las etiquetas de los elementos que sigo"
+        public_interests: "Mostrar públicamente los elementos que sigo"
         recommended_debates: "Mostrar recomendaciones en el listado de debates"
         recommended_proposals: "Mostrar recomendaciones en el listado de propuestas"
         redeemable_code: "Código de verificación por carta (opcional)"
@@ -370,6 +386,11 @@ es:
         body: Contenido
       tag:
         name: "Escribe el nombre del tema"
+      tenant:
+        domain: "Dominio"
+        schema: "Dominio / Subdominio"
+        subdomain: "Subdominio"
+        url: "URL"
       topic:
         title: "Título"
         description: "Texto inicial"
@@ -441,13 +462,13 @@ es:
       image:
         title: Título
         attachment: "Selecciona una imagen"
-      poll/question/answer:
+      poll/question/option:
         title: Respuesta
         description: Descripción
-      poll/question/answer/translation:
+      poll/question/option/translation:
         title: Respuesta
-        description: Descripción
-      poll/question/answer/video:
+        description: "Descripción (opcional)"
+      poll/question/option/video:
         title: Título
         url: Vídeo externo
       newsletter:
@@ -470,6 +491,7 @@ es:
         link_text: Texto del enlace
         link_url: URL del enlace
         columns: Número de columnas
+        order: Posición
       widget/card/translation:
         label: Etiqueta (opcional)
         title: Título
@@ -496,7 +518,7 @@ es:
         user: Ejecutado por
       link:
         label: Título
-        url: Enlace
+        url: URL
       valuator:
         description: Descripción
         valuator_group_id: Grupo de evaluación
@@ -509,6 +531,16 @@ es:
         document_number: Número de documento
         date_of_birth: Fecha de nacimiento
         postal_code: Código postal
+      votation_type:
+        max_votes: Número máximo de votos
+        vote_type: Tipo de votación
+      votation_type/vote_type:
+        unique: Respuesta única
+        multiple: Respuesta múltiple
+      cookies/vendor:
+        name: Nombre del proveedor
+        cookie: Nombre de la cookie
+        script: Código javascript
     errors:
       models:
         user:
@@ -523,6 +555,11 @@ es:
           attributes:
             max_per_day:
               invalid: "Has llegado al número máximo de mensajes privados por día"
+        geozone:
+          attributes:
+            geojson:
+              invalid: "Los datos GeoJSON proporcionados no tienen el formato correcto. Deben seguir el formato estándar RFC 7946"
+              invalid_coordinates: "Los datos GeoJSON proporcionados contienen coordenadas inválidas; las coordenadas deben utilizar el formato \"Longitud, Latitud\" y seguir el formato estándar RFC 7946"
         image:
           attributes:
             attachment:
@@ -536,10 +573,6 @@ es:
           attributes:
             segment_recipient:
               invalid: "El usuario del destinatario es inválido"
-        map_location:
-          attributes:
-            map:
-              invalid: El mapa no puede estar en blanco. Añade un punto al mapa o marca la casilla si no hace falta un mapa.
         poll/voter:
           attributes:
             document_number:

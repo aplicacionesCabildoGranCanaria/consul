@@ -161,6 +161,8 @@ da:
         voting_style_knapsack: "Knapsack"
         voting_style_approval: "Approval"
       budget/translation:
+        main_link_text: "Link tekst"
+        main_link_url: "Linket tager dig til (tilføj et link)"
         name: "Navn"
       budget/investment:
         heading_id: "Overskrift"
@@ -222,6 +224,7 @@ da:
         name: "Titelnavn"
         price: "Pris"
         population: "Population"
+        max_ballot_lines: "Antal stemmer tilladt"
       budget/heading/translation:
         name: "Navn på område"
       budget/phase:
@@ -229,8 +232,11 @@ da:
         ends_at: "Slutdato"
         starts_at: "Startdato"
       budget/phase/translation:
+        name: "Navn"
         description: "Beskrivelse"
         summary: "Opsummering"
+        main_link_text: "Link tekst"
+        main_link_url: "Linket tager dig til (tilføj et link)"
       comment:
         body: "Kommentar"
         user: "Bruger"
@@ -287,6 +293,7 @@ da:
         responsible_name: "Den ansvarlige for gruppen"
       poll:
         name: "Navn"
+        title: "Navn"
         starts_at: "Startdato"
         ends_at: "Slutdato"
         geozone_restricted: "Begrænset af geozone"
@@ -323,6 +330,23 @@ da:
         signable_type: "Underskriftstype"
         signable_id: "ID"
         document_numbers: "Dokumentnummer"
+      sdg/goal:
+        code: "Kode"
+        title: "Titel"
+        description: "Beskrivelse"
+      sdg/local_target:
+        code: "Kode"
+        target_id: "Mål"
+        title: "Titel"
+      sdg/local_target/translation:
+        title: "Titel"
+        description: "Beskrivelse"
+      sdg/phase/kind:
+        planning: "Planlægning"
+        monitoring: "Overvågning"
+      sdg/target:
+        code: "Kode"
+        title: "Titel"
       site_customization/page:
         content: Indhold
         created_at: Oprettet den
@@ -380,7 +404,7 @@ da:
         result_publication_date: Dato for publicering af det endelige resultat
         background_color: Baggrundsfarve
         font_color: Skriftfarve
-        homepage_enabled: "Startside aktiveret"
+        homepage_enabled: "Opsummering aktiveret"
       legislation/process/translation:
         title: Titel på proces
         summary: Resumé
@@ -420,15 +444,6 @@ da:
       image:
         title: Titel
         attachment: "Vedhæft fil"
-      poll/question/answer:
-        title: Svar
-        description: Beskrivelse
-      poll/question/answer/translation:
-        title: Svar
-        description: Beskrivelse
-      poll/question/answer/video:
-        title: Titel
-        url: Ekstern video
       newsletter:
         segment_recipient: Modtagere
         subject: Emne
@@ -515,14 +530,12 @@ da:
           attributes:
             segment_recipient:
               invalid: "Modtagersektionen indeholder fejl"
-        map_location:
-          attributes:
-            map:
-              invalid: Lokation må ikke være tom. Placer en markør på kortet eller sæt et kryds i afkrydsningsfeltet, hvis lokationsangivelse ikke er nødvendig
         poll/voter:
           attributes:
             document_number:
               not_in_census: "Findes ikke i adresseregistret"
+            user_id:
+              has_voted: "Brugeren har allerede stemt"
         legislation/process:
           attributes:
             end_date:

@@ -42,8 +42,13 @@ describe "Topics" do
       expect(page).to have_content "Title"
       expect(page).to have_content "Initial text"
       expect(page).to have_content "Recommendations to create a topic"
-      expect(page).to have_content "Do not write the topic title or whole sentences in capital letters. On the internet that is considered shouting. And no one likes to be yelled at."
-      expect(page).to have_content "Any topic or comment that implies an illegal action will be eliminated, also those that intend to sabotage the spaces of the subject, everything else is allowed."
+      expect(page).to have_content "Do not write the topic title or whole sentences in " \
+                                   "capital letters. On the internet that is considered " \
+                                   "shouting. And no one likes to be yelled at."
+      expect(page).to have_content "Any topic or comment that implies an illegal action " \
+                                   "will be eliminated, also those that intend to " \
+                                   "sabotage the spaces of the subject, everything else " \
+                                   "is allowed."
       expect(page).to have_content "Enjoy this space, the voices that fill it, it's yours too."
       expect(page).to have_button("Create topic")
     end
@@ -71,7 +76,7 @@ describe "Topics" do
 
       visit new_community_topic_path(community)
 
-      expect(page).to have_content "You do not have permission to carry out the action 'new' on topic."
+      expect(page).to have_content "You do not have permission to carry out the action 'new' on Topic."
     end
   end
 
@@ -101,7 +106,7 @@ describe "Topics" do
 
       visit edit_community_topic_path(community, topic)
 
-      expect(page).to have_content "You do not have permission to carry out the action 'edit' on topic."
+      expect(page).to have_content "You do not have permission to carry out the action 'edit' on Topic."
     end
   end
 

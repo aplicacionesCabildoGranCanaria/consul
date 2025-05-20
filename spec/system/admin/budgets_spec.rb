@@ -1,6 +1,14 @@
 require "rails_helper"
 
 describe "Admin budgets", :admin do
+  it_behaves_like "nested imageable",
+                  "budget",
+                  "new_admin_budgets_wizard_budget_path",
+                  {},
+                  "imageable_fill_new_valid_budget",
+                  "Continue to groups",
+                  "New participatory budget created successfully!"
+
   context "Load" do
     before { create(:budget, slug: "budget_slug") }
 
@@ -22,8 +30,10 @@ describe "Admin budgets", :admin do
       budget = create(:budget, :accepting)
       visit admin_budgets_path
 
-      expect(page).to have_content budget.name
-      expect(page).to have_content "Accepting projects"
+      within "tr", text: budget.name do
+        expect(page).to have_content "Accepting projects"
+        expect(page).to have_content "Pending: No headings yet"
+      end
     end
 
     scenario "Filters by phase" do
@@ -84,85 +94,75 @@ describe "Admin budgets", :admin do
     end
   end
 
-  context "New" do
-    scenario "Create budget - Knapsack voting (default)" do
-      visit admin_budgets_path
-      click_link "Create new budget"
-
-      fill_in "Name", with: "M30 - Summer campaign"
-      select "Accepting projects", from: "budget[phase]"
-
-      click_button "Create Budget"
-
-      expect(page).to have_content "New participatory budget created successfully!"
-      expect(page).to have_field "Name", with: "M30 - Summer campaign"
-      expect(page).to have_select "Final voting style", selected: "Knapsack"
-    end
-
-    scenario "Create budget - Approval voting" do
-      admin = Administrator.first
-
-      visit admin_budgets_path
-      click_link "Create new budget"
-
-      fill_in "Name", with: "M30 - Summer campaign"
-      select "Accepting projects", from: "budget[phase]"
-      select "Approval", from: "Final voting style"
-      click_button "Create Budget"
-
-      expect(page).to have_content "New participatory budget created successfully!"
-      expect(page).to have_field "Name", with: "M30 - Summer campaign"
-      expect(page).to have_select "Final voting style", selected: "Approval"
-
-      click_link "Select administrators"
-
-      expect(page).to have_field admin.name
-    end
-
-    scenario "Name is mandatory" do
-      visit new_admin_budget_path
-      click_button "Create Budget"
-
-      expect(page).not_to have_content "New participatory budget created successfully!"
-      expect(page).to have_css(".is-invalid-label", text: "Name")
-    end
-
-    scenario "Name should be unique" do
-      create(:budget, name: "Existing Name")
-
-      visit new_admin_budget_path
-      fill_in "Name", with: "Existing Name"
-      click_button "Create Budget"
-
-      expect(page).not_to have_content "New participatory budget created successfully!"
-      expect(page).to have_css(".is-invalid-label", text: "Name")
-      expect(page).to have_css("small.form-error", text: "has already been taken")
-    end
-
-    scenario "Do not show results and stats settings on new budget" do
-      visit new_admin_budget_path
-
-      expect(page).not_to have_content "Show results and stats"
-      expect(page).not_to have_field "Show results"
-      expect(page).not_to have_field "Show stats"
-      expect(page).not_to have_field "Show advanced stats"
-    end
-  end
-
   context "Create" do
-    scenario "A new budget is always created in draft mode" do
+    scenario "Create budget - Approval voting with hide money" do
       visit admin_budgets_path
-      click_link "Create new budget"
+      click_button "Create new budget"
+      click_link "Create multiple headings budget"
 
-      fill_in "Name", with: "M30 - Summer campaign"
-      select "Accepting projects", from: "budget[phase]"
+      expect(page).to have_select("Final voting style", selected: "Knapsack")
+      expect(page).not_to have_css "#budget_hide_money"
 
-      click_button "Create Budget"
+      fill_in "Name", with: "Budget hide money"
+      select "Approval", from: "Final voting style"
+      check "Hide money amount for this budget"
+      click_button "Continue to groups"
 
       expect(page).to have_content "New participatory budget created successfully!"
-      expect(page).to have_content "This participatory budget is in draft mode"
-      expect(page).to have_link "Preview budget"
-      expect(page).to have_link "Publish budget"
+      expect(page).to have_content "Budget hide money"
+
+      click_link "Go back to edit budget"
+
+      expect(page).to have_select("Final voting style", selected: "Approval")
+      expect(page).to have_field "Hide money amount for this budget", checked: true
+    end
+
+    scenario "Create a budget with hide money by steps" do
+      visit admin_budgets_path
+      click_button "Create new budget"
+      click_link "Create multiple headings budget"
+
+      fill_in "Name", with: "Multiple headings budget with hide money"
+      select "Approval", from: "Final voting style"
+      check "Hide money amount for this budget"
+      click_button "Continue to groups"
+
+      expect(page).to have_content "New participatory budget created successfully!"
+      expect(page).to have_content "There are no groups."
+
+      click_button "Add new group"
+      fill_in "Group name", with: "All city"
+      click_button "Create new group"
+
+      expect(page).to have_content "Group created successfully!"
+
+      click_button "Add new group"
+      fill_in "Group name", with: "District A"
+      click_button "Create new group"
+
+      expect(page).to have_content "Group created successfully!"
+
+      within("table") do
+        expect(page).to have_content "All city"
+        expect(page).to have_content "District A"
+      end
+      expect(page).not_to have_content "There are no groups."
+
+      click_link "Continue to headings"
+
+      expect(page).to have_content "Showing headings from the All city group."
+      expect(page).to have_link "Manage headings from the District A group."
+
+      click_button "Add new heading"
+      fill_in "Heading name", with: "All city"
+      click_button "Create new heading"
+
+      expect(page).to have_content "Heading created successfully!"
+      expect(page).to have_content "All city"
+      expect(page).to have_link "Continue to phases"
+      expect(page).not_to have_content "There are no headings."
+      expect(page).not_to have_content "Money amount"
+      expect(page).not_to have_content "€"
     end
   end
 
@@ -170,25 +170,24 @@ describe "Admin budgets", :admin do
     let(:budget) { create(:budget, :drafting) }
 
     scenario "Can preview budget before it is published" do
-      visit edit_admin_budget_path(budget)
+      visit admin_budget_path(budget)
+      click_link "Preview"
 
-      within_window(window_opened_by { click_link "Preview budget" }) do
-        expect(page).to have_current_path budget_path(budget)
-      end
+      expect(page).to have_current_path budget_path(budget)
     end
 
-    scenario "Can preview a budget after it is published" do
-      visit edit_admin_budget_path(budget)
+    scenario "Can view a budget after it is published" do
+      visit admin_budget_path(budget)
 
-      accept_confirm { click_link "Publish budget" }
+      accept_confirm { click_button "Publish budget" }
 
       expect(page).to have_content "Participatory budget published successfully"
       expect(page).not_to have_content "This participatory budget is in draft mode"
-      expect(page).not_to have_link "Publish budget"
+      expect(page).not_to have_button "Publish budget"
 
-      within_window(window_opened_by { click_link "Preview budget" }) do
-        expect(page).to have_current_path budget_path(budget)
-      end
+      click_link "View"
+
+      expect(page).to have_current_path budget_path(budget)
     end
   end
 
@@ -197,21 +196,13 @@ describe "Admin budgets", :admin do
     let(:heading) { create(:budget_heading, budget: budget) }
 
     scenario "Destroy a budget without investments" do
-      visit admin_budgets_path
-      click_link "Edit budget"
-      click_link "Delete budget"
+      visit admin_budget_path(budget)
 
-      expect(page).to have_content("Budget deleted successfully")
-      expect(page).to have_content("There are no budgets.")
-    end
+      message = "Are you sure? " \
+                "This will delete the budget and all its associated groups and headings. " \
+                "This action cannot be undone."
 
-    scenario "Destroy a budget without investments but with administrators and valuators" do
-      budget.administrators << Administrator.first
-      budget.valuators << create(:valuator)
-
-      visit admin_budgets_path
-      click_link "Edit budget"
-      click_link "Delete budget"
+      accept_confirm(message) { click_button "Delete budget" }
 
       expect(page).to have_content "Budget deleted successfully"
       expect(page).to have_content "There are no budgets."
@@ -220,22 +211,19 @@ describe "Admin budgets", :admin do
     scenario "Try to destroy a budget with investments" do
       create(:budget_investment, heading: heading)
 
-      visit admin_budgets_path
-      click_link "Edit budget"
-      click_link "Delete budget"
+      visit admin_budget_path(budget)
 
-      expect(page).to have_content("You cannot delete a budget that has associated investments")
-      expect(page).to have_content("There is 1 budget")
+      expect(page).to have_button "Delete budget", disabled: true
+      expect(page).to have_content "You cannot delete a budget that has associated investments"
     end
 
     scenario "Try to destroy a budget with polls" do
       create(:poll, budget: budget)
 
-      visit edit_admin_budget_path(budget)
-      click_link "Delete budget"
+      visit admin_budget_path(budget)
 
-      expect(page).to have_content("You cannot delete a budget that has an associated poll")
-      expect(page).to have_content("There is 1 budget")
+      expect(page).to have_button "Delete budget", disabled: true
+      expect(page).to have_content "You cannot delete a budget that has an associated poll"
     end
   end
 
@@ -247,10 +235,11 @@ describe "Admin budgets", :admin do
         budget.update!(phase: "selecting")
         budget.phases.valuating.update!(enabled: false)
 
-        visit edit_admin_budget_path(budget)
+        visit admin_budget_path(budget)
 
-        expect(page).to have_select "Phase", selected: "Selecting projects"
-
+        expect(page).to have_content "The configuration of these phases is used for information purposes " \
+                                     "only. Its function is to define the phases information displayed " \
+                                     "on the public page of the participatory budget."
         expect(page).to have_table "Phases", with_cols: [
           [
             "Information",
@@ -263,14 +252,14 @@ describe "Admin budgets", :admin do
             "Reviewing voting"
           ],
           [
-            "2015-07-15 00:00:00 - 2015-08-14 23:59:59",
-            "2015-08-15 00:00:00 - 2015-09-14 23:59:59",
-            "2015-09-15 00:00:00 - 2015-10-14 23:59:59",
-            "2015-10-15 00:00:00 - 2015-11-14 23:59:59",
-            "2015-11-15 00:00:00 - 2015-12-14 23:59:59",
-            "2015-11-15 00:00:00 - 2016-01-14 23:59:59",
-            "2016-01-15 00:00:00 - 2016-02-14 23:59:59",
-            "2016-02-15 00:00:00 - 2016-03-14 23:59:59"
+            "2015-07-15 00:00 - 2015-08-14 23:59",
+            "2015-08-15 00:00 - 2015-09-14 23:59",
+            "2015-09-15 00:00 - 2015-10-14 23:59",
+            "2015-10-15 00:00 - 2015-11-14 23:59",
+            "2015-11-15 00:00 - 2015-12-14 23:59",
+            "2015-11-15 00:00 - 2016-01-14 23:59",
+            "2016-01-15 00:00 - 2016-02-14 23:59",
+            "2016-02-15 00:00 - 2016-03-14 23:59"
           ],
           [
             "Yes",
@@ -286,9 +275,13 @@ describe "Admin budgets", :admin do
 
         within_table "Phases" do
           within "tr", text: "Information" do
-            expect(page).to have_link "Edit phase"
+            expect(page).to have_link "Edit"
           end
         end
+
+        click_link "Edit budget"
+
+        expect(page).to have_select "Active phase", selected: "Selecting projects"
       end
     end
 
@@ -302,12 +295,27 @@ describe "Admin budgets", :admin do
       end
     end
 
+    scenario "Show CTA link in public site if added" do
+      visit edit_admin_budget_path(budget)
+
+      expect(page).to have_content("Main call to action (optional)")
+
+      fill_in "Text on the link", with: "Participate now"
+      fill_in "The link takes you to (add a link)", with: "https://consuldemocracy.org"
+      click_button "Update Budget"
+
+      expect(page).to have_content "Participatory budget updated successfully"
+
+      visit budgets_path
+      expect(page).to have_link("Participate now", href: "https://consuldemocracy.org")
+    end
+
     scenario "Changing name for current locale will update the slug if budget is in draft phase" do
       budget.update!(published: false, name: "Old English Name")
 
       visit edit_admin_budget_path(budget)
 
-      select "Español", from: :add_language
+      select "Español", from: "Add language"
       fill_in "Name", with: "Spanish name"
       click_button "Update Budget"
 
@@ -319,7 +327,7 @@ describe "Admin budgets", :admin do
 
       visit edit_admin_budget_path(budget)
 
-      select "English", from: :select_language
+      select "English", from: "Current language"
       fill_in "Name", with: "New English Name"
       click_button "Update Budget"
 
@@ -329,17 +337,92 @@ describe "Admin budgets", :admin do
 
       expect(page).to have_content "New English Name"
     end
+
+    scenario "Hide money active" do
+      budget_hide_money = create(:budget, :approval, :hide_money)
+      group = create(:budget_group, budget: budget_hide_money)
+      heading = create(:budget_heading, group: group)
+      heading_2 = create(:budget_heading, group: group)
+
+      visit admin_budget_path(budget_hide_money)
+
+      expect(page).to have_content heading.name
+      expect(page).to have_content heading_2.name
+      expect(page).not_to have_content "Money amount"
+      expect(page).not_to have_content "€"
+
+      visit edit_admin_budget_path(budget_hide_money)
+
+      expect(page).to have_field "Hide money amount for this budget", checked: true
+      expect(page).to have_select("Final voting style", selected: "Approval")
+    end
+
+    scenario "Change voting style uncheck hide money" do
+      budget_hide_money = create(:budget, :approval, :hide_money)
+      hide_money_help_text = "If this option is checked, all fields showing the amount of money " \
+                             "will be hidden throughout the process."
+
+      visit edit_admin_budget_path(budget_hide_money)
+
+      expect(page).to have_field "Hide money amount for this budget", checked: true
+      expect(page).to have_content hide_money_help_text
+
+      select "Knapsack", from: "Final voting style"
+
+      expect(page).not_to have_field "Hide money amount for this budget"
+      expect(page).not_to have_content hide_money_help_text
+
+      select "Approval", from: "Final voting style"
+
+      expect(page).to have_field "Hide money amount for this budget", checked: false
+      expect(page).to have_content hide_money_help_text
+    end
+
+    scenario "Edit knapsack budget do not show hide money info" do
+      budget = create(:budget, :knapsack)
+      hide_money_help_text = "If this option is checked, all fields showing the amount of money " \
+                             "will be hidden throughout the process."
+
+      visit edit_admin_budget_path(budget)
+
+      expect(page).not_to have_field "Hide money amount for this budget"
+      expect(page).not_to have_content hide_money_help_text
+
+      select "Approval", from: "Final voting style"
+
+      expect(page).to have_field "Hide money amount for this budget", checked: false
+      expect(page).to have_content hide_money_help_text
+    end
+
+    scenario "Edit approval budget show hide money info" do
+      budget = create(:budget, :approval)
+      hide_money_help_text = "If this option is checked, all fields showing the amount of money " \
+                             "will be hidden throughout the process."
+
+      visit edit_admin_budget_path(budget)
+
+      expect(page).to have_field "Hide money amount for this budget", checked: false
+      expect(page).to have_content hide_money_help_text
+
+      select "Knapsack", from: "Final voting style"
+
+      expect(page).not_to have_field "Hide money amount for this budget"
+      expect(page).not_to have_content hide_money_help_text
+    end
   end
 
   context "Update" do
     scenario "Update budget" do
-      visit edit_admin_budget_path(create(:budget))
+      budget = create(:budget)
+
+      visit edit_admin_budget_path(budget)
 
       fill_in "Name", with: "More trees on the streets"
       click_button "Update Budget"
 
+      expect(page).to have_content "Participatory budget updated successfully"
       expect(page).to have_content("More trees on the streets")
-      expect(page).to have_current_path(admin_budgets_path)
+      expect(page).to have_current_path(admin_budget_path(budget))
     end
 
     scenario "Deselect all selected staff" do
@@ -371,46 +454,43 @@ describe "Admin budgets", :admin do
     scenario "For a Budget in reviewing balloting" do
       budget = create(:budget, :reviewing_ballots)
       heading = create(:budget_heading, budget: budget, price: 4)
-      unselected = create(:budget_investment, :unselected, heading: heading, price: 1,
+      unselected = create(:budget_investment, :unselected, heading: heading,
+                                                           price: 1,
                                                            ballot_lines_count: 3)
       winner = create(:budget_investment, :selected, heading: heading, price: 3,
-                                                   ballot_lines_count: 2)
+                                                     ballot_lines_count: 2)
       selected = create(:budget_investment, :selected, heading: heading, price: 2, ballot_lines_count: 1)
 
-      visit edit_admin_budget_path(budget)
+      visit admin_budget_path(budget)
+
       expect(page).not_to have_content "See results"
-      click_link "Calculate Winner Investments"
+
+      click_button "Calculate Winner Investments"
+
       expect(page).to have_content "Winners being calculated, it may take a minute."
       expect(page).to have_content winner.title
       expect(page).not_to have_content unselected.title
       expect(page).not_to have_content selected.title
 
-      visit edit_admin_budget_path(budget)
-      expect(page).to have_content "See results"
+      visit admin_budget_path(budget)
+
+      expect(page).not_to have_link "See results"
+
+      click_link "Edit budget"
+      select "Finished budget", from: "Active phase"
+      check "Show results"
+      click_button "Update Budget"
+
+      expect(page).to have_content "Participatory budget updated successfully"
+      expect(page).to have_link "See results"
     end
 
-    scenario "For a finished Budget" do
-      budget = create(:budget, :finished)
-      allow_any_instance_of(Budget).to receive(:has_winning_investments?).and_return(true)
-
-      visit edit_admin_budget_path(budget)
-
-      expect(page).to have_content "Calculate Winner Investments"
-      expect(page).to have_content "See results"
-    end
-
-    scenario "Recalculate for a finished Budget" do
-      budget = create(:budget, :finished)
+    scenario "Recalculate for a budget in reviewing ballots" do
+      budget = create(:budget, :reviewing_ballots)
       create(:budget_investment, :winner, budget: budget)
 
-      visit edit_admin_budget_path(budget)
-
-      expect(page).to have_content "Recalculate Winner Investments"
-      expect(page).to have_content "See results"
-      expect(page).not_to have_content "Calculate Winner Investments"
-
       visit admin_budget_budget_investments_path(budget)
-      click_link "Advanced filters"
+      click_button "Advanced filters"
       check "Winners"
       click_button "Filter"
 

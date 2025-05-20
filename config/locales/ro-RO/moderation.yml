@@ -3,7 +3,6 @@ ro:
     comments:
       index:
         block_authors: Blochează autorii
-        confirm: Ești sigur?
         filter: Filtru
         filters:
           all: Toate
@@ -12,9 +11,8 @@ ro:
         headers:
           comment: Comentariu
           moderate: Moderează
-        hide_comments: Ascunde comentarii
+        hide: Ascunde comentarii
         ignore_flags: Marchează ca vizualizat
-        order: Ordonează
         orders:
           flags: Cele mai marcate
           newest: Cele mai noi
@@ -25,7 +23,6 @@ ro:
     debates:
       index:
         block_authors: Blochează autorii
-        confirm: Ești sigur?
         filter: Filtru
         filters:
           all: Toate
@@ -34,9 +31,8 @@ ro:
         headers:
           debate: Dezbatere
           moderate: Moderează
-        hide_debates: Ascunde dezbaterile
+        hide: Ascunde dezbaterile
         ignore_flags: Marchează ca vizualizată
-        order: Ordonează
         orders:
           created_at: Cele mai noi
           flags: Cele mai marcate
@@ -53,7 +49,6 @@ ro:
     proposals:
       index:
         block_authors: Blochează autorii
-        confirm: Sunteți sigur?
         filter: Filtru
         filters:
           all: Toate
@@ -62,9 +57,8 @@ ro:
         headers:
           moderate: Moderează
           proposal: Propunere
-        hide_proposals: Ascunde propuneri
+        hide: Ascunde propuneri
         ignore_flags: Marchează ca vizualizată
-        order: Ordonează după
         orders:
           created_at: Cel mai recent
           flags: Cel mai marcat
@@ -72,7 +66,6 @@ ro:
     budget_investments:
       index:
         block_authors: Blochează autori
-        confirm: Sunteți sigur?
         filter: Filtru
         filters:
           all: Toate
@@ -81,9 +74,8 @@ ro:
         headers:
           moderate: Moderează
           budget_investment: Buget de investiție
-        hide_budget_investments: Ascunde buget de investiții
+        hide: Ascunde buget de investiții
         ignore_flags: Marchează ca vizualizat
-        order: Ordonează după
         orders:
           created_at: Cel mai recent
           flags: Cele mai marcate
@@ -91,7 +83,6 @@ ro:
     proposal_notifications:
       index:
         block_authors: Blochează autorii
-        confirm: Sunteți sigur?
         filter: Filtru
         filters:
           all: Toate
@@ -100,16 +91,14 @@ ro:
         headers:
           moderate: Moderează
           proposal_notification: Notificări propunere
-        hide_proposal_notifications: Ascunde propuneri
+        hide: Ascunde propuneri
         ignore_flags: Marchează ca vizualizată
-        order: Ordonează după
         orders:
           created_at: Cel mai recent
           moderated: Moderează
         title: Notificări propunere
     users:
       index:
-        hidden: Blocat
         hide: Blochează
         search_placeholder: email sau numele utilizatorului
         title: Blochează utilizatorii

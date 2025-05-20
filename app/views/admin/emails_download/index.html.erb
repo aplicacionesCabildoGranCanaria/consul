@@ -5,7 +5,7 @@
                method: :get,
                id: "admin_download_emails" do %>
 
-    <label><%= t("admin.emails_download.index.download_segment") %></label>
+    <%= label_tag :users_segment, t("admin.emails_download.index.download_segment") %>
     <p class="help-text" id="emails-help-text">
       <%= t("admin.emails_download.index.download_segment_help_text") %>
     </p>
@@ -13,7 +13,7 @@
     <%= select_tag :users_segment, options_for_select(user_segments_options) %>
 
     <%= submit_tag t("admin.emails_download.index.download_emails_button"),
-      class: "button",
-      data: { disable_with: false } %>
+                   class: "button",
+                   data: { disable_with: false } %>
   <% end %>
 </div>

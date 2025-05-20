@@ -40,8 +40,6 @@ es:
     telegram_handle_description: "Si está rellenado aparecerá en el pie de página"
     instagram_handle: "Usuario de Instagram"
     instagram_handle_description: "Si está rellenado aparecerá en el pie de página"
-    url: "URL general de la web"
-    url_description: "URL principal de tu web"
     org_name: "Nombre del sitio"
     org_name_description: "Este nombre aparecerá en el asunto de emails, páginas de ayuda..."
     related_content_score_threshold: "Umbral de puntuación de contenido relacionado"
@@ -60,6 +58,8 @@ es:
     meta_keywords_description: 'Palabras clave <meta name="keywords">, utilizadas para mejorar el SEO'
     min_age_to_participate: Edad mínima para participar
     min_age_to_participate_description: "Los usuarios mayores de esta edad podrán participar en todos los procesos donde se necesite una cuenta verificada"
+    postal_codes: "Códigos Postales"
+    postal_codes_description: "Una lista de códigos postales válidos separados por comas; también puedes usar rangos utilizando \":\". Ejemplo: 00001:00010,00024,AB3 45FG,00031:00035 permitirá códigos postales entre 00001 y 00010, el 00024, el AB3 45FG, y códigos postales entre 00031 y 00035. Si dejas esta opción en blanco, cualquier código postal será válido."
     proposals:
       successful_proposal_id: Propuesta exitosa
       successful_proposal_id_description: Esta propuesta se utiliza como referencia de una propuesta exitosa en número de apoyos y se mostrará en el gráfico del panel de control
@@ -106,6 +106,8 @@ es:
         recommendations_on_proposals_description: "Muestra a los usuarios recomendaciones en la página de propuestas basado en las etiquetas de los elementos que sigue"
       community: "Comunidad en propuestas y proyectos de gasto"
       community_description: "Activa la sección de comunidad en las propuestas y en los proyectos de gasto de los Presupuestos participativos"
+      machine_learning: "IA / Machine learning"
+      machine_learning_description: "Habilita la sección de IA / Machine Learning para ejecutar scripts de python y enriquecer el contenido automáticamente."
       map: "Geolocalización de propuestas y proyectos de gasto"
       map_description: "Activa la geolocalización de propuestas y proyectos de gasto"
       allow_images: "Permitir subir y mostrar imágenes"
@@ -114,8 +116,6 @@ es:
       allow_attached_documents_description: "Permite que los usuarios suban documentos al crear propuestas y proyectos de gasto de los Presupuestos participativos"
       guides: "Guías para crear propuestas o proyectos de inversión"
       guides_description: "Muestra una guía de diferencias entre las propuestas y los proyectos de gasto si hay un presupuesto participativo activo"
-      public_stats: "Estadísticas públicas"
-      public_stats_description: "Muestra las estadísticas públicas en el panel de Administración"
       help_page: "Página de ayuda"
       help_page_description: 'Muestra un menú Ayuda que contiene una página con una sección de información sobre cada funcionalidad habilitada. También se pueden crear páginas y menús personalizados en las secciones "Personalizar páginas" y "Personalizar bloques"'
       remote_translations: "Traducciones remotas"
@@ -130,8 +130,12 @@ es:
       dashboard:
         notification_emails: "Emails del panel de progreso"
         notification_emails_description: "Activar el envío de emails de notificaciones a los autores de las propuestas en la sección de panel de progreso"
+      remove_investments_supports: "Permitir retirar los apoyos en los proyectos de gasto"
+      remove_investments_supports_description: "Permite que los usuarios retiren su apoyo en los proyectos de gasto de los presupuestos participativos durante la fase de apoyos."
       sdg: ODS
       sdg_description: Habilitar secciones relacionadas con Objetivos de Desarrollo Sostenible en el menú de administración y en la sección de Configuración Global.
+      cookies_consent: Banner de consentimiento de cookies
+      cookies_consent_description: Activa el banner de consentimiento de cookies para informar a los usuarios sobre las cookies que utiliza la aplicación.
     remote_census:
       general:
         endpoint: "Endpoint"
@@ -165,6 +169,9 @@ es:
         valid: "Condición para detectar una respuesta válida"
         valid_description: "Que ruta de la respuesta tiene que venir informado para considerarse una respuesta válida"
     map:
+      feature:
+        marker_clustering: "Agrupación de marcadores"
+        marker_clustering_description: "Activa la agrupación de marcadores en el mapa. Útil cuando hay muchos marcadores que mostrar."
       latitude: "Latitud"
       latitude_description: "Latitud para mostrar la posición del mapa"
       longitude: "Longitud"
@@ -221,3 +228,8 @@ es:
         budgets_description: Permitir alineamiento de los Objetivos de Desarrollo Sostenible en presupuestos participativos
         legislation: Alineamiento ODS en legislación colaborativa
         legislation_description: Permitir alineamiento de los Objetivos de Desarrollo Sostenible en legislación colaborativa
+    cookies_consent:
+      more_info_link: Enlace a la política de cookies
+      more_info_link_description: Enlace que se muestra en el banner de consentimiento a la página de política de cookies
+      version_name: Nombre de la versión
+      version_name_description: Cambia el nombre de la versión para obligar a todos los usuarios a realizar el proceso de consentimiento de cookies de nuevo. Esto puede ser particularmente útil cuando se introducen cambios drásticos en la política de cookies que requieren de un nuevo consentimiento explícito por parte de los usuarios.

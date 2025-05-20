@@ -4,24 +4,20 @@ he:
       title: ניהול
     actions:
       actions: פעולות
-      confirm: האם את/ה בטוח/ה?
       confirm_hide: אשר מנחה
+      delete: "מחיקה"
       hide: הסתר
-      hide_author: הסתר את יוצר התוכן
       restore: שחזר
       mark_featured: מוצע
       unmark_featured: לא מקודם
       edit: ערוך
       configure: קביעת תצורה
-      delete: מחיקה
     officing_booth:
       title: "אתה עובד על התא שממוקם ב %{booth}. אם זה אינו נכון, אל תמשיך ופנה לעזרה טלפונית תודה."
     banners:
       index:
         title: באנרים
         create: צור באנר
-        edit: ערוך באנר
-        delete: מחק באנר
         filters:
           all: כולם
           with_active: פעיל
@@ -62,18 +58,23 @@ he:
         type: סוג
         no_activity: אין פעילות מנהלים.
     budgets:
+      actions:
+        edit: "ערוך תקציב"
+        preview: "תצוגה מקדימה"
       index:
         title: תקציבים השתתפותיים
         new_link: צור תקציב חדש
         filter: מסנן
         filters:
+          all: כולם
           open: פתוח
           finished: הסתיים
         budget_investments: נהל פרויקטים
+        table_budget_type: "סוג"
+        table_draft: "טיוטה"
+        table_duration: "משך זמן"
         table_name: שם
         table_phase: שלב
-        edit_groups: עריכת קבוצות כותרות
-        edit_budget: ערוך תקציב
         admin_ballots: הצבעת מנהל מערכת
         no_budgets: "לא נמצאו תקציבים."
       create:
@@ -84,9 +85,9 @@ he:
         title: ערוך תקציב השתתפותי
         delete: מחיקת התקציב
         phase: שלב
+        duration: "משך זמן"
         enabled: מופעל
         actions: פעולות
-        edit_phase: ערוך שלב
         active: פעיל
         blank_dates: התאריכים ריקים
         administrators:
@@ -107,8 +108,8 @@ he:
         success_notice: התקציב נמחק בהצלחה
         unable_notice: אינך יכול להסיר תקציב הקשור להשקעות קיימות
         unable_notice_polls: אינך יכול להסיר תקציב הקשור להצבעות קיימות
-      new:
-        title: תקציב השתתפותי חדש
+      show:
+        add_heading: "Add heading"
       winners:
         calculate: מחשב את ההשקעות הנבחרות
         calculated: ההשקעות הזוכות בתהליך חישוב, עלול להיערך זמן מה.
@@ -135,14 +136,8 @@ he:
         edit: "ערוך קבוצה"
         submit: "שמירת קבוצה"
       index:
-        back: "לחזור לתקציבים"
+        new_button: "Add new group"
     budget_headings:
-      no_headings: "אין כותרות."
-      amount:
-        one: "יש כותרת 1"
-        two: "ישנן %{count} כותרות"
-        many: "ישנן %{count} כותרות"
-        other: "ישנן %{count} כותרות"
       create:
         notice: "כותרת נוצרו בהצלחה!"
       update:
@@ -161,6 +156,7 @@ he:
         back: "חזור אל הקבוצות"
     budget_phases:
       edit:
+        title: "ערוך שלב"
         description_help_text: טקסט זה יופיע בכותרת כאשר השלב פעיל
         enabled_help_text: שלב זה יהיה ציבורי בציר הזמן של שלבי התקציב, וכן פעיל לכל מטרה אחרת
         save_changes: שמירת שינויים
@@ -171,7 +167,6 @@ he:
         valuator_filter_all: כל המעריכים
         tags_filter_all: כל התגיות
         advanced_filters: סינון מתקדם
-        placeholder: חיפוש פרויקטים
         filters:
           all: כולם
           without_admin: מבלי להקצות מנהל/ת
@@ -185,6 +180,8 @@ he:
           min_total_supports: תמיכה מינימלית
           max_total_supports: תמיכה מקסימלית
           winners: זוכים
+          one_filter: "הסינון אשר הופעל: <b><em>%{filter}</em></b>"
+          two_filters: "המסננים שהופעלו:<b><em>%{filter}, %{advanced_filters}</em></b>"
         buttons:
           filter: מסנן
         download_current_selection: "הורדת הבחירה הנוכחית"
@@ -198,7 +195,6 @@ he:
           unfeasible: "אינו בר ביצוע"
           undecided: "טרם הוחלט"
         selected: "נבחר"
-        select: "בחר"
         list:
           id: מזהה
           title: כותרת
@@ -215,7 +211,6 @@ he:
           incompatible: אינו תואם
           price: מחיר
           author: מחבר/ת
-        cannot_calculate_winners: התקציב צריך להישאר על שלב "הצבעה לפרויקטים", "סקירת הצבעות" או "סיים תקציב" על מנת לחשב את הפרויקטים הזוכים
         see_results: "ראו תוצאות"
         milestone_tags_filter_all: "כל תגיות אבני הדרך"
       show:
@@ -256,14 +251,19 @@ he:
         tags_placeholder: "כתיבת תגיות, נא להפריד ביניהן באמצעות פסיקים (,)"
         undefined: לא מוגדר
       search_unfeasible: חיפוש אינו ישים
+    budgets_wizard:
+      creation_timeline:
+        budget: תקציב
+        groups: קבוצות
+        headings: כותרות
     milestones:
       index:
+        table_id: "ID"
         table_title: "כותרת"
         table_description: "תיאור"
         table_publication_date: "תאריך פרסום"
         table_status: מצב
         table_actions: "פעולות"
-        delete: "מחיקת אבני דרך"
         no_milestones: "לא הגדרו אבני דרך"
         image: "תמונה"
         show_image: "הצג תמונה"
@@ -309,6 +309,7 @@ he:
         no_progress_bars: "אין סרגלי התקדמות"
         new_progress_bar: "יצירת סרגל התקדמות חדש"
         primary: "סרגל התקדמות ראשי"
+        table_id: "ID"
         table_kind: "סוג"
         table_title: "כותרת"
         table_percentage: "ההתקדמות הנוכחית"
@@ -427,7 +428,6 @@ he:
         title: "מסמכים"
         format: "תצורה"
         size: "גודל"
-        url: "קישור"
       create:
         success_notice: "המסמך הועלה בהצלחה"
         unable_notice: "מסמך לא תקין"
@@ -479,10 +479,6 @@ he:
           allegations_phase: שלב ההערות
           proposals_phase: שלב ההצעות
           use_markdown: השתמש ב- סמן למטה כדי לעצב את הטקסט
-          title_placeholder: כותרת התהליך
-          summary_placeholder: סיכום קצר של התיאור
-          description_placeholder: הוסף תיאור של התהליך
-          additional_info_placeholder: הוסף מידע נוסף שיכול להיות מועיל
           homepage_description: כאן תוכל להסביר את תוכן התהליך
           banner_title: צבעי כותרת
         index:
@@ -496,11 +492,10 @@ he:
           title: צור תהליך חקיקה שיתופית חדשה
           submit_button: יצירת תהליך
         proposals:
-          select_order: סדר לפי
           orders:
-            id: מזהה
-            title: כותרת
-            supports: סה"כ תומכים
+            id: "מזהה"
+            title: "כותרת"
+            supports: "סה\"כ תומכים"
         process:
           title: תהליך
           comments: הערות
@@ -544,6 +539,7 @@ he:
           submit_button: שמירת שינויים
           warning: ערכת את הטקסט, אל תשכח ללחוץ על שמור כדי לשמור את השינויים לצמיתות.
         form:
+          title: 'עריכת <span class = "strong">%{draft_version_title} </ span> מהתהליך <span class = "strong">%{process_title} </ span>'
           launch_text_editor: הפעל את עורך הטקס
           close_text_editor: סגור את עורך הטקסט
           use_markdown: השתמש בסימון כדי לעצב את הטקסט
@@ -552,13 +548,10 @@ he:
             status:
               draft: אתה יכול לצפות בתצוגה מקדימה כמנהל, אף אחד אחר לא יכול לראות את זה
               published: גלוי לכולם
-          title_placeholder: כתוב את הכותרת של גירסת הטיוטה
           changelog_placeholder: הוסף את השינויים העיקריים מהגירסה הקודמת
-          body_placeholder: כתוב את הטקסט טיוטה
         index:
           title: גירסת הטיוטה
           create: יצירת גירסה
-          delete: מחיקה
           preview: תצוגה מקדימה
         new:
           back: חזרה
@@ -585,14 +578,12 @@ he:
           submit_button: שמירת שינויים
         form:
           add_option: הוסף אפשרות
-          title_placeholder: הוספת שאלה
           value_placeholder: הוספת תשובה סגורה
           question_options: "תשובות אפשריות (אופציונלי, תשובות פתוחות כברירת מחדל)"
         index:
           back: חזרה
           title: שאלות הקשורות לתהליך זה
           create: יצירת שאלה
-          delete: מחיקה
         new:
           back: חזרה
           title: יצירת שאלה חדשה
@@ -615,6 +606,12 @@ he:
         add: הוסף
       search:
         title: "מנהלים: חיפוש משתמשים"
+    sdg_managers:
+      index:
+        no_sdg_managers: לא נמצאו משתמשים.
+    sdg/managers:
+      sdg/manager:
+        add: הוסף
     menu:
       activity: פעילות מנחה
       admin: תפריט מנהל
@@ -730,6 +727,7 @@ he:
         empty_newsletters: אין ידיעונים להצגה
       new:
         title: ידיעון חדש
+        header_footer_help_text: "הכותרת והחלק התחתון זהים בכל האימיילים, ניתן לשנות אותם באמצעות \n<code>app/views/layouts/mailer_header</code> וכן ב- \n<code>app/views/layouts/mailer_footer</code>.<br>\nניתן לשנות את תמונת הכותרת ב- %{link}."
         image_link: "תמונות מותאמות אישית"
       edit:
         title: עריכת ידיעון
@@ -1000,9 +998,6 @@ he:
         table_title: "כותרת"
         edit_answers: ערוך תשובה
         see_proposal: "ראה/י הצעות"
-      flash:
-        question_added: "שאלות שנוספו לסקר זה"
-        error_on_question_added: "לא ניתן לשייך שאלות לסקר זה"
       destroy:
         alert: "פעולה זו תסיר את הסקר ואת כל השאלות הקשורות אליו."
         success_notice: "הסקר נמחק בהצלחה"
@@ -1052,12 +1047,6 @@ he:
     answers:
       new:
         title: תשובה חדשה
-      show:
-        title: כותרת
-        description: תיאור
-        images: תמונות
-        images_list: רשימת תמונות
-        edit: ערוך תשובה
       edit:
         title: ערוך תשובה
       videos:
@@ -1113,7 +1102,6 @@ he:
         location: "מקום"
       booth:
         shifts: "ניהול משמרות"
-        edit: "ערוך דוכן"
     officials:
       edit:
         destroy: הסר סטאטוס של נושא המשרה
@@ -1135,7 +1123,6 @@ he:
       level_4: רמה 4
       level_5: רמה 5
       search:
-        edit_official: עריכת נושא המשרה
         make_official: הפוך לנושא משרה רשמי
         title: "רמת נושא המשרה: חיפוש משתמש"
         no_results: רמת נושא המשרה לא נמצאה.
@@ -1147,6 +1134,11 @@ he:
           pending: ממתין לאישור
           rejected: נדחה
           verified: אומת ואושר
+        hidden_count:
+          one: יש גם <strong> ארגון אחד </strong> ללא משתמשים או עם משתמש מוסתר.
+          two: יש <strong>%{count} ארגונים </strong> ללא משתמשים או עם משתמש מוסתר.
+          many: יש <strong>%{count} ארגונים </strong> ללא משתמשים או עם משתמש מוסתר.
+          other: יש <strong>%{count} ארגונים </strong> ללא משתמשים או עם משתמש מוסתר.
         name: שם
         email: דואר אלקטרוני
         phone_number: מספר טלפון
@@ -1167,7 +1159,6 @@ he:
         title: הצעות
         id: מזהה
         author: מחבר/ת
-        select: בחר
         selected: נבחר
         milestones: אבני דרך
         no_proposals: לא נמצאו הצעות.
@@ -1186,20 +1177,27 @@ he:
           without_confirmed_hide: ממתין לאישור
         title: הצעות מוסתרות
         no_hidden_proposals: לא נמצאו הצעות מוסתרות.
+    hidden_proposal_notifications:
+      index:
+        filter: Filter
+        filters:
+          all: כולם
+          with_confirmed_hide: אושר
+          without_confirmed_hide: Pending
+        title: התראות מוסתרות
+        no_hidden_proposals: אין התראות מוסתרות.
     settings:
       flash:
         updated: הערך מעודכן
       index:
         title: הגדרות תצורה
+        general: Configuration settings
         update_setting: עדכן
         participation_processes: "השתתפות בתהליכים"
         images_and_documents: "תמונות ומסמכים"
         feature_flags: מאפיינים
         features:
           enabled: "התכונה מופעלת"
-          disabled: "התכונה מושבתת"
-          enable: "לאפשר"
-          disable: "להשבית"
         map:
           title: תצורת מפה
           help: כאן באפשרותך להתאים אישית את הדרך שהמפה מוצגת למשתמשים. גרור סמן מפה או לחץ במקום כלשהו על המפה, להגדיר זום הרצוי ולחץ על כפתור "עדכון".
@@ -1211,14 +1209,10 @@ he:
         dashboard:
           title: לוח מחוונים להצעות
       setting: מאפיינים
-      setting_actions: פעולות
       setting_name: הגדרות
-      setting_status: סטטוס
       setting_value: ערך
       no_description: "אין תיאור"
     shared:
-      true_value: "כן"
-      false_value: "לא"
       search:
         label:
           booths: "חיפוש דוכן לפי שם"
@@ -1228,6 +1222,7 @@ he:
           poll_questions: "חפש שאלות סקר"
           proposals: "חיפוש הצעות לפי כותרת, קוד, תיאור או שאלה"
           users: "‘חיפוש משתמש/ת לפי שם או דואר אלקטרוני’"
+        search: "חיפוש"
       search_results: "תוצאות החיפוש"
       no_search_results: "לא נמצאו תוצאות."
       actions: פעולות
@@ -1281,6 +1276,7 @@ he:
       show:
         created_at: נוצר
         author: מחבר/ת
+        users: משתמשים
         verified:
           one: "יש %{count} חתימה חוקית"
           two: "ישנן %{count} חתימות חוקיות"
@@ -1319,7 +1315,6 @@ he:
           verified_users_who_didnt_vote_proposals: משתמשים מאומתים שלא הצביעו על הצעות
           visits: ביקורים
           votes: סך הכל הצבעות
-        budgets_title: מימון השתתפותי
         participatory_budgets: תקציבים שיתופיים
         direct_messages: הודעות ישירות
         proposal_notifications: התראות להצעות
@@ -1327,8 +1322,6 @@ he:
         polls: סקרים
       graph:
         debate_created: דיונים
-        visit: ביקורים
-        level_2_user: משתמשים ברמה 2
         proposal_created: הצעות תושבים
       budgets:
         no_data_before_balloting_phase: "אין נתונים להצגה לפני שלב ההצבעה."
@@ -1367,9 +1360,12 @@ he:
           question_name: שאלה
           origin_web: משתתפים ברשת
           origin_total: סה"כ משתתפים
+      sdg:
+        debates: "דיונים"
+        polls: "סקרים"
+        proposals: "הצעות"
     tags:
       create: יצירת נושא
-      destroy: מחיקת הנושא
       index:
         add_tag: הצעה לנושא לדיון חדש
         title: נושאים לדיון
@@ -1377,6 +1373,7 @@ he:
         help: "כאשר משתמש יוצר הצעה, הנושאים הבאים מוצעים כתוויות ברירת מחדל."
     users:
       columns:
+        id: ID
         name: שם
         email: דואר אלקטרוני
         document_number: מספר תעודה מזהה
@@ -1385,6 +1382,9 @@ he:
       index:
         title: משתמש
         no_users: לא נמצאו משתמשים.
+        filter: Filter
+        filters:
+          active: פעיל
       search:
         placeholder: חפש משתמש על פי דוא"ל, שם או מספר מסמך מזהה
     verifications:
@@ -1426,7 +1426,6 @@ he:
         index:
           title: תמונות מותאמות אישית
           update: עדכן
-          delete: מחיקה
           image: תמונה
         update:
           notice: התמונה עודכנה בהצלחה
@@ -1454,6 +1453,7 @@ he:
           see_page: תצוגה מקדימה של הדף
         new:
           title: יצירת דף מותאם אישית חדש
+          slug_help: "טקסט כדי לזהות את הדף הזה בכתובת האתר, לדוגמה <code>https://consuldemocracy.org/page-slug</code>"
         page:
           created_at: נוצר ב
           status: סטטוס
@@ -1495,3 +1495,21 @@ he:
         submit_header: שמירה כותרת דף עליונה
         card_title: עריכת כרטיס
         submit_card: שמור כרטיס
+    audits:
+      title: "יומן שינויים"
+      id: "ID"
+      field: "שדה"
+      new_value: "ערך חדש"
+      old_value: "ערך ישן"
+      edited_at: "נערך ב"
+      edited_by: "נערך על ידי"
+      actions: "פעולות"
+    local_census_records:
+      index:
+        document_type: סוג תעודה מזהה
+        document_number: מספר תעודה מזהה
+        date_of_birth: תאריך לידה
+    machine_learning:
+      related_content: "תוכן רלוונטי"
+      tab_help: "עזרה"
+      tags: "תגיות"

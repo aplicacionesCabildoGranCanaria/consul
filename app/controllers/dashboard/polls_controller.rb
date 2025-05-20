@@ -56,20 +56,20 @@ class Dashboard::PollsController < Dashboard::BaseController
     end
 
     def poll_params
-      params.require(:poll).permit(poll_attributes)
+      params.require(:poll).permit(allowed_params)
     end
 
-    def poll_attributes
+    def allowed_params
       [:name, :starts_at, :ends_at, :description, :results_enabled,
        questions_attributes: question_attributes]
     end
 
     def question_attributes
       [:id, :title, :author_id, :proposal_id, :_destroy,
-       question_answers_attributes: question_answers_attributes]
+       question_options_attributes: question_options_attributes]
     end
 
-    def question_answers_attributes
+    def question_options_attributes
       [:id, :_destroy, :title, :description, :given_order, :question_id,
        documents_attributes: document_attributes]
     end

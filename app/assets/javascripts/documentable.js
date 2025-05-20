@@ -9,19 +9,21 @@
         App.Documentable.unlockUploads();
       });
       $("#nested-documents").on("cocoon:after-insert", function(e, nested_document) {
-        var input;
+        var input, document_fields;
         input = $(nested_document).find(".js-document-attachment");
-        input.lockUpload = $(nested_document).closest("#nested-documents").find(".document:visible").length >= $("#nested-documents").data("max-documents-allowed");
+        document_fields = $(nested_document).closest("#nested-documents").find(".document-fields:visible");
+
+        input.lockUpload = document_fields.length >= $("#nested-documents").data("max-documents-allowed");
         App.Documentable.initializeDirectUploadInput(input);
         if (input.lockUpload) {
           App.Documentable.lockUploads();
         }
       });
+      App.Documentable.initializeRemoveCachedDocumentLinks();
     },
     initializeDirectUploadInput: function(input) {
       var inputData;
       inputData = this.buildData([], input);
-      this.initializeRemoveCachedDocumentLink(input, inputData);
       $(input).fileupload({
         paramName: "attachment",
         formData: null,
@@ -45,7 +47,6 @@
           App.Documentable.setInputErrors(data);
           $(data.destroyAttachmentLinkContainer).find("a.delete:not(.remove-nested)").remove();
           $(data.addAttachmentLabel).addClass("error");
-          $(data.addAttachmentLabel).show();
         },
         done: function(e, data) {
           var destroyAttachmentLink;
@@ -54,16 +55,8 @@
           App.Documentable.setProgressBar(data, "complete");
           App.Documentable.setFilename(data, data.result.filename);
           App.Documentable.clearInputErrors(data);
-          $(data.addAttachmentLabel).hide();
-          $(data.wrapper).find(".attachment-actions").removeClass("small-12").addClass("small-6 float-right");
-          $(data.wrapper).find(".attachment-actions .action-remove").removeClass("small-3").addClass("small-12");
           destroyAttachmentLink = $(data.result.destroy_link);
           $(data.destroyAttachmentLinkContainer).html(destroyAttachmentLink);
-          $(destroyAttachmentLink).on("click", function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            App.Documentable.doDeleteCachedAttachmentRequest(this.href, data);
-          });
           if (input.lockUpload) {
             App.Documentable.showNotice();
           }
@@ -78,8 +71,6 @@
     buildData: function(data, input) {
       var wrapper;
       wrapper = $(input).closest(".direct-upload");
-      data.input = input;
-      data.wrapper = wrapper;
       data.progressBar = $(wrapper).find(".progress-bar-placeholder");
       data.errorContainer = $(wrapper).find(".attachment-errors");
       data.fileNameContainer = $(wrapper).find("p.file-name");
@@ -92,7 +83,6 @@
     },
     clearFilename: function(data) {
       $(data.fileNameContainer).text("");
-      $(data.fileNameContainer).hide();
     },
     clearInputErrors: function(data) {
       $(data.errorContainer).find("small.error").remove();
@@ -102,7 +92,6 @@
     },
     setFilename: function(data, file_name) {
       $(data.fileNameContainer).text(file_name);
-      $(data.fileNameContainer).show();
     },
     setProgressBar: function(data, klass) {
       $(data.progressBar).find(".loading-bar").addClass(klass);
@@ -127,39 +116,11 @@
     showNotice: function() {
       $("#max-documents-notice").removeClass("hide");
     },
-    doDeleteCachedAttachmentRequest: function(url, data) {
-      $.ajax({
-        type: "POST",
-        url: url,
-        dataType: "json",
-        data: {
-          "_method": "delete"
-        },
-        complete: function() {
-          $(data.cachedAttachmentField).val("");
-          $(data.addAttachmentLabel).show();
-          App.Documentable.clearFilename(data);
-          App.Documentable.clearInputErrors(data);
-          App.Documentable.clearProgressBar(data);
-          App.Documentable.unlockUploads();
-          $(data.wrapper).find(".attachment-actions").addClass("small-12").removeClass("small-6 float-right");
-          $(data.wrapper).find(".attachment-actions .action-remove").addClass("small-3").removeClass("small-12");
-          if ($(data.input).data("nested-document") === true) {
-            $(data.wrapper).remove();
-          } else {
-            $(data.wrapper).find("a.remove-cached-attachment").remove();
-          }
-        }
-      });
-    },
-    initializeRemoveCachedDocumentLink: function(input, data) {
-      var remove_document_link, wrapper;
-      wrapper = $(input).closest(".direct-upload");
-      remove_document_link = $(wrapper).find("a.remove-cached-attachment");
-      $(remove_document_link).on("click", function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        App.Documentable.doDeleteCachedAttachmentRequest(this.href, data);
+    initializeRemoveCachedDocumentLinks: function() {
+      $("#nested-documents").on("click", "a.remove-cached-attachment", function(event) {
+        event.preventDefault();
+        App.Documentable.unlockUploads();
+        $(this).closest(".direct-upload").remove();
       });
     },
     removeDocument: function(id) {

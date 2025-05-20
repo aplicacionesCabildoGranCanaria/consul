@@ -1,5 +1,8 @@
 gl:
   pages:
+    census_terms:
+      title: "Termos e condicións de acceso ao Censo"
+      description: "Páxina de información sobre os termos e condicións de acceso ao Censo."
     conditions:
       title: Condicións de uso
       subtitle: AVISO LEGAL DAS CONDICIÓNS DE USO, PRIVACIDADE E PROTECCIÓN DOS DATOS DE CARÁCTER PERSOAL DO PORTAL DE GOBERNO ABERTO
@@ -18,6 +21,7 @@ gl:
         title: "Debates"
         description: "Na sección de %{link} podes expoñer e compartir a túa opinión con outras persoas sobre temas que che preocupan relacionados co municipio. Tamén é un espazo onde xerar ideas que a través das outras secciones de %{org} leven a actuacións concretas por parte do Concello."
         link: "debates cidadáns"
+        feature: "Podes abrir debates, comentalos e valoralos cos botóns de <strong>estou de acordo</strong> ou <strong>non estou de acordo</strong>. Para iso tes que %{link}."
         feature_link: "registrarte en %{org}"
         image_alt: "Botóns para avaliar os debates"
         figcaption: 'Botones "estou de acordo" e "non estou de acordo" para avaliar os debates.'
@@ -26,11 +30,13 @@ gl:
         description: "Na sección %{link} podes formular propostas para que o Concello as leve a cabo. As propostas obteñen apoios e se alcanzan abondos sométense a votación cidadá. As propostas aprobadas nestas votacións cidadás son asumidas polo Concello e lévanse a cabo."
         link: "propostas cidadás"
         image_alt: "Botón para apoiar unha proposta"
+        figcaption: 'Botón para apoiar unha proposta.'
       budgets:
         title: "Orzamentos participativos"
         description: "A sección de %{link} serve para que a xente decida de maneira directa a que se destina unha parte do orzamento municipal."
         link: "orzamentos participativos"
         image_alt: "Diferentes fases dun orzamento participativo"
+        figcaption: 'Fases de «apoios» e «votación» dos orzamentos participativos.'
       polls:
         title: "Votacións"
         description: "A sección de %{link} actívase cada vez que unha proposta acada o 1% dos apoios e pasa á votación ou cando o Concello propón un tema para que a xente decida sobre el."
@@ -41,6 +47,8 @@ gl:
         title: "Procesos"
         description: "Na sección %{link}, a cidadanía participa na redacción e modificación da normativa que afecta á cidade, e pode dar a súa opinión sobre as políticas municipais en debates previos."
         link: "procesos"
+        feature: "Para participares nos procesos tes que %{link} e verificar a túa conta."
+        feature_link: "rexistrarte en %{org_name}"
       faq:
         title: "Problemas técnicos?"
         description: "Le as preguntas frecuentes e resolve as túas dúbidas."
@@ -51,13 +59,14 @@ gl:
       other:
         title: "Outra información de interese"
         how_to_use: "Emprega %{org_name} no teu concello"
+        sdg: "Axuda dos Obxectivos de Desenvolvemento Sostible"
       how_to_use:
         text: |-
           Emprégao no teu concello ou axúdanos a melloralo, é software libre.
 
-          Este portal de goberno aberto emprega a [aplicación CONSUL] (https://github.com/consul/consul 'consul github') que é software libre con [licenza AGPLv3](http://www.gnu.org/licenses/agpl-3.0.html 'AGPLv3 gnu' ), o que significa que calquera pode usar libremente o código, copialo, velo en detalle, modificalo e redistribuílo ao mundo coas modificacións que quixer (mantendo o que outros poidan facer á súa vez o mesmo). Porque xulgamos que a cultura é mellor e máis rica cando se libera.
+          Este portal de goberno aberto emprega a [aplicación CONSUL DEMOCRACY] (https://github.com/consuldemocracy/consuldemocracy 'consul democracy github') que é software libre con [licenza AGPLv3](http://www.gnu.org/licenses/agpl-3.0.html 'AGPLv3 gnu' ), o que significa que calquera pode usar libremente o código, copialo, velo en detalle, modificalo e redistribuílo ao mundo coas modificacións que quixer (mantendo o que outros poidan facer á súa vez o mesmo). Porque xulgamos que a cultura é mellor e máis rica cando se libera.
 
-          Se sabes programar, podes ver o código e axudáresnos a melloralo en [CONSUL app](https://github.com/consul/consul 'consul github').
+          Se sabes programar, podes ver o código e axudáresnos a melloralo en [CONSUL DEMOCRACY app](https://github.com/consuldemocracy/consuldemocracy 'consul democracy github').
       titles:
         how_to_use: Emprégao no teu concello
     privacy:
@@ -154,6 +163,7 @@ gl:
               description_column: Reduce o tamaño do texto
       compatibility:
         title: Compatibilidade cos estándares e o deseño visual
+        description: 'Todas as páxinas deste sitio web cumpren coa <strong>Guía de Accesibilidade</strong> ou os Principios Xerais do Deseño Accesible que son recomendados polo Grupo de Traballo <abbr title="Web Accessibility Initiative" lang="en"> WAI </abbr> pertencente ao W3C.'
     titles:
       help: "Que é %{org}? - Participación cidadá"
     verify:

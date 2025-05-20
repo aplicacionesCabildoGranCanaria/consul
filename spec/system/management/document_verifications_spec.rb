@@ -20,7 +20,7 @@ describe "DocumentVerifications" do
     fill_in "document_verification_document_number", with: user.document_number
     click_button "Check document"
 
-    expect(page).to have_content "Vote proposals"
+    expect(page).to have_content "Vote for budget projects"
 
     click_button "Verify"
 
@@ -32,8 +32,9 @@ describe "DocumentVerifications" do
   describe "Verifying througth Census" do
     context "Census API" do
       scenario "Verifying a user which does not exist and is not in the census shows an error" do
-        expect_any_instance_of(Verification::Management::Document).to receive(:in_census?).
-                                                                      and_return(false)
+        expect_any_instance_of(Verification::Management::Document)
+          .to receive(:in_census?)
+          .and_return(false)
 
         login_as_manager
         visit management_document_verifications_path
@@ -43,7 +44,7 @@ describe "DocumentVerifications" do
         expect(page).to have_content "This document is not registered"
       end
 
-      scenario "Verifying a user which does exists in the census but not in the db redirects allows sending an email" do
+      scenario "Verifying a user who exists in the census but not in the db allows sending an email" do
         login_as_manager
         visit management_document_verifications_path
         fill_in "document_verification_document_number", with: "12345678Z"
@@ -55,13 +56,14 @@ describe "DocumentVerifications" do
 
     context "Remote Census API", :remote_census do
       scenario "Verifying a user which does not exist and is not in the census shows an error" do
-        expect_any_instance_of(Verification::Management::Document).to receive(:in_census?).
-                                                                      and_return(false)
+        expect_any_instance_of(Verification::Management::Document)
+          .to receive(:in_census?)
+          .and_return(false)
 
         login_as_manager
         visit management_document_verifications_path
         fill_in "document_verification_document_number", with: "12345678Z"
-        select_date "31-December-1980", from: "document_verification_date_of_birth"
+        fill_in "Date of birth", with: Date.new(1980, 12, 31)
         fill_in "document_verification_postal_code", with: "inexisting"
         click_button "Check document"
 
@@ -75,7 +77,7 @@ describe "DocumentVerifications" do
         login_as_manager
         visit management_document_verifications_path
         fill_in "document_verification_document_number", with: "12345678Z"
-        select_date "31-December-1980", from: "document_verification_date_of_birth"
+        fill_in "Date of birth", with: Date.new(1980, 12, 31)
         fill_in "document_verification_postal_code", with: "28013"
         click_button "Check document"
 

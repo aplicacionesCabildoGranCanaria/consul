@@ -3,15 +3,10 @@ fi:
     show:
       erase_account_link: Poista tilini
       notifications: Ilmoitukset
-      organization_name_label: Organisaation nimi
-      phone_number_label: Puhelinnumero
       save_changes_submit: Tallenna muutokset
       recommendations: Suositukset
       title: Tilini
       user_permission_info: Tililläsi voit...
-      user_permission_proposal: Luo uusia ehdotuksia
-      user_permission_support_proposal: Tue ehdotuksia
-      username_label: Käyttäjätunnus
       verified_account: Tili vahvistettu
       verify_my_account: Vahvista tilini
   application:
@@ -28,6 +23,10 @@ fi:
         zero: Ei vastauksia
         one: 1 vastaus
         other: "%{count} vastausta"
+      responses_show:
+        zero: Ei vastauksia
+      responses_collapse:
+        zero: Ei vastauksia
       user_deleted: Käyttäjä poistettu
       votes:
         zero: Ei ääniä
@@ -52,10 +51,6 @@ fi:
     reply_link: Vastaa
   debates:
     debate:
-      comments:
-        zero: Ei kommentteja
-        one: 1 kommentti
-        other: "%{count} kommenttia"
       votes:
         zero: Ei ääniä
         one: 1 ääni
@@ -75,14 +70,9 @@ fi:
         button: Etsi
         title: Etsi
     new:
-      info_link: luo uusi ehdotus
       more_info: Lisää tietoa
     show:
       author_deleted: Käyttäjä poistettu
-      comments:
-        zero: Ei kommentteja
-        one: 1 kommentti
-        other: "%{count} kommenttia"
       comments_title: Kommentit
       edit_debate_link: Muokkaa
       share: Jaa
@@ -102,27 +92,26 @@ fi:
     proposal: Ehdotus
     proposal_notification: "Ilmoitus"
     budget/investment: Sijoitus
-    poll/question/answer: Vastaus
     user: Tili
     verification/sms: puhelin
     document: Asiakirja
     topic: Aihe
     image: Kuva
   layouts:
-    application:
-      chrome: Google Chrome
-      firefox: Firefox
+    dashboard:
+      proposal_totals:
+        supports:
+          zero: Ei tukijoita
     footer:
       conditions: Ehdot ja käyttöehdot
-      consul_url: https://github.com/consul/consul
-      copyright: CONSUL, %{year}
+      consul_url: https://github.com/consuldemocracy/consuldemocracy
+      copyright: CONSUL DEMOCRACY, %{year}
       open_source: avoimen lähdekoodin ohjelmisto
       open_source_url: http://www.gnu.org/licenses/agpl-3.0.html
       privacy: Tietosuojakäytäntö
     header:
       administration_menu: Järjestelmänvalvoja
       administration: Järjestelmänvalvonta
-      available_locales: Saatavilla olevat kielet
       locale: "Kieli:"
       help: Apua
       my_account_link: Tilini
@@ -157,6 +146,9 @@ fi:
       sign_in: Kirjaudu sisään käyttäen Twitteriä
       sign_up: Rekisteröidy käyttäen Twitteriä
       name: Twitter
+    info:
+      sign_in: "Kirjaudu sisään käyttäen:"
+      sign_up: "Rekisteröidy käyttäen:"
     or_fill: "Tai täytä alla oleva kaavake:"
   proposals:
     create:
@@ -197,10 +189,6 @@ fi:
         submit_button: Luo ehdotus
       start_new: Luo uusi ehdotus
     proposal:
-      comments:
-        zero: Ei kommentteja
-        one: 1 kommentti
-        other: "%{count} kommenttia"
       support: Tue
       supports:
         zero: Ei tukijoita
@@ -213,10 +201,6 @@ fi:
       total_percent: 100%
     show:
       author_deleted: Käyttäjä poistettu
-      comments:
-        zero: Ei kommentteja
-        one: 1 kommentti
-        other: "%{count} kommenttia"
       comments_tab: Kommentit
       notifications_tab: Ilmoitukset
       milestones_tab: Tavoitteet
@@ -227,10 +211,30 @@ fi:
       form:
         submit_button: Tallenna muutokset
   dashboard:
+    menu:
+      progress: Edistyminen
+      community: Yhteisö
+      polls: Kyselyt
     progress:
       new_action: Uusi
+    index:
+      edit_proposal_link: Muokkaa ehdotusta
     resource:
       and: ja
+    recommended_actions:
+      pending_title: Vireillä
+    community:
+      comments: Kommentit
+    polls:
+      index:
+        title: Kyselyt
+        additiontal_information: Lisätiedot
+    poster:
+      options:
+        preview: Esikatselu
+    mailing:
+      mailing_options:
+        preview: Esikatselu
   polls:
     all: "Kaikki"
     index:
@@ -259,12 +263,12 @@ fi:
       submit_button: "Lähetä viesti"
   shared:
     edit: "Muokkaa"
+    filter: "Suodatin"
     save: "Tallenna"
     delete: "Poista"
     "yes": "Kyllä"
     "no": "Ei"
     advanced_search:
-      author_type_blank: "Valitse kategoria"
       date_placeholder: "PP/KK/VVVV"
       date_range_blank: "Valitse päivämäärä"
       date_5: "Mukautettu"
@@ -273,7 +277,6 @@ fi:
     author_info:
       author_deleted: Käyttäjä poistettu
     back: Takaisin
-    check: Valitse
     check_all: Kaikki
     check_none: Ei mitään
     follow: "Seuraa"
@@ -289,6 +292,7 @@ fi:
         see_all: "Näytä kaikki"
     tags_cloud:
       categories: "Kategoriat"
+    target_blank: " (linkit avautuvat uudessa ikkunassa)"
     share: Jaa
     orbit:
       next_slide: Seuraava dia
@@ -296,11 +300,11 @@ fi:
       title: Suositukset
   social:
     instagram: "%{org} Instagram"
-  stats:
-    index:
-      proposals: Ehdotukset
-      comments: Kommentit
   users:
+    login_to_comment: "Sinun tulee %{signin} tai %{signup} kommentoidaksesi."
+    signin: "kirjaudu"
+    signup: "rekisteröidy"
+    verify_account: "vahvista tilisi"
     direct_messages:
       new:
         submit_button: Lähetä viesti
@@ -309,11 +313,13 @@ fi:
       deleted: Poistettu
       deleted_proposal: Tämä ehdotus on poistettu
       proposals: Ehdotukset
+      proposals_status: Tila
       comments: Kommentit
       actions: Toiminnot
       send_private_message: "Lähetä yksityisviesti"
     proposals:
       see: "Näytä ehdotus"
+      actions: Toiminnot
   votes:
     agree: Hyväksyn
     disagree: En hyväksy
@@ -326,15 +332,9 @@ fi:
       see_process: Näytä prosessit
     recommended:
       slide: "Näytä %{title}"
-    verification:
-      i_dont_have_an_account: Minulla ei ole tunnusta
-      i_have_an_account: Minulla on jo tili
-      title: Tilin vahvistus
     welcome:
       title: Osallistu
       user_permission_info: Tililläsi voit...
-      user_permission_proposal: Luo uusia ehdotuksia
-      user_permission_support_proposal: Tue ehdotuksia*
       user_permission_verify_my_account: Vahvista tilini
   invisible_captcha:
     sentence_for_humans: "Jos olet ihminen, ohita tämä kenttä"
@@ -351,3 +351,7 @@ fi:
   annotator:
     help:
       title: Kuinka voin kommentoida tätä asiakirjaa?
+  links:
+    form:
+      delete_button: Poista
+      cancel_button: Peruuta

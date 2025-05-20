@@ -1,1 +1,18 @@
 sl:
+  community:
+    show:
+      sidebar:
+        participate: Sodeluj
+        new_topic: Ustvari temo
+      topic:
+        destroy: Uniči temo
+      author: Avtor
+    topic:
+      form:
+        new:
+          submit_button: Ustvari temo
+        create:
+          submit_button: Ustvari temo
+      show:
+        tab:
+          comments_tab: Komentarji

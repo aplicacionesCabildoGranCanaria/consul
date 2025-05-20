@@ -14,6 +14,9 @@ uk-UA:
     organizations:
       human_rights: Права людини
       neighborhood_association: Комітет мешканців
+    cards:
+      header:
+        label: "Ласкаво просимо до"
     categories:
       associations: Об'єднання
       culture: Культура
@@ -32,14 +35,10 @@ uk-UA:
       environment: Навколишнє середовище
     budgets:
       budget: Партисипативний бюджет
+      currency: '€'
       groups:
         all_city: Все місто
         districts: Райони
-      valuator_groups:
-        culture_and_sports: Культура і спорт
-        gender_and_diversity: Гендерний баланс та різноманітність
-        urban_development: Сталий розвиток міста
-        equity_and_employment: Рівність та працевлаштування
       statuses:
         studying_project: Вивчення проекту
         bidding: Подання заявок

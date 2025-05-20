@@ -1,18 +1,16 @@
-<% provide :title do %>
-  <%= t("stats.budgets.page_title", budget: @budget.name) %>
-<% end %>
+<% provide :title, t("stats.budgets.page_title", budget: @budget.name) %>
 <% provide :social_media_meta_tags do %>
 <%= render "shared/social_media_meta_tags",
-            social_url: budget_stats_url(@budget),
-            social_title: @budget.name,
-            social_description: @budget.description_for_phase("finished") %>
+           social_url: budget_stats_url(@budget),
+           social_title: @budget.name,
+           social_description: @budget.description_for_phase("finished") %>
 <% end %>
 
 <div class="participation-stats budgets-stats">
   <div class="expanded no-margin-top padding header">
     <div class="row">
       <div class="small-12 column">
-        <%= back_link_to budgets_path %>
+        <%= back_link_to budget_path(@budget) %>
         <h2 class="margin-top">
           <%= t("stats.title") %><br>
           <span><%= @budget.name %></span>
@@ -36,9 +34,11 @@
       <div class="row margin">
         <div class="small-12 column">
           <div id="total_no_demographic_data">
-            <p class="help-text">
-              <%= t("stats.no_demographic_data", count: @stats.total_no_demographic_data) %>
-            </p>
+            <% if @stats.total_no_demographic_data > 0 %>
+              <p class="help-text">
+                <%= t("stats.no_demographic_data", count: @stats.total_no_demographic_data) %>
+              </p>
+            <% end %>
             <p class="help-text">
                 <%= t("stats.budgets.participatory_disclaimer") %>
             </p>

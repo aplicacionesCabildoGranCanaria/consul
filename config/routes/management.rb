@@ -38,9 +38,10 @@ namespace :management do
       get :print_investments
     end
 
-    resources :investments, only: [:index, :new, :create, :show, :destroy], controller: "budgets/investments" do
-      post :vote, on: :member
+    resources :investments, only: [:index, :new, :create, :show], controller: "budgets/investments" do
       get :print, on: :collection
+
+      resources :votes, controller: "budgets/investments/votes", only: [:create, :destroy]
     end
   end
 end

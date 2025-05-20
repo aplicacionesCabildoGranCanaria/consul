@@ -9,15 +9,15 @@ describe "Legislation" do
     end
 
     before do
-      create(:legislation_question, process: process, title: "Question 1")
-      create(:legislation_question, process: process, title: "Question 2")
-      create(:legislation_question, process: process, title: "Question 3")
+      create(:legislation_question, process: process, title: "Question 1", description: "Description 1")
+      create(:legislation_question, process: process, title: "Question 2", description: "Description 2")
+      create(:legislation_question, process: process, title: "Question 3", description: "Description 3")
     end
+
+    it_behaves_like "notifiable in-app", :legislation_question
 
     scenario "shows question list" do
       visit legislation_process_path(process)
-
-      expect(page).to have_content("Participate in the debate")
 
       expect(page).to have_content("Question 1")
       expect(page).to have_content("Question 2")
@@ -26,16 +26,19 @@ describe "Legislation" do
       click_link "Question 1"
 
       expect(page).to have_content("Question 1")
+      expect(page).to have_content("Description 1")
       expect(page).to have_content("NEXT QUESTION")
 
       click_link "Next question"
 
       expect(page).to have_content("Question 2")
+      expect(page).to have_content("Description 2")
       expect(page).to have_content("NEXT QUESTION")
 
       click_link "Next question"
 
       expect(page).to have_content("Question 3")
+      expect(page).to have_content("Description 3")
       expect(page).not_to have_content("NEXT QUESTION")
     end
 
@@ -43,6 +46,7 @@ describe "Legislation" do
       visit legislation_process_question_path(process, process.questions.first)
 
       expect(page).to have_content("Question 1")
+      expect(page).to have_content("Description 1")
       expect(page).to have_content("Open answers (0)")
     end
 
@@ -50,16 +54,19 @@ describe "Legislation" do
       visit legislation_process_question_path(process, process.questions.first)
 
       expect(page).to have_content("Question 1")
+      expect(page).to have_content("Description 1")
       expect(page).to have_content("NEXT QUESTION")
 
       click_link "Next question"
 
       expect(page).to have_content("Question 2")
+      expect(page).to have_content("Description 2")
       expect(page).to have_content("NEXT QUESTION")
 
       click_link "Next question"
 
       expect(page).to have_content("Question 3")
+      expect(page).to have_content("Description 3")
       expect(page).not_to have_content("NEXT QUESTION")
     end
 
@@ -110,6 +117,16 @@ describe "Legislation" do
       expect(page).to have_selector(:radio_button, "I don't know", disabled: true)
 
       expect(page).not_to have_selector(:link_or_button, "Submit answer")
+    end
+
+    scenario "render link to questions comments with anchor" do
+      question = create(:legislation_question, process: process, title: "Question without comments")
+
+      visit legislation_process_path(process)
+
+      expect(page).to have_link "No comments", href: legislation_process_question_path(process,
+                                                                                       question,
+                                                                                       anchor: "comments")
     end
   end
 end

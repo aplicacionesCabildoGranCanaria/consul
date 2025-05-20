@@ -1,22 +1,26 @@
 class Budget
   class Phase < ApplicationRecord
     PHASE_KINDS = %w[informing accepting reviewing selecting valuating publishing_prices balloting
-                reviewing_ballots finished].freeze
+                     reviewing_ballots finished].freeze
     PUBLISHED_PRICES_PHASES = %w[publishing_prices balloting reviewing_ballots finished].freeze
     DESCRIPTION_MAX_LENGTH = 2000
 
     translates :name, touch: true
     translates :summary, touch: true
     translates :description, touch: true
+    translates :main_link_text, touch: true
+    translates :main_link_url, touch: true
     include Globalizable
     include Sanitizable
+    include Imageable
 
     belongs_to :budget, touch: true
-    belongs_to :next_phase, class_name: self.name, inverse_of: :prev_phase
-    has_one :prev_phase, class_name: self.name, foreign_key: :next_phase_id, inverse_of: :next_phase
+    belongs_to :next_phase, class_name: name, inverse_of: :prev_phase
+    has_one :prev_phase, class_name: name, foreign_key: :next_phase_id, inverse_of: :next_phase
 
     validates_translation :name, presence: true
-    validates_translation :description, length: { maximum: DESCRIPTION_MAX_LENGTH }
+    validates_translation :description, length: { maximum: ->(*) { DESCRIPTION_MAX_LENGTH }}
+    validates_translation :main_link_url, presence: true, unless: -> { main_link_text.blank? }
     validates :budget, presence: true
     validates :kind, presence: true, uniqueness: { scope: :budget }, inclusion: { in: ->(*) { PHASE_KINDS }}
     validate :invalid_dates_range?

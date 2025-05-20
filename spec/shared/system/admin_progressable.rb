@@ -10,9 +10,9 @@ shared_examples "admin_progressable" do |factory_name, path_name|
 
     context "Index" do
       scenario "Link to index path" do
-        create(:progress_bar, :secondary, progressable:  progressable,
-               title:      "Reading documents",
-               percentage: 20)
+        create(:progress_bar, :secondary, progressable: progressable,
+                                          title: "Reading documents",
+                                          percentage: 20)
 
         visit progressable_path
         click_link "Manage progress bars"
@@ -112,7 +112,7 @@ shared_examples "admin_progressable" do |factory_name, path_name|
         bar = create(:progress_bar, progressable: progressable, percentage: 34)
 
         visit path
-        within("#progress_bar_#{bar.id}") { accept_confirm { click_link "Delete" } }
+        within("#progress_bar_#{bar.id}") { accept_confirm { click_button "Delete" } }
 
         expect(page).to have_content "Progress bar deleted successfully"
         expect(page).not_to have_content "34%"

@@ -25,14 +25,18 @@ describe SDG::LocalTarget do
     local_target = build(:sdg_local_target, code: "1.6.1", target: SDG::Target[1.1])
 
     expect(local_target).not_to be_valid
-    expect(local_target.errors.full_messages).to include "Code must start with the same code as its target followed by a dot and end with a number"
+    expect(local_target.errors.full_messages).to include "Code must start with the same " \
+                                                         "code as its target followed by " \
+                                                         "a dot and end with a number"
   end
 
   it "is not valid when local target code part is not a number" do
     local_target = build(:sdg_local_target, code: "1.1.A", target: SDG::Target[1.1])
 
     expect(local_target).not_to be_valid
-    expect(local_target.errors.full_messages).to include "Code must start with the same code as its target followed by a dot and end with a number"
+    expect(local_target.errors.full_messages).to include "Code must start with the same " \
+                                                         "code as its target followed by " \
+                                                         "a dot and end with a number"
   end
 
   it "is not valid if code is not unique" do
@@ -45,6 +49,14 @@ describe SDG::LocalTarget do
 
   it "is not valid without a target" do
     expect(build(:sdg_local_target, target: nil)).not_to be_valid
+  end
+
+  describe "#code_and_title" do
+    it "returns the code and the title" do
+      target = build(:sdg_local_target, code: "4.4.1", title: "Build a university")
+
+      expect(target.code_and_title).to eq "4.4.1. Build a university"
+    end
   end
 
   describe "#set_related_goal" do
@@ -109,6 +121,14 @@ describe SDG::LocalTarget do
 
     it "raises an exception for non-existing codes" do
       expect { SDG::LocalTarget["1.1.99"] }.to raise_exception ActiveRecord::RecordNotFound
+    end
+  end
+
+  describe "#long_title" do
+    it "returns the title" do
+      target = build(:sdg_local_target, title: "Improve local water transport system")
+
+      expect(target.long_title).to eq "Improve local water transport system"
     end
   end
 end

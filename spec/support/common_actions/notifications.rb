@@ -39,11 +39,11 @@ module Notifications
       click_link "Message to users"
     end
 
-    click_link "Send message to proposal followers"
+    click_link "Send notification to proposal followers"
 
     fill_in "proposal_notification_title", with: "Thanks for supporting proposal: #{proposal.title}"
     fill_in "proposal_notification_body", with: "Please share it with others! #{proposal.summary}"
-    click_button "Send message"
+    click_button "Send notification"
 
     expect(page).to have_content "Your message has been sent correctly."
     Notification.last
@@ -61,8 +61,8 @@ module Notifications
 
   def fill_in_admin_notification_form(options = {})
     select (options[:segment_recipient] || "All users"), from: :admin_notification_segment_recipient
-    fill_in "Title", with: (options[:title] || "This is the notification title")
-    fill_in "Text", with: (options[:body] || "This is the notification body")
-    fill_in :admin_notification_link, with: (options[:link] || "https://www.decide.madrid.es/vota")
+    fill_in "Title", with: options[:title] || "This is the notification title"
+    fill_in "Text", with: options[:body] || "This is the notification body"
+    fill_in :admin_notification_link, with: options[:link] || "https://www.decide.madrid.es/vota"
   end
 end

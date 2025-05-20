@@ -11,7 +11,7 @@ describe "Moderate debates" do
     visit debate_path(debate)
 
     within("#debate_#{debate.id}") do
-      accept_confirm { click_link "Hide" }
+      accept_confirm("Are you sure? Hide") { click_button "Hide" }
     end
 
     expect(find("div#debate_#{debate.id}.faded")).to have_text debate.title
@@ -30,8 +30,8 @@ describe "Moderate debates" do
     visit debate_path(debate)
 
     within("#debate_#{debate.id}") do
-      expect(page).not_to have_link("Hide")
-      expect(page).not_to have_link("Block author")
+      expect(page).not_to have_button "Hide"
+      expect(page).not_to have_button "Block author"
     end
   end
 
@@ -47,17 +47,13 @@ describe "Moderate debates" do
 
         before do
           visit moderation_debates_path
-          within(".menu.simple") do
-            click_link "All"
-          end
+          click_link "All"
 
-          within("#debate_#{debate.id}") do
-            check "debate_#{debate.id}_check"
-          end
+          check debate.title
         end
 
         scenario "Hide the debate" do
-          accept_confirm { click_button "Hide debates" }
+          accept_confirm("Are you sure? Hide debates") { click_button "Hide debates" }
 
           expect(page).not_to have_css("#debate_#{debate.id}")
 
@@ -66,12 +62,12 @@ describe "Moderate debates" do
           click_button "Search"
 
           within "tr", text: debate.author.name do
-            expect(page).to have_link "Block"
+            expect(page).to have_button "Block"
           end
         end
 
         scenario "Block the author" do
-          accept_confirm { click_button "Block authors" }
+          accept_confirm("Are you sure? Block authors") { click_button "Block authors" }
 
           expect(page).not_to have_css("#debate_#{debate.id}")
 
@@ -97,16 +93,17 @@ describe "Moderate debates" do
         create_list(:debate, 2)
 
         visit moderation_debates_path
+        click_link "All"
 
-        within(".js-check") { click_on "All" }
+        expect(page).to have_field type: :checkbox, count: 2
 
-        expect(all("input[type=checkbox]")).to all(be_checked)
+        within(".check-all-none") { click_button "Select all" }
 
-        within(".js-check") { click_on "None" }
+        expect(all(:checkbox)).to all(be_checked)
 
-        all("input[type=checkbox]").each do |checkbox|
-          expect(checkbox).not_to be_checked
-        end
+        within(".check-all-none") { click_button "Select none" }
+
+        all(:checkbox).each { |checkbox| expect(checkbox).not_to be_checked }
       end
 
       scenario "remembering page, filter and order" do
@@ -115,9 +112,10 @@ describe "Moderate debates" do
 
         visit moderation_debates_path(filter: "all", page: "2", order: "created_at")
 
-        accept_confirm { click_button "Mark as viewed" }
+        accept_confirm("Are you sure? Mark as viewed") { click_button "Mark as viewed" }
 
-        expect(page).to have_selector(".js-order-selector[data-order='created_at']")
+        expect(page).to have_link "Newest", class: "is-active"
+        expect(page).to have_link "Most flagged"
 
         expect(page).to have_current_path(/filter=all/)
         expect(page).to have_current_path(/page=2/)
@@ -132,25 +130,19 @@ describe "Moderate debates" do
       expect(page).to have_link("Marked as viewed")
 
       visit moderation_debates_path(filter: "all")
-      within(".menu.simple") do
-        expect(page).not_to have_link("All")
-        expect(page).to have_link("Pending")
-        expect(page).to have_link("Marked as viewed")
-      end
+      expect(page).not_to have_link("All")
+      expect(page).to have_link("Pending")
+      expect(page).to have_link("Marked as viewed")
 
       visit moderation_debates_path(filter: "pending_flag_review")
-      within(".menu.simple") do
-        expect(page).to have_link("All")
-        expect(page).not_to have_link("Pending")
-        expect(page).to have_link("Marked as viewed")
-      end
+      expect(page).to have_link("All")
+      expect(page).not_to have_link("Pending")
+      expect(page).to have_link("Marked as viewed")
 
       visit moderation_debates_path(filter: "with_ignored_flag")
-      within(".menu.simple") do
-        expect(page).to have_link("All")
-        expect(page).to have_link("Pending")
-        expect(page).not_to have_link("Marked as viewed")
-      end
+      expect(page).to have_link("All")
+      expect(page).to have_link("Pending")
+      expect(page).not_to have_link("Marked as viewed")
     end
 
     scenario "Filtering debates" do
@@ -179,8 +171,14 @@ describe "Moderate debates" do
     end
 
     scenario "sorting debates" do
-      flagged_debate = create(:debate, title: "Flagged debate", created_at: Time.current - 1.day, flags_count: 5)
-      flagged_new_debate = create(:debate, title: "Flagged new debate", created_at: Time.current - 12.hours, flags_count: 3)
+      flagged_debate = create(:debate,
+                              title: "Flagged debate",
+                              created_at: 1.day.ago,
+                              flags_count: 5)
+      flagged_new_debate = create(:debate,
+                                  title: "Flagged new debate",
+                                  created_at: 12.hours.ago,
+                                  flags_count: 3)
       newer_debate = create(:debate, title: "Newer debate", created_at: Time.current)
 
       visit moderation_debates_path(order: "created_at")

@@ -40,8 +40,6 @@ hr:
     telegram_handle_description: "Ukoliko je popunjeno pojavit će se u podnaslovu"
     instagram_handle: "Instagram ime"
     instagram_handle_description: "Ukoliko je popunjeno pojavit će se u podnaslovu"
-    url: "Glavni URL"
-    url_description: "Glavni URL vaše stranice"
     org_name: "Ime stranice"
     org_name_description: "Ovo ime pojavit će se na temi e-maila, pomoćnim stranicama..."
     related_content_score_threshold: "Prag srodnih sadržaja"
@@ -114,8 +112,6 @@ hr:
       allow_attached_documents_description: "Dopušta korisnicima učitavanje dokumenata kada žele stvoriti prijedloge i investicijske projekte iz Participativnog Budžeta"
       guides: "Priručnik za stvaranje prijedloga ili investicijskih projekata"
       guides_description: "Prikazuje priručnik za različite prijedloge i investicijske projekte ukoliko postoje aktivni participativni budžet"
-      public_stats: "Javne statistike"
-      public_stats_description: "Prikazuje javne statistike u Administrativnom panelu"
       help_page: "Stranica za pomoć"
       help_page_description: 'Prikazuje izbornik Pomoć koji sadrži stranicu s odjeljkom s informacijama o svakoj omogućenoj značajki. U odjeljcima "Prilagođene stranice" i "Blokovi za prilagođeni sadržaj" mogu se izraditi prilagođene stranice i izbornici'
       remote_translations: "Prijevod na daljinu"
