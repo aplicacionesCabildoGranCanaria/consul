@@ -5,24 +5,15 @@ oc:
       erase_account_link: Esborrar lo mieu compte
       finish_verification: Finalizar verificacion
       notifications: Notificacions
-      organization_name_label: Nom de l'associacion
-      organization_responsible_name_placeholder: en Representant de l'associacion
       personal: Donadas personalas
-      phone_number_label: telefòn
       public_interests_my_title_list: Etiquetas d’elements que seguissètz
       public_interests_user_title_list: Etiquetas d’elements que seguís aquel usatgièr
       save_changes_submit: Gardar de cambiaments
       recommendations: Recomandacions
       title: Lo mieu compte
-      user_permission_debates: Participar a debats
       user_permission_info: Amb lo tieu compte pòdes ja...
-      user_permission_proposal: Crear de nòvas proposicions
-      user_permission_support_proposal: Sosténer de proposicions
       user_permission_title: Participacion
       user_permission_verify: Per poder realizar totas las accions, verifica lo tieu compte.
-      user_permission_verify_info: "* Solament d'usatgièrs empadronats."
-      user_permission_votes: Participar a las votacions finalas*
-      username_label: Nom d'usatgièr
       verified_account: Compte verificat
       verify_my_account: Verificar lo mieu compte
   application:
@@ -62,7 +53,6 @@ oc:
       newest: Mai nòus primièr
       oldest: Mai ancians primièr
       most_commented: La majoritat de comentaris
-    select_order: Ordenar per
     show:
       return_to_commentable: "Tornar a "
   comments_helper:
@@ -76,10 +66,6 @@ oc:
       form:
         submit_button: Comença un nòu debat
     debate:
-      comments:
-        zero: Sens comentaris
-        one: 1 Comentari
-        other: "%{count} comentaris"
       votes:
         zero: Sens vòts
         one: 1 vòt
@@ -90,7 +76,6 @@ oc:
         submit_button: Gardar de cambiaments
       show_link: Veire debat
     form:
-      debate_title: Títol del debat
       tags_instructions: Etiqueta aquel debat.
       tags_placeholder: "Escriu las etiquetas que desiras separadas per coma (',')"
     index:
@@ -113,10 +98,6 @@ oc:
         button: Cercar
         placeholder: Cercar de debats...
         title: Cercar
-      search_results:
-        one: " que conten lo tèrme <strong>'%{search_term}'</strong>"
-        other: " que conten lo tèrme <strong>'%{search_term}'</strong>"
-      select_order: Ordenar per
       start_debate: Comença un nòu debat
       title: Debats
       section_header:
@@ -131,8 +112,6 @@ oc:
     new:
       form:
         submit_button: Comença un nòu debat
-      info: Se çò que vòles es far una proposicion, aquela es la seccion incorrècta, dintra en %{info_link}.
-      info_link: crear nòva proposicion
       more_info: Mai informacion
       recommendation_four: Gaudís d'aquel espaci, de las voses qu'o emplisson, es tanben tieu.
       recommendation_one: Escrigas pas lo títol del debat o frasas entièras en majusculas. Dins internet aquò se considèra cridar. E a degun li agrada que li cridan.
@@ -142,10 +121,6 @@ oc:
       start_new: Comença un nòu debat
     show:
       author_deleted: Usatgièr eliminat
-      comments:
-        zero: Sens comentaris
-        one: 1 Comentari
-        other: "%{count} comentaris"
       comments_title: Comentaris
       edit_debate_link: Editar proposicion
       flag: Aquel debat es estat marcat coma inadequat per divèrses usatgièrs.
@@ -160,7 +135,6 @@ oc:
       invalid_date_range: "Lo reng de datas es pas valid"
   form:
     accept_terms: Accèpti la %{policy} e las %{conditions}
-    accept_terms_title: Accèpti la Politica de privadança e las Condicions d'usatge
     conditions: Condicions d'usatge
     debate: debat prealable
     direct_message: lo messatge privat
@@ -179,7 +153,6 @@ oc:
     legislation/process: procés
     legislation/question: question
     poll/shift: Majusculas
-    poll/question/answer: Responsa
     user: lo compte
     verification/sms: lo telefòn
     signature_sheet: la fuèlha de signaturas
@@ -193,11 +166,6 @@ oc:
   geozones:
     none: Tota la vila
   layouts:
-    application:
-      chrome: Google Chrome
-      firefox: Firefox
-      ie: Avèm detectat qu'ès navigaire dempuèi Internet Explorer. Per una melhora experiéncia te recomandam utilizar %{firefox} o %{chrome}.
-      ie_title: Aquela web es pas optimitzada per lo tieu navigador
     dashboard:
       proposal_header:
         published: Publicat
@@ -216,10 +184,9 @@ oc:
     footer:
       accessibility: Accessibilitat
       conditions: De condicions d'usatge
-      consul: Sollicitud CONSUL
-      consul_url: https://github.com/consul/consul
-      contact_us: Per assisténcia tecnica, visitatz
-      copyright: CONSUL, %{year}
+      consul: CONSUL DEMOCRACY
+      consul_url: https://github.com/consuldemocracy/consuldemocracy
+      copyright: CONSUL DEMOCRACY, %{year}
       description: Aquel portal es una adaptacion de la plataforma de %{open_source} %{consul} desvolopada per la Comuna de Madrid e adaptada per la Deputacion de Valéncia.
       open_source: logicial liure
       open_source_url: http://www.gnu.org/licenses/agpl-3.0.html
@@ -229,7 +196,6 @@ oc:
     header:
       administration_menu: Menu
       administration: Administrar
-      available_locales: d'Idiòmas disponibles
       collaborative_legislation: de procèsses legislatius
       debates: De debats
       locale: "Idiòma:"
@@ -295,6 +261,9 @@ oc:
       sign_in: Dintra amb Twitter
       sign_up: Enregistra-te amb Twitter
       name: Twitter
+    info:
+      sign_in: "Dintra amb:"
+      sign_up: "Enregistra-te amb:"
     or_fill: "O ramplís lo seguent formulari:"
   proposals:
     create:
@@ -339,7 +308,6 @@ oc:
       map_location: "Ubicacion de la mapa"
       map_location_instructions: "Desplaçatz-vos a la mapa fins a l'ubicacion e metètz-i lo mercador."
       map_remove_marker: "Elimina lo mercador de mapa"
-      map_skip_checkbox: "Aquela proposicion a pas una ubicacion concrèta ni n'ai coneissença."
     index:
       featured_proposals: Destacadas
       orders:
@@ -377,11 +345,9 @@ oc:
       search_results:
         one: " que conten lo tèrme <strong>'%{search_term}'</strong>"
         other: " que conten lo tèrme <strong>'%{search_term}'</strong>"
-      select_order: Ordenar per
       select_order_long: "veses las proposicions"
       start_proposal: Crèa una proposicion
       title: De proposicions ciutadanas
-      top: Top setmanièr
       top_link_proposals: Proposicions mai avaladas per categoria
       section_header:
         icon_alt: Icòna de proposicions
@@ -409,10 +375,6 @@ oc:
         edit: "Abans que se partege, poiretz cambiar lo tèxt que volgatz."
         view_proposal: Ara pas, veire la miá proposicion
       already_supported: As ja avalat aquela proposicion.
-      comments:
-        zero: Sens comentaris
-        one: 1 Comentari
-        other: "%{count} comentaris"
       support: Avalar
       support_title: Avalar aquela proposicion
       supports:
@@ -431,10 +393,6 @@ oc:
     show:
       author_deleted: Usatgièr eliminat
       code: "Còdi de la proposicion:"
-      comments:
-        zero: Sens comentaris
-        one: 1 Comentari
-        other: "%{count} comentaris"
       comments_tab: Comentaris
       dashboard_proposal_link: panèl
       flag: Aquela proposicion es estada marcada coma inadequada per divèrses usatgièrs.
@@ -596,7 +554,6 @@ oc:
         share: "E se me fagatz tanben lo grand favor de partejar la miá proposicion amb los vòstres amics, familiales e de contactes, seriá perfièch!"
   polls:
     all: "totes"
-    no_dates: "sens data assignada"
     dates: "Dempuèi çò %{open_at} fins a lo %{closed_at}"
     final_date: "Recompte final/Resultats"
     index:
@@ -669,14 +626,13 @@ oc:
       back: "Tornar a la miá activitat"
   shared:
     edit: "Editar proposicion"
+    filter: "Filtrar"
     save: "Plegar"
     delete: "Suprimís"
     "yes": "Òc"
     "no": "Pas"
     search_results: "De resultats de cèrca"
     advanced_search:
-      author_type: "Per categoria d'autor"
-      author_type_blank: "Escuelh una categoria"
       date: "Per data"
       date_placeholder: "DD/MM/AAAA"
       date_range_blank: "Escuelh una data"
@@ -687,7 +643,6 @@ oc:
       date_5: "Personalizada"
       from: "Dempuèi"
       general: "Amb lo tèxt"
-      general_placeholder: "Escriu lo tèxt"
       search: "filtre"
       title: "Cèrca avançada"
       to: "Fins a"
@@ -695,7 +650,6 @@ oc:
       author_deleted: Usatgièr eliminat
       email_deleted: S'es suprimit lo corrièr electronic
     back: Tornar
-    check: Seleccionar
     check_all: totes
     check_none: Cap
     collective: Associacion
@@ -763,7 +717,6 @@ oc:
       see_more: Veire mai de recomandacions
       hide: Amagatz las recomandacions
     translations:
-      select_language_prompt: Escuelh l’idiòma
       remove_language: Elimina l’idiòma
       add_language: Apondre idiòma
       languages_in_use:
@@ -776,18 +729,6 @@ oc:
     youtube: "%{org} YouTube"
     telegram: "%{org} Telegram"
     instagram: "%{org} Instagram"
-  stats:
-    index:
-      visits: De visitas
-      debates: De debats
-      proposals: De proposicions ciutadanas
-      comments: De comentaris
-      proposal_votes: De vòts en proposicions
-      debate_votes: De vòts en debats
-      comment_votes: De vòts en comentaris
-      votes: De vòts
-      verified_users: d'Usatgièrs verificats
-      unverified_users: d'Usatgièrs sens verificar
   unauthorized:
     default: Pas tibat permís per accedir a aquela pagina.
     manage:
@@ -848,15 +789,12 @@ oc:
   votes:
     agree: Soi d'acòrdi
     anonymous: Tròp de vòts anonimes, per poder votar %{verify_account}.
-    comment_unauthenticated: As de besonh %{signin} o %{signup} per poder votar.
     disagree: Soi pas d'acòrdi
     organizations: Las associacions pòdon pas avalar
     supports: d'Avals
     verified_only: Las proposicions pòdon solament èsser votadas per usatgièrs verificats, %{verify_account}.
     budget_investments:
-      not_logged_in: As de besonh %{signin} o %{signup}.
       not_verified: Solament los usatgièrs verificats pòdon votar los projèctes d’inversion; %{verify_account}.
-      organization: Las associacions pòdon pas avalar
       unfeasible: Se pòdon pas avalar de proposicions inviables
       not_voting_allowed: Lo periòde de recuelhuda d'avals aquel barrat.
       different_heading_assigned:
@@ -888,23 +826,13 @@ oc:
       budget_investments:
         title: d'Inversions recomandadas
       slide: "Veire %{title}"
-    verification:
-      i_dont_have_an_account: Avètz pas compte, vòli crear un e o verificar
-      i_have_an_account: Ai ja un compte que vòli verificar
-      question: As ja un compte en %{org_name}?
-      title: Verificacion de compte
     welcome:
       go_to_index: Ara pas, veire de proposicions
       start_using_consul: Vai a la pagina d’indèx
       title: Collabòra en l'elaboracion de la nòrma dessús
-      user_permission_debates: Participar a debats
       user_permission_info: Amb lo tieu compte pòdes ja...
-      user_permission_proposal: Crear de nòvas proposicions
-      user_permission_support_proposal: Avalar de proposicions
       user_permission_verify: "Per poder realizar totas las accions, verifica lo tieu compte."
-      user_permission_verify_info: "* Solament d'usatgièrs empadronats."
       user_permission_verify_my_account: Verificar lo mieu compte
-      user_permission_votes: Participar a las votacions finalas*
   invisible_captcha:
     sentence_for_humans: "S'èras uman, per favor ignòra aquel camp"
     timestamp_error_message: "Aquò es tròp estat rapid. Per favor, reénvia lo formulari."
@@ -941,9 +869,6 @@ oc:
       title: De ligams
       note: Apondètz los ligams que sián d’interès
       add_new_link: Apond un nòu ligam
-    link_fields:
-      label_placeholder: Títol del ligam
-      url_placeholder: Adreça de ligam
   communities:
     show:
       surveys: d'Enquèstas

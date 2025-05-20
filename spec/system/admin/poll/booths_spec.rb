@@ -5,7 +5,7 @@ describe "Admin booths", :admin do
     visit admin_root_path
 
     within("#side_menu") do
-      click_link "Voting booths"
+      click_button "Voting booths"
       click_link "Booths location"
     end
 
@@ -13,16 +13,15 @@ describe "Admin booths", :admin do
   end
 
   scenario "Index" do
-    3.times { create(:poll_booth) }
+    booths = 3.times.map { create(:poll_booth) }
 
     visit admin_root_path
 
     within("#side_menu") do
-      click_link "Voting booths"
+      click_button "Voting booths"
       click_link "Booths location"
     end
 
-    booths = Poll::Booth.all
     booths.each do |booth|
       within("#booth_#{booth.id}") do
         expect(page).to have_content booth.name
@@ -33,21 +32,21 @@ describe "Admin booths", :admin do
   end
 
   scenario "Available" do
-    booth_for_current_poll = create(:poll_booth, polls: [create(:poll, :current)])
+    booth_for_current_poll = create(:poll_booth, polls: [create(:poll)])
     booth_for_expired_poll = create(:poll_booth, polls: [create(:poll, :expired)])
 
     visit admin_root_path
 
     within("#side_menu") do
-      click_link "Voting booths"
-      click_link "Manage shifts"
+      click_button "Voting booths"
+      click_link "Shifts Assignments"
     end
 
     expect(page).to have_css(".booth", count: 1)
 
     expect(page).to have_content booth_for_current_poll.name
     expect(page).not_to have_content booth_for_expired_poll.name
-    expect(page).not_to have_link "Edit booth"
+    expect(page).not_to have_link "Edit"
   end
 
   scenario "Show" do
@@ -75,14 +74,14 @@ describe "Admin booths", :admin do
   end
 
   scenario "Edit" do
-    poll = create(:poll, :current)
+    poll = create(:poll)
     booth = create(:poll_booth, polls: [poll])
 
     visit admin_booths_path
 
     within("#booth_#{booth.id}") do
-      expect(page).not_to have_link "Manage shifts"
-      click_link "Edit booth"
+      expect(page).not_to have_link "Shifts Assignments"
+      click_link "Edit"
     end
 
     fill_in "poll_booth_name", with: "Next booth"
@@ -100,13 +99,13 @@ describe "Admin booths", :admin do
   end
 
   scenario "Back link go back to available list when manage shifts" do
-    poll = create(:poll, :current)
+    poll = create(:poll)
     booth = create(:poll_booth, polls: [poll])
 
     visit available_admin_booths_path
 
     within("#booth_#{booth.id}") do
-      click_link "Manage shifts"
+      click_link "Shifts Assignments"
     end
 
     click_link "Go back"

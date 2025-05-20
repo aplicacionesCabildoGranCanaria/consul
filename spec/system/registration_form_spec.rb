@@ -23,6 +23,21 @@ describe "Registration form" do
     expect(page).to have_content I18n.t("devise_views.users.registrations.new.username_is_available")
   end
 
+  scenario "do not save blank user_email" do
+    Setting["feature.user.skip_verification"] = true
+    visit new_user_registration_path
+
+    fill_in "user_username",              with: "NewUser"
+    fill_in "user_password",              with: "password"
+    fill_in "user_password_confirmation", with: "password"
+
+    check "user_terms_of_service"
+
+    click_button "Register"
+
+    expect(page).to have_content "can't be blank"
+  end
+
   scenario "do not save blank redeemable codes" do
     visit new_user_registration_path(use_redeemable_code: "true")
 
@@ -40,7 +55,7 @@ describe "Registration form" do
 
     new_user = User.last
     expect(new_user.username).to eq("NewUserWithCode77")
-    expect(new_user.redeemable_code).to be_nil
+    expect(new_user.redeemable_code).to be nil
   end
 
   scenario "Create with invisible_captcha honeypot field", :no_js do

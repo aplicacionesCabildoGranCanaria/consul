@@ -7,6 +7,8 @@ class Poll::BallotSheet < ApplicationRecord
   validates :poll_id, presence: true
   validates :officer_assignment_id, presence: true
 
+  after_create :verify_ballots
+
   def author
     officer_assignment.officer.name
   end
@@ -34,8 +36,8 @@ class Poll::BallotSheet < ApplicationRecord
 
     def create_ballot(poll_ballot)
       Budget::Ballot.where(physical: true,
-                         user: nil,
-                         poll_ballot: poll_ballot,
-                         budget: poll.budget).first_or_create!
+                           user: nil,
+                           poll_ballot: poll_ballot,
+                           budget: poll.budget).first_or_create!
     end
 end

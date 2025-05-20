@@ -10,7 +10,8 @@ class Officing::ResidenceController < Officing::BaseController
   def create
     @residence = Officing::Residence.new(residence_params.merge(officer: current_user.poll_officer))
     if @residence.save
-      redirect_to new_officing_voter_path(id: @residence.user.id), notice: t("officing.residence.flash.create")
+      redirect_to new_officing_voter_path(id: @residence.user.id),
+                  notice: t("officing.residence.flash.create")
     else
       render :new
     end
@@ -19,7 +20,10 @@ class Officing::ResidenceController < Officing::BaseController
   private
 
     def residence_params
-      params.require(:residence).permit(:document_number, :document_type, :year_of_birth,
-                                        :date_of_birth, :postal_code)
+      params.require(:residence).permit(allowed_params)
+    end
+
+    def allowed_params
+      [:document_number, :document_type, :year_of_birth, :date_of_birth, :postal_code]
     end
 end

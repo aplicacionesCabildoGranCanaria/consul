@@ -9,7 +9,7 @@ pl:
       - Pt
       - Sob
     abbr_month_names:
-      - 
+      -
       - STY
       - LUT
       - MAR
@@ -35,7 +35,7 @@ pl:
       long: "%d %B %Y"
       short: "%d %b"
     month_names:
-      - 
+      -
       - Styczeń
       - Luty
       - Marzec
@@ -227,5 +227,6 @@ pl:
       default: "%a, %d %b %Y %H:%M:%S %Z"
       long: "%d %B %Y %H:%M"
       short: "%d %b %H:%M"
+      short_datetime: "%Y-%m-%d %H:%M"
       api: "%d-%m-%Y %H"
     pm: po południu

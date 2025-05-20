@@ -1,34 +1,29 @@
 cs:
   account:
     show:
+      last_sign_in: "Poslední přihlášení: %{last_sign_in_at} z IP %{last_sign_in_ip}"
       change_credentials_link: Změnit své přihlašovací údaje
       erase_account_link: Smazat můj účet
       finish_verification: Dokončete ověření
       notifications: Upozornění
-      organization_name_label: Název organizace
-      organization_responsible_name_placeholder: Zástupce organizace / kolektivu
       personal: Osobní údaje
-      phone_number_label: Telefon
       public_interests_my_title_list: Štítky oblastí, které sledujete
       public_interests_user_title_list: Štítky oblastí, které tento uživatel sleduje
       save_changes_submit: Uložit změny
       recommendations: Doporučení
       title: Můj účet
-      user_permission_debates: Zapojit se do debat
       user_permission_info: S vaším účtem můžete...
-      user_permission_proposal: Vytvořit nové návrhy
-      user_permission_support_proposal: Podpora návrhů
       user_permission_title: Zapojte se
       user_permission_verify: Chcete-li provést všechny akce, ověřte svůj účet.
-      user_permission_verify_info: "* Pouze pro uživatele ověřené datovými registry."
-      user_permission_votes: Účastnit se konečného hlasování
-      username_label: Uživatelské jméno
       verified_account: Účet ověřen
       verify_my_account: Ověřit můj účet
   application:
     close: Zavřít
     menu: Nabídka
   comments:
+    actions:
+      confirm_delete: "Jste si jistý? Tato akce vymaže tento komentář. Tuto akci nelze vrátit zpět."
+      delete: "Smazat komentář"
     comments_closed: Komentáře jsou uzavřeny
     verified_only: Pro zapojení %{verify_account}
     comment:
@@ -38,9 +33,29 @@ cs:
       moderator: Moderátor
       responses:
         zero: Žádné odezvy
+        one: 1 reakce
+        few: "%{count} reakce"
+        many: "%{count} reakcí"
+        other: "%{count} reakcí"
+      responses_show:
+        zero: Žádné odezvy
+        one: "1 odpověď (zobrazit)"
+        few: "%{count} odpovědí (zobrazit)"
+        many: "%{count} odpovědí (zobrazit)"
+        other: "%{count} odpovědí (zobrazit)"
+      responses_collapse:
+        zero: Žádné odezvy
+        one: "1 reakce (sbaleno)"
+        few: "%{count} reakce (sbalit)"
+        many: "%{count} reakcí (sbaleno)"
+        other: "%{count} reakcí (sbaleno)"
       user_deleted: Uživatel smazán
       votes:
         zero: Žádné hlasy
+        one: 1 hlas
+        few: "%{count} hlasů"
+        many: "%{count} hlasů"
+        other: "%{count} hlasů"
     form:
       comment_as_admin: Komentovat jako administrátor
       comment_as_moderator: Komentovat jako moderátor
@@ -50,7 +65,6 @@ cs:
       newest: Podle nejnovějších
       oldest: Podle nejstarších
       most_commented: Podle počtu komentářů
-    select_order: Třídit podle
     show:
       return_to_commentable: "Jít zpět na "
   comments_helper:
@@ -64,17 +78,18 @@ cs:
       form:
         submit_button: Zahájit debatu
     debate:
-      comments:
-        zero: Žádné komentáře
       votes:
         zero: Žádné hlasy
+        one: 1 hlas
+        few: "%{count} hlasů"
+        many: "%{count} hlasů"
+        other: "%{count} hlasů"
     edit:
       editing: Upravit debatu
       form:
         submit_button: Uložit změny
       show_link: Zobrazit debatu
     form:
-      debate_title: Název debaty
       tags_instructions: Oštítkujte tuto debatu.
       tags_placeholder: "Zadejte štítky, které chcete používat, oddělené čárkami (',')"
     index:
@@ -97,7 +112,6 @@ cs:
         button: Vyhledat
         placeholder: Prohledat debaty...
         title: Vyhledat
-      select_order: Seřadit podle
       start_debate: Zahájit debatu
       title: Debaty
       section_header:
@@ -112,8 +126,6 @@ cs:
     new:
       form:
         submit_button: Zahájit debatu
-      info: Pokud chcete podat návrh, toto je nesprávná sekce, musíte zadat %{info_link}.
-      info_link: vytvořit nový návrh
       more_info: Více informací
       recommendation_four: Využite tento prostor k uplatnění svých návrhů. Je to jen na Vás.
       recommendation_one: Nepoužívejte velká písmena pro název rozpravy nebo pro celé věty. Na internetu se to považuje za křik. A nikdo nemá rád, když někdo křičí.
@@ -123,8 +135,6 @@ cs:
       start_new: Zahájit debatu
     show:
       author_deleted: Uživatel
-      comments:
-        zero: Žádné komentáře
       comments_title: Komentáře
       edit_debate_link: Upravit
       flag: Tato diskuse byla označena několika uživateli za nevhodnou.
@@ -135,49 +145,71 @@ cs:
         submit_button: Uložit změny
   errors:
     messages:
+      allowed_file_content_types: "typ obsahu musí být jeden z %{types}"
       user_not_found: Uživatel nenalezen
       invalid_date_range: "Neplatný rozsah dat"
+      past_date: "Nesmí být minulé datum"
+      cannot_change_date:
+        poll_started: "Nelze změnit, pokud již bylo zahájeno hlasování"
+        poll_ended: "Nelze změnit, pokud hlasování již skončilo"
   form:
     accept_terms: Souhlasím s podmínkami %{policy} a %{conditions}
-    accept_terms_title: Souhlasím s Pravidly ochrany soukromí a Podmínkami používání
     conditions: Podmínky používání
     debate: Debata
     direct_message: soukromá zpráva
     error: chyba
     errors: chyby
+    not_saved: "zabránil uložení tohoto %{resource}. <br>Prosím, zkontrolujte označená pole, abyste věděli, jak je opravit:"
     policy: Zásady ochrany osobních údajů
+    banner: proužek
     proposal: Návrhy
     proposal_notification: "upozornění"
     budget/investment: Investice
     budget/group: Rozpočtová skupina
     budget/heading: Rozpočtová skupina
+    geozone: geozóna
+    legislation/draft_version: návrh
+    legislation/process: proces
+    legislation/question: otázka
     poll/shift: Posun
-    poll/question/answer: Answer
+    poll/question/option: Odpověď
     user: Účet
     verification/sms: telefon
     signature_sheet: Podpisové arch
     document: Dokument
     topic: Téma
     image: Image
+    local_census_record: Záznam místního registru občanů
+    local_census_records/import: Import záznamu místního registru občanů
+    site_customization/content_block: obsahový blok
+    site_customization/page: stránka
+    sdg/local_target: místní cíl
   geozones:
     none: Celé město
   layouts:
-    application:
-      chrome: Google Chrome
-      firefox: Firefox
-      ie: Zjistili jsme, že prohlížíte aplikaci Internet Explorer. Pro rozšířené zkušenosti doporučujeme použít %{firefox} nebo %{chrome}.
-      ie_title: Tato webová stránka není optimalizována pro váš prohlížeč
     dashboard:
+      proposal_header:
+        published: Publikováno
+        draft: Návrh
+        retired: Vysloužilý
       proposal_totals:
+        active_resources: Aktivní prostředky
+        community: Účastníci ve vaší komunitě
+        show_proposal: Zobrazit návrh
+        preview_proposal: Náhled návrhu
+        current_goal: Aktuální cíl
         supports:
           zero: Žádná podpora
+          one: Jedna podpora
+          few: "Podpory"
+          many: "Podpor"
+          other: "Podpor"
     footer:
       accessibility: Přístupnost
       conditions: Podmínky používání
-      consul: aplikace CONSUL
-      consul_url: https://github.com/consul/consul
-      contact_us: Kontaktujte technickou podporu
-      copyright: CONSUL, %{year}
+      consul: aplikace CONSUL DEMOCRACY
+      consul_url: https://github.com/consuldemocracy/consuldemocracy
+      copyright: CONSUL DEMOCRACY, %{year}
       description: Tento portál software %{consul}, což je %{open_source}.
       open_source: open source software
       open_source_url: http://www.gnu.org/licenses/agpl-3.0.html
@@ -187,7 +219,6 @@ cs:
     header:
       administration_menu: Správce
       administration: Administrace
-      available_locales: Dostupné jazyky
       collaborative_legislation: Legislativní procesy
       debates: Debaty
       locale: "Jazyk:"
@@ -205,7 +236,13 @@ cs:
       notification_item:
         new_notifications:
           zero: "Nemáte žádná nová upozornění"
+          one: Máte nové oznámení
+          few: Máte %{count} nová oznámení
+          many: Máte %{count} nových oznámení
+          other: Máte %{count} nových oznámení
         notifications: Upozornění
+      sdg: "SDG"
+    skip_to_main_content: "Přeskočit na hlavní obsah"
   notifications:
     index:
       empty_notifications: Nemáte nová upozornění.
@@ -214,6 +251,17 @@ cs:
       title: Upozornění
       unread: Nepřečtené
     notification:
+      action:
+        comments_on:
+          one: Někdo komentoval v
+          few: Jsou %{count} nové komentárře na
+          many: Je %{count} nových komentářů na
+          other: Celkem %{count} nových komentářů v
+        proposal_notification:
+          one: Máte jedno nové oznámení na
+          few: Jsou tu %{count} nová oznámení na
+          many: Je tu %{count} nových oznámení na
+          other: Je tu %{count} nových oznámení na
       mark_as_read: Označit za přečtené
       mark_as_unread: Označit za nepřečtené
       notifiable_hidden: Tento prostředek není k dispozici.
@@ -234,17 +282,30 @@ cs:
       sign_up: Přihlásit se pomocí služby Google
       name: Google
     wordpress_oauth2:
+      sign_in: Přihlášení pomocí Wordpressu
+      sign_up: Registrace pomocí Wordpressu
       name: Wordpress
     twitter:
       sign_in: Přihlásit se pomocí služby Twitter
       sign_up: Přihlásit se pomocí služby Twitter
       name: Twitter
+    info:
+      sign_in: "Přihlásit se pomocí:"
+      sign_up: "Přihlásit se pomocí:"
     or_fill: "Nebo vyplňte následující formulář:"
   proposals:
     create:
       form:
         submit_button: Vytvořit návrh
+    created:
+      title: Gratulujeme! Udělali jste první krok.
+      motivation: "Aby byl váš návrh úspěšný, je důležité připravit zahajovací kampaň. Rozhodující jsou první dny."
+      motivation_2: "<strong>Pokud chcete doporučení k přípravě publikace, zanechte svůj návrh jako návrh a my vám poradíme.</strong>"
+      publish: Ne, chci návrh zveřejnit
+      dashboard: Ano, chci pomoc a zveřejním ho později
+      preview_title: Takto bude váš návrh vypadat, až ho zveřejníte
     share:
+      improve_it: Zlepšete svou kampaň a získejte větší podporu.
       dashboard: Další informace
       message: "Podpořil jsem návrh %{title} v %{handle}. Pokud máte zájem, podporují jej také!"
     edit:
@@ -254,7 +315,7 @@ cs:
       show_link: Zobrazit návrh
     retire_form:
       title: Pozastavit návrh
-      warning: "Jestliže návrh pozastavíte, bude moci i nadéle získat podporu, ale bude odstraněn z hlavního seznamu a zprávy budou viditelné všem uživatelům s uvedením informace autora, že by návrh už neměl být podporován."
+      warning: "Jestliže návrh pozastavíte, bude moci i nadéle získat podporu, ale bude odstraněn z hlavního seznamu a zprávy budou viditelné všem uživatelům s uvedením informace autora, že by návrh už neměl být podporován"
       retired_reason_blank: Vyberte možnost
       retired_explanation_placeholder: Vysvětlit krátce, proč si myslíte, že tento návrh shoulderstand neobdrží další podporu
       submit_button: Pozastavený návrh
@@ -275,7 +336,6 @@ cs:
       map_location: "Lokalizace v mapě"
       map_location_instructions: "Nalezněte mapu lokality a umístěte kliknutím značku."
       map_remove_marker: "Odebrat značku"
-      map_skip_checkbox: "Tento návrh nemá konkrétní místo, nebo o něm nevím."
     index:
       featured_proposals: Označené
       orders:
@@ -295,6 +355,10 @@ cs:
           error: "Jejda, chyba. Přejděte na stránku 'Můj účet', abyste ručně deaktivovali doporučení pro návrhy"
       retired_proposals: Pozastavené návrhy
       retired_proposals_link: "Pozastavené návrhy tříděné podle autorů"
+      selected_proposals: Vybrané návrhy
+      selected_proposals_link: Zobrazit vybrané návrhy
+      archived_proposals: Archivované návrhy
+      proposals_lists: Seznamy návrhů
       retired_links:
         all: Vše
         duplicated: Duplicitní
@@ -306,11 +370,14 @@ cs:
         button: Vyhledat
         placeholder: Prohledat návrhy...
         title: Vyhledat
-      select_order: Seřadit podle
+      search_results:
+        one: " obsahující výraz <strong>'%{search_term}'</strong>"
+        few: " obsahující výraz <strong>'%{search_term}'</strong>"
+        many: " obsahující výraz <strong>'%{search_term}'</strong>"
+        other: " obsahující výraz <strong>'%{search_term}'</strong>"
       select_order_long: "Zobrazit návrhy podle:"
       start_proposal: Vytvořit návrh
       title: Návrhy
-      top: Top týden
       top_link_proposals: Nejvíce podporované návrhy podle kategorií
       section_header:
         icon_alt: Ikona návrhů
@@ -330,6 +397,7 @@ cs:
       start_new: Vytvořit nový návrh
     notice:
       retired: Zrušený návrh
+      published: Návrh byl zveřejněn
     proposal:
       created: "Právě jste vytvořili návrh!"
       share:
@@ -337,24 +405,31 @@ cs:
         edit: "Než bude sdílen, můžete měnit text, jak se vám líbí."
         view_proposal: Teď ne, přejít na můj návrh
       already_supported: Tento návrh jste již podpořili. Sdílejte jej!
-      comments:
-        zero: Žádné komentáře
       support: Podpořit
+      support_label: "Podpořit %{proposal}"
       support_title: Podpořit tento návrh
       supports:
         zero: Žádná podpora
+        one: Jedna podpora
+        few: "%{count} podpořilo"
+        many: "%{count} podpořilo"
+        other: "%{count} podporovatelů"
       votes:
         zero: Žádné hlasy
+        one: 1 hlas
+        few: "%{count} hlasů"
+        many: "%{count} hlasů"
+        other: "%{count} hlasů"
       supports_necessary: "Potřebuje podporu %{number} lidí"
       total_percent: 100%
       archived: "Tento návrh byl archivován a nelze jej již podpořit."
       successful: "Tento návrh dosáhl požadované podpory."
+      selected: "Vybraný návrh"
     show:
       author_deleted: Uživatel
       code: "Kód návrhu:"
-      comments:
-        zero: Žádné komentáře
       comments_tab: Komentáře
+      dashboard_proposal_link: Ovládací panel
       flag: Tento návrh byl více uživateli označen jako nevhodný.
       notifications_tab: Upozornění
       milestones_tab: Milníky
@@ -366,6 +441,7 @@ cs:
       embed_video_title: "Video v návrhu %{proposal}"
       title_video_url: "External video"
       author: Autor
+      draft: Návrh v návrhu. Zatím nelze získat podporu, ani se neobjevuje v seznamu návrhů.
     update:
       form:
         submit_button: Uložit změny
@@ -373,6 +449,7 @@ cs:
     menu:
       my_proposal: Upravit můj návrh
       progress: Průběh
+      resources: Prostředky
       community: Komunita
       polls: Průzkumy
       mailing: E-mail
@@ -382,45 +459,144 @@ cs:
       related_content: Související obsah
     form:
       request: Požadavek
+    create_request:
+      success: Požadavek byl úspěšně odeslán. Budeme vás co nejdříve kontaktovat, abychom vás o tom informovali.
+      archived: Tento návrh je archivován a nelze na něj požadovat prostředky.
     progress:
+      title: Grafika
       group_by_month: Měsíčně
       group_by_week: Týdně
       group_by_date: Denně
+      progress: Kumulovaný pokrok
+      supports: Podpory
+      success: Ideální pokrok
+      new_action: Nový
     index:
+      title: Vydání
       edit_proposal_link: Upravit návrh
+      publish: Zveřejnit návrh
       retire: Pozastavený návrh
     new_request:
       links: Odkazy
+    resources:
+      available_resources: Dostupné prostředky
     resource:
+      required_days: "%{days} požadovaných dnů"
+      required_supports: "%{supports} podpor vyžadováno"
       and: a
+      view_resource: Viz prostředky
+      resource_requested: Prostředek byl již vyžádaný
+      request_resource: Vyžádat prostředek
+      resource_locked: Prostředek zablokován
     recommended_actions:
       title: Doporučení
+      goto_proposed_actions: Přejít na doporučené akce
+      see_proposed_actions: Podívejte se na doporučené akce
       hide_proposed_actions: Skrýt doporučení
       pending_title: Nevyřízený
+      show_description: Zobrazit popis
+      without_pending_actions: Žádná doporučená opatření
       done_title: Hotovo
+      without_done_actions: Nebyla provedena žádná doporučená opatření
+    next_goal:
+      title: Cíl
+      see_complete_course: Prohlédněte si celý kurz
+      hide_course: Skrýt kurz
+    goal:
+      target_supports:
+        one: Získejte %{count} podporu pro svůj návrh
+        few: Získejte %{count} podpory pro svůj návrh
+        many: Získejte %{count} podpor pro svůj návrh
+        other: Získejte %{count} podpor pro svůj návrh
+      days:
+        one: "%{count} den"
+        few: "%{count} dny"
+        many: "%{count} dnů"
+        other: "%{count} dnů"
+      locked_resource: Prostředek zablokován
+      ideal_time: Ideální čas
     community:
+      access_community: Připojte se do komunity
+      latest_activity: "Poslední aktivita komunity: %{at}"
+      participants: Účastníci
       debates: Debaty
       comments: Komentáře
+      latest_comments: Nejnovější vzkazy
+    messages:
+      send_notification: Odeslání oznámení sledujícím návrh
+      previous_notifications: Viz předchozí oznámení
     polls:
       index:
         title: Průzkumy
         create: Vytvořit průzkum
+        count:
+          one: Vytvořili jste %{count} průzkum.
+          few: Vytvořili jste %{count} průzkumy.
+          many: Vytvořili jste %{count} průzkumů.
+          other: Vytvořili jste %{count} průzkumů.
         links: Odkazy
+        additiontal_information: Doplňující informace
       new:
         title: Nový průzkum
         submit: Vytvořit průzkum
       edit:
         submit: Aktualizovat průzkum
       poll:
+        responses:
+          one: "%{count} reakcí"
+          few: "%{count} reakcí"
+          many: "%{count} reakcí"
+          other: "%{count} reakcí"
         view_results: Zobrazit výsledky
+        edit_poll: Upravit průzkum
+        show_results_help: Pokud toto políčko zaškrtnete, budou výsledky veřejné a uvidí je všichni uživatelé
+        delete: Smazat průzkum
+        alert_notice: Tato akce odstraní průzkum a všechny související otázky.
         success_notice: Průzkum byl úspěšně smazán
+        unable_notice: Průzkum, který obsahuje odpovědi, nelze zničit
       form:
+        name: Název průzkumu
         add_question: Přidat otázku
       question_fields:
         remove_question: Odstranit otázku
+        add_answer: Přidat odpověď
+      question_answer_fields:
+        remove_answer: Odebrat odpověď
+    poster:
+      index:
+        title: Náhled plakátu
+        poster_title: "Nehledejte dál,"
+        poster_subtitle: "podpořte mě! ;)"
+        intro_text: "<strong>Podílím se na %{org}</strong> s vlastním občanským návrhem a jen s vaší podporou můžeme vytvořit město, které si všichni přejeme"
+        proposal_code: "Kód návrhu: %{code}"
+        support: Podpořte můj návrh
+        footer: "<strong>Navštivte %{link} a podpořte tento návrh.</strong> Čím více, tím lépe. Přispějme svým dílem. Děkujeme!"
+      new:
+        title: Plakát s vaším návrhem
+      options:
+        preview: Náhled
+        download: Stáhnout
+    mailing:
+      index:
+        title: Náhled e-mailu
+      new:
+        title: E-mailový vzor ke sdílení
+      mailing_options:
+        send: Odeslat na %{address}
+        preview: Náhled
+      create:
+        sent: E-mail byl odeslán
+    mailer:
+      forward:
+        subtitle: "Pokud mě podpoříte, <br>dosáhneme toho."
+        support_button: Podpořit tento návrh
+        share_in: Sdílet v
+        hi: "Dobrý den!"
+        introduction: Píšu vám, abych vám oznámil, že se účastním %{org}, platformy, na které se můžeme rozhodnout, jaké město si přejeme tvořit. A za tímto účelem jsem vytvořil vlastní občanský návrh a nyní budu potřebovat vaši podporu! Ale nebojte se, protože je to velmi jednoduché.
+        support: "Stačí kliknout na tlačítko, které se zobrazí pod \"Podpořte tento návrh\", a můžete se informovat před jeho podporou. Pouze návrhy, které získají maximální podporu, budou městskou radou realizovány, a já si myslím, že mi k tomu určitě pomůžete!"
+        share: "A pokud mi také prokážete velkou laskavost a podělíte se o můj návrh se svými přáteli, rodinou a kontakty, bude to perfektní!"
   polls:
     all: "Vše"
-    no_dates: "není přiřazené datum"
     dates: "Od %{open_at} do %{closed_at}"
     final_date: "Konečné přepočty/výsledky"
     index:
@@ -432,7 +608,7 @@ cs:
       participate_button_expired: "Průzkum ukončen"
       no_geozone_restricted: "Celé město"
       geozone_restricted: "Městské části"
-      geozone_info: "Otevřeno pro obyvatele z: "
+      geozone_info: "Může se podílet na registrech občanů: "
       already_answer: "Tohoto hlasování jste se již účastnili"
       not_logged_in: "Pro účast se musíte registrovat a přihlásit"
       unverified: "Pro zapojení je nutné ověřit váš účet"
@@ -451,6 +627,7 @@ cs:
       back: Zpět na průzkumy
       cant_answer_not_logged_in: "Chcete-li se zapojit, musíte se %{signin} nebo %{signup}."
       comments_tab: Komentáře
+      cant_answer_verify: "Abyste mohli odpovědět, musíte %{verify_link}."
       verify_link: "ověřit váš účet"
       cant_answer_expired: "Tento průzkum byl ukončen."
       cant_answer_wrong_geozone: "Tato otázka není dostupná ve vaší čtvrti."
@@ -467,6 +644,7 @@ cs:
         total_votes: "Celkový počet odevzdaných hlasů"
         votes: "HLASŮ"
         web: "WEB"
+        mail: "E-MAIL"
         booth: "INFORMAČNÍ STÁNKY"
         total: "CELKEM"
         valid: "Platné"
@@ -475,27 +653,35 @@ cs:
       results:
         title: "Otázky"
         most_voted_answer: "Odpověď s nejvíce hlasy: "
+    poll_header:
+      back_to_proposal: Zpět k návrhu
   poll_questions:
     show:
       vote_answer: "Hlasování %{answer}"
       voted: "Hlasovali jste %{answer}"
+    description:
+      unique: "Můžete vybrat maximálně 1 odpověď."
+      multiple: "Můžete vybrat maximálně %{maximum} odpovědí."
+    read_more_about: "Více informací o:"
   proposal_notifications:
     new:
       title: "Odeslat zprávu"
       submit_button: "Odeslat zprávu"
+      info_about_receivers: "Toto oznámení bude odesláno <strong>%{count} lidem</strong> a bude viditelné na %{proposal_page}.<br> Oznámení nejsou odesílána okamžitě, uživatelé budou pravidelně dostávat e-mail se všemi oznámeními o návrzích."
       proposal_page: "stránce návrhu"
     show:
       back: "Jít zpět na své aktivity"
   shared:
+    actions:
+      label: "%{action} %{name}"
     edit: "Upravit"
+    filter: "Filtr"
     save: "Uložit"
     delete: "Smazat"
     "yes": "Ano"
     "no": "Ne"
     search_results: "Výsledky vyhledávání"
     advanced_search:
-      author_type: "Podle kategorie autora"
-      author_type_blank: "Zvolte kategorii"
       date: "Podle stáří"
       date_placeholder: "DD/MM/YYYY"
       date_range_blank: "Zvolte období"
@@ -506,14 +692,17 @@ cs:
       date_5: "Vlastní nastavení"
       from: "From"
       general: "Obsahující text"
-      general_placeholder: "Napište text"
+      goal: "Podle SDG"
+      goal_blank: "Vyberte cíl"
       search: "Filtr"
+      target: "Podle záměru"
+      target_blank: "Vybrat záměr"
       title: "Pokročilé vyhledávání"
       to: "do"
     author_info:
       author_deleted: Uživatel
+      email_deleted: E-mail smazán
     back: Jít zpět
-    check: Vybrat
     check_all: Vše
     check_none: Žádné
     collective: Kolektiv
@@ -521,6 +710,17 @@ cs:
     follow: "Sledování"
     following: "Sledované"
     follow_entity: "Sledovat %{entity}"
+    followable:
+      budget_investment:
+        create:
+          notice: "Nyní sledujete tento investiční projekt! <br> O změnách vás budeme informovat, jakmile nastanou, abyste byli v obraze."
+        destroy:
+          notice: "Přestali jste sledovat tento investiční projekt! <br> Oznámení týkající se tohoto projektu již nebudete dostávat."
+      proposal:
+        create:
+          notice: "Nyní sledujete tento občanský návrh! <br> O změnách vás budeme informovat, jakmile nastanou, abyste byli v obraze."
+        destroy:
+          notice: "Přestali jste sledovat tento občanský návrh! <br> Oznámení týkající se tohoto návrhu již nebudete dostávat."
     print:
       print_button: Vytisknout tuto informaci
     search: Vyhledat
@@ -540,6 +740,7 @@ cs:
       districts: "Městské části"
       districts_list: "Seznam městských částí"
       categories: "Kategorie"
+    target_blank: " (odkaz se otevře v novém okně)"
     you_are_in: "Jste v"
     unflag: Odblokovat
     unfollow_entity: "Přestat sledovat %{entity}"
@@ -559,29 +760,39 @@ cs:
       title: Doporučení
       see_more: Další doporučení
       hide: Skrýt doporučení
+    translations:
+      current_language: Aktuální jazyk
+      remove_language: Odstranit jazykovou sadu
+      add_language: Přidat jazykovou sadu
+      languages_in_use:
+        zero: "0 používaných jazyků"
+        one: "1 používaný jazyk"
+        few: "%{count} používané jazyky"
+        many: "%{count} používaných jazyků"
+        other: "%{count} používaných jazyků"
+    optional: "Volitelně"
+    required: "Požadováno"
+    comments:
+      zero: "Žádné komentáře"
+      one: "1 komentář"
+      few: "%{count} komentáře"
+      many: "%{count} komentářů"
+      other: "%{count} komentářů"
   social:
     facebook: "%{org} Facebook"
     twitter: "%{org} Twitter"
     youtube: "%{org} YouTube"
     telegram: "%{org} Telegram"
     instagram: "%{org} Instagram"
-  stats:
-    index:
-      visits: Návštěvy
-      debates: Debaty
-      proposals: Návrhy
-      comments: Komentáře
-      proposal_votes: Hlasujte o návrzích
-      debate_votes: Hlasování k debatám
-      comment_votes: Hlasování ke komentářům
-      votes: Hlasů celkem
-      verified_users: Ověření uživatelé
-      unverified_users: Neověření uživatelé
+  ip_denied_handler:
+    unauthorized: "Přístup odepřen. Vaše IP adresa není povolena."
   unauthorized:
     default: Nemáte oprávnění k přístupu na tuto stránku.
     manage:
       all: "Nemáte oprávnění k provedení akce \"%{action}\" subjektu %{subject}."
   users:
+    login_to_comment: "Chcete-li zanechat komentář, musíte se %{signin} nebo %{signup}."
+    login_to_continue: "Chcete-li pokračovat, musíte se %{signin} nebo %{signup}."
     signin: "přihlásit se"
     signup: "odhlásit se"
     verify_account: "ověřit váš účet"
@@ -604,6 +815,32 @@ cs:
       budget_investments: Rozpočtové investice
       comments: Komentáře
       actions: Akce
+      filters:
+        comments:
+          one: 1 komentář
+          few: "%{count} komentáře"
+          many: "%{count} komentářů"
+          other: "%{count} komentářů"
+        debates:
+          one: 1 Debata
+          few: "%{count} debaty"
+          many: "%{count} debat"
+          other: "%{count} debat"
+        proposals:
+          one: 1 Návrh
+          few: "%{count} Návrhy"
+          many: "%{count} Návrhů"
+          other: "%{count} návrhů"
+        budget_investments:
+          one: Investice
+          few: "%{count} Investice"
+          many: "%{count} Investic"
+          other: "%{count} investic"
+        follows:
+          one: 1 Sledující
+          few: "%{count} Sledující"
+          many: "%{count} Sledujících"
+          other: "%{count} sledovaných"
       no_activity: Uživatel nemá žádnou veřejnou aktivitu
       no_private_messages: "Tento uživatel nepřijímá soukromé zprávy."
       private_activity: Uživatel se rozhodl ponechat seznam svých aktivit soukromý.
@@ -614,20 +851,26 @@ cs:
       draft: Návrh
       published: Publikováno
       see: "Zobrazit návrh"
+      actions: Akce
+      retired_help_text: Ovládací panel není k dispozici pro vyřazené návrhy
   votes:
     agree: Souhlasím
+    agree_label: "Souhlasím s %{title}"
     anonymous: Příliš mnoho anonymních hlasů k přijetí hlasování %{verify_account}.
-    comment_unauthenticated: Pro hlasování musíte být přihlášeni %{signin} nebo %{signup}.
     disagree: Nesouhlasím
+    disagree_label: "Nesouhlasím s %{title}"
     organizations: Organizacím není dovoleno hlasovat
     supports: Podporovatelé
     verified_only: O návrzích mohou hlasovat pouze ověření uživatelé; %{verify_account}.
     budget_investments:
-      not_logged_in: Pro pokračování je nutné %{signin} nebo %{signup}.
       not_verified: O investičních projektech mohou hlasovat pouze ověření uživatelé; %{verify_account}.
-      organization: Organizacím není dovoleno hlasovat
       unfeasible: Neuskutečnitelné investiční projekty nelze podpořit
       not_voting_allowed: Fáze hlasování byla ukončena.
+      different_heading_assigned:
+        one: "Můžete podpořit pouze investiční projekty v %{count} městské části. Již jste podpořili investice v %{supported_headings}."
+        few: "Můžete podpořit pouze investiční projekty v %{count} městských částích. Již jste podpořili investice v %{supported_headings}."
+        many: "Můžete podpořit pouze investiční projekty v %{count} městských částích. Již jste podpořili investice pro %{supported_headings}."
+        other: "Můžete podpořit pouze investiční projekty v %{count} městských čtvrtích. Již jste podpořili investice v %{supported_headings}."
   welcome:
     feed:
       most_active:
@@ -638,6 +881,10 @@ cs:
         debates: Zobrazit všechny debaty
         proposals: Zobrazit všechny návrhy
         processes: Zobrazit všechny procesy
+      no_items:
+        debates: Právě teď neprobíhají žádné debaty
+        proposals: V současné době nejsou k dispozici žádné návrhy
+        processes: V současné době nejsou k dispozici žádné otevřené procesy
       process_label: Proces
       see_process: Zobrazit proces
     cards:
@@ -654,22 +901,13 @@ cs:
       budget_investments:
         title: Doporučené investice
       slide: "Zobrazit %{title}"
-    verification:
-      i_dont_have_an_account: Nemám ještě účet
-      i_have_an_account: Účet již mám
-      question: Máte již účet na portále %{org_name}?
-      title: Ověření účtu
     welcome:
       go_to_index: Zobrazit návrhy a debaty
+      start_using_consul: Přejít na úvodní stránku
       title: Zapojit se
-      user_permission_debates: Zapojte se do debat
       user_permission_info: S vaším účtem můžete...
-      user_permission_proposal: Vytvořit nové návrhy
-      user_permission_support_proposal: Podpora návrhů *
       user_permission_verify: "Chcete-li provést všechny akce, ověřte svůj účet."
-      user_permission_verify_info: "* Pouze pro uživatele ověřené datovými registry."
       user_permission_verify_my_account: Ověřit můj účet
-      user_permission_votes: Zapojit se do konečného hlasování
   invisible_captcha:
     sentence_for_humans: "Pokud nejste stroj, ignorujte prosím toto pole"
     timestamp_error_message: "Promiňte, bylo to příliš rychlé! Znovu odešlete."
@@ -681,6 +919,7 @@ cs:
     help: "Můžete přidat odkazy %{models} uvnitř %{org}."
     submit: "Přidat"
     error: "Odkaz není platný. Nezapomeňte začít %{url}."
+    error_duplicate: "Související obsah, který přidáváte, již existuje."
     error_itself: "Odkaz není platný. Nelze odkazovat na totožný obsah."
     success: "Přidali jste související informace"
     is_related: "Jsou to související informace?"
@@ -698,3 +937,36 @@ cs:
       alt: Vyberte text, který chcete komentovat, a stiskněte tlačítko s tužkou.
       text: Chcete-li tento dokument připomínat, musíte se %{sign_in} nebo %{sign_up}. Potom vyberte text, který chcete komentovat, a stiskněte tlačítko s tužkou.
       title: Jak mohu komentovat tento dokument?
+  links:
+    form:
+      delete_button: Smazat
+      cancel_button: Zrušit
+    nested_links:
+      title: Odkazy
+      note: Přidejte odkazy, které vás zajímají
+      add_new_link: Přidat nový odkaz
+  communities:
+    show:
+      surveys: Dotazníky
+      complete_survey: Vyplňte dotazník
+    subnav:
+      surveys: Dotazníky
+    poll:
+      take_part: Zúčastněte se od %{from} do %{to}
+  remote_translations:
+    text: Obsah této stránky není k dispozici ve vašem jazyce
+    all_remote_translations_enqueued_text: Po krátké době obnovení stránky se vám zobrazí veškerý obsah ve vašem jazyce.
+    create:
+      enqueue_remote_translation: Překlady byly řádně vyžádány.
+    button: Přeložit stránku
+  tags:
+    list:
+      filter:
+        more:
+          one: "A ještě jedna značka"
+          few: "%{count} další značky"
+          many: "%{count} dalších značek"
+          other: "%{count} dalších značek"
+  machine_learning:
+    comments_summary: "Souhrn komentářů"
+    info_text: "Obsah generovaný umělou inteligencí / strojovým učením"

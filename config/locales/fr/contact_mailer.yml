@@ -1,0 +1,8 @@
+fr:
+  contact_mailer:
+    subject: "[Contact Web] %{subject}"
+    body:
+      greeting: "Nouveau message du formulaire de contact"
+      from: "De"
+      subject: "Sujet"
+      message: "Message"

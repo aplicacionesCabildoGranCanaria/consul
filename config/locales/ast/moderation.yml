@@ -3,7 +3,6 @@ ast:
     comments:
       index:
         block_authors: Bloquear autores
-        confirm: '¿Tas seguru?'
         filter: Filtru
         filters:
           all: Toes
@@ -12,9 +11,8 @@ ast:
         headers:
           comment: Comentario
           moderate: Moderar
-        hide_comments: Ocultar comentarios
+        hide: Ocultar comentarios
         ignore_flags: Marcar como revisadas
-        order: Orden
         orders:
           flags: Más denunciadas
           newest: Más nuevos
@@ -25,7 +23,6 @@ ast:
     debates:
       index:
         block_authors: Bloquear autores
-        confirm: '¿Tas seguru?'
         filter: Filtru
         filters:
           all: Toes
@@ -34,9 +31,8 @@ ast:
         headers:
           debate: Alderique
           moderate: Moderar
-        hide_debates: Ocultar debates
+        hide: Ocultar debates
         ignore_flags: Marcar como revisadas
-        order: Orden
         orders:
           created_at: Más nuevos
           flags: Más denunciadas
@@ -51,7 +47,6 @@ ast:
     proposals:
       index:
         block_authors: Bloquear autores
-        confirm: '¿Tas seguru?'
         filter: Filtru
         filters:
           all: Toes
@@ -60,9 +55,8 @@ ast:
         headers:
           moderate: Moderar
           proposal: la propuesta
-        hide_proposals: Ocultar Propuestas
+        hide: Ocultar Propuestas
         ignore_flags: Marcar como revisadas
-        order: Ordenar por
         orders:
           created_at: Más recientes
           flags: Más denunciadas
@@ -70,7 +64,6 @@ ast:
     budget_investments:
       index:
         block_authors: Bloquear autores
-        confirm: '¿Tas seguru?'
         filter: Filtru
         filters:
           all: Toes
@@ -79,14 +72,12 @@ ast:
         headers:
           moderate: Moderar
         ignore_flags: Marcar como revisadas
-        order: Ordenar por
         orders:
           created_at: Más recientes
           flags: Más denunciadas
     proposal_notifications:
       index:
         block_authors: Bloquear autores
-        confirm: '¿Tas seguru?'
         filter: Filtru
         filters:
           all: Toes
@@ -94,15 +85,13 @@ ast:
           ignored: Marcar como revisadas
         headers:
           moderate: Moderar
-        hide_proposal_notifications: Ocultar Propuestas
+        hide: Ocultar Propuestas
         ignore_flags: Marcar como revisadas
-        order: Ordenar por
         orders:
           created_at: Más recientes
         title: Notificaciones de propuestas
     users:
       index:
-        hidden: Bloquiáu
         hide: Bloquear
         search_placeholder: email o nombre de usuario
         title: Bloquear usuarios

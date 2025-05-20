@@ -13,6 +13,7 @@ describe Abilities::Moderator do
   let(:comment) { create(:comment) }
   let(:proposal) { create(:proposal) }
   let(:legislation_question) { create(:legislation_question) }
+  let(:poll) { create(:poll) }
 
   let(:own_debate) { create(:debate, author: user) }
   let(:own_comment) { create(:comment, author: user) }
@@ -24,7 +25,6 @@ describe Abilities::Moderator do
 
   it { should be_able_to(:index, Debate) }
   it { should be_able_to(:show, debate) }
-  it { should be_able_to(:vote, debate) }
 
   it { should be_able_to(:index, Proposal) }
   it { should be_able_to(:show, proposal) }
@@ -52,7 +52,6 @@ describe Abilities::Moderator do
     let(:ignored_proposal) { create(:proposal, :with_ignored_flag) }
 
     it { should be_able_to(:hide, comment) }
-    it { should be_able_to(:hide_in_moderation_screen, comment) }
     it { should_not be_able_to(:hide, hidden_comment) }
     it { should be_able_to(:hide, own_comment) }
 
@@ -60,12 +59,10 @@ describe Abilities::Moderator do
     it { should_not be_able_to(:moderate, own_comment) }
 
     it { should be_able_to(:hide, debate) }
-    it { should be_able_to(:hide_in_moderation_screen, debate) }
     it { should_not be_able_to(:hide, hidden_debate) }
     it { should_not be_able_to(:hide, own_debate) }
 
     it { should be_able_to(:hide, proposal) }
-    it { should be_able_to(:hide_in_moderation_screen, proposal) }
     it { should be_able_to(:hide, own_proposal) }
     it { should_not be_able_to(:hide, hidden_proposal) }
 
@@ -104,9 +101,11 @@ describe Abilities::Moderator do
     it { should be_able_to(:comment_as_moderator, debate) }
     it { should be_able_to(:comment_as_moderator, proposal) }
     it { should be_able_to(:comment_as_moderator, legislation_question) }
+    it { should be_able_to(:comment_as_moderator, poll) }
     it { should_not be_able_to(:comment_as_administrator, debate) }
     it { should_not be_able_to(:comment_as_administrator, proposal) }
     it { should_not be_able_to(:comment_as_administrator, legislation_question) }
+    it { should_not be_able_to(:comment_as_administrator, poll) }
   end
 
   it { should_not be_able_to(:read, SDG::Target) }
@@ -114,4 +113,8 @@ describe Abilities::Moderator do
   it { should_not be_able_to(:read, SDG::Manager) }
   it { should_not be_able_to(:create, SDG::Manager) }
   it { should_not be_able_to(:delete, SDG::Manager) }
+
+  it { should_not be_able_to(:create, Cookies::Vendor) }
+  it { should_not be_able_to(:update, Cookies::Vendor) }
+  it { should_not be_able_to(:destroy, Cookies::Vendor) }
 end

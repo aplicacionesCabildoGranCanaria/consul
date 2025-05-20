@@ -4,23 +4,27 @@ class FollowsController < ApplicationController
 
   def create
     @follow.save!
-    flash.now[:notice] = t("shared.followable.#{followable_translation_key(@follow.followable)}.create.notice")
+    flash.now[:notice] = t("shared.followable.#{followable_translation_key(@follow)}.create.notice")
     render :refresh_follow_button
   end
 
   def destroy
     @follow.destroy!
-    flash.now[:notice] = t("shared.followable.#{followable_translation_key(@follow.followable)}.destroy.notice")
+    flash.now[:notice] = t("shared.followable.#{followable_translation_key(@follow)}.destroy.notice")
     render :refresh_follow_button
   end
 
   private
 
     def follow_params
-      params.permit(:followable_type, :followable_id)
+      params.permit(allowed_params)
     end
 
-    def followable_translation_key(followable)
-      followable.class.name.parameterize(separator: "_")
+    def allowed_params
+      [:followable_type, :followable_id]
+    end
+
+    def followable_translation_key(follow)
+      follow.followable.class.name.parameterize(separator: "_")
     end
 end

@@ -1,10 +1,9 @@
 require "rails_helper"
 
-describe SDG::Targets::PlainTagListComponent, type: :component do
+describe SDG::Targets::PlainTagListComponent do
   let(:debate) do
     create(:debate,
-           sdg_targets: [SDG::Target[1.1], SDG::Target[3.2], create(:sdg_local_target, code: "3.2.1")]
-          )
+           sdg_targets: [SDG::Target[1.1], SDG::Target[3.2], create(:sdg_local_target, code: "3.2.1")])
   end
   let(:component) { SDG::Targets::PlainTagListComponent.new(debate) }
 
@@ -18,7 +17,7 @@ describe SDG::Targets::PlainTagListComponent, type: :component do
 
     render_inline component
 
-    expect(page).not_to have_css "li"
+    expect(page).not_to be_rendered
   end
 
   it "does not render when the SDG process feature is disabled" do
@@ -26,7 +25,7 @@ describe SDG::Targets::PlainTagListComponent, type: :component do
 
     render_inline component
 
-    expect(page).not_to have_css "li"
+    expect(page).not_to be_rendered
   end
 
   it "renders a list of targets" do
@@ -56,9 +55,9 @@ describe SDG::Targets::PlainTagListComponent, type: :component do
     render_inline component
 
     expect(page).to have_css "li", text: "target 1.1"
-    expect(page).to have_selector "a", count: 1
+    expect(page).to have_css "a", count: 1
     expect(page).to have_link "2+",
-      title: "2 more targets",
-      href: "/debates/#{debate.to_param}"
+                              title: "2 more targets",
+                              href: "/debates/#{debate.to_param}"
   end
 end

@@ -3,25 +3,14 @@
             class: "float-right small clear" %>
 
 <% if params[:advanced_filters].include?("winners") %>
-  <% if display_calculate_winners_button?(@budget) %>
-    <%= link_to calculate_winner_button_text(@budget),
-                calculate_winners_admin_budget_path(@budget),
-                method: :put,
-                class: "button hollow float-right clear" %>
-  <% else %>
-    <span class="button hollow disabled float-right clear">
-      <%= t("admin.budgets.winners.calculate") %>
-    </span>
-    <div class="callout warning clear">
-      <%= t("admin.budget_investments.index.cannot_calculate_winners") %>
-    </div>
-  <% end %>
+  <%= render Admin::Budgets::CalculateWinnersButtonComponent.new(@budget, from_investments: true) %>
 <% end %>
 
 <% if @investments.any? %>
   <h3 class="inline-block"><%= page_entries_info @investments %></h3>
   <%= render "admin/shared/columns_selector",
-        cookie: "investments-columns", default: %w[id title supports admin valuator geozone feasibility price valuation_finished visible_to_valuators selected incompatible] %>
+             cookie: "investments-columns",
+             default: %w[id title supports admin valuator geozone feasibility price valuation_finished visible_to_valuators selected incompatible] %>
   <br>
 
   <%= render "filters_description", i18n_namespace: "admin.budget_investments.index" %>
@@ -42,7 +31,9 @@
         </th>
         <th data-field="geozone"><%= t("admin.budget_investments.index.list.geozone") %></th>
         <th data-field="feasibility"><%= t("admin.budget_investments.index.list.feasibility") %></th>
-        <th data-field="price"><%= t("admin.budget_investments.index.list.price") %></th>
+        <% if @budget.show_money? %>
+          <th data-field="price"><%= t("admin.budget_investments.index.list.price") %></th>
+        <% end %>
         <th data-field="valuation_finished">
           <%= t("admin.budget_investments.index.list.valuation_finished") %>
         </th>

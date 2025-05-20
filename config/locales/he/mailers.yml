@@ -6,13 +6,13 @@ he:
       new_comment_by: ישנה הערה חדשה מ <strong>%{commenter}</strong>
       subject: ישנה הערה חדשה %{commentable}
       title: הערה חדשה
-    config:
-      manage_email_subscriptions: כדי להפסיק לקבל דואר דומה עליכם לשנות את הגדרות הדואר
     email_verification:
       click_here_to_verify: קישור זה
+      instructions_2: האימייל זה יאמת את החשבון שלך עם <b>-%{document_type} - %{document_number}-</b>. אם אלו שלא שייכים לך, נא לא ללחוץ על הקישור הקודם, התעלם מדוא"ל זה.
+      instructions: כדי להשלים את אימות חשבון המשתמש שלך, עליך ללחוץ על %{verification_link}.
       subject: נא אשר את הדוא"ל שלך
       thanks: תודה מכל הלב.
-      title: אשר את חשבונך באמצעות הקישור הבא
+      title: "אשר את חשבונך באמצעות הקישור הבא"
     reply:
       hi: שלום
       new_reply_by: ישנה התייחסות חדשה מ <strong>%{commenter}</strong> לתגוב
@@ -23,15 +23,13 @@ he:
       title: "התרעות הצעות ב-%{org_name}"
       share: שיתוף ההצעה
       comment: תגובה על ההצעה
-      unsubscribe: "אם אין ברצונך לקבל התרעות על ההצעה, גש/י אל %{account} והסר/י את הסימון במשבצת 'קבלת סיכום ההודעות על הצעות'."
-      unsubscribe_account: החשבון שלי
     direct_message_for_receiver:
       subject: "התקבלה הודעה פרטית חדשה"
       reply: השב ל %{sender}
-      unsubscribe: "אם אינך רוצה לקבל הודעות ישירות, גש/י אל %{account} והסר/י את הסימון במשבצת 'קבלת דואר אלקטרוני על הודעות ישירות'."
-      unsubscribe_account: החשבון שלי
     direct_message_for_sender:
       subject: "שלחת הודעה פרטית חדשה"
+      title: "שלחת הודעה פרטית חדשה"
+      text: "שלחת הודעה פרטית אל <strong>%{receiver}</strong> שהתוכן בה:"
     user_invite:
       ignore: "אם לא את/ה ביקשת את ההזמנה הזו, אין בעיה, תוכל/י פשוט להתעלם מהודעת הדואר האלקטרוני הזו."
       text: "תודה שביקשת להצטרף אל %{org}! בתוך כמה שניות גם את/ה יכול/ה להשתתף ולקבוע איך תתנהל העיר שלך. עליך רק למלא את הטופס הבא:"
@@ -42,11 +40,15 @@ he:
     budget_investment_created:
       subject: "תודה על יצירת ההשקעה!"
       title: "תודה על יצירת ההשקעה!"
+      intro: "שלום <strong>%{author}</strong>,"
+      text: "תודה שיצרת את ההשקעה <strong>%{investment}</strong> בתקצוב השיתופי <strong>%{budget}</strong>."
+      follow: "אנו נודיע לך על התקדמות התהליך, ותוכל/י גם לצפות בו בקישור <strong>%{link}</strong>."
       follow_link: "תקציבים שיתופיים"
       sincerely: "בברכה,"
       share: "שתף את הפרויקט שלך"
     budget_investment_unfeasible:
       hi: "משתמש/ת יקר/ה,"
+      new: "מסיבות אלה, אנו מזמינים אותך לפתוח <strong> יוזמת השקעה חדשה\n</strong> שתתאים לתנאים של תהליך זה. תוכל/י לעשות זאת בקישור: %{url}."
       new_href: "פרויקט השקעה חדש"
       sincerely: "בברכה,"
       sorry: "אנו מתנצלים על האי-נוחות ומודים לך שוב על השתתפותך החשובה."
@@ -67,31 +69,8 @@ he:
       subject: "הערת הערכה חדשה"
       title: הערת הערכה חדשה עבור %{investment}
       hi: שלום
+      new_comment_by: יש הערת הערכה חדשה מ- <strong>%{commenter}</strong> לתקציב ההשקעה %{investment}
       commenter_info: "%{commenter}, %{time}:"
-    new_actions_notification_rake_created:
-      subject: "עוד חדשות על הצעת התושב שלך"
-      hi: "שלום %{name},"
-      new_resource: "משאב פתוח חדש"
-      introduction: "כידוע לך, ביום %{created_at_day} %{created_at_month} יצרת את ההצעה במצב טיוטה %{title}."
-      text_1: "מתי שתרצה תוכל לפרסם עם הקישור הזה: %{link_to_published}. אם אתה עדיין לא בטוח..."
-      text_2: "תפוס את הרגע הזה! למד, הוסף עוד אנשים עם אינטרסים דומים והיערך לכך בעת פרסום הצעתך באופן סופי."
-      text_3: "ללוות אותך באתגר הזה, להלן החדשות..."
-      text_4: "העף מבט על הפעולה החדשה המומלצת:"
-      text_5: "הפעולה הבאה שאנו ממליצים עליה היא:"
-      footer_text: "כמו תמיד, היכנס ללוח הצעות, נדווח לך בפירוט כיצד להשתמש במשאבים אלו וכיצד להפיק מהם את המירב."
-      dashboard_button: "המשך, וגלה אותם!"
-    new_actions_notification_rake_published:
-      subject: "עוד חדשות על הצעת התושב שלך"
-      hi: "שלום %{name},"
-      new_resource: "משאב פתוח חדש"
-      introduction: "כידוע לך, ביום %{published_at_day} %{published_at_month} פרסמת את ההצעתך %{title}."
-      text_1: ". ובכן, יש לך תמיכה %{votes_count} עד כה ברכות!"
-      text_2: "אז, יש לך משאב חדש זמין שיעזור לך להמשיך הלאה."
-      text_3: "חסרים לך %{days_count} ימים לפני שההצעה שלך תקבל את %{max_votes_count} התמיכות ותעבור לשלב המשאל. התעודד והמשך את הפצתה. האם חסר לך רעיונות?"
-      text_4: "פעולת דיפוזיה מומלצת חדשה"
-      text_5: "יש עוד עדיין, ראה את הפעולה הבאה:"
-      footer_text: "כמו תמיד, היכנס ללוח הצעות, נדווח לך בפירוט כיצד להשתמש במשאבים אלו וכיצד להפיק מהם את המירב."
-      dashboard_button: "המשך, וגלה אותם!"
     new_actions_notification_on_create:
       subject: "טיוטה הצעת התושב שלך נוצרה"
       hi: "היי %{name}!"

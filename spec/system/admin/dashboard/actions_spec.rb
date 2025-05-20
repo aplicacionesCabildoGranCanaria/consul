@@ -26,7 +26,7 @@ describe "Admin dashboard actions", :admin do
     end
 
     context "and actions defined" do
-      let!(:action) { create :dashboard_action }
+      let!(:action) { create(:dashboard_action) }
 
       before do
         visit admin_dashboard_actions_path
@@ -39,7 +39,7 @@ describe "Admin dashboard actions", :admin do
   end
 
   context "when creating an action" do
-    let(:action) { build :dashboard_action }
+    let(:action) { build(:dashboard_action) }
 
     before do
       visit admin_dashboard_actions_path
@@ -63,7 +63,7 @@ describe "Admin dashboard actions", :admin do
   end
 
   context "when editing an action" do
-    let!(:action) { create :dashboard_action }
+    let!(:action) { create(:dashboard_action) }
 
     before do
       visit admin_dashboard_actions_path
@@ -87,15 +87,15 @@ describe "Admin dashboard actions", :admin do
   end
 
   context "when destroying an action" do
-    let!(:action) { create :dashboard_action }
+    let!(:action) { create(:dashboard_action) }
 
     before do
       visit admin_dashboard_actions_path
     end
 
     scenario "deletes the action" do
-      page.accept_confirm do
-        click_link "Delete"
+      accept_confirm("Are you sure? This action will delete \"#{action.title}\" and can't be undone.") do
+        click_button "Delete"
       end
 
       expect(page).not_to have_content(action.title)
@@ -104,8 +104,8 @@ describe "Admin dashboard actions", :admin do
     scenario "can not delete actions that have been executed" do
       _executed_action = create(:dashboard_executed_action, action: action)
 
-      page.accept_confirm do
-        click_link "Delete"
+      accept_confirm("Are you sure? This action will delete \"#{action.title}\" and can't be undone.") do
+        click_button "Delete"
       end
 
       expect(page).to have_content("Cannot delete record because dependent executed actions exist")

@@ -1,36 +1,132 @@
-%button {
+@import "mixins/colors";
+
+@mixin base-button {
+  @include button-base;
   font-size: $base-font-size;
 
   &:focus,
   &:hover {
     text-decoration: none !important;
   }
+
+  &[disabled] {
+    @include button-disabled;
+  }
 }
 
 @mixin regular-button($color: $brand) {
-  @include button($background: $color);
-  @include inverted-selection;
-  @extend %button;
+  @include base-button;
+
+  @if $color == $brand {
+    @include brand-background;
+  } @else {
+    @include background-with-text-contrast($color);
+  }
+
+  &:hover,
+  &:focus {
+    @include background-with-text-contrast($button-background-hover, button-background-hover);
+  }
 }
 
-@mixin hollow-button($color: $link) {
-  @include button($style: hollow, $background: $color);
+%button {
+  @include regular-button;
+}
+
+@mixin hollow-button($color: $anchor-color) {
   @include normal-selection;
-  @extend %button;
+  @include base-button;
+  border-color: currentcolor;
+  color: $color;
   margin-bottom: 0;
+
+  @if $color == $anchor-color {
+    @include anchor-color;
+  } @else if $color == $brand {
+    @include brand-color;
+  }
+
+  &:hover,
+  &:focus {
+    $hover-color: scale-color($color, $lightness: $button-hollow-hover-lightness);
+    color: $hover-color;
+
+    @if $color == $anchor-color {
+      color: var(--anchor-color-hover, $hover-color);
+    }
+  }
 }
 
 @mixin link {
-  color: $link;
+  @include anchor-color;
   cursor: pointer;
 
   &:hover,
-  &:active {
-    color: $link-hover;
-    text-decoration: underline;
+  &:active,
+  &:focus {
+    @include anchor-color-hover;
   }
 
-  &:focus {
-    outline: $outline-focus;
+  &:hover,
+  &:active {
+    text-decoration: underline;
   }
+}
+
+@mixin text-colored-link {
+  color: inherit;
+
+  &:hover {
+    @include anchor-color;
+  }
+}
+
+@mixin switch {
+  @include regular-button;
+  border-radius: $line-height;
+  font-weight: bold;
+  min-width: 6em;
+  position: relative;
+
+  &::after {
+    background: color-pick-contrast($primary-color);
+    border-radius: 100%;
+    content: "";
+    display: block;
+    height: 1.75em;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.75em;
+  }
+
+  &[aria-pressed=true] {
+    background: $primary-color;
+    padding-right: 2.5em;
+    text-align: left;
+
+    &::after {
+      right: 0.5em;
+    }
+  }
+
+  &[aria-pressed=false] {
+    background: $dark-gray;
+    padding-left: 2.5em;
+    text-align: right;
+
+    &::after {
+      left: 0.5em;
+    }
+  }
+}
+
+@mixin modal-close-button($color: currentcolor) {
+  border: 3px solid $color;
+  border-radius: 50%;
+  color: $color;
+  font-size: rem-calc(23);
+  font-weight: bold;
+  height: rem-calc(30);
+  width: rem-calc(30);
 }

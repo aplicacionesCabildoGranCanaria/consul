@@ -46,7 +46,6 @@ sr:
           success: Пребивалиште проверено
       new:
         accept_terms_text: Прихватам%{terms_url} гласања
-        accept_terms_text_title: Прихватам правила приступа гласању
         document_number: Број дукумента
         document_number_help_title: Помоћ
         document_number_help_text: "<strong>DNI</strong>: 12345678A<br> <strong>Пасош</strong>: AAA000001<br> <strong>Карта пребилавишта</strong>: X1234567P"
@@ -75,7 +74,6 @@ sr:
         phone: Унесите број свог мобилног телефона како бисте примили шифру
         phone_format: "<strong><em>(Example: 612345678 or +34612345678)</em></strong>"
         phone_note: Користимо Вас број телефона само да Вам пошаљемо шифру, никада Вас нећемо контактирати.
-        phone_placeholder: "Пример: 612345678 или +34612345678"
         submit_button: Пошаљи
         title: Пошаљи шифру за потврду
       update:

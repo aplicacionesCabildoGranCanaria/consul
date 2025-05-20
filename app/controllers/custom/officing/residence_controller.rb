@@ -1,4 +1,4 @@
-require_dependency Rails.root.join("app", "controllers", "officing", "residence_controller").to_s
+load Rails.root.join("app", "controllers", "officing", "residence_controller.rb")
 
 class Officing::ResidenceController
 

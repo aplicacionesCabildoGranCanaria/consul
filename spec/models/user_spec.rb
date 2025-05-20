@@ -33,28 +33,6 @@ describe User do
     end
   end
 
-  describe "#debate_votes" do
-    let(:user) { create(:user) }
-
-    it "returns {} if no debate" do
-      expect(user.debate_votes([])).to eq({})
-    end
-
-    it "returns a hash of debates ids and votes" do
-      debate1 = create(:debate)
-      debate2 = create(:debate)
-      debate3 = create(:debate)
-      create(:vote, voter: user, votable: debate1, vote_flag: true)
-      create(:vote, voter: user, votable: debate3, vote_flag: false)
-
-      voted = user.debate_votes([debate1, debate2, debate3])
-
-      expect(voted[debate1.id]).to eq(true)
-      expect(voted[debate2.id]).to eq(nil)
-      expect(voted[debate3.id]).to eq(false)
-    end
-  end
-
   describe "#comment_flags" do
     let(:user) { create(:user) }
 
@@ -103,40 +81,50 @@ describe User do
     end
   end
 
+  describe "#locale" do
+    it "defaults to the default locale setting" do
+      Setting["locales.default"] = "nl"
+
+      user = build(:user, locale: nil)
+
+      expect(user.locale).to eq "nl"
+    end
+  end
+
   describe "preferences" do
     describe "email_on_comment" do
       it "is false by default" do
-        expect(subject.email_on_comment).to eq(false)
+        expect(subject.email_on_comment).to be false
       end
     end
 
     describe "email_on_comment_reply" do
       it "is false by default" do
-        expect(subject.email_on_comment_reply).to eq(false)
+        expect(subject.email_on_comment_reply).to be false
       end
     end
 
     describe "subscription_to_website_newsletter" do
       it "is true by default" do
-        expect(subject.newsletter).to eq(true)
+        expect(subject.newsletter).to be true
       end
     end
 
     describe "email_digest" do
       it "is true by default" do
-        expect(subject.email_digest).to eq(true)
+        expect(subject.email_digest).to be true
       end
     end
 
     describe "email_on_direct_message" do
       it "is true by default" do
-        expect(subject.email_on_direct_message).to eq(true)
+        expect(subject.email_on_direct_message).to be true
       end
     end
 
     describe "official_position_badge" do
       it "is false by default" do
-        expect(subject.official_position_badge).to eq(false)
+        expect(subject.official_position_badge).to be false
       end
     end
   end
@@ -308,7 +296,7 @@ describe User do
       subject.remove_official_position!
 
       expect(subject).not_to be_official
-      expect(subject.official_position).to be_nil
+      expect(subject.official_position).to be nil
       expect(subject.official_level).to eq(0)
     end
   end
@@ -341,10 +329,10 @@ describe User do
       user3 = create(:user, email: "john@unofficials.madrid.es", confirmed_at: Time.current)
       user4 = create(:user, email: "john@example.org", confirmed_at: Time.current)
 
-      expect(user1.has_official_email?).to eq(true)
-      expect(user2.has_official_email?).to eq(true)
-      expect(user3.has_official_email?).to eq(false)
-      expect(user4.has_official_email?).to eq(false)
+      expect(user1.has_official_email?).to be true
+      expect(user2.has_official_email?).to be true
+      expect(user3.has_official_email?).to be false
+      expect(user4.has_official_email?).to be false
 
       # We reset the officials' domain setting
       Setting.find_by(key: "email_domain_for_officials").update!(value: "")
@@ -356,13 +344,13 @@ describe User do
       it "displays the badge if set in preferences" do
         user = create(:user, official_level: 1, official_position_badge: true)
 
-        expect(user.display_official_position_badge?).to eq true
+        expect(user.display_official_position_badge?).to be true
       end
 
       it "does not display the badge if set in preferences" do
         user = create(:user, official_level: 1, official_position_badge: false)
 
-        expect(user.display_official_position_badge?).to eq false
+        expect(user.display_official_position_badge?).to be false
       end
     end
 
@@ -373,10 +361,10 @@ describe User do
         user3 = create(:user, official_level: 4, official_position_badge: false)
         user4 = create(:user, official_level: 5, official_position_badge: false)
 
-        expect(user1.display_official_position_badge?).to eq true
-        expect(user2.display_official_position_badge?).to eq true
-        expect(user3.display_official_position_badge?).to eq true
-        expect(user4.display_official_position_badge?).to eq true
+        expect(user1.display_official_position_badge?).to be true
+        expect(user2.display_official_position_badge?).to be true
+        expect(user3.display_official_position_badge?).to be true
+        expect(user4.display_official_position_badge?).to be true
       end
     end
   end
@@ -445,6 +433,115 @@ describe User do
         expect(User.by_username_email_or_document_number(" 12345678Z ")).to eq [larry]
       end
     end
+
+    describe ".between_ages" do
+      it "returns users between certain ages, including both" do
+        [21, 22, 23, 23, 42, 43, 44, 51].each do |age|
+          create(:user, date_of_birth: age.years.ago)
+        end
+
+        expect(User.between_ages(0, 20).count).to eq 0
+        expect(User.between_ages(0, 21).count).to eq 1
+        expect(User.between_ages(21, 23).count).to eq 4
+        expect(User.between_ages(24, 41).count).to eq 0
+        expect(User.between_ages(41, 45).count).to eq 3
+        expect(User.between_ages(51, 100).count).to eq 1
+      end
+
+      it "does not consider that people born in the same year share the same age" do
+        april_1st_user = create(:user, date_of_birth: Time.zone.local(2001, 4, 1))
+        april_2nd_user = create(:user, date_of_birth: Time.zone.local(2001, 4, 2))
+        april_3rd_user = create(:user, date_of_birth: Time.zone.local(2001, 4, 3))
+
+        travel_to "2021-04-02" do
+          expect(User.between_ages(18, 19)).to eq [april_3rd_user]
+          expect(User.between_ages(20, 21)).to match_array [april_1st_user, april_2nd_user]
+          expect(User.between_ages(19, 20)).to match_array [april_1st_user, april_2nd_user, april_3rd_user]
+        end
+      end
+
+      it "works on leap years with users born on leap years" do
+        leap_day_user = create(:user, date_of_birth: Time.zone.local(2000, 2, 29))
+        march_1st_user = create(:user, date_of_birth: Time.zone.local(2000, 3, 1))
+
+        travel_to "2024-02-28" do
+          expect(User.between_ages(22, 23)).to match_array [leap_day_user, march_1st_user]
+          expect(User.between_ages(23, 24)).to match_array [leap_day_user, march_1st_user]
+          expect(User.between_ages(24, 25)).to eq []
+        end
+
+        travel_to "2024-02-29" do
+          expect(User.between_ages(22, 23)).to eq [march_1st_user]
+          expect(User.between_ages(23, 24)).to match_array [leap_day_user, march_1st_user]
+          expect(User.between_ages(24, 25)).to eq [leap_day_user]
+        end
+
+        travel_to "2024-03-01" do
+          expect(User.between_ages(22, 23)).to eq []
+          expect(User.between_ages(23, 24)).to match_array [leap_day_user, march_1st_user]
+          expect(User.between_ages(24, 25)).to match_array [leap_day_user, march_1st_user]
+        end
+      end
+
+      it "works on non-leap years with users born on leap years" do
+        leap_day_user = create(:user, date_of_birth: Time.zone.local(2000, 2, 29))
+        march_1st_user = create(:user, date_of_birth: Time.zone.local(2000, 3, 1))
+
+        travel_to "2023-02-28" do
+          expect(User.between_ages(21, 22)).to match_array [leap_day_user, march_1st_user]
+          expect(User.between_ages(22, 23)).to match_array [leap_day_user, march_1st_user]
+          expect(User.between_ages(23, 24)).to eq []
+        end
+
+        travel_to "2023-03-01" do
+          expect(User.between_ages(21, 22)).to eq []
+          expect(User.between_ages(22, 23)).to match_array [leap_day_user, march_1st_user]
+          expect(User.between_ages(23, 24)).to match_array [leap_day_user, march_1st_user]
+        end
+      end
+
+      it "works on leap years with users born on non-leap years" do
+        march_1st_user = create(:user, date_of_birth: Time.zone.local(2001, 3, 1))
+
+        travel_to "2024-02-28" do
+          expect(User.between_ages(21, 22)).to eq [march_1st_user]
+          expect(User.between_ages(22, 23)).to eq [march_1st_user]
+          expect(User.between_ages(23, 24)).to eq []
+        end
+
+        travel_to "2024-02-29" do
+          expect(User.between_ages(21, 22)).to eq [march_1st_user]
+          expect(User.between_ages(22, 23)).to eq [march_1st_user]
+          expect(User.between_ages(23, 24)).to eq []
+        end
+
+        travel_to "2024-03-01" do
+          expect(User.between_ages(21, 22)).to eq []
+          expect(User.between_ages(22, 23)).to match_array [march_1st_user]
+          expect(User.between_ages(23, 24)).to match_array [march_1st_user]
+        end
+      end
+
+      it "returns users between certain ages on a reference date" do
+        reference_date = 20.years.ago
+
+        travel_to(reference_date) do
+          [21, 22, 23, 23, 34, 42, 43, 44, 50, 51].each do |age|
+            create(:user, date_of_birth: age.years.ago)
+          end
+        end
+
+        expect(User.between_ages(0, 20, at_time: reference_date).count).to eq 0
+        expect(User.between_ages(21, 25, at_time: reference_date).count).to eq 4
+        expect(User.between_ages(25, 30, at_time: reference_date).count).to eq 0
+        expect(User.between_ages(30, 34, at_time: reference_date).count).to eq 1
+        expect(User.between_ages(35, 39, at_time: reference_date).count).to eq 0
+        expect(User.between_ages(40, 44, at_time: reference_date).count).to eq 3
+        expect(User.between_ages(45, 49, at_time: reference_date).count).to eq 0
+        expect(User.between_ages(50, 54, at_time: reference_date).count).to eq 2
+        expect(User.between_ages(55, 100, at_time: reference_date).count).to eq 0
+      end
+    end
   end
 
   describe "self.search" do
@@ -483,19 +580,16 @@ describe User do
     let(:user) { create(:user) }
 
     it "expires cache with becoming a moderator" do
-      expect { create(:moderator, user: user) }
-      .to change { user.updated_at }
+      expect { create(:moderator, user: user) }.to change { user.cache_version }
     end
 
     it "expires cache with becoming an admin" do
-      expect { create(:administrator, user: user) }
-      .to change { user.updated_at }
+      expect { create(:administrator, user: user) }.to change { user.cache_version }
     end
 
     it "expires cache with becoming a veridied organization" do
       create(:organization, user: user)
-      expect { user.organization.verify }
-      .to change { user.reload.updated_at }
+      expect { user.organization.verify }.to change { user.reload.cache_version }
     end
   end
 
@@ -516,16 +610,16 @@ describe User do
   describe "#erase" do
     it "erases user information and marks him as erased" do
       user = create(:user,
-                     username: "manolo",
-                     email: "a@a.com",
-                     unconfirmed_email: "a@a.com",
-                     phone_number: "5678",
-                     confirmed_phone: "5678",
-                     unconfirmed_phone: "5678",
-                     encrypted_password: "foobar",
-                     confirmation_token: "token1",
-                     reset_password_token: "token2",
-                     email_verification_token: "token3")
+                    username: "manolo",
+                    email: "a@a.com",
+                    unconfirmed_email: "a@a.com",
+                    phone_number: "5678",
+                    confirmed_phone: "5678",
+                    unconfirmed_phone: "5678",
+                    encrypted_password: "foobar",
+                    confirmation_token: "token1",
+                    reset_password_token: "token2",
+                    email_verification_token: "token3")
 
       user.erase("a test")
       user.reload
@@ -533,22 +627,20 @@ describe User do
       expect(user.erase_reason).to eq("a test")
       expect(user.erased_at).to    be
 
-      expect(user.username).to be_nil
-      expect(user.email).to be_nil
-      expect(user.unconfirmed_email).to be_nil
-      expect(user.phone_number).to be_nil
-      expect(user.confirmed_phone).to be_nil
-      expect(user.unconfirmed_phone).to be_nil
+      expect(user.username).to be nil
+      expect(user.email).to be nil
+      expect(user.unconfirmed_email).to be nil
+      expect(user.phone_number).to be nil
+      expect(user.confirmed_phone).to be nil
+      expect(user.unconfirmed_phone).to be nil
       expect(user.encrypted_password).to be_empty
-      expect(user.confirmation_token).to be_nil
-      expect(user.reset_password_token).to be_nil
-      expect(user.email_verification_token).to be_nil
+      expect(user.confirmation_token).to be nil
+      expect(user.reset_password_token).to be nil
+      expect(user.email_verification_token).to be nil
     end
 
     it "maintains associated identification document" do
-      user = create(:user,
-                     document_number: "1234",
-                     document_type:   "1")
+      user = create(:user, document_number: "1234", document_type: "1")
       user.erase
       user.reload
 
@@ -564,6 +656,19 @@ describe User do
       user.erase("an identity test")
 
       expect(Identity.exists?(identity.id)).not_to be
+    end
+
+    it "removes all user roles" do
+      user = create(:user)
+      [:administrator, :moderator, :manager, :sdg_manager, :valuator].each do |role|
+        create(role, user: user)
+      end
+
+      expect { user.erase }.to change { Administrator.count }.by(-1)
+                           .and change { Moderator.count }.by(-1)
+                           .and change { Manager.count }.by(-1)
+                           .and change { SDG::Manager.count }.by(-1)
+                           .and change { Valuator.count }.by(-1)
     end
   end
 
@@ -639,6 +744,24 @@ describe User do
       expect(Poll::Voter.where(user: other_user).count).to eq(0)
       expect(Poll::Voter.where(user: user)).to match_array [v1, v2]
     end
+
+    it "does not reassign votes if the user has already voted" do
+      poll = create(:poll)
+      user = create(:user, :level_three)
+      other_user = create(:user, :level_three)
+
+      voter = create(:poll_voter, poll: poll, user: user)
+      other_voter = create(:poll_voter, poll: poll, user: other_user)
+      other_poll_voter = create(:poll_voter, poll: create(:poll), user: other_user)
+
+      expect(Poll::Voter.where(user: user)).to eq [voter]
+      expect(Poll::Voter.where(user: other_user)).to match_array [other_voter, other_poll_voter]
+
+      user.take_votes_from(other_user)
+
+      expect(Poll::Voter.where(user: user)).to match_array [voter, other_poll_voter]
+      expect(Poll::Voter.where(user: other_user)).to eq []
+    end
   end
 
   describe "#take_votes_if_erased_document" do
@@ -698,8 +821,8 @@ describe User do
 
   describe "email_required?" do
     it "is true for regular users" do
-      expect(subject.email_required?).to eq(true)
-      expect(create(:user, :hidden).email_required?).to eq(true)
+      expect(subject.email_required?).to be true
+      expect(create(:user, :hidden).email_required?).to be true
     end
 
     it "is false for erased users" do
@@ -707,17 +830,14 @@ describe User do
       user.erase
       user.reload
 
-      expect(user.email_required?).to eq(false)
+      expect(user.email_required?).to be false
     end
 
     it "is false for verified users with no email" do
-      user = create(:user,
-                     username: "Lois",
-                     email: "",
-                     verified_at: Time.current)
+      user = create(:user, username: "Lois", email: "", verified_at: Time.current)
 
       expect(user).to be_valid
-      expect(user.email_required?).to eq(false)
+      expect(user.email_required?).to be false
     end
   end
 
@@ -747,6 +867,12 @@ describe User do
     end
   end
 
+  describe "#public_interests" do
+    it "is false by default" do
+      expect(User.new.public_interests).to be false
+    end
+  end
+
   describe ".find_by_manager_login" do
     it "works with a low ID" do
       user = create(:user)
@@ -760,6 +886,34 @@ describe User do
     end
   end
 
+  describe "#block" do
+    it "hides legislation proposals created by the user" do
+      user = create(:user)
+      other_user = create(:user)
+
+      proposal = create(:legislation_proposal, author: user)
+      other_proposal = create(:legislation_proposal, author: other_user)
+
+      user.block
+
+      expect(Legislation::Proposal.all).to eq [other_proposal]
+      expect(Legislation::Proposal.with_hidden).to match_array [proposal, other_proposal]
+    end
+
+    it "removes all user roles" do
+      user = create(:user)
+      [:administrator, :moderator, :manager, :sdg_manager, :valuator].each do |role|
+        create(role, user: user)
+      end
+
+      expect { user.block }.to change { Administrator.count }.by(-1)
+                           .and change { Moderator.count }.by(-1)
+                           .and change { Manager.count }.by(-1)
+                           .and change { SDG::Manager.count }.by(-1)
+                           .and change { Valuator.count }.by(-1)
+    end
+  end
+
   describe "#full_restore" do
     it "restore all previous hidden user content" do
       user = create(:user, :hidden)
@@ -769,19 +923,27 @@ describe User do
       debate = create(:debate, :hidden, author: user)
       investment = create(:budget_investment, :hidden, author: user)
       proposal = create(:proposal, :hidden, author: user)
+      legislation_proposal = create(:legislation_proposal, :hidden, author: user)
       proposal_notification = create(:proposal_notification, :hidden, proposal: proposal)
+      legislation_proposal = create(:legislation_proposal, :hidden, author: user)
 
       old_hidden_comment = create(:comment, hidden_at: 3.days.ago, author: user)
       old_hidden_debate = create(:debate, hidden_at: 3.days.ago, author: user)
       old_hidden_investment = create(:budget_investment, hidden_at: 3.days.ago, author: user)
       old_hidden_proposal = create(:proposal, hidden_at: 3.days.ago, author: user)
-      old_hidden_proposal_notification = create(:proposal_notification, hidden_at: 3.days.ago, proposal: proposal)
+      old_hidden_legislation_proposal = create(:legislation_proposal, hidden_at: 3.days.ago, author: user)
+      old_hidden_proposal_notification = create(:proposal_notification,
+                                                hidden_at: 3.days.ago,
+                                                proposal: proposal)
 
       other_user_comment = create(:comment, :hidden, author: other_user)
       other_user_debate = create(:debate, :hidden, author: other_user)
       other_user_proposal = create(:proposal, :hidden, author: other_user)
       other_user_investment = create(:budget_investment, :hidden, author: other_user)
-      other_user_proposal_notification = create(:proposal_notification, :hidden, proposal: other_user_proposal)
+      other_user_legislation_proposal = create(:legislation_proposal, :hidden, author: other_user)
+      other_user_proposal_notification = create(:proposal_notification,
+                                                :hidden,
+                                                proposal: other_user_proposal)
 
       user.full_restore
 
@@ -790,18 +952,138 @@ describe User do
       expect(investment.reload).not_to be_hidden
       expect(proposal.reload).not_to be_hidden
       expect(proposal_notification.reload).not_to be_hidden
+      expect(legislation_proposal.reload).not_to be_hidden
 
       expect(old_hidden_comment.reload).to be_hidden
       expect(old_hidden_debate.reload).to be_hidden
       expect(old_hidden_investment.reload).to be_hidden
       expect(old_hidden_proposal.reload).to be_hidden
       expect(old_hidden_proposal_notification.reload).to be_hidden
+      expect(old_hidden_legislation_proposal.reload).to be_hidden
 
       expect(other_user_comment.reload).to be_hidden
       expect(other_user_debate.reload).to be_hidden
       expect(other_user_investment.reload).to be_hidden
       expect(other_user_proposal.reload).to be_hidden
       expect(other_user_proposal_notification.reload).to be_hidden
+      expect(other_user_legislation_proposal.reload).to be_hidden
+    end
+  end
+
+  describe "#add_subscriptions_token" do
+    let(:user) { build(:user, subscriptions_token: nil) }
+
+    it "generates a subscriptions token when the user doesn't have one" do
+      user.add_subscriptions_token
+
+      expect(user.subscriptions_token).to be_present
+    end
+
+    it "keeps the existing subscriptions token when the user already has one" do
+      user.update!(subscriptions_token: "already_set")
+
+      user.add_subscriptions_token
+
+      expect(user.subscriptions_token).to eq "already_set"
+    end
+  end
+
+  describe ".password_complexity" do
+    it "returns no complexity when the secrets aren't configured" do
+      expect(User.password_complexity).to eq({ digit: 0, lower: 0, symbol: 0, upper: 0 })
+    end
+
+    context "when secrets are configured" do
+      before do
+        stub_secrets(
+          security: {
+            password_complexity: true
+          },
+          tenants: {
+            tolerant: {
+              security: {
+                password_complexity: false
+              }
+            }
+          }
+        )
+      end
+
+      it "uses the general secrets for the main tenant" do
+        expect(User.password_complexity).to eq({ digit: 1, lower: 1, symbol: 0, upper: 1 })
+      end
+
+      it "uses the tenant secrets for a tenant" do
+        allow(Tenant).to receive(:current_schema).and_return("tolerant")
+
+        expect(User.password_complexity).to eq({ digit: 0, lower: 0, symbol: 0, upper: 0 })
+      end
+    end
+  end
+
+  describe ".maximum_attempts" do
+    it "returns 20 as default when the secrets aren't configured" do
+      expect(User.maximum_attempts).to eq 20
+    end
+
+    context "when secrets are configured" do
+      before do
+        stub_secrets(
+          security: {
+            lockable: { maximum_attempts: "14" }
+          },
+          tenants: {
+            superstrict: {
+              security: {
+                lockable: { maximum_attempts: "1" }
+              }
+            }
+          }
+        )
+      end
+
+      it "uses the general secrets for the main tenant" do
+        expect(User.maximum_attempts).to eq 14
+      end
+
+      it "uses the tenant secrets for a tenant" do
+        allow(Tenant).to receive(:current_schema).and_return("superstrict")
+
+        expect(User.maximum_attempts).to eq 1
+      end
+    end
+  end
+
+  describe ".unlock_in" do
+    it "returns 1 as default when the secrets aren't configured" do
+      expect(User.unlock_in).to eq 1.hour
+    end
+
+    context "when secrets are configured" do
+      before do
+        stub_secrets(
+          security: {
+            lockable: { unlock_in: "2" }
+          },
+          tenants: {
+            superstrict: {
+              security: {
+                lockable: { unlock_in: "50" }
+              }
+            }
+          }
+        )
+      end
+
+      it "uses the general secrets for the main tenant" do
+        expect(User.unlock_in).to eq 2.hours
+      end
+
+      it "uses the tenant secrets for a tenant" do
+        allow(Tenant).to receive(:current_schema).and_return("superstrict")
+
+        expect(User.unlock_in).to eq 50.hours
+      end
     end
   end
 end

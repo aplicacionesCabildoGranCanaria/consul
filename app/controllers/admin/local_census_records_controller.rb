@@ -10,7 +10,7 @@ class Admin::LocalCensusRecordsController < Admin::BaseController
     @local_census_record = LocalCensusRecord.new(local_census_record_params)
     if @local_census_record.save
       redirect_to admin_local_census_records_path,
-        notice: t("admin.local_census_records.create.notice")
+                  notice: t("admin.local_census_records.create.notice")
     else
       render :new
     end
@@ -19,7 +19,7 @@ class Admin::LocalCensusRecordsController < Admin::BaseController
   def update
     if @local_census_record.update(local_census_record_params)
       redirect_to admin_local_census_records_path,
-        notice: t("admin.local_census_records.update.notice")
+                  notice: t("admin.local_census_records.update.notice")
     else
       render :edit
     end
@@ -28,13 +28,16 @@ class Admin::LocalCensusRecordsController < Admin::BaseController
   def destroy
     @local_census_record.destroy!
     redirect_to admin_local_census_records_path,
-      notice: t("admin.local_census_records.destroy.notice")
+                notice: t("admin.local_census_records.destroy.notice")
   end
 
   private
 
     def local_census_record_params
-      attributes = [:document_type, :document_number, :date_of_birth, :postal_code]
-      params.require(:local_census_record).permit(*attributes)
+      params.require(:local_census_record).permit(allowed_params)
+    end
+
+    def allowed_params
+      [:document_type, :document_number, :date_of_birth, :postal_code]
     end
 end

@@ -1,11 +1,11 @@
-<% provide :title do %><%= @question.title %><% end %>
+<% provide :title, @question.title %>
 
 <section class="debate-questions">
   <div class="quiz-header row small-collapse">
     <div class="small-12 medium-9 column">
       <div class="quiz-title">
         <p class="quiz-header-title"><%= t("legislation.questions.show.title") %></p>
-        <h4><%= link_to @process.title, @process %></h4>
+        <strong><%= link_to @process.title, @process %></strong>
       </div>
     </div>
     <div class="small-12 medium-3 column">
@@ -28,20 +28,23 @@
   </div>
   <div class="row">
     <div class="small-12 medium-9 column">
-      <h3 class="quiz-question"><%= @question.title %></h3>
+      <h1 class="quiz-question"><%= @question.title %></h1>
+      <%= AdminWYSIWYGSanitizer.new.sanitize(@question.description) %>
       <div class="debate-questions" id="legislation-answer-form">
         <%= render "answer_form", process: @process, question: @question, answer: @answer %>
-        <%= render "participation_not_allowed" %>
       </div>
     </div>
 
     <aside class="small-12 medium-3 column">
       <div id="social-share" class="sidebar-divider"></div>
-      <h3><%= t("legislation.questions.show.share") %></h3>
+      <h2><%= t("legislation.questions.show.share") %></h2>
       <%= render "/shared/social_share", title: @question.title, url: legislation_process_question_url(@question.process, @question) %>
     </aside>
   </div>
-
-  <%= render "/comments/comment_tree", comment_tree: @comment_tree,
-                                       display_comments_count: true %>
+  <%= render Shared::CommentsComponent.new(@question, @comment_tree) do %>
+    <h2>
+      <%= t("legislation.questions.comments.comments_title") %>
+      <span class="js-comments-count">(<%= @question.comments_count %>)</span>
+    </h2>
+  <% end %>
 </section>

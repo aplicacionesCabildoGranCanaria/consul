@@ -1,0 +1,1 @@
+resource :contact, only: [:new, :create], controller: 'contact'

@@ -13,11 +13,11 @@ class AdminNotification < ApplicationRecord
   before_validation :complete_link_url
 
   def list_of_recipients
-    UserSegments.send(segment_recipient) if valid_segment_recipient?
+    UserSegments.recipients(segment_recipient) if valid_segment_recipient?
   end
 
   def valid_segment_recipient?
-    segment_recipient && UserSegments.respond_to?(segment_recipient)
+    UserSegments.valid_segment?(segment_recipient)
   end
 
   def draft?
@@ -40,10 +40,10 @@ class AdminNotification < ApplicationRecord
     end
 
     def complete_link_url
-      return unless link.present?
+      return if link.blank?
 
       unless link =~ /\A(http:\/\/|https:\/\/|\/)/
-        self.link = "http://#{self.link}"
+        self.link = "http://#{link}"
       end
     end
 end

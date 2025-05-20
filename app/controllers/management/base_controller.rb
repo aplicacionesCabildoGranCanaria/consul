@@ -1,10 +1,11 @@
 class Management::BaseController < ActionController::Base
+  include TenantVariants
   include GlobalizeFallbacks
   layout "management"
   default_form_builder ConsulFormBuilder
 
   before_action :verify_manager
-  before_action :set_locale
+  around_action :switch_locale
 
   helper_method :managed_user
   helper_method :current_user
@@ -13,7 +14,7 @@ class Management::BaseController < ActionController::Base
   private
 
     def verify_manager
-      raise ActionController::RoutingError.new("Not Found") if current_manager.blank?
+      raise ActionController::RoutingError, "Not Found" if current_manager.blank?
     end
 
     def current_manager
@@ -38,18 +39,14 @@ class Management::BaseController < ActionController::Base
       redirect_to management_document_verifications_path, alert: message
     end
 
-    def set_locale
-      if params[:locale] && I18n.available_locales.include?(params[:locale].to_sym)
-        session[:locale] = params[:locale]
+    def switch_locale(&action)
+      if params[:locale] && Setting.enabled_locales.include?(params[:locale].to_sym)
+        session[:locale] = params[:locale].to_s
       end
 
-      session[:locale] ||= I18n.default_locale
+      session[:locale] ||= Setting.default_locale.to_s
 
-      I18n.locale = session[:locale]
-    end
-
-    def current_budget
-      Budget.current
+      I18n.with_locale(session[:locale], &action)
     end
 
     def clear_password

@@ -1,6 +1,5 @@
-require "application_responder"
-
 class ApplicationController < ActionController::Base
+  include TenantVariants
   include GlobalizeFallbacks
   include HasFilters
   include HasOrders
@@ -11,8 +10,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_http_basic, if: :http_basic_auth_site?
 
   before_action :ensure_signup_complete
-  before_action :set_locale
-  before_action :track_email_campaign
+  around_action :switch_locale
   before_action :set_return_url
 
   check_authorization unless: :devise_controller?
@@ -26,12 +24,13 @@ class ApplicationController < ActionController::Base
 
     def authenticate_http_basic
       authenticate_or_request_with_http_basic do |username, password|
-        username == Rails.application.secrets.http_basic_username && password == Rails.application.secrets.http_basic_password
+        username == Tenant.current_secrets.http_basic_username &&
+          password == Tenant.current_secrets.http_basic_password
       end
     end
 
     def http_basic_auth_site?
-      Rails.application.secrets.http_basic_auth
+      Tenant.current_secrets.http_basic_auth
     end
 
     def verify_lock
@@ -40,23 +39,24 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    def set_locale
-      I18n.locale = current_locale
+    def switch_locale(&action)
+      locale = current_locale
 
-      if current_user && current_user.locale != I18n.locale.to_s
-        current_user.update(locale: I18n.locale)
+      if current_user && current_user.locale != locale.to_s
+        current_user.update(locale: locale)
       end
 
-      session[:locale] = I18n.locale
+      session[:locale] = locale.to_s
+      I18n.with_locale(locale, &action)
     end
 
     def current_locale
-      if I18n.available_locales.include?(params[:locale]&.to_sym)
+      if Setting.enabled_locales.include?(params[:locale]&.to_sym)
         params[:locale]
-      elsif I18n.available_locales.include?(session[:locale]&.to_sym)
+      elsif Setting.enabled_locales.include?(session[:locale]&.to_sym)
         session[:locale]
       else
-        I18n.default_locale
+        Setting.default_locale
       end
     end
 
@@ -66,14 +66,6 @@ class ApplicationController < ActionController::Base
       else
         "application"
       end
-    end
-
-    def set_debate_votes(debates)
-      @debate_votes = current_user ? current_user.debate_votes(debates) : {}
-    end
-
-    def set_proposal_votes(proposals)
-      @proposal_votes = current_user ? current_user.proposal_votes(proposals) : {}
     end
 
     def set_comment_flags(comments)
@@ -95,13 +87,6 @@ class ApplicationController < ActionController::Base
     def verify_verified!
       if current_user.level_three_verified?
         redirect_to(account_path, notice: t("verification.redirect_notices.already_verified"))
-      end
-    end
-
-    def track_email_campaign
-      if params[:track_id]
-        campaign = Campaign.find_by(track_id: params[:track_id])
-        ahoy.track campaign.name if campaign.present?
       end
     end
 

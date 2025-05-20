@@ -4,6 +4,11 @@ cs:
       comments:
         see_all: Zobrazit vše
         see_complete: Zobrazit vše
+        replies_count:
+          one: "%{count} odpověď"
+          few: "%{count} odpovědi"
+          many: "%{count} odpovědí"
+          other: "%{count} odpovědí"
         cancel: Zrušit
         publish_comment: Zveřejnit komentář
       form:
@@ -45,7 +50,6 @@ cs:
           winners: Vybrané
       debate:
         empty_questions: Nejsou k dispozici žádné otázky
-        participate: Účastnit se dabaty
       index:
         filter: Filtr
         filters:
@@ -84,8 +88,6 @@ cs:
         form:
           leave_comment: Napište odpověď
       question:
-        comments:
-          zero: Žádné komentáře
         debate: Debata
       show:
         answer_question: Odeslat odpověď
@@ -106,3 +108,37 @@ cs:
       form:
         tags_label: "Kategorie"
       not_verified: "Pro hlasování o návrzích %{verify_account}."
+      process_title: Participativní legislativní proces
+    summary:
+      title: "Souhrn"
+      votes:
+        zero: "%{count} hlasů"
+        one: "%{count} hlas"
+        few: "%{count} hlasy"
+        many: "%{count} hlasů"
+        other: "%{count} hlasů"
+      debate_phase: "Fáze debaty"
+      proposals_phase: "Fáze návrhu"
+      allegations_phase: "Fáze připomínkování"
+      debates:
+        zero: "Žádné debaty"
+        one: "%{count} debata"
+        few: "%{count} debaty"
+        many: "%{count} debat"
+        other: "%{count} debat"
+      proposals:
+        zero: "Žádné návrhy"
+        one: "%{count} návrh"
+        few: "%{count} návrhy"
+        many: "%{count} návrhů"
+        other: "%{count} návrhů"
+      download: "Stáhnout shrnutí"
+      top_comments:
+        zero: "Žádné komentáře"
+        one: "%{count} komentář"
+        few: "Nejlepší komentáře"
+        many: "Nejlepších komentářů"
+        other: "Nejlepší komentáře"
+      most_voted_comments: "Nejčastěji hlasované komentáře"
+      no_allegation: "Nejsou žádné komentáře"
+      process_empty: "Tento proces neměl žádné fáze účasti"

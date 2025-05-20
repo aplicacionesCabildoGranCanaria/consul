@@ -13,7 +13,32 @@ describe "Stats", :admin do
       expect(page).to have_content "DEBATES\n1"
       expect(page).to have_content "PROPOSALS\n2"
       expect(page).to have_content "COMMENTS\n3"
-      expect(page).to have_content "VISITS\n4"
+      expect(page).to have_content "VISITS\n5"
+    end
+
+    scenario "Visits" do
+      visit admin_stats_path
+      refresh
+
+      expect(page).to have_content "VISITS\n1"
+
+      allow_any_instance_of(ActionDispatch::Request).to receive(:user_agent).and_return("Different")
+
+      in_browser(:different) do
+        visit root_path
+
+        click_link "Debates"
+        expect(page).to have_link "Start a debate"
+
+        click_link "Proposals"
+        expect(page).to have_link "Create a proposal"
+      end
+
+      allow_any_instance_of(ActionDispatch::Request).to receive(:user_agent).and_call_original
+
+      refresh
+
+      expect(page).to have_content "VISITS\n2"
     end
 
     scenario "Votes" do
@@ -72,43 +97,14 @@ describe "Stats", :admin do
       expect(page).to have_content "UNVERIFIED USERS\n1"
       expect(page).to have_content "TOTAL USERS\n1"
     end
-
-    scenario "Level 2 user Graph" do
-      create(:geozone)
-      visit account_path
-      click_link "Verify my account"
-      verify_residence
-      confirm_phone
-
-      visit admin_stats_path
-
-      expect(page).to have_content "LEVEL TWO USERS\n1"
-    end
   end
 
   describe "Budget investments" do
     context "Supporting phase" do
-      let(:budget) { create(:budget) }
-      let(:group_all_city) { create(:budget_group, budget: budget) }
-      let!(:heading_all_city) { create(:budget_heading, group: group_all_city) }
+      let!(:budget) { create(:budget) }
+      let(:heading_all_city) { create(:budget_heading, budget: budget) }
 
-      scenario "Number of supports in investment projects" do
-        group_2 = create(:budget_group, budget: budget)
-
-        create(:budget_investment, heading: create(:budget_heading, group: group_2), voters: [create(:user)])
-        create(:budget_investment, heading: heading_all_city, voters: [create(:user), create(:user)])
-
-        visit admin_stats_path
-        click_link "Participatory Budgets"
-        within("#budget_#{budget.id}") do
-          click_link "Supporting phase"
-        end
-
-        expect(page).to have_content "VOTES\n3"
-        expect(page).to have_link "Go back", count: 1
-      end
-
-      scenario "Number of users that have supported an investment project" do
+      scenario "Number of users and supports in investment projects" do
         group_2 = create(:budget_group, budget: budget)
         investment1 = create(:budget_investment, heading: create(:budget_heading, group: group_2))
         investment2 = create(:budget_investment, heading: heading_all_city)
@@ -123,43 +119,36 @@ describe "Stats", :admin do
           click_link "Supporting phase"
         end
 
+        expect(page).to have_content "VOTES\n3"
         expect(page).to have_content "PARTICIPANTS\n2"
+        expect(page).to have_link "Go back", count: 1
       end
 
-      scenario "Number of users that have supported investments projects per geozone" do
-        budget = create(:budget)
+      scenario "Don't use the cache for supports", :with_cache do
+        budget.update!(phase: :selecting)
+        investment = create(:budget_investment, heading: heading_all_city)
+        create(:user, :level_two, votables: [investment])
 
-        group_all_city  = create(:budget_group, budget: budget)
-        group_districts = create(:budget_group, budget: budget)
+        supporter = create(:user, :level_two)
 
-        all_city    = create(:budget_heading, group: group_all_city)
-        carabanchel = create(:budget_heading, group: group_districts)
-        barajas     = create(:budget_heading, group: group_districts)
+        visit budget_supporting_admin_stats_path(budget_id: budget)
 
-        create(:budget_investment, heading: all_city, voters: [create(:user)])
-        create(:budget_investment, heading: carabanchel, voters: [create(:user)])
-        create(:budget_investment, heading: carabanchel, voters: [create(:user)])
+        expect(page).to have_content "VOTES\n1"
+        expect(page).to have_content "PARTICIPANTS\n1"
 
-        visit admin_stats_path
-        click_link "Participatory Budgets"
-        within("#budget_#{budget.id}") do
-          click_link "Supporting phase"
+        in_browser(:supporter) do
+          login_as(supporter)
+
+          visit budget_investment_path(budget, investment)
+          click_button "Support"
+
+          expect(page).to have_button "Remove your support"
         end
 
-        within("#budget_heading_#{all_city.id}") do
-          expect(page).to have_content all_city.name
-          expect(page).to have_content 1
-        end
+        refresh
 
-        within("#budget_heading_#{carabanchel.id}") do
-          expect(page).to have_content carabanchel.name
-          expect(page).to have_content 2
-        end
-
-        within("#budget_heading_#{barajas.id}") do
-          expect(page).to have_content barajas.name
-          expect(page).to have_content 0
-        end
+        expect(page).to have_content "VOTES\n2"
+        expect(page).to have_content "PARTICIPANTS\n2"
       end
 
       scenario "hide final voting link" do
@@ -180,9 +169,8 @@ describe "Stats", :admin do
 
     context "Balloting phase" do
       let(:budget) { create(:budget, :balloting) }
-      let(:group) { create(:budget_group, budget: budget) }
-      let(:heading) { create(:budget_heading, group: group) }
-      let!(:investment) { create(:budget_investment, :feasible, :selected, heading: heading) }
+      let(:heading) { create(:budget_heading, budget: budget) }
+      let(:investment) { create(:budget_investment, :feasible, :selected, heading: heading) }
 
       scenario "Number of votes in investment projects" do
         investment_2 = create(:budget_investment, :feasible, :selected, budget: budget)
@@ -197,39 +185,61 @@ describe "Stats", :admin do
         end
 
         expect(page).to have_content "VOTES\n3"
+        expect(page).to have_content "PARTICIPANTS\n2"
       end
 
-      scenario "Number of users that have voted a investment project" do
+      scenario "Don't use the cache for votes", :with_cache do
+        budget.update!(phase: :balloting)
         create(:user, ballot_lines: [investment])
-        create(:user, ballot_lines: [investment])
-        create(:user)
 
-        visit admin_stats_path
-        click_link "Participatory Budgets"
-        within("#budget_#{budget.id}") do
-          click_link "Final voting"
+        balloter = create(:user, :level_two)
+
+        visit budget_balloting_admin_stats_path(budget_id: budget.id)
+
+        expect(page).to have_content "VOTES\n1"
+        expect(page).to have_content "PARTICIPANTS\n1"
+
+        in_browser(:balloter) do
+          login_as(balloter)
+
+          visit budget_investment_path(budget, investment)
+          click_button "Vote"
+
+          expect(page).to have_button "Remove vote"
         end
 
+        refresh
+
+        expect(page).to have_content "VOTES\n2"
         expect(page).to have_content "PARTICIPANTS\n2"
       end
     end
   end
 
-  context "graphs" do
-    scenario "event graphs", :with_frozen_time do
-      campaign = create(:campaign)
-
-      visit root_path(track_id: campaign.track_id)
-
-      expect(page).to have_content "Sign out"
+  describe "graphs", :with_frozen_time do
+    scenario "event graphs" do
+      create(:debate)
 
       visit admin_stats_path
 
       within("#stats") do
-        click_link campaign.name
+        click_link "Debates created"
       end
 
-      expect(page).to have_content "#{campaign.name} (1)"
+      expect(page).to have_content "Debates created (1)"
+
+      within("#graph") do
+        expect(page).to have_content Date.current.strftime("%Y-%m-%d")
+      end
+    end
+
+    scenario "Level 3 user Graph" do
+      create(:user, :level_three)
+
+      visit admin_stats_path
+      click_link "Level 3 users verified"
+
+      expect(page).to have_content "Level 3 users verified (1)"
 
       within("#graph") do
         expect(page).to have_content Date.current.strftime("%Y-%m-%d")
@@ -247,6 +257,8 @@ describe "Stats", :admin do
 
       visit admin_stats_path
       click_link "Proposal notifications"
+
+      expect(page).to have_link "Go back", href: admin_stats_path
 
       within("#proposal_notifications_count") do
         expect(page).to have_content "3"
@@ -297,6 +309,8 @@ describe "Stats", :admin do
       visit admin_stats_path
       click_link "Direct messages"
 
+      expect(page).to have_link "Go back", href: admin_stats_path
+
       within("#direct_messages_count") do
         expect(page).to have_content "3"
       end
@@ -317,6 +331,8 @@ describe "Stats", :admin do
       within(".stats") do
         click_link "Polls"
       end
+
+      expect(page).to have_link "Go back", href: admin_stats_path
 
       within("#web_participants") do
         expect(page).to have_content "3"

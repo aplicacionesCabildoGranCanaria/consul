@@ -9,7 +9,7 @@ class SDG::LocalTarget < ApplicationRecord
   validates_translation :description, presence: true
 
   validates :code, presence: true, uniqueness: true,
-    format: ->(local_target) { /\A#{local_target.target&.code}\.\d+/ }
+                   format: ->(local_target) { /\A#{local_target.target&.code}\.\d+/ }
   validates :target, presence: true
   validates :goal, presence: true
 
@@ -17,6 +17,8 @@ class SDG::LocalTarget < ApplicationRecord
   belongs_to :goal
 
   before_validation :set_related_goal
+
+  alias_method :long_title, :title
 
   def self.[](code)
     find_by!(code: code)

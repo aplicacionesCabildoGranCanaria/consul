@@ -40,8 +40,6 @@ ru:
     telegram_handle_description: "Если заполнено, то появится в подвале"
     instagram_handle: "Прозвище в Instagram"
     instagram_handle_description: "Если заполнено, то появится в подвале"
-    url: "Основной URL"
-    url_description: "Основной URL вашего вебсайта"
     org_name: "Организация"
     org_name_description: "Название вашей организации"
     related_content_score_threshold: "Порог очков релевантного контента"
@@ -60,6 +58,11 @@ ru:
     meta_keywords_description: 'Ключевые слова <meta name="keywords">, используемые для улучшения SEO'
     min_age_to_participate: Минимальный возраст для участия
     min_age_to_participate_description: "Пользователи старше этого возраста могут участвовать во всех процессах"
+    proposals:
+      poll_short_title: Опросы
+      poll_description: Описание опросов
+      email_short_title: Электронный адрес
+      poster_short_title: Анонс
     analytics_url: "URL аналитики"
     proposal_notification_minimum_interval_in_days: "Минимальный интервал (в днях) для отправки авторам предложений уведомлений о новых предложениях"
     proposal_notification_minimum_interval_in_days_description: "Количество дней, в течение которого пользователь может отправлять уведомления всем тем, кто поддержал их предложение"
@@ -95,8 +98,6 @@ ru:
       allow_attached_documents_description: "Позволяет пользователям загружать документы при создании предложений и проектов инвестирования из совместных бюджетов"
       guides: "Подсказки по созданию предложений или проектов инвестирования"
       guides_description: "Отображает руководство по различиям между предложениями и проектами инвестирования, при наличии активного бюджета инвестирования"
-      public_stats: "Публичная статистика"
-      public_stats_description: "Отображать публичную статистику в панели администрирования"
       help_page: "Страница помощи"
       help_page_description: 'Отображает меню помощи, содержащее страницу с разделом информации о каждой включенной функции'
     map:

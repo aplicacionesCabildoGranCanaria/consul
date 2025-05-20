@@ -1,13 +1,13 @@
 <% if proposals.any? %>
   <h3><%= page_entries_info proposals %></h3>
 
-  <%= render "shared/wide_order_selector", i18n_namespace: "admin.legislation.processes.proposals" %>
+  <%= render "shared/order_links", i18n_namespace: "admin.legislation.processes.proposals" %>
 
   <table class="stack" id="legislation_proposals_list">
     <thead>
       <tr>
         <th class="text-center"><%= t("admin.legislation.proposals.index.id") %></th>
-        <th><%= t("admin.legislation.proposals.index.title") %></th>
+        <th><%= Legislation::Proposal.human_attribute_name(:title) %></th>
         <th class="text-center"><%= t("admin.legislation.proposals.index.supports") %></th>
         <th><%= t("admin.proposals.index.selected") %></th>
       </tr>
@@ -19,7 +19,7 @@
           <td class="text-center"><%= proposal.id %></td>
           <td><%= proposal.title %></td>
           <td class="text-center"><%= proposal.votes_score %></td>
-          <td class="select"><%= render "select_proposal", proposal: proposal %></td>
+          <td><%= render Admin::Proposals::ToggleSelectionComponent.new(proposal) %></td>
         </tr>
       <% end %>
     </tbody>

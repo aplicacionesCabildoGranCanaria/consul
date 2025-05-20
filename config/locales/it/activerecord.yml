@@ -4,6 +4,10 @@ it:
     results_enabled: "Mostra risultati"
     stats_enabled: "Mostra statistiche"
     advanced_stats_enabled: "Mostra statistiche avanzate"
+    name: Nome
+    email: Email
+    description: Descrizione
+    related_sdg_list: Scopi e Obiettivi
   activerecord:
     models:
       activity:
@@ -72,6 +76,18 @@ it:
       proposal:
         one: "Proposta cittadina"
         other: "Proposte cittadine"
+      sdg/goal:
+        one: "scopo"
+        other: "scopi"
+      sdg/local_target:
+        one: "obiettivo locale"
+        other: "obiettivi locali"
+      sdg/manager:
+        one: "Gestore SDG"
+        other: "Gestori SDG"
+      sdg/target:
+        one: "obiettivo"
+        other: "obiettivi"
       site_customization/page:
         one: Pagina personalizzata
         other: Pagine personalizzate
@@ -108,6 +124,9 @@ it:
       images:
         one: "Immagine"
         other: "Immagini"
+      tenant:
+        one: "locatario"
+        other: "locatari"
       topic:
         one: "Argomento"
         other: "Argomenti"
@@ -129,6 +148,9 @@ it:
       local_census_record:
         one: Registro censo locale
         other: Registri censo locale
+      votation_type:
+        one: Tipo di votazione
+        other: Tipi di votazione
     attributes:
       budget:
         name: "Nominativo"
@@ -141,7 +163,13 @@ it:
         description_finished: "Descrizione durante la fase della Approvazione del Bilancio / Risultati"
         phase: "Fase"
         currency_symbol: "Valuta"
+        voting_style: "Stile finale di votazione"
+        voting_style_knapsack: "Zaino"
+        voting_style_approval: "Approvazione"
+        hide_money: "Nascondi l'importo di denaro per questo bilancio"
       budget/translation:
+        main_link_text: "Testo sul link"
+        main_link_url: "Il link ti porta a (aggiungi un link)"
         name: "Nome"
       budget/investment:
         heading_id: "Intestazione"
@@ -173,7 +201,9 @@ it:
       geozone:
         name: Nome
         external_code: "Codice esterno (opzionale)"
+        color: "Colore (facoltativo)"
         census_code: "Codice censo (opzionale)"
+        geojson: "Dati GeoJSON (facoltativi)"
         html_map_coordinates: "HTML <map> Coordinate (opzionale)"
       milestone:
         status_id: "Stato attuale dell’investimento (facoltativo)"
@@ -203,6 +233,7 @@ it:
         name: "Denominazione della voce di bilancio"
         price: "Costi"
         population: "Popolazione"
+        max_ballot_lines: "Voti consentiti"
       budget/heading/translation:
         name: "Nome voce"
       budget/phase:
@@ -210,8 +241,11 @@ it:
         ends_at: "Data fine"
         starts_at: "Data inizio"
       budget/phase/translation:
+        name: "Nome"
         description: "Descrizione"
         summary: "Sommario"
+        main_link_text: "Testo sul link"
+        main_link_url: "Il link ti porta a (aggiungi un link)"
       comment:
         body: "Commentare"
         user: "Utente"
@@ -268,6 +302,7 @@ it:
         responsible_name: "La persona responsabile per l'organzzazione"
       poll:
         name: "Nominativo"
+        title: "Nome"
         starts_at: "Data inizio"
         ends_at: "Data chiusura"
         geozone_restricted: "Ristretto alla zona geografica"
@@ -300,9 +335,28 @@ it:
         body: "Messaggio"
         title: "Titolo"
       signature_sheet:
+        title: "Titolo"
         signable_type: "Tipo Foglio firme"
         signable_id: "ID Proposta"
         document_numbers: "Numero di documenti"
+      sdg/goal:
+        code: "Codice"
+        title: "Titolo"
+        description: "Descrizione"
+      sdg/local_target:
+        code: "Codice"
+        target_id: "Obiettivo"
+        title: "Titolo"
+      sdg/local_target/translation:
+        title: "Titolo"
+        description: "Descrizione"
+      sdg/phase/kind:
+        sensitization: "Sensibilizzazione"
+        planning: "Pianificazione"
+        monitoring: "Monitoraggio"
+      sdg/target:
+        code: "Codice"
+        title: "Titolo"
       site_customization/page:
         content: Contenuto
         created_at: Creato
@@ -329,6 +383,11 @@ it:
         body: Corpo
       tag:
         name: "Digita il nome dell'argomento"
+      tenant:
+        domain: "Dominio"
+        schema: "Dominio / Sottodominio"
+        subdomain: "Sottodominio"
+        url: "URL"
       topic:
         title: "Titolo"
         description: "Testo iniziale"
@@ -400,15 +459,6 @@ it:
       image:
         title: Titolo
         attachment: "Allegato"
-      poll/question/answer:
-        title: Risposta
-        description: Descrizione
-      poll/question/answer/translation:
-        title: Risposta
-        description: Descrizione
-      poll/question/answer/video:
-        title: Titolo
-        url: Video esterno
       newsletter:
         segment_recipient: Destinatari
         subject: Oggetto
@@ -468,6 +518,12 @@ it:
         document_number: Numero documento
         date_of_birth: Data di nascita
         postal_code: Codice Postale
+      votation_type:
+        max_votes: Numero massimo di voti
+        vote_type: Tipo di votazione
+      votation_type/vote_type:
+        unique: Risposta unica
+        multiple: Risposte multiple
     errors:
       models:
         user:
@@ -482,6 +538,10 @@ it:
           attributes:
             max_per_day:
               invalid: "Hai raggiunto il numero massimo di messaggi privati giornalieri"
+        geozone:
+          attributes:
+            geojson:
+              invalid: "Il GeoJSON fornito non segue il formato corretto. Deve seguire il tipo di formato \"Polygon\" o \"MultiPolygon\"."
         image:
           attributes:
             attachment:
@@ -495,14 +555,12 @@ it:
           attributes:
             segment_recipient:
               invalid: "Il segmento dei destinatari è errato"
-        map_location:
-          attributes:
-            map:
-              invalid: La posizione sulla mappa non può essere lasciata in bianco. Posiziona un segnaposto o seleziona l’apposita spunta se la geolocalizzazione non è necessaria
         poll/voter:
           attributes:
             document_number:
               not_in_census: "Il documento non è presente negli archivi istituzionali"
+            user_id:
+              has_voted: "L'utente ha già votato"
         legislation/process:
           attributes:
             end_date:
@@ -513,6 +571,10 @@ it:
               invalid_date_range: deve essere uguale o successivo la data di inizio della bozza
             allegations_end_date:
               invalid_date_range: deve essere uguale o successivo alla data di inizio dei commenti
+        local_census_record:
+          attributes:
+            document_type:
+              inclusion: non è incluso nell'elenco, i valori consentiti sono 1 per DNI, 2 per il passaporto e 3 per la carta di residenza.
         proposal:
           attributes:
             tag_list:
@@ -543,6 +605,14 @@ it:
           attributes:
             valuation:
               cannot_comment_valuation: "Non si può commentare una stima"
+        remote_translation:
+          attributes:
+            locale:
+              already_translated: Risorsa già tradotta
+        sdg/local_target:
+          attributes:
+            code:
+              invalid: "deve iniziare con lo stesso codice del suo obiettivo seguito da un punto e terminante con un numero"
       messages:
         translations_too_short: È obbligatorio fornire almeno una traduzione
         record_invalid: "Verifica non riuscita: %{errors}"

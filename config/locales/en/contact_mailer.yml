@@ -1,0 +1,8 @@
+en:
+  contact_mailer:
+    subject: "[Web Contact] %{subject}"
+    body:
+      greeting: "New message from the contact form"
+      from: "From"
+      subject: "Subject"
+      message: "Message"

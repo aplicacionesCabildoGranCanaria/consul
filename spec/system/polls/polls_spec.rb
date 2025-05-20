@@ -6,23 +6,26 @@ describe "Polls" do
   end
 
   describe "Index" do
-    scenario "Shows description for open polls" do
+    scenario "Shows a no open votings message when there are no polls" do
       visit polls_path
-      expect(page).not_to have_content "Description for open polls"
 
+      expect(page).to have_content "There are no open votings"
+      expect(page).not_to have_content "Description for open polls"
+    end
+
+    scenario "Shows active poll description for open polls when defined" do
       create(:active_poll, description: "Description for open polls")
 
       visit polls_path
+
       expect(page).to have_content "Description for open polls"
 
       click_link "Expired"
+
       expect(page).not_to have_content "Description for open polls"
     end
 
     scenario "Polls can be listed" do
-      visit polls_path
-      expect(page).to have_content("There are no open votings")
-
       polls = create_list(:poll, 3, :with_image)
 
       visit polls_path
@@ -34,12 +37,29 @@ describe "Polls" do
       end
     end
 
+    scenario "Expired polls are ordered by ends date" do
+      travel_to "01/07/2023".to_date do
+        create(:poll, starts_at: "03/05/2023", ends_at: "01/06/2023", name: "Expired poll one")
+        create(:poll, starts_at: "02/05/2023", ends_at: "02/06/2023", name: "Expired poll two")
+        create(:poll, starts_at: "01/05/2023", ends_at: "03/06/2023", name: "Expired poll three")
+        create(:poll, starts_at: "04/05/2023", ends_at: "04/06/2023", name: "Expired poll four")
+        create(:poll, starts_at: "05/05/2023", ends_at: "05/06/2023", name: "Expired poll five")
+
+        visit polls_path(filter: "expired")
+
+        expect("Expired poll five").to appear_before("Expired poll four")
+        expect("Expired poll four").to appear_before("Expired poll three")
+        expect("Expired poll three").to appear_before("Expired poll two")
+        expect("Expired poll two").to appear_before("Expired poll one")
+      end
+    end
+
     scenario "Proposal polls won't be listed" do
-      proposal = create(:proposal)
-      _poll = create(:poll, related: proposal)
+      create(:poll, related: create(:proposal))
 
       visit polls_path
-      expect(page).to have_content("There are no open votings")
+
+      expect(page).to have_content "There are no open votings"
     end
 
     scenario "Filtering polls" do
@@ -67,33 +87,6 @@ describe "Polls" do
       expect(page).not_to have_link("Expired")
     end
 
-    scenario "Displays icon correctly" do
-      create_list(:poll, 3)
-
-      visit polls_path
-
-      expect(page).to have_css(".not-logged-in", count: 3)
-      expect(page).to have_content("You must sign in or sign up to participate")
-
-      user = create(:user)
-      login_as(user)
-
-      visit polls_path
-
-      expect(page).to have_css(".unverified", count: 3)
-      expect(page).to have_content("You must verify your account to participate")
-    end
-
-    scenario "Geozone poll" do
-      create(:poll, geozone_restricted: true)
-
-      login_as(create(:user, :level_two))
-      visit polls_path
-
-      expect(page).to have_css(".cant-answer", count: 1)
-      expect(page).to have_content("This poll is not available on your geozone")
-    end
-
     scenario "Already participated in a poll" do
       poll_with_question = create(:poll)
       question = create(:poll_question, :yes_no, poll: poll_with_question)
@@ -101,41 +94,14 @@ describe "Polls" do
       login_as(create(:user, :level_two))
       visit polls_path
 
+      expect(page).not_to have_css ".already-answer"
+
       vote_for_poll_via_web(poll_with_question, question, "Yes")
 
       visit polls_path
 
       expect(page).to have_css(".already-answer", count: 1)
       expect(page).to have_content("You already have participated in this poll")
-    end
-
-    scenario "Poll title link to stats if enabled" do
-      poll = create(:poll, :expired, name: "Poll with stats", stats_enabled: true)
-
-      visit polls_path(filter: "expired")
-
-      expect(page).to have_link("Poll with stats", href: stats_poll_path(poll.slug))
-    end
-
-    scenario "Poll title link to results if enabled" do
-      poll = create(:poll, :expired, name: "Poll with results", stats_enabled: true, results_enabled: true)
-
-      visit polls_path(filter: "expired")
-
-      expect(page).to have_link("Poll with results", href: results_poll_path(poll.slug))
-    end
-
-    scenario "Shows SDG tags when feature is enabled" do
-      Setting["feature.sdg"] = true
-      Setting["sdg.process.polls"] = true
-
-      create(:poll, sdg_goals: [SDG::Goal[1]],
-                    sdg_targets: [SDG::Target["1.1"]])
-
-      visit polls_path
-
-      expect(page).to have_selector "img[alt='1. No Poverty']"
-      expect(page).to have_content "target 1.1"
     end
   end
 
@@ -153,14 +119,6 @@ describe "Polls" do
       expect(page).to have_current_path(poll_path(poll.slug))
     end
 
-    scenario "Show answers with videos" do
-      create(:poll_answer_video, poll: poll, title: "Awesome video", url: "youtube.com/watch?v=123")
-
-      visit poll_path(poll)
-
-      expect(page).to have_link("Awesome video", href: "youtube.com/watch?v=123")
-    end
-
     scenario "Lists questions from proposals as well as regular ones" do
       normal_question = create(:poll_question, poll: poll)
       proposal_question = create(:poll_question, poll: poll, proposal: create(:proposal))
@@ -174,43 +132,28 @@ describe "Polls" do
       expect(page).to have_content(proposal_question.title)
     end
 
-    scenario "Question answers appear in the given order" do
-      question = create(:poll_question, poll: poll)
-      answer1 = create(:poll_question_answer, title: "First", question: question, given_order: 2)
-      answer2 = create(:poll_question_answer, title: "Second", question: question, given_order: 1)
+    scenario "Questions appear by created at order" do
+      question = create(:poll_question, poll: poll, title: "First question")
+      create(:poll_question, poll: poll, title: "Second question")
+      create(:poll_question, poll: poll, title: "Third question")
+
+      question.update!(title: "First question edited")
+
+      visit polls_path
+
+      expect("First question edited").to appear_before("Second question")
+      expect("Second question").to appear_before("Third question")
 
       visit poll_path(poll)
 
-      within("div#poll_question_#{question.id}") do
-        expect(answer2.title).to appear_before(answer1.title)
-      end
-    end
-
-    scenario "More info answers appear in the given order" do
-      question = create(:poll_question, poll: poll)
-      answer1 = create(:poll_question_answer, title: "First", question: question, given_order: 2)
-      answer2 = create(:poll_question_answer, title: "Second", question: question, given_order: 1)
-
-      visit poll_path(poll)
-
-      within("div.poll-more-info-answers") do
-        expect(answer2.title).to appear_before(answer1.title)
-      end
-    end
-
-    scenario "Answer images are shown" do
-      question = create(:poll_question, :yes_no, poll: poll)
-      create(:image, imageable: question.question_answers.first, title: "The yes movement")
-
-      visit poll_path(poll)
-
-      expect(page).to have_css "img[alt='The yes movement']"
+      expect("First question edited").to appear_before("Second question")
+      expect("Second question").to appear_before("Third question")
     end
 
     scenario "Buttons to slide through images work back and forth" do
       question = create(:poll_question, :yes_no, poll: poll)
-      create(:image, imageable: question.question_answers.last, title: "The no movement")
-      create(:image, imageable: question.question_answers.last, title: "No movement planning")
+      create(:image, imageable: question.question_options.last, title: "The no movement")
+      create(:image, imageable: question.question_options.last, title: "No movement planning")
 
       visit poll_path(poll)
 
@@ -231,109 +174,31 @@ describe "Polls" do
       visit poll_path(poll)
 
       expect(page).to have_content("You must sign in or sign up to participate")
-      expect(page).to have_link("Yes", href: new_user_session_path)
-      expect(page).to have_link("No", href: new_user_session_path)
     end
 
     scenario "Level 1 users" do
-      visit polls_path
-      expect(page).not_to have_selector(".already-answer")
-
-      poll.update!(geozone_restricted: true)
-      poll.geozones << geozone
-
+      poll.update!(geozone_restricted_to: [geozone])
       create(:poll_question, :yes_no, poll: poll)
 
       login_as(create(:user, geozone: geozone))
       visit poll_path(poll)
 
       expect(page).to have_content("You must verify your account in order to answer")
-
-      expect(page).to have_link("Yes", href: verification_path)
-      expect(page).to have_link("No", href: verification_path)
     end
 
     scenario "Level 2 users in an expired poll" do
-      expired_poll = create(:poll, :expired, geozone_restricted: true)
-      expired_poll.geozones << geozone
-
-      question = create(:poll_question, :yes_no, poll: expired_poll)
+      expired_poll = create(:poll, :expired)
+      create(:poll_question, :yes_no, poll: expired_poll)
 
       login_as(create(:user, :level_two, geozone: geozone))
 
       visit poll_path(expired_poll)
 
-      within("#poll_question_#{question.id}_answers") do
-        expect(page).to have_content("Yes")
-        expect(page).to have_content("No")
-        expect(page).not_to have_link("Yes")
-        expect(page).not_to have_link("No")
-      end
       expect(page).to have_content("This poll has finished")
     end
 
-    scenario "Level 2 users in a poll with questions for a geozone which is not theirs" do
-      poll.update!(geozone_restricted: true)
-      poll.geozones << create(:geozone)
-
-      question = create(:poll_question, :yes_no, poll: poll)
-
-      login_as(create(:user, :level_two))
-
-      visit poll_path(poll)
-
-      within("#poll_question_#{question.id}_answers") do
-        expect(page).to have_content("Yes")
-        expect(page).to have_content("No")
-        expect(page).not_to have_link("Yes")
-        expect(page).not_to have_link("No")
-      end
-    end
-
-    scenario "Level 2 users reading a same-geozone poll" do
-      poll.update!(geozone_restricted: true)
-      poll.geozones << geozone
-
-      question = create(:poll_question, :yes_no, poll: poll)
-
-      login_as(create(:user, :level_two, geozone: geozone))
-      visit poll_path(poll)
-
-      within("#poll_question_#{question.id}_answers") do
-        expect(page).to have_link("Yes")
-        expect(page).to have_link("No")
-      end
-    end
-
-    scenario "Level 2 users reading a all-geozones poll" do
-      question = create(:poll_question, :yes_no, poll: poll)
-
-      login_as(create(:user, :level_two))
-      visit poll_path(poll)
-
-      within("#poll_question_#{question.id}_answers") do
-        expect(page).to have_link("Yes")
-        expect(page).to have_link("No")
-      end
-    end
-
-    scenario "Level 2 users who have already answered" do
-      question = create(:poll_question, :yes_no, poll: poll)
-      user = create(:user, :level_two)
-      create(:poll_answer, question: question, author: user, answer: "No")
-
-      login_as user
-      visit poll_path(poll)
-
-      within("#poll_question_#{question.id}_answers") do
-        expect(page).to have_link("Yes")
-        expect(page).to have_link("No")
-      end
-    end
-
     scenario "Level 2 users answering" do
-      poll.update!(geozone_restricted: true)
-      poll.geozones << geozone
+      poll.update!(geozone_restricted_to: [geozone])
 
       question = create(:poll_question, :yes_no, poll: poll)
       user = create(:user, :level_two, geozone: geozone)
@@ -341,17 +206,16 @@ describe "Polls" do
       login_as user
       visit poll_path(poll)
 
-      within("#poll_question_#{question.id}_answers") do
-        click_link "Yes"
+      within("#poll_question_#{question.id}_options") do
+        click_button "Vote Yes"
 
-        expect(page).not_to have_link("Yes")
-        expect(page).to have_link("No")
+        expect(page).to have_button "You have voted Yes"
+        expect(page).to have_button "Vote No"
       end
     end
 
     scenario "Level 2 users changing answer" do
-      poll.update!(geozone_restricted: true)
-      poll.geozones << geozone
+      poll.update!(geozone_restricted_to: [geozone])
 
       question = create(:poll_question, :yes_no, poll: poll)
       user = create(:user, :level_two, geozone: geozone)
@@ -359,54 +223,16 @@ describe "Polls" do
       login_as user
       visit poll_path(poll)
 
-      within("#poll_question_#{question.id}_answers") do
-        click_link "Yes"
+      within("#poll_question_#{question.id}_options") do
+        click_button "Yes"
 
-        expect(page).not_to have_link("Yes")
-        expect(page).to have_link("No")
+        expect(page).to have_button "You have voted Yes"
+        expect(page).to have_button "Vote No"
 
-        click_link "No"
+        click_button "No"
 
-        expect(page).not_to have_link("No")
-        expect(page).to have_link("Yes")
-      end
-    end
-
-    scenario "Level 2 votes, signs out, signs in, votes again" do
-      poll.update!(geozone_restricted: true)
-      poll.geozones << geozone
-
-      question = create(:poll_question, :yes_no, poll: poll)
-      user = create(:user, :level_two, geozone: geozone)
-
-      login_as user
-      visit poll_path(poll)
-
-      within("#poll_question_#{question.id}_answers") do
-        click_link "Yes"
-
-        expect(page).not_to have_link("Yes")
-        expect(page).to have_link("No")
-      end
-
-      click_link "Sign out"
-      login_as user
-      visit poll_path(poll)
-      within("#poll_question_#{question.id}_answers") do
-        click_link "Yes"
-
-        expect(page).not_to have_link("Yes")
-        expect(page).to have_link("No")
-      end
-
-      click_link "Sign out"
-      login_as user
-      visit poll_path(poll)
-      within("#poll_question_#{question.id}_answers") do
-        click_link "No"
-
-        expect(page).not_to have_link("No")
-        expect(page).to have_link("Yes")
+        expect(page).to have_button "Vote Yes"
+        expect(page).to have_button "You have voted No"
       end
     end
 
@@ -414,13 +240,38 @@ describe "Polls" do
       Setting["feature.sdg"] = true
       Setting["sdg.process.polls"] = true
 
-      poll = create(:poll, sdg_goals: [SDG::Goal[1]],
-                           sdg_targets: [SDG::Target["1.1"]])
+      poll = create(:poll, sdg_goals: [SDG::Goal[1]], sdg_targets: [SDG::Target["1.1"]])
 
       visit poll_path(poll)
 
-      expect(page).to have_selector "img[alt='1. No Poverty']"
+      expect(page).to have_css "img[alt='1. No Poverty']"
       expect(page).to have_content "target 1.1"
+    end
+
+    scenario "Polls with users same-geozone listed first" do
+      create(:poll, geozone_restricted: true, name: "A Poll")
+      create(:poll, name: "Not restricted")
+      create(:poll, geozone_restricted_to: [geozone], name: "Geozone Poll")
+
+      login_as(create(:user, :level_two, geozone: geozone))
+      visit polls_path(poll)
+
+      expect("Not restricted").to appear_before("Geozone Poll")
+      expect("Geozone Poll").to appear_before("A Poll")
+    end
+
+    scenario "Level 2 users answering in a browser without javascript", :no_js do
+      question = create(:poll_question, :yes_no, poll: poll)
+      user = create(:user, :level_two)
+      login_as user
+      visit poll_path(poll)
+
+      within("#poll_question_#{question.id}_options") do
+        click_button "Yes"
+
+        expect(page).to have_button "You have voted Yes"
+        expect(page).to have_button "No"
+      end
     end
   end
 
@@ -442,19 +293,23 @@ describe "Polls" do
 
       expect(page).to have_content "Vote introduced!"
 
-      visit new_officing_residence_path
+      within("#notice") { click_button "Close" }
       click_link "Sign out"
+
+      expect(page).to have_content "You must sign in or register to continue."
+
       login_as user
       visit poll_path(poll)
 
-      expect(page).to have_content "You have already participated in a physical booth. You can not participate again."
+      expect(page).to have_content "You have already participated in a physical booth. " \
+                                   "You can not participate again."
 
-      within("#poll_question_#{question.id}_answers") do
+      within("#poll_question_#{question.id}_options") do
         expect(page).to have_content("Yes")
         expect(page).to have_content("No")
 
-        expect(page).not_to have_link("Yes")
-        expect(page).not_to have_link("No")
+        expect(page).not_to have_button "Yes"
+        expect(page).not_to have_button "No"
       end
     end
   end
@@ -499,10 +354,10 @@ describe "Polls" do
       expect(page).not_to have_content("Participation statistics")
 
       visit results_poll_path(poll)
-      expect(page).to have_content("You do not have permission to carry out the action 'results' on poll.")
+      expect(page).to have_content("You do not have permission to carry out the action 'results' on Poll.")
 
       visit stats_poll_path(poll)
-      expect(page).to have_content("You do not have permission to carry out the action 'stats' on poll.")
+      expect(page).to have_content("You do not have permission to carry out the action 'stats' on Poll.")
     end
 
     scenario "Do not show poll results or stats to admins if disabled", :admin do
@@ -515,7 +370,7 @@ describe "Polls" do
     end
 
     scenario "Don't show poll results and stats if is not expired" do
-      poll = create(:poll, :current, results_enabled: true, stats_enabled: true)
+      poll = create(:poll, results_enabled: true, stats_enabled: true)
       user = create(:user)
 
       login_as user
@@ -525,10 +380,10 @@ describe "Polls" do
       expect(page).not_to have_content("Participation statistics")
 
       visit results_poll_path(poll)
-      expect(page).to have_content("You do not have permission to carry out the action 'results' on poll.")
+      expect(page).to have_content("You do not have permission to carry out the action 'results' on Poll.")
 
       visit stats_poll_path(poll)
-      expect(page).to have_content("You do not have permission to carry out the action 'stats' on poll.")
+      expect(page).to have_content("You do not have permission to carry out the action 'stats' on Poll.")
     end
 
     scenario "Generates navigation links for polls without a slug" do

@@ -8,7 +8,7 @@ describe "Admin download user emails" do
     login_as(admin_user)
   end
 
-  context "Download only emails from segment users with newsletter flag & present email " do
+  context "Download only emails from segment users with newsletter flag & present email" do
     before do
       create(:user, email: "user@consul.dev")
 
@@ -26,13 +26,13 @@ describe "Admin download user emails" do
       visit admin_emails_download_index_path
 
       within("#admin_download_emails") do
-        select "Administrators", from: "users_segment"
+        select "Administrators", from: "Download email addresses"
         click_button "Download emails list"
       end
 
       header = page.response_headers["Content-Disposition"]
       expect(header).to match(/^attachment/)
-      expect(header).to match(/filename="Administrators.csv"$/)
+      expect(header).to match(/filename="Administrators.csv"/)
 
       file_contents = page.body.split(",")
       expect(file_contents).to match_array ["admin_news1@consul.dev", "admin_news2@consul.dev"]

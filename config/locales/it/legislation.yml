@@ -4,9 +4,6 @@ it:
       comments:
         see_all: Vedi tutte
         see_complete: Vedi completi
-        comments_count:
-          one: "%{count} commento"
-          other: "%{count} commenti"
         replies_count:
           one: "%{count} risposta"
           other: "%{count} risposta"
@@ -18,9 +15,6 @@ it:
         title: Commenti
         comments_about: Commenti su
         see_in_context: Vedi nel contesto
-        comments_count:
-          one: "%{count} commento"
-          other: "%{count} commenti"
       show:
         title: Commentare
       version_chooser:
@@ -50,10 +44,10 @@ it:
       proposals:
         empty_proposals: Non ci sono proposte
         filters:
+          random: Casuale
           winners: Selezionato
       debate:
         empty_questions: Non ci sono domande
-        participate: Partecipare al dibattito
       index:
         filter: Filtra
         filters:
@@ -92,10 +86,6 @@ it:
         form:
           leave_comment: Lascia la tua risposta
       question:
-        comments:
-          zero: Non ci sono commenti
-          one: "%{count} commento"
-          other: "%{count} commenti"
         debate: Dibattito
       show:
         answer_question: Invia la risposta
@@ -116,6 +106,7 @@ it:
       form:
         tags_label: "Categorie"
       not_verified: "Per votare le proposte %{verify_account}."
+      process_title: Procedimento legislativo collaborativo
     summary:
       title: "Sommario"
       votes:
@@ -133,10 +124,6 @@ it:
         zero: "Nessuna proposta"
         one: "%{count} proposta"
         other: "%{count} proposte"
-      comments:
-        zero: "Nessun commento"
-        one: "%{count} commento"
-        other: "%{count} commenti"
       download: "Scarica sommario"
       top_comments:
         zero: "Nessun commento"

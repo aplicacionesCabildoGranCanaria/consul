@@ -1,12 +1,9 @@
 .budget-phases {
+  @include grid-column-gutter;
+  @include full-width-background;
+  @include full-width-border(top, 2px solid $border);
   background: $light;
-  border-top: 2px solid $border;
   padding-bottom: $line-height * 2;
-
-  > * {
-    @include grid-column-gutter;
-    @include grid-row;
-  }
 
   h2 {
     font-size: $base-font-size;
@@ -24,13 +21,13 @@
       display: block;
       font-size: rem-calc(36);
       font-weight: bold;
-      margin-bottom: $line-height / 2;
+      margin-bottom: calc(#{$line-height} / 2);
     }
   }
 
   .phase-title {
     @include tabs-title;
-    margin: $line-height / 6;
+    margin: calc(#{$line-height} / 6);
     margin-left: 0;
     position: relative;
     text-align: center;
@@ -74,24 +71,23 @@
     }
 
     a {
-      background: $white;
-      color: $black;
+      background: $body-background;
+      color: inherit;
       height: 100%;
       padding: $line-height $line-height * 1.5;
 
       &:hover {
         background: #e6e6e6;
-        color: $black;
+        color: inherit;
       }
 
       &:focus {
-        outline: none;
+        @include no-outline;
       }
 
       &[aria-selected="true"],
       &.is-active {
-        background: $dark;
-        color: $white;
+        @include brand-secondary-background;
         font-weight: normal;
       }
 
@@ -102,13 +98,8 @@
     }
 
     &.current-phase-tab a {
-      background: $brand-secondary;
-      color: $white;
-      padding-top: $line-height / 2;
-
-      &:hover {
-        background: $dark;
-      }
+      @include brand-secondary-background;
+      padding-top: calc(#{$line-height} / 2);
     }
   }
 
@@ -116,7 +107,7 @@
     display: block;
     font-size: $small-font-size;
     font-weight: bold;
-    margin-bottom: $line-height / 2;
+    margin-bottom: calc(#{$line-height} / 2);
     text-transform: uppercase;
   }
 
@@ -145,8 +136,8 @@
       border-radius: rem-calc(3);
       display: flex;
       font-size: rem-calc(36);
-      height: 1em * 4 / 3;
-      width: 1em * 4 / 3;
+      height: calc(4em / 3);
+      width: calc(4em / 3);
 
       &::before {
         margin: auto;
@@ -179,8 +170,31 @@
   }
 
   .budget-phase {
+    margin-top: $line-height;
+
     @include breakpoint(medium) {
-      width: 50%;
+      @include flex-with-gap;
+
+      > * {
+        width: 50%;
+      }
+
+      .budget-phase-image {
+        text-align: center;
+      }
+    }
+
+    .main-link {
+      @include has-fa-icon(chevron-right, solid, "after");
+      @include regular-button;
+      font-size: map-get($button-sizes, large);
+      margin-top: $line-height;
+      padding-right: 0.5em;
+
+      &::after {
+        font-weight: bold;
+        margin-left: 0.5em;
+      }
     }
   }
 }
