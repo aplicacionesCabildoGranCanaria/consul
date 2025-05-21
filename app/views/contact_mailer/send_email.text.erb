@@ -1,7 +1,7 @@
-<%= t('mailer.contact.subject_title') %>
+<%= t('contact_mailer.body.greeting') %>
 
-<%= t('mailer.contact.email') %>: <%= @email %>
-<%= t('mailer.contact.subject') %>: <%= @asunto %>
+<%= t('contact_mailer.body.from') %>: <%= @email %>
+<%= t('contact_mailer.body.subject') %>: <%= @asunto %>
 
-<%= t('mailer.contact.message') %>:
+<%= t('contact_mailer.body.message') %>:
 <%= @descripcion %>
