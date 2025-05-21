@@ -66,10 +66,17 @@ de:
     reply_link: Antwort
   contact:
     form:
-      email: "E-Mail"
+      email: "E-Mail-Adresse"
       subject: "Betreff"
       description: "Nachrichtenbeschreibung"
       submit: "Senden"
+    success: "Deine Nachricht wurde erfolgreich gesendet."
+    errors:
+      timeout: "Die Nachricht konnte aufgrund eines Verbindungsproblems nicht gesendet werden. Bitte versuchen Sie es später erneut."
+      smtp: "Der Mailserver hat die Anmeldeinformationen oder die SMTP-Konfiguration abgelehnt. Bitte wenden Sie sich an den Support."
+      network: "Beim Kontaktieren des Mailservers ist ein Netzwerkfehler aufgetreten. Bitte überprüfen Sie Ihre Verbindung oder Konfiguration."
+      unexpected: "Beim Senden der Nachricht ist ein unerwarteter Fehler aufgetreten. Bitte versuchen Sie es erneut."
+      missing_fields: "Alle Felder sind erforderlich."
   debates:
     create:
       form:
