@@ -10,13 +10,14 @@ class ContactController < ApplicationController
       email = params[:email]
       subject = params[:subject]
       body = params[:summary]
-  
+
       if email.present? && subject.present? && body.present?
-        ContactMailer.send_email(email, subject, body, I18n.locale).deliver_now
-        redirect_to new_contact_path, notice: "Tu mensaje ha sido enviado correctamente."
+        ContactMailerJob.perform_later(email, subject, body, I18n.locale)
+        redirect_to new_contact_path, notice: t("contact.success")
       else
-        flash.now[:alert] = "Todos los campos son obligatorios."
+        flash.now[:alert] = t("contact.errors.missing_fields")
         render :new
       end
     end
+
   end

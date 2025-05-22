@@ -67,10 +67,17 @@ fr:
     reply_link: Répondre
   contact:
     form:
-      email: "Courriel"
+      email: "Adresse e-mail"
       subject: "Sujet"
       description: "Description du message"
       submit: "Envoyer"
+    success: "Votre message a été envoyé avec succès."
+    errors:
+      timeout: "Le message n'a pas pu être envoyé en raison d'un problème de connexion. Veuillez réessayer plus tard."
+      smtp: "Le serveur de messagerie a rejeté les identifiants ou la configuration SMTP. Veuillez contacter le support."
+      network: "Une erreur réseau s'est produite lors de la tentative de contact avec le serveur de messagerie. Vérifiez votre connexion ou votre configuration."
+      unexpected: "Une erreur inattendue s'est produite lors de l'envoi du message. Veuillez réessayer."
+      missing_fields: "Tous les champs sont obligatoires."
   debates:
     create:
       form:
