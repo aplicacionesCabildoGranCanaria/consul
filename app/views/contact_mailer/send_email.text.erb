@@ -4,4 +4,4 @@
 <%= t('contact_mailer.body.subject') %>: <%= @asunto %>
 
 <%= t('contact_mailer.body.message') %>:
-<%= @descripcion %>
+<%= @descripcion.html_safe %>
