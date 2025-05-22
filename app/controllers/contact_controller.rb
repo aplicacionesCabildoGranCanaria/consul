@@ -13,7 +13,7 @@ class ContactController < ApplicationController
 
       if email.present? && subject.present? && body.present?
         begin
-          ContactMailer.send_email(email, subject, body, I18n.locale).deliver_now
+          ContactMailer.send_email(email, subject, body, I18n.locale).deliver_later
           redirect_to new_contact_path, notice: t("contact.success")
         rescue Net::OpenTimeout, Timeout::Error => e
           logger.error "Timeout al enviar el correo de contacto: #{e.class} - #{e.message}"
