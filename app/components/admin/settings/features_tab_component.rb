@@ -21,6 +21,7 @@ class Admin::Settings::FeaturesTabComponent < ApplicationComponent
       feature.remote_census
       feature.valuation_comment_notification
       feature.graphql_api
+      feature.red_sara_service
       feature.sdg
       feature.machine_learning
       feature.remove_investments_supports

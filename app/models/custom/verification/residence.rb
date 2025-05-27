@@ -4,6 +4,8 @@ class Verification::Residence
   validate :local_postal_code
   validate :local_residence
 
+  before_validation :retrieve_census_data
+
   def local_postal_code
     errors.add(:postal_code, I18n.t("verification.residence.new.error_not_allowed_postal_code")) unless valid_postal_code?
   end
