@@ -347,6 +347,17 @@ body > .wrapper {
       padding-top: 0;
       width: inherit;
       display: flex;
+      flex-direction: column;
+      .footer-logo.column{
+        float:none;
+        padding: 0.5rem 0;
+        .column{
+          float:none;
+          img{
+            padding: 0 10px;
+          }
+        }
+      }
       .column {
         float: right;
         ul.menu {
