@@ -332,6 +332,7 @@ body > .wrapper {
 }
 
 .footer {
+  width: 100vw;
   min-height: initial;
   border-top: 0;
   padding-top: 0;
@@ -353,6 +354,7 @@ body > .wrapper {
         padding: 0.5rem 0;
         .column{
           float:none;
+          margin: 0;
           img{
             padding: 0 10px;
           }
