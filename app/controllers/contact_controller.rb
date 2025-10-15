@@ -7,9 +7,14 @@ class ContactController < ApplicationController
     end
   
     def create
-      email = params[:email]
-      subject = params[:subject]
-      body = params[:summary]
+      email = params[:email].to_s.strip
+      subject = params[:subject].to_s.strip.gsub(/[\r\n]/, ' ')
+      body = params[:summary].to_s
+
+      unless email.match?(URI::MailTo::EMAIL_REGEXP)
+        flash.now[:alert] = t("contact.form.invalid_email")
+        return render :new
+      end
 
       if email.present? && subject.present? && body.present?
         ContactMailerJob.perform_later(email, subject, body, I18n.locale)

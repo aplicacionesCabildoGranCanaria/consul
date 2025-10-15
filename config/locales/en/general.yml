@@ -71,6 +71,7 @@ en:
       subject: "Subject"
       description: "Message description"
       submit: "Send"
+      invalid_email: "Provide a valid email"
     success: "Your message has been sent successfully."
     errors:
       timeout: "The message could not be sent due to a connection issue. Please try again later."

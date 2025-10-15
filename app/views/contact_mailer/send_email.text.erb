@@ -4,4 +4,4 @@
 <%= t('contact_mailer.body.subject') %>: <%= @asunto %>
 
 <%= t('contact_mailer.body.message') %>:
-<%= @descripcion.html_safe %>
+<%= @descripcion.to_s.gsub(/\r/, '') %>
