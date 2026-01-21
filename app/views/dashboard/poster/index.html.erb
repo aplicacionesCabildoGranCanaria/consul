@@ -6,7 +6,7 @@
         <h1>
           <%= t("dashboard.poster.index.poster_title") %>
           <br>
-          <%= image_tag("finger.png") %>
+          <%= image_tag("finger.png", alt: "") %>
           <%= t("dashboard.poster.index.poster_subtitle") %>
         </h1>
         <p class="intro">
@@ -18,16 +18,16 @@
         </p>
         <div class="proposal-image">
           <% if proposal.image.present? %>
-            <div class="overflow-image" style="background-image: url(<%= asset_url proposal.image.attachment.url(:large) %>);"></div>
+            <div class="overflow-image" style="<%= attached_background_css polymorphic_path(proposal.image.variant(:large)) %>"></div>
           <% else %>
             <div class="overflow-image" style="background-image: url(<%= asset_url "default_mailing.jpg" %>);"></div>
           <% end %>
         </div>
         <div class="poster-content">
           <h2><%= t("dashboard.poster.index.support") %></h2>
-            <%= image_tag "quote_before_blue.png" %>
+            <%= image_tag "quote_before_blue.png", alt: "" %>
             <h3><%= proposal.title %></h3>
-            <%= image_tag "quote_after_blue.png" %>
+            <%= image_tag "quote_after_blue.png", alt: "" %>
           <p class="poster-footer">
             <%= sanitize(t("dashboard.poster.index.footer", link: proposal_url(proposal))) %>
           </p>

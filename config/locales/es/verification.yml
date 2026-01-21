@@ -26,7 +26,7 @@ es:
       errors:
         incorrect_code: Código de verificación incorrecto
       new:
-        explanation: "Para participar en las votaciones finales puedes:"
+        explanation: "Para votar proyectos en los presupuestos participativos puedes:"
         go_to_index: Ver propuestas
         office: Verificarte presencialmente en cualquier Oficina de Atención al Ciudadano
         send_letter: Solicitar una carta por correo postal
@@ -46,7 +46,6 @@ es:
           success: Residencia verificada
       new:
         accept_terms_text: Acepto %{terms_url} al Padrón
-        accept_terms_text_title: Acepto los términos de acceso al Padrón
         document_number: Número de documento
         document_number_help_title: Ayuda
         document_number_help_text: "<strong>DNI</strong>: 12345678A<br> <strong>Pasaporte</strong>: AAA000001<br> <strong>Tarjeta de residencia</strong>: X1234567P"
@@ -55,7 +54,7 @@ es:
           residence_card: Tarjeta de residencia
           spanish_id: DNI
         error_not_allowed_age: No tienes la edad mínima para participar
-        error_not_allowed_postal_code: Para verificarte debes estar empadronado.
+        error_not_allowed_postal_code: Los ciudadanos residentes en este código postal no pueden participar
         error_verifying_census: El Padrón no pudo verificar tu información. Por favor, confirma que tus datos de empadronamiento sean correctos llamando al Ayuntamiento o visitando una Oficina de Atención al Ciudadano.
         form_errors: evitaron verificar tu residencia
         postal_code_note: Para verificar tus datos debes estar empadronado
@@ -75,7 +74,6 @@ es:
         phone: Introduce tu teléfono móvil para recibir el código
         phone_format: "<strong><em>(Ejemplo: 612345678 ó +34612345678)</em></strong>"
         phone_note: Sólo usaremos tu teléfono para enviarte un código, nunca te contactaremos.
-        phone_placeholder: "Ejemplo: 612345678 ó +34612345678"
         submit_button: Enviar
         title: SMS de confirmación
       update:
@@ -92,7 +90,8 @@ es:
     user_permission_info: Al verificar tus datos podrás...
     user_permission_proposal: Crear nuevas propuestas
     user_permission_support_proposal: Apoyar propuestas
-    user_permission_votes: Participar en las votaciones finales*
+    user_permission_votes: Votar proyectos en los presupuestos participativos
+    verification_needed: Verificación adicional necesaria
     verified_user:
       form:
         submit_button: Enviar código

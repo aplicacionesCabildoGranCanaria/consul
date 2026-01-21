@@ -7,13 +7,11 @@ ro:
         direct_message: "Mesajul dumneavoastră a fost trimis cu succes."
         poll: "Sondaj creat cu succes."
         poll_booth: "Cabină creată cu succes."
-        poll_question_answer: "Răspuns creat cu succes"
-        poll_question_answer_video: "Video creat cu succes"
-        poll_question_answer_image: "Imagine încărcată cu succes"
         proposal: "Propunere creată cu succes."
         proposal_notification: "Mesajul dvs. a fost trimis corect."
         budget_investment: "Buget de Investiție creat cu succes."
         signature_sheet: "Câmpul de semnătură a fost creat cu succes"
+        support: "Investiție votată cu succes"
         topic: "Topic creat cu succes."
         valuator_group: "Grup de evaluare creat cu succes"
       save_changes:
@@ -31,7 +29,5 @@ ro:
         translation: "Traducere actualizată cu succes"
       destroy:
         budget_investment: "Proiect de investiție șters cu succes."
-        error: "Nu s-a putut șterge"
         topic: "Topic șters cu succes."
-        poll_question_answer_video: "Răspunsul videoclipului șters cu succes."
         valuator_group: "Grup de evaluare șters cu succes"

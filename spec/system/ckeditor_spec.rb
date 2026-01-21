@@ -9,7 +9,10 @@ describe "CKEditor" do
 
     expect(page).to have_css ".translatable-fields[data-locale='en'] .cke_wysiwyg_frame"
 
-    click_link "Debates"
+    within ".subnavigation" do
+      click_link "Debates"
+    end
+
     click_link "Start a debate"
 
     expect(page).to have_css ".translatable-fields[data-locale='en'] .cke_wysiwyg_frame"
@@ -30,7 +33,7 @@ describe "CKEditor" do
     click_link "Upload"
 
     within_frame(1) do
-      attach_file "Send it to the Server", Rails.root.join("spec/fixtures/files/clippy.jpg")
+      attach_file "Send it to the Server", file_fixture("clippy.jpg")
     end
 
     click_link "Send it to the Server"

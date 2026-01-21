@@ -1,8 +1,8 @@
 require "rails_helper"
 
 describe "Commenting debates" do
-  let(:user)   { create :user }
-  let(:debate) { create :debate }
+  let(:user)   { create(:user) }
+  let(:debate) { create(:debate) }
 
   it_behaves_like "flaggable", :debate_comment
 
@@ -36,7 +36,7 @@ describe "Commenting debates" do
     expect(page).to have_link "Go back to #{debate.title}", href: debate_path(debate)
 
     within ".comment", text: "Parent" do
-      expect(page).to have_selector(".comment", count: 2)
+      expect(page).to have_css ".comment", count: 2
     end
   end
 
@@ -124,18 +124,22 @@ describe "Commenting debates" do
     expect(c1.body).to appear_before(c2.body)
     expect(c2.body).to appear_before(c3.body)
 
-    visit debate_path(debate, order: :newest)
+    click_link "Newest first"
 
+    expect(page).to have_link "Newest first", class: "is-active"
+    expect(page).to have_current_path(/#comments/, url: true)
     expect(c3.body).to appear_before(c2.body)
     expect(c2.body).to appear_before(c1.body)
 
-    visit debate_path(debate, order: :oldest)
+    click_link "Oldest first"
 
+    expect(page).to have_link "Oldest first", class: "is-active"
+    expect(page).to have_current_path(/#comments/, url: true)
     expect(c1.body).to appear_before(c2.body)
     expect(c2.body).to appear_before(c3.body)
   end
 
-  scenario "Creation date works differently in roots and in child comments, even when sorting by confidence_score" do
+  scenario "Creation date works differently in roots and child comments when sorting by confidence_score" do
     old_root = create(:comment, commentable: debate, created_at: Time.current - 10)
     new_root = create(:comment, commentable: debate, created_at: Time.current)
     old_child = create(:comment, commentable: debate, parent_id: new_root.id, created_at: Time.current - 10)
@@ -158,7 +162,7 @@ describe "Commenting debates" do
   end
 
   scenario "Turns links into html links" do
-    create :comment, commentable: debate, body: "Built with http://rubyonrails.org/"
+    create(:comment, commentable: debate, body: "Built with http://rubyonrails.org/")
 
     visit debate_path(debate)
 
@@ -166,13 +170,15 @@ describe "Commenting debates" do
       expect(page).to have_content "Built with http://rubyonrails.org/"
       expect(page).to have_link("http://rubyonrails.org/", href: "http://rubyonrails.org/")
       expect(find_link("http://rubyonrails.org/")[:rel]).to eq("nofollow")
-      expect(find_link("http://rubyonrails.org/")[:target]).to eq("_blank")
+      expect(find_link("http://rubyonrails.org/")[:target]).to be_blank
     end
   end
 
   scenario "Sanitizes comment body for security" do
-    create :comment, commentable: debate,
-                     body: "<script>alert('hola')</script> <a href=\"javascript:alert('sorpresa!')\">click me<a/> http://www.url.com"
+    create(:comment, commentable: debate,
+                     body: "<script>alert('hola')</script> " \
+                           "<a href=\"javascript:alert('sorpresa!')\">click me<a/> " \
+                           "http://www.url.com")
 
     visit debate_path(debate)
 
@@ -198,6 +204,7 @@ describe "Commenting debates" do
     end
 
     expect(page).to have_css(".comment", count: 2)
+    expect(page).to have_current_path(/#comments/, url: true)
   end
 
   describe "Not logged user" do
@@ -306,7 +313,7 @@ describe "Commenting debates" do
       expect(page).to have_content "It will be done next week."
     end
 
-    expect(page).not_to have_selector("#js-comment-form-comment_#{comment.id}")
+    expect(page).not_to have_css "#js-comment-form-comment_#{comment.id}"
   end
 
   scenario "Reply to reply" do
@@ -326,7 +333,7 @@ describe "Commenting debates" do
       fill_in "Leave your comment", with: "Probably if government approves."
       click_button "Publish reply"
 
-      expect(page).not_to have_selector("form")
+      expect(page).not_to have_css ".comment-form"
 
       within ".comment" do
         expect(page).to have_content "Probably if government approves."
@@ -363,6 +370,16 @@ describe "Commenting debates" do
       click_button "Publish reply"
 
       expect(page).to have_content("It will be done next week.")
+    end
+  end
+
+  scenario "Show comment when the author is hidden" do
+    create(:comment, body: "This is pointless", commentable: debate, author: create(:user, :hidden))
+
+    visit debate_path(debate)
+
+    within ".comment", text: "This is pointless" do
+      expect(page).to have_content "User deleted"
     end
   end
 
@@ -460,7 +477,7 @@ describe "Commenting debates" do
         expect(page).to have_css "img.moderator-avatar"
       end
 
-      expect(page).not_to have_selector("#js-comment-form-comment_#{comment.id}")
+      expect(page).not_to have_css "#js-comment-form-comment_#{comment.id}"
     end
 
     scenario "can not comment as an administrator" do
@@ -516,7 +533,7 @@ describe "Commenting debates" do
         expect(page).to have_css "img.admin-avatar"
       end
 
-      expect(page).not_to have_selector("#js-comment-form-comment_#{comment.id}")
+      expect(page).not_to have_css "#js-comment-form-comment_#{comment.id}"
     end
 
     scenario "can not comment as a moderator", :admin do
@@ -543,7 +560,7 @@ describe "Commenting debates" do
       visit debate_path(debate)
 
       within("#comment_#{comment.id}_votes") do
-        within(".in_favor") do
+        within(".in-favor") do
           expect(page).to have_content "1"
         end
 
@@ -559,9 +576,9 @@ describe "Commenting debates" do
       visit debate_path(debate)
 
       within("#comment_#{comment.id}_votes") do
-        find(".in_favor a").click
+        click_button "I agree"
 
-        within(".in_favor") do
+        within(".in-favor") do
           expect(page).to have_content "1"
         end
 
@@ -577,15 +594,15 @@ describe "Commenting debates" do
       visit debate_path(debate)
 
       within("#comment_#{comment.id}_votes") do
-        find(".in_favor a").click
+        click_button "I agree"
 
-        within(".in_favor") do
+        within(".in-favor") do
           expect(page).to have_content "1"
         end
 
-        find(".against a").click
+        click_button "I disagree"
 
-        within(".in_favor") do
+        within(".in-favor") do
           expect(page).to have_content "0"
         end
 
@@ -597,26 +614,26 @@ describe "Commenting debates" do
       end
     end
 
-    scenario "Trying to vote multiple times" do
+    scenario "Allow undoing votes" do
       visit debate_path(debate)
 
       within("#comment_#{comment.id}_votes") do
-        find(".in_favor a").click
-        within(".in_favor") do
+        click_button "I agree"
+        within(".in-favor") do
           expect(page).to have_content "1"
         end
 
-        find(".in_favor a").click
-        within(".in_favor") do
+        click_button "I agree"
+        within(".in-favor") do
           expect(page).not_to have_content "2"
-          expect(page).to have_content "1"
+          expect(page).to have_content "0"
         end
 
         within(".against") do
           expect(page).to have_content "0"
         end
 
-        expect(page).to have_content "1 vote"
+        expect(page).to have_content "No votes"
       end
     end
   end

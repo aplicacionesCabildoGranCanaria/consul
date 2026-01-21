@@ -5,30 +5,24 @@ bg:
       erase_account_link: Изтриване на профила ми
       finish_verification: Пълна проверка
       notifications: Известия
-      organization_name_label: Име на организация
-      organization_responsible_name_placeholder: Представител на организацията / колектива
       personal: Лични данни
-      phone_number_label: Телефонен номер
       public_interests_my_title_list: Тагове на елементи, които следвате
       public_interests_user_title_list: Тагове на елементи, които този потребител следва
       save_changes_submit: Запазване на промени
       recommendations: Препоръки
       title: Моят профил
-      user_permission_debates: Участвайте в дискусии
       user_permission_info: С Вашият профил можете да...
-      user_permission_proposal: Създавате нови предложения
-      user_permission_support_proposal: Подкрепяте предложения
       user_permission_title: Участие
       user_permission_verify: За да извършите всички действия, потвърдете профила си.
-      user_permission_verify_info: "* Само за потребители на преброяване."
-      user_permission_votes: Участвате в окончателното гласуване
-      username_label: Потребителско име
       verified_account: Профилът е потвърден
       verify_my_account: Потвърдете профила ми
   application:
     close: Затваряне
     menu: Меню
   comments:
+    actions:
+      confirm_delete: "Сигурен ли сте? Това действие ще изтрие този коментар. Действието не може да бъде отменено."
+      delete: "Изтриване на коментара"
     comments_closed: Коментарите са затворени
     verified_only: За да участвате %{verify_account}
     comment:
@@ -62,7 +56,6 @@ bg:
       newest: Най-новите първи
       oldest: Най-старите първи
       most_commented: С най-много коментари
-    select_order: Сортиране по
     show:
       return_to_commentable: "Върнете се на "
   comments_helper:
@@ -76,10 +69,6 @@ bg:
       form:
         submit_button: Започнете дебат
     debate:
-      comments:
-        zero: Няма коментари
-        one: 1 коментар
-        other: "%{count} коментари"
       votes:
         zero: Няма гласове
         one: 1 глас
@@ -90,7 +79,6 @@ bg:
         submit_button: Запазване на промени
       show_link: Преглед на дебат
     form:
-      debate_title: Заглавие на дебат
       tags_instructions: Маркирайте с таг този дебат.
       tags_placeholder: "Въведете таговете, които искате да използвате, разделени със запетаи (',')"
     index:
@@ -105,7 +93,7 @@ bg:
       recommendations:
         without_results: Няма дискусии, свързани с Вашите интереси
         without_interests: Следвайте предложенията, за да можем да ви дадем препоръки
-        disable: "Препоръките за дебати ще спрат да се показват, ако ги отхвърлите. Можете да ги активирате отново на страницата 'Моят акаунт'"
+        disable: "Препоръките за дебати ще спрат да се показват, ако ги отхвърлите. Можете да ги активирате отново на страницата 'Моят профил'"
         actions:
           success: "Препоръките за дискусии вече са деактивирани за този профил"
           error: "Появи се грешка. Моля, отидете на страницата 'Моят профил', за да деактивирате ръчно препоръките за дискусии"
@@ -113,10 +101,6 @@ bg:
         button: Търсете
         placeholder: Търсете дискусии...
         title: Търсете
-      search_results:
-        one: " съдържащи термина <strong>'%{search_term}'</strong>"
-        other: " съдържащи термина <strong>'%{search_term}'</strong>"
-      select_order: Подредени по
       start_debate: Започнете дебат
       title: Дискусии
       section_header:
@@ -131,8 +115,6 @@ bg:
     new:
       form:
         submit_button: Започнете дебат
-      info: Ако искате да направите предложение, това е грешен раздел, въведете %{info_link}.
-      info_link: създайте ново предложение
       more_info: Повече информация
       recommendation_four: Насладете се на това пространство и на гласовете, които го изпълват. То принадлежи и на вас.
       recommendation_one: Не използвайте главни букви за заглавието на дебата или за цели изречения. В Интернет това се счита за викане. А никой не обича да му се вика.
@@ -142,10 +124,6 @@ bg:
       start_new: Започнете дебат
     show:
       author_deleted: Потребителят е изтрит
-      comments:
-        zero: Няма коментари
-        one: 1 коментар
-        other: "%{count} коментари"
       comments_title: Коментари
       edit_debate_link: Редактирайте
       flag: Този дебат бе означен като неподходящ от няколко потребители.
@@ -160,7 +138,6 @@ bg:
       invalid_date_range: "Невалиден диапазон от дати"
   form:
     accept_terms: Съгласявам се с %{policy} и %{conditions}
-    accept_terms_title: Приемам Политиката за поверителност и Общите условия за ползване
     conditions: Условия за ползване
     debate: Дебат
     direct_message: лично съобщение
@@ -179,7 +156,6 @@ bg:
     legislation/process: процес
     legislation/question: въпрос
     poll/shift: Shift/ Смяна
-    poll/question/answer: Въпрос
     user: Сметка
     verification/sms: телефон
     signature_sheet: Лист за подпис
@@ -194,11 +170,6 @@ bg:
   geozones:
     none: Целият град
   layouts:
-    application:
-      chrome: Google Chrome
-      firefox: Firefox
-      ie: Установихме, че търсите с Internet Explorer. За подобряване на опита, препоръчваме да използвате %{firefox} или %{chrome}.
-      ie_title: Този уеб сайт не е оптимизиран за вашия браузър
     dashboard:
       proposal_header:
         published: Публикувано
@@ -217,10 +188,9 @@ bg:
     footer:
       accessibility: Достъпност
       conditions: Условия за ползване
-      consul: приложението CONSUL
-      consul_url: https://github.com/consul/consul
-      contact_us: За посещение на техническа помощ
-      copyright: CONSUL, %{year}
+      consul: приложението CONSUL DEMOCRACY
+      consul_url: https://github.com/consuldemocracy/consuldemocracy
+      copyright: CONSUL DEMOCRACY, %{year}
       description: Този портал използва %{consul}, който е %{open_source}.
       open_source: софтуер с отворен код
       open_source_url: http://www.gnu.org/licenses/agpl-3.0.html
@@ -230,7 +200,6 @@ bg:
     header:
       administration_menu: Меню
       administration: Администрация
-      available_locales: Налични езици
       collaborative_legislation: Съвместно законодателство
       debates: Дискусии
       locale: "Език:"
@@ -244,14 +213,14 @@ bg:
       open_gov: Отворено управление
       proposals: Предложения
       poll_questions: Гласуване
-      budgets: Бюджетиране с участие
+      budgets: Граждански бюджет
       notification_item:
         new_notifications:
           zero: "Нямате нови известия"
           one: Имате ново известие
           other: Имате %{count} нови известия
         notifications: Известия
-      sdg: "Цели за устойчиво развитие (ЦУР)"
+      sdg: "Цели за устойчиво развитие"
   notifications:
     index:
       empty_notifications: Нямате нови известия.
@@ -344,7 +313,6 @@ bg:
       map_location: "Местоположение на картата"
       map_location_instructions: "Навигирайте картата до местоположението и поставете маркера."
       map_remove_marker: "Премахване на маркера на картата"
-      map_skip_checkbox: "Това предложение няма конкретно местоположение или не съм запознат с него."
     index:
       featured_proposals: Представено
       orders:
@@ -382,11 +350,9 @@ bg:
       search_results:
         one: " съдържащи термина <strong>'%{search_term}'</strong>"
         other: " съдържащи термина <strong>'%{search_term}'</strong>"
-      select_order: Подредени по
       select_order_long: "Разглеждате предложения според:"
       start_proposal: Създайте предложение
       title: Предложения
-      top: Най-високо за седмицата
       top_link_proposals: Най-подкрепяните предложения по категории
       section_header:
         icon_alt: Икона за предложения
@@ -414,10 +380,6 @@ bg:
         edit: "Преди да бъде споделено, ще можете да променяте текста, както искате."
         view_proposal: Не сега, отидете на моето предложение
       already_supported: Вече сте подкрепили това предложение. Споделете го!
-      comments:
-        zero: Няма коментари
-        one: 1 коментар
-        other: "%{count} коментари"
       support: Подкрепа
       support_title: Подкрепете това предложение
       supports:
@@ -436,10 +398,6 @@ bg:
     show:
       author_deleted: Потребителят е изтрит
       code: "Код на предложението:"
-      comments:
-        zero: Няма коментари
-        one: 1 коментар
-        other: "%{count} коментари"
       comments_tab: Коментари
       dashboard_proposal_link: Табло
       flag: Няколко потребители са означили това предложение като неподходящо.
@@ -601,7 +559,6 @@ bg:
         share: "А ако и вие ми направите голяма услуга да споделите моето предложение с вашите приятели, семейство и контакти, би било чудесно!"
   polls:
     all: "Всички"
-    no_dates: "не е назначена дата"
     dates: "От %{open_at} до %{closed_at}"
     final_date: "Окончателни изчисления / резултати"
     index:
@@ -674,14 +631,13 @@ bg:
       back: "Върнете се към съдържанието ми"
   shared:
     edit: "Редактирайте"
+    filter: "Филтър"
     save: "Запазете"
     delete: "Изтрийте"
     "yes": "Да"
     "no": "Не"
     search_results: "Резултати от търсенето"
     advanced_search:
-      author_type: "По категория на автора"
-      author_type_blank: "Изберете категория"
       date: "По дата"
       date_placeholder: "DD.MM.YYYY"
       date_range_blank: "Изберете дата"
@@ -692,8 +648,7 @@ bg:
       date_5: "Персонализирано"
       from: "От"
       general: "С текста"
-      general_placeholder: "Напишете текста"
-      goal: "Според Целите за устойчиво развитие (ЦУР)"
+      goal: "Според Целите за устойчиво развитие"
       goal_blank: "Изберете цел"
       search: "Филтър"
       target: "По цел"
@@ -704,7 +659,6 @@ bg:
       author_deleted: Потребителят е изтрит
       email_deleted: Имейлът е изтрит
     back: Назад
-    check: Изберете
     check_all: Всичко
     check_none: Нищо
     collective: Колективен
@@ -772,31 +726,20 @@ bg:
       see_more: Вижте повече препоръки
       hide: Скрийте препоръки
     translations:
-      select_language_prompt: Изберете език
       remove_language: Премахнете език
       add_language: Добавете език
       languages_in_use:
         zero: "0 езика в употреба"
         one: "1 език в употреба"
         other: "%{count} езика в употреба"
+    optional: "По избор"
+    required: "Задължително поле"
   social:
     facebook: "%{org} Facebook"
     twitter: "%{org} Twitter"
     youtube: "%{org} YouTube"
     telegram: "%{org} Telegram"
     instagram: "%{org} Instagram"
-  stats:
-    index:
-      visits: Посещения
-      debates: Дискусии
-      proposals: Предложения
-      comments: Коментари
-      proposal_votes: Гласове за предложения
-      debate_votes: Гласове за дискусии
-      comment_votes: Гласове за коментари
-      votes: Общо гласове
-      verified_users: Проверени потребители
-      unverified_users: Непроверени потребители
   unauthorized:
     default: Нямате разрешение за достъп до тази страница.
     manage:
@@ -857,15 +800,12 @@ bg:
   votes:
     agree: Съгласен съм
     anonymous: Твърде много анонимни гласове за допускане на гласуване %{verify_account}.
-    comment_unauthenticated: Вие трябва да %{signin} или да %{signup}, за да гласувате.
     disagree: Не съм съгласен
     organizations: Организациите нямат право да гласуват
     supports: Гласове за подкрепа
     verified_only: Само проверени потребители могат да гласуват предложения; %{verify_account}.
     budget_investments:
-      not_logged_in: Вие трябва да %{signin} или да %{signup}, за да продължите.
       not_verified: Само проверени потребители могат да гласуват инвестиционни проекти; %{verify_account}.
-      organization: Организациите нямат право да гласуват
       unfeasible: Неизпълними инвестиционни проекти не могат да бъдат подкрепени
       not_voting_allowed: Фазата на гласуване е затворена
       different_heading_assigned:
@@ -883,7 +823,7 @@ bg:
         processes: Вижте всички процеси
       no_items:
         debates: Няма дискусии сега
-        proposals: Нама предложения сега
+        proposals: В момента няма предложения
         processes: Няма отворени процеси сега
       process_label: Процес
       see_process: Вижте процес
@@ -901,23 +841,13 @@ bg:
       budget_investments:
         title: Препоръчани инвестиции
       slide: "Вижте %{title}"
-    verification:
-      i_dont_have_an_account: Нямам профил
-      i_have_an_account: Вече имам профил
-      question: Имате ли вече профил в %{org_name}?
-      title: Потвърждаване на профила
     welcome:
       go_to_index: Не сега, отидете на страницата с индекси
       start_using_consul: Отидете на страницата с индекси
       title: Участвайте
-      user_permission_debates: Участвайте в дискусии
       user_permission_info: С профила си можете да...
-      user_permission_proposal: Създавате нови предложения
-      user_permission_support_proposal: Подкрепяте предложения*
       user_permission_verify: "За да извършите следните действия, потвърдете профила си."
-      user_permission_verify_info: "* Само за потребители на преброяване."
       user_permission_verify_my_account: Потвърдете профила ми
-      user_permission_votes: Участвайте в окончателното гласуване
   invisible_captcha:
     sentence_for_humans: "Ако сте човек, игнорирайте това поле"
     timestamp_error_message: "За съжаление, това беше твърде бързо! Моля, изпратете отново."
@@ -929,6 +859,7 @@ bg:
     help: "Можете да добавите връзки на %{models} в%{org}."
     submit: "Добавете"
     error: "Връзката не е валидна. Не забравяйте да започнете с %{url}."
+    error_duplicate: "Свързаното съдържание, което добавяте, вече съществува."
     error_itself: "Връзката не е валидна. Не можете да свържете съдържание."
     success: "Добавихте ново свързано съдържание"
     is_related: "Свързано ли е съдържание?"
@@ -954,9 +885,6 @@ bg:
       title: Връзки
       note: Добавете линковете, които представляват интерес
       add_new_link: Добавете нова връзка
-    link_fields:
-      label_placeholder: Име на връзка
-      url_placeholder: Адрес на връзка
   communities:
     show:
       surveys: Анкети
@@ -972,7 +900,11 @@ bg:
       enqueue_remote_translation: Преводите са заявени правилно.
     button: Превод на страница
   tags:
-    filter:
-      more:
-        one: "Още един таг"
-        other: "%{count} повече тагове"
+    list:
+      filter:
+        more:
+          one: "Още един таг"
+          other: "%{count} повече тагове"
+  machine_learning:
+    comments_summary: "Резюме на коментарите"
+    info_text: "Съдържание, генерирано от изкуствен интелект / машинно самообучение"

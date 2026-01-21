@@ -1,0 +1,7 @@
+<%= t('contact_mailer.body.greeting') %>
+
+<%= t('contact_mailer.body.from') %>: <%= @email %>
+<%= t('contact_mailer.body.subject') %>: <%= @asunto %>
+
+<%= t('contact_mailer.body.message') %>:
+<%= @descripcion.to_s.gsub(/\r/, '') %>

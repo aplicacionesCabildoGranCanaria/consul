@@ -46,6 +46,8 @@ body > .wrapper {
 .wrapper > header {
   border: none;
   background: $header-color;
+  padding-left: 0;
+  padding-right: 0;
   background-image: image-url("background_header.png") !important;
   & > .row {
     .logo.show-for-small-only img {
@@ -53,8 +55,71 @@ body > .wrapper {
     }
     .top-bar {
       background-color: transparent!important;
+      justify-content: space-between;
+      align-items: center;
+      @include breakpoint(small only) {
+        flex-direction: row;
+        width: auto;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+      }
+      h1{
+        @include breakpoint(small only) {
+          display: none;
+        }
+        flex-grow: unset;
+        a{
+          img{
+            @include breakpoint(small up) {
+              // margin-bottom: -50px;
+              width: 8rem;
+            }
+          }
+        }
+      }
+      span{
+        &[data-responsive-toggle]{
+          flex-grow: unset;
+        }
+      }
+      #responsive_menu{
+        @include breakpoint(small only) {
+          background-color: white;
+        }
+        background-color: unset;
+        .account-menu{
+          background-color: transparent;
+          &.menu{
+            li{
+              &:first-child{
+                a {
+                  margin-right: 20px;
+                }
+              }
+              a{
+                width: 100%;
+                text-align: right;
+                font-size: 0.8em;
+              }
+              .button{
+                @include breakpoint(small up) {
+                  background-color: unset;
+                }
+              }
+            }
+          }
+        }
+        .show-for-small-only{
+          .social{
+            text-align: right;
+          }
+        }
+      }
       #responsive-menu {
         width: 100%;
+        @include breakpoint(small only) {
+          width: auto;
+        }
         .top-bar-title {
           margin-right: 0;
           line-height: 0;
@@ -108,7 +173,6 @@ body > .wrapper {
           text-align: right;
           padding: 0;
           margin-top: 0;
-          background-color: white;
           line-height: 1;
           ul.menu {
             li{
@@ -128,6 +192,12 @@ body > .wrapper {
   & .subnavigation {
     border-top: 1px solid $header-color;
     .social{
+      @include breakpoint(medium) {
+        width: calc(100% / 4);
+      }
+      ul{
+        flex-direction: row;
+      }
       ul li a{
         font-size: 1.3rem;
         margin: 0.5rem;
@@ -142,8 +212,18 @@ body > .wrapper {
     &:last-child ul{
       font-size: 0.8em;
     }
+    nav{
+      li{
+        @include breakpoint(small only) {
+          padding: 0.5rem 1rem 0.5rem 1rem;
+        }
+      }
+    }
     ul {
       display: inline-flex;
+      @include breakpoint(small only) {
+        flex-direction: column;
+      }
       li{ margin: 0}
       li a{
         line-height: initial;
@@ -203,6 +283,19 @@ body > .wrapper {
   }
 }
 
+
+.jumbo.header-card::before, 
+.public .footer::before,
+.help-header::before,
+.help-header::after{
+    left: inherit;
+    right: inherit;
+}
+.home-page .background-header{
+    margin-left: auto;
+    margin-right: auto;
+}
+
 @media only screen and (min-width: 640px) {
   .top-bar ul.menu li a:before {
     content: '';
@@ -233,12 +326,13 @@ body > .wrapper {
 // ------
 .footer-center{
   max-width: 100vw;
-  width: 100vw;
+  // width: 100vw;
   display: flex;
   align-items: center;
 }
 
 .footer {
+  width: 100vw;
   min-height: initial;
   border-top: 0;
   padding-top: 0;
@@ -254,10 +348,22 @@ body > .wrapper {
       padding-top: 0;
       width: inherit;
       display: flex;
+      flex-direction: column;
+      .footer-logo.column{
+        float:none;
+        padding: 0.5rem 0;
+        .column{
+          float:none;
+          margin: 0;
+          img{
+            padding: 0 10px;
+          }
+        }
+      }
       .column {
-        float: right;
+        float: left;
         ul.menu {
-          float:right;
+          float:left;
           li {
             font-size: 0.875rem;
             text-align: right;
@@ -441,7 +547,24 @@ aside.margin-bottom {
 .submenu{
   margin: 0.75rem 0;
 }
-.debate-show .supports .button-support, .proposal-show .supports .button-support, .poll-question-show .supports .button-support, .investment-project-show .supports .button-support, .budget-investment-show .supports .button-support, .polls-show .supports .button-support, .debate-quiz .supports .button-support, .budget-investment-show .supports .button-support, .draft-panels .supports .button-support, .debate-questions .supports .button-support, .communities-show .supports .button-support, .topic-show .supports .button-support, .milestone-content .supports .button-support{
+.budget-header{
+  h1{
+    color: #fdfdfd !important;
+  }
+}
+.debate-show .supports .button-support, 
+.proposal-show .supports .button-support, 
+.poll-question-show .supports .button-support, 
+.investment-project-show .supports .button-support, 
+.budget-investment-show .supports .button-support, 
+.polls-show .supports .button-support, 
+.debate-quiz .supports .button-support, 
+.budget-investment-show .supports .button-support, 
+.draft-panels .supports .button-support, 
+.debate-questions .supports .button-support, 
+.communities-show .supports .button-support, 
+.topic-show .supports .button-support, 
+.milestone-content .supports .button-support{
   color: white;
 }
 .survey_banner {
@@ -813,4 +936,33 @@ h6, .h6 {
 
 .figure-card figcaption h3 {
   color: #fff !important;
+}
+
+.sdg-goals-index{
+  .section-header{
+    @include breakpoint(small up) {
+      padding-right: 0.9375rem;
+      padding-left: 0.9375rem;
+    }
+  }
+  .section-header h1 {
+    max-width: 75rem;
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 0.625rem;
+    padding-left: 0.625rem;
+  }
+  .sdg-phase {
+    @include breakpoint(small up) {
+      padding-right: 0.9375rem;
+      padding-left: 0.9375rem;
+    }
+  }
+  .sdg-phase {
+    max-width: 75rem;
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 0.625rem;
+    padding-left: 0.625rem;
+  }
 }

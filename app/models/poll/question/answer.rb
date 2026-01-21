@@ -14,6 +14,14 @@ class Poll::Question::Answer < ApplicationRecord
   validates_translation :title, presence: true
   validates :given_order, presence: true, uniqueness: { scope: :question_id }
 
+  scope :with_content, -> { where.not(id: without_content) }
+  scope :without_content, -> do
+    where(description: "")
+      .where.missing(:images)
+      .where.missing(:documents)
+      .where.missing(:videos)
+  end
+
   def self.order_answers(ordered_array)
     ordered_array.each_with_index do |answer_id, order|
       find(answer_id).update_column(:given_order, (order + 1))
@@ -31,5 +39,9 @@ class Poll::Question::Answer < ApplicationRecord
 
   def total_votes_percentage
     question.answers_total_votes.zero? ? 0 : (total_votes * 100.0) / question.answers_total_votes
+  end
+
+  def with_read_more?
+    description.present? || images.any? || documents.any? || videos.any?
   end
 end

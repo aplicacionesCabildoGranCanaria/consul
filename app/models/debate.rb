@@ -1,7 +1,4 @@
-require "numeric"
-
 class Debate < ApplicationRecord
-  include Rails.application.routes.url_helpers
   include Flaggable
   include Taggable
   include Conflictable
@@ -29,7 +26,8 @@ class Debate < ApplicationRecord
   has_many :comments, as: :commentable, inverse_of: :commentable
 
   validates_translation :title, presence: true, length: { in: 4..Debate.title_max_length }
-  validates_translation :description, presence: true, length: { in: 10..Debate.description_max_length }
+  validates_translation :description, presence: true
+  validate :description_length
   validates :author, presence: true
 
   validates :terms_of_service, acceptance: { allow_nil: false }, on: :create
@@ -44,34 +42,26 @@ class Debate < ApplicationRecord
   scope :sort_by_relevance,        -> { all }
   scope :sort_by_flags,            -> { order(flags_count: :desc, updated_at: :desc) }
   scope :sort_by_recommendations,  -> { order(cached_votes_total: :desc) }
-  scope :last_week,                -> { where("created_at >= ?", 7.days.ago) }
-  scope :featured,                 -> { where("featured_at is not null") }
+  scope :last_week,                -> { where(created_at: 7.days.ago..) }
+  scope :featured,                 -> { where.not(featured_at: nil) }
   scope :public_for_api,           -> { all }
-
-  # Ahoy setup
-  visitable # Ahoy will automatically assign visit_id on create
 
   attr_accessor :link_required
 
-  def url
-    debate_path(self)
-  end
-
   def self.recommendations(user)
-    tagged_with(user.interests, any: true)
-      .where("author_id != ?", user.id)
+    tagged_with(user.interests, any: true).where.not(author_id: user.id)
   end
 
   def searchable_translations_definitions
-    { title       => "A",
+    { title => "A",
       description => "D" }
   end
 
   def searchable_values
     {
-      author.username    => "B",
+      author.username => "B",
       tag_list.join(" ") => "B",
-      geozone&.name      => "B"
+      geozone&.name => "B"
     }.merge!(searchable_globalized_values)
   end
 
@@ -113,8 +103,13 @@ class Debate < ApplicationRecord
 
   def register_vote(user, vote_value)
     if votable_by?(user)
-      Debate.increment_counter(:cached_anonymous_votes_total, id) if user.unverified? && !user.voted_for?(self)
-      vote_by(voter: user, vote: vote_value)
+      transaction do
+        if user.unverified? && !user.voted_for?(self)
+          Debate.increment_counter(:cached_anonymous_votes_total, id)
+        end
+
+        vote_by(voter: user, vote: vote_value)
+      end
     end
   end
 
@@ -161,7 +156,25 @@ class Debate < ApplicationRecord
 
   def self.debates_orders(user)
     orders = %w[hot_score confidence_score created_at relevance]
-    orders << "recommendations" if Setting["feature.user.recommendations_on_debates"] && user&.recommended_debates
+
+    if Setting["feature.user.recommendations_on_debates"] && user&.recommended_debates
+      orders << "recommendations"
+    end
+
     orders
+  end
+
+  def description_length
+    real_description_length = ActionView::Base.full_sanitizer.sanitize(description.to_s).squish.length
+
+    if real_description_length < Debate.description_min_length
+      errors.add(:description, :too_short, count: Debate.description_min_length)
+      translation.errors.add(:description, :too_short, count: Debate.description_min_length)
+    end
+
+    if real_description_length > Debate.description_max_length
+      errors.add(:description, :too_long, count: Debate.description_max_length)
+      translation.errors.add(:description, :too_long, count: Debate.description_max_length)
+    end
   end
 end

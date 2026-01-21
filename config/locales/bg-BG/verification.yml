@@ -46,7 +46,6 @@ bg:
           success: Местожителството е потвърдено
       new:
         accept_terms_text: Приемам %{terms_url} от преброяването
-        accept_terms_text_title: Приемам общите условия за достъп до преброяването
         document_number: Номер на документ
         document_number_help_title: Помощ
         document_number_help_text: "<strong>DNI</strong>: 12345678A<br> <strong>Passport</strong>: AAA000001<br> <strong>Residence card</strong>: X1234567P"
@@ -55,7 +54,7 @@ bg:
           residence_card: Карта за пребиваване
           spanish_id: DNI
         error_not_allowed_age: Нямате необходимата възраст за участие
-        error_not_allowed_postal_code: За да бъдете проверени, трябва да сте регистрирани.
+        error_not_allowed_postal_code: Граждани с този пощенски код не могат да участват
         error_verifying_census: Преброяването не успя да потвърди вашата информация. Моля, потвърдете, че данните ви за преброяване са верни, като се обадите на Общинския съвет или посетите една от Службите за гражданска поддръжка.
         form_errors: предотврати проверката на вашето местожителство
         postal_code_note: За да потвърдите профила си, трябва да сте регистриран
@@ -75,7 +74,6 @@ bg:
         phone: Въведете номера на мобилния си телефон, за да получите кода
         phone_format: "<strong><em>(Пример: 612345678 or +34612345678)</em></strong>"
         phone_note: Използваме телефона ви само за изпращане на код, а не да се свързваме с вас.
-        phone_placeholder: "Пример: 612345678 or +34612345678"
         submit_button: Изпратете
         title: Изпратете код за потвърждение
       update:

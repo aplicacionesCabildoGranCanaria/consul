@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe SDGManagement::MenuComponent, type: :component do
+describe SDGManagement::MenuComponent do
   let(:component) { SDGManagement::MenuComponent.new }
 
   before do
@@ -39,7 +39,7 @@ describe SDGManagement::MenuComponent, type: :component do
     it "does not generate links to any processes" do
       render_inline component
 
-      expect(page).to have_css "a", count: 2
+      expect(page).to have_link count: 2
       expect(page).to have_link "Goals and Targets"
       expect(page).to have_link "SDG homepage"
     end
@@ -57,7 +57,7 @@ describe SDGManagement::MenuComponent, type: :component do
     it "does not generate links to any processes" do
       render_inline component
 
-      expect(page).to have_css "a", count: 2
+      expect(page).to have_link count: 2
       expect(page).to have_link "Goals and Targets"
       expect(page).to have_link "SDG homepage"
     end

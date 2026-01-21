@@ -39,9 +39,6 @@ module Abilities
       can [:retire_form, :retire], Proposal, author_id: user.id
 
       can :read, Legislation::Proposal
-      cannot [:edit, :update], Legislation::Proposal do |proposal|
-        proposal.editable_by?(user)
-      end
       can [:retire_form, :retire], Legislation::Proposal, author_id: user.id
 
       can :create, Comment
@@ -74,32 +71,35 @@ module Abilities
       can [:create, :destroy], Follow, user_id: user.id
 
       can [:destroy], Document do |document|
-        document.documentable&.author_id == user.id
+        document.documentable_type != "Poll::Question::Option" && document.documentable&.author_id == user.id
       end
 
-      can [:destroy], Image, imageable: { author_id: user.id }
+      can [:destroy], Image do |image|
+        image.imageable_type != "Poll::Question::Option" && image.imageable&.author_id == user.id
+      end
 
       can [:create, :destroy], DirectUpload
 
       unless user.organization?
-        can :vote, Debate
-        can :vote, Comment
+        can [:create, :destroy], ActsAsVotable::Vote, voter_id: user.id, votable_type: "Debate"
+        can [:create, :destroy], ActsAsVotable::Vote, voter_id: user.id, votable_type: "Comment"
       end
 
       if user.level_two_or_three_verified?
         can :vote, Proposal, &:published?
-        can :vote_featured, Proposal
 
-        can :vote, Legislation::Proposal
-        can :vote_featured, Legislation::Proposal
+        can [:create, :destroy], ActsAsVotable::Vote, voter_id: user.id, votable_type: "Legislation::Proposal"
+
         can :create, Legislation::Answer
 
-        can :create, Budget::Investment,               budget: { phase: "accepting" }
-        can :edit, Budget::Investment,                 budget: { phase: "accepting" }, author_id: user.id
-        can :update, Budget::Investment,               budget: { phase: "accepting" }, author_id: user.id
-        can :suggest, Budget::Investment,              budget: { phase: "accepting" }
-        can :destroy, Budget::Investment,              budget: { phase: ["accepting", "reviewing"] }, author_id: user.id
-        can :vote, Budget::Investment,                 budget: { phase: "selecting" }
+        can :create, Budget::Investment,  budget: { phase: "accepting" }
+        can :update, Budget::Investment,  budget: { phase: "accepting" }, author_id: user.id
+        can :suggest, Budget::Investment, budget: { phase: "accepting" }
+        can :destroy, Budget::Investment, budget: { phase: ["accepting", "reviewing"] }, author_id: user.id
+        can [:create, :destroy], ActsAsVotable::Vote,
+            voter_id: user.id,
+            votable_type: "Budget::Investment",
+            votable: { budget: { phase: "selecting" }}
 
         can [:show, :create], Budget::Ballot,          budget: { phase: "balloting" }
         can [:create, :destroy], Budget::Ballot::Line, budget: { phase: "balloting" }
@@ -112,6 +112,9 @@ module Abilities
         end
         can :answer, Poll::Question do |question|
           question.answerable_by?(user)
+        end
+        can :destroy, Poll::Answer do |answer|
+          answer.author == user && answer.question.answerable_by?(user)
         end
       end
 

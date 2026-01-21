@@ -1,9 +1,10 @@
 cs:
   moderation:
+    actions:
+      confirm_action: "Jste si jistý? %{action}"
     comments:
       index:
         block_authors: Blokovat autory
-        confirm: Jste si jisti?
         filter: Filtr
         filters:
           all: Vše
@@ -12,9 +13,8 @@ cs:
         headers:
           comment: Komentář
           moderate: Moderovat
-        hide_comments: Skrýt komentáře
+        hide: Skrýt komentáře
         ignore_flags: Označené jako přečtené
-        order: Pořadí
         orders:
           flags: Nejvíce označené
           newest: Nejnovější
@@ -25,7 +25,6 @@ cs:
     debates:
       index:
         block_authors: Blokovat autory
-        confirm: Jste si jisti?
         filter: Filtr
         filters:
           all: Vše
@@ -34,9 +33,8 @@ cs:
         headers:
           debate: Debata
           moderate: Moderovat
-        hide_debates: Skrýt debaty
+        hide: Skrýt debaty
         ignore_flags: Označit za přečtené
-        order: Pořadí
         orders:
           created_at: Nejnovější
           flags: Nejvíce označené
@@ -53,7 +51,6 @@ cs:
     proposals:
       index:
         block_authors: Blokovat autory
-        confirm: Jste si jisti?
         filter: Filtr
         filters:
           all: Vše
@@ -62,9 +59,8 @@ cs:
         headers:
           moderate: Moderovat
           proposal: Návrhy
-        hide_proposals: Skrýt návrhy
+        hide: Skrýt návrhy
         ignore_flags: Označit za přečtené
-        order: Seřadit podle
         orders:
           created_at: Nejnovější
           flags: Nejvíce označené
@@ -72,7 +68,6 @@ cs:
     budget_investments:
       index:
         block_authors: Blokovat autory
-        confirm: Jste si jisti?
         filter: Filtr
         filters:
           all: Vše
@@ -81,9 +76,8 @@ cs:
         headers:
           moderate: Moderovat
           budget_investment: Rozpočet
-        hide_budget_investments: Skrýt rozpočtové investice
+        hide: Skrýt rozpočtové investice
         ignore_flags: Označit za přečtené
-        order: Seřadit podle
         orders:
           created_at: Nejnovější
           flags: Nejvíce označené
@@ -91,7 +85,6 @@ cs:
     proposal_notifications:
       index:
         block_authors: Blokovat autory
-        confirm: Jste si jisti?
         filter: Filtr
         filters:
           all: Vše
@@ -100,17 +93,19 @@ cs:
         headers:
           moderate: Moderovat
           proposal_notification: Upozornění k návrhům
-        hide_proposal_notifications: Skrýt návrhy
+        hide: Skrýt návrhy
         ignore_flags: Označit za přečtené
-        order: Seřadit podle
         orders:
           created_at: Nejnovější
           moderated: Moderované
         title: Upozornění k návrhům
     users:
       index:
-        hidden: Blokováno
+        block: Blokovat
+        confirm_block: "Jste si jistý? Tím se skryje uživatel \"%{name}\" a veškerý jeho obsah."
+        confirm_hide: "Jste si jistý? Tím se skryje uživatel \"%{name}\", aniž by se skryl jeho obsah."
         hide: Blokovat
         search_placeholder: email nebo jméno uživatele
         title: Blokovat uživatele
+      notice_block: Uživatel byl zablokován. Veškerý obsah, jehož je tento uživatel autorem, byl skryt.
       notice_hide: Uživatel byl zablokován. Všechny debaty a komentáře tohoto uživatele byly skryty.

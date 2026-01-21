@@ -5,8 +5,6 @@ class Admin::Poll::ShiftsController < Admin::Poll::BaseController
   def new
     load_shifts
     @shift = ::Poll::Shift.new
-    @voting_polls = @booth.polls.current
-    @recount_polls = @booth.polls.current_or_recounting
   end
 
   def create
@@ -56,9 +54,13 @@ class Admin::Poll::ShiftsController < Admin::Poll::BaseController
     end
 
     def shift_params
+      shift_params = params.require(:shift).permit(allowed_params)
+      shift_params.merge(date: shift_params[:date][:"#{shift_params[:task]}_date"])
+    end
+
+    def allowed_params
       date_attributes = [:vote_collection_date, :recount_scrutiny_date]
-      attributes = [:booth_id, :officer_id, :task, date: date_attributes]
-      shift_params = params.require(:shift).permit(*attributes)
-      shift_params.merge(date: shift_params[:date]["#{shift_params[:task]}_date".to_sym])
+
+      [:booth_id, :officer_id, :task, date: date_attributes]
     end
 end

@@ -1,5 +1,4 @@
 .sdg-related-list-selector {
-  @include grid-column-gutter;
   clear: both;
 
   > legend {
@@ -7,7 +6,7 @@
   }
 
   .amsify-suggestags-area .amsify-select-tag {
-    color: $white;
+    color: $sdg-text;
 
     @each $code, $color in $sdg-colors {
       &[data-val^="#{$code}"] {
@@ -23,8 +22,8 @@
     }
 
     legend {
-      font-weight: normal;
       font-style: italic;
+      font-weight: normal;
     }
   }
 
@@ -35,7 +34,7 @@
       @include element-invisible;
 
       &:focus + label {
-        outline: $outline-focus;
+        @include focus-outline;
       }
 
       &:checked + label img {
@@ -45,13 +44,13 @@
   }
 
   .help-text {
-    font-weight: normal;
-    font-style: italic;
     font-size: $base-font-size;
+    font-style: italic;
+    font-weight: normal;
   }
 
   .input-section {
-    margin-bottom: 2 * $line-height / 3;
+    margin-bottom: calc(#{2 * $line-height} / 3);
   }
 
   .amsify-suggestags-area {
@@ -67,17 +66,13 @@
     flex-wrap: wrap;
 
     > input {
-      margin-bottom: $line-height / 4 !important;
+      margin-bottom: calc(#{$line-height} / 4) !important;
       order: -1;
     }
   }
 
   .remove-tag {
-    color: $white;
-
-    &:focus {
-      outline: $outline-focus;
-    }
+    color: $sdg-text;
   }
 
   h3 {

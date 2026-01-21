@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe SDG::Goals::PlainTagListComponent, type: :component do
+describe SDG::Goals::PlainTagListComponent do
   let(:debate) { create(:debate, sdg_goals: [SDG::Goal[1], SDG::Goal[3]]) }
   let(:component) { SDG::Goals::PlainTagListComponent.new(debate) }
 
@@ -14,7 +14,7 @@ describe SDG::Goals::PlainTagListComponent, type: :component do
 
     render_inline component
 
-    expect(page).not_to have_css "li"
+    expect(page).not_to be_rendered
   end
 
   it "does not render when the SDG process feature is disabled" do
@@ -34,7 +34,7 @@ describe SDG::Goals::PlainTagListComponent, type: :component do
   it "renders icons for each goal" do
     render_inline component
 
-    expect(page).to have_selector ".sdg-goal-icon", count: 2
+    expect(page).to have_css ".sdg-goal-icon", count: 2
   end
 
   it "orders goals by code" do
@@ -48,7 +48,7 @@ describe SDG::Goals::PlainTagListComponent, type: :component do
 
     render_inline component
 
-    expect(page).to have_selector ".sdg-goal-icon"
+    expect(page).to have_css ".sdg-goal-icon"
     expect(page).to have_link "1+",
                               title: "One more goal",
                               href: "/debates/#{debate.to_param}"

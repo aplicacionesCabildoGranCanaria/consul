@@ -3,10 +3,11 @@ class Comment < ApplicationRecord
   include HasPublicAuthor
   include Graphqlable
   include Notifiable
+  include Searchable
 
   COMMENTABLE_TYPES = %w[Debate Proposal Budget::Investment Poll Topic
-                        Legislation::Question Legislation::Annotation
-                        Legislation::Proposal].freeze
+                         Legislation::Question Legislation::Annotation
+                         Legislation::Proposal].freeze
 
   acts_as_paranoid column: :hidden_at
   include ActsAsParanoidAliases
@@ -21,7 +22,7 @@ class Comment < ApplicationRecord
   validates_translation :body, presence: true
   validates :user, presence: true
 
-  validates :commentable_type, inclusion: { in: COMMENTABLE_TYPES }
+  validates :commentable_type, inclusion: { in: ->(*) { COMMENTABLE_TYPES }}
 
   validate :validate_body_length
   validate :comment_valuation, if: -> { valuation }
@@ -32,19 +33,15 @@ class Comment < ApplicationRecord
   before_save :calculate_confidence_score
 
   scope :for_render, -> { with_hidden.includes(user: :organization) }
-  scope :with_visible_author, -> { joins(:user).where("users.hidden_at IS NULL") }
-  scope :not_as_admin_or_moderator, -> do
-    where("administrator_id IS NULL").where("moderator_id IS NULL")
-  end
+  scope :with_visible_author, -> { joins(:user).where(users: { hidden_at: nil }) }
+  scope :not_as_admin_or_moderator, -> { where(administrator_id: nil).where(moderator_id: nil) }
   scope :sort_by_flags, -> { order(flags_count: :desc, updated_at: :desc) }
   scope :public_for_api, -> do
     not_valuations
-      .where(%{(comments.commentable_type = 'Debate' and comments.commentable_id in (?)) or
-            (comments.commentable_type = 'Proposal' and comments.commentable_id in (?)) or
-            (comments.commentable_type = 'Poll' and comments.commentable_id in (?))},
-          Debate.public_for_api.pluck(:id),
-          Proposal.public_for_api.pluck(:id),
-          Poll.public_for_api.pluck(:id))
+      .where(commentable: [Debate.public_for_api,
+                           Proposal.public_for_api,
+                           Poll.public_for_api,
+                           Budget::Investment.public_for_api])
   end
 
   scope :sort_by_most_voted, -> { order(confidence_score: :desc, created_at: :desc) }
@@ -63,10 +60,10 @@ class Comment < ApplicationRecord
 
   def self.build(commentable, user, body, p_id = nil, valuation = false)
     new(commentable: commentable,
-        user_id:     user.id,
-        body:        body,
-        parent_id:   p_id,
-        valuation:   valuation)
+        user_id: user.id,
+        body: body,
+        parent_id: p_id,
+        valuation: valuation)
   end
 
   def self.find_commentable(c_type, c_id)
@@ -83,6 +80,10 @@ class Comment < ApplicationRecord
 
   def author=(author)
     self.user = author
+  end
+
+  def human_name
+    body.truncate(32)
   end
 
   def total_votes
@@ -134,12 +135,24 @@ class Comment < ApplicationRecord
     cached_votes_up - cached_votes_down
   end
 
+  def searchable_values
+    {
+      body => "A",
+      commentable&.title => "B"
+    }
+  end
+
+  def self.search(terms)
+    pg_search(terms)
+  end
+
   private
 
     def validate_body_length
       validator = ActiveModel::Validations::LengthValidator.new(
         attributes: :body,
-        maximum: Comment.body_max_length)
+        maximum: Comment.body_max_length
+      )
       validator.validate(self)
     end
 

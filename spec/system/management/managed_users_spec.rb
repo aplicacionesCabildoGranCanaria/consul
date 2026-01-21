@@ -34,7 +34,7 @@ describe "Managed User" do
       fill_in "document_verification_document_number", with: user.document_number
       click_button "Check document"
 
-      expect(page).to have_content "Vote proposals"
+      expect(page).to have_content "Vote for budget projects"
 
       click_button "Verify"
 
@@ -70,7 +70,8 @@ describe "Managed User" do
       fill_in "email_verification_email", with: user.email
       click_button "Send verification email"
 
-      expect(page).to have_content("In order to completely verify this user, it is necessary that the user clicks on a link")
+      expect(page).to have_content "In order to completely verify this user, " \
+                                   "it is necessary that the user clicks on a link"
 
       within(".account-info") do
         expect(page).to have_content "Identified as"

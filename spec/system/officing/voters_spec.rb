@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe "Voters" do
-  let(:poll) { create(:poll, :current) }
+  let(:poll) { create(:poll) }
   let(:booth) { create(:poll_booth) }
   let(:officer) { create(:poll_officer) }
 
@@ -35,7 +35,7 @@ describe "Voters" do
   end
 
   scenario "Cannot vote" do
-    unvotable_poll = create(:poll, :current, geozone_restricted: true, geozones: [create(:geozone, census_code: "02")])
+    unvotable_poll = create(:poll, geozone_restricted_to: [create(:geozone, census_code: "02")])
     create(:poll_officer_assignment, officer: officer, poll: unvotable_poll, booth: booth)
 
     set_officing_booth(booth)
@@ -49,7 +49,7 @@ describe "Voters" do
   end
 
   scenario "Already voted" do
-    poll2 = create(:poll, :current)
+    poll2 = create(:poll)
     create(:poll_officer_assignment, officer: officer, poll: poll2, booth: booth)
 
     user = create(:user, :level_two)
@@ -68,11 +68,13 @@ describe "Voters" do
   end
 
   scenario "Had already verified his residence, but is not level 2 yet" do
-    user = create(:user, residence_verified_at: Time.current, document_type: "1", document_number: "12345678Z")
+    user = create(:user,
+                  residence_verified_at: Time.current,
+                  document_type: "1",
+                  document_number: "12345678Z")
     expect(user).not_to be_level_two_verified
 
-    visit root_path
-    click_link "Sign out"
+    logout
     login_through_form_as_officer(officer.user)
 
     visit new_officing_residence_path
@@ -84,7 +86,7 @@ describe "Voters" do
 
   context "Polls displayed to officers" do
     scenario "Display current polls assigned to a booth" do
-      poll = create(:poll, :current)
+      poll = create(:poll)
       create(:poll_officer_assignment, officer: officer, poll: poll, booth: booth)
 
       set_officing_booth(booth)
@@ -96,7 +98,7 @@ describe "Voters" do
     end
 
     scenario "Display polls that the user can vote" do
-      votable_poll = create(:poll, :current, geozone_restricted: true, geozones: [Geozone.first])
+      votable_poll = create(:poll, geozone_restricted_to: [Geozone.first])
       create(:poll_officer_assignment, officer: officer, poll: votable_poll, booth: booth)
 
       set_officing_booth(booth)
@@ -108,7 +110,7 @@ describe "Voters" do
     end
 
     scenario "Display polls that the user cannot vote" do
-      unvotable_poll = create(:poll, :current, geozone_restricted: true, geozones: [create(:geozone, census_code: "02")])
+      unvotable_poll = create(:poll, geozone_restricted_to: [create(:geozone, census_code: "02")])
       create(:poll_officer_assignment, officer: officer, poll: unvotable_poll, booth: booth)
 
       set_officing_booth(booth)
@@ -132,8 +134,8 @@ describe "Voters" do
     end
 
     scenario "Do not display polls from other booths" do
-      poll1 = create(:poll, :current)
-      poll2 = create(:poll, :current)
+      poll1 = create(:poll)
+      poll2 = create(:poll)
 
       booth1 = create(:poll_booth)
       booth2 = create(:poll_booth)
@@ -160,7 +162,7 @@ describe "Voters" do
   end
 
   scenario "Store officer and booth information" do
-    create(:user, :in_census, id: rand(9999999))
+    create(:user, :in_census)
     poll1 = create(:poll, name: "¿Quieres que XYZ sea aprobado?")
     poll2 = create(:poll, name: "Pregunta de votación de prueba")
 

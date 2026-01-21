@@ -26,7 +26,7 @@ describe RemoteCensusApi do
     end
 
     describe "request messages" do
-      let(:valid_response) { File.read("spec/fixtures/files/remote_census_api/valid.xml") }
+      let(:valid_response) { File.read(file_fixture("remote_census_api/valid.xml")) }
 
       def request_with(params)
         { "request" => params }
@@ -36,7 +36,7 @@ describe RemoteCensusApi do
         params = {
           "document_type" => "1",
           "date_of_birth" => "1980-12-31",
-          "postal_code"   => "28013"
+          "postal_code" => "28013"
         }
 
         savon.expects(:verify_residence)
@@ -79,8 +79,8 @@ describe RemoteCensusApi do
         params = {
           "document_type" => "1",
           "date_of_birth" => "1980-12-31",
-          "postal_code"   => "28013",
-          "api_key"       => "your_api_key"
+          "postal_code" => "28013",
+          "api_key" => "your_api_key"
         }
 
         savon.expects(:verify_residence)

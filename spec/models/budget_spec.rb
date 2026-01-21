@@ -6,6 +6,7 @@ describe Budget do
   it_behaves_like "sluggable", updatable_slug_trait: :drafting
   it_behaves_like "reportable"
   it_behaves_like "globalizable", :budget
+  it_behaves_like "acts as imageable", :budget_image
 
   describe "scopes" do
     describe ".open" do
@@ -114,6 +115,29 @@ describe Budget do
     end
   end
 
+  describe "main_link_url" do
+    it "is not required if main_link_text is not provided" do
+      valid_budget = build(:budget, main_link_text: nil)
+
+      expect(valid_budget).to be_valid
+    end
+
+    it "is required if main_link_text is provided" do
+      invalid_budget = build(:budget, main_link_text: "link text")
+
+      expect(invalid_budget).not_to be_valid
+      expect(invalid_budget.errors.count).to be 1
+      expect(invalid_budget.errors[:main_link_url].count).to be 1
+      expect(invalid_budget.errors[:main_link_url].first).to eq "can't be blank"
+    end
+
+    it "is valid if main_link_text and main_link_url are both provided" do
+      valid_budget = build(:budget, main_link_text: "Text link", main_link_url: "https://consuldemocracy.org")
+
+      expect(valid_budget).to be_valid
+    end
+  end
+
   describe "phase" do
     it "is validated" do
       Budget::Phase::PHASE_KINDS.each do |phase|
@@ -122,6 +146,16 @@ describe Budget do
       end
 
       budget.phase = "inexisting"
+      expect(budget).not_to be_valid
+    end
+
+    it "dynamically validates the phases" do
+      stub_const("#{Budget::Phase}::PHASE_KINDS", %w[accepting custom])
+
+      budget.phase = "custom"
+      expect(budget).to be_valid
+
+      budget.phase = "reviewing"
       expect(budget).not_to be_valid
     end
 
@@ -207,7 +241,7 @@ describe Budget do
     it "returns nil if there is only one budget and it is still in drafting phase" do
       create(:budget, :drafting)
 
-      expect(Budget.current).to eq(nil)
+      expect(Budget.current).to be nil
     end
 
     it "returns the budget if there is only one and not in drafting phase" do
@@ -254,6 +288,16 @@ describe Budget do
       expect(budget.investments_orders).to eq(["random", "price"])
     end
 
+    it "is random when ballotting and reviewing ballots if hide money" do
+      budget.update!(voting_style: "approval", hide_money: true)
+      budget.phase = "publishing_prices"
+      expect(budget.investments_orders).to eq(["random"])
+      budget.phase = "balloting"
+      expect(budget.investments_orders).to eq(["random"])
+      budget.phase = "reviewing_ballots"
+      expect(budget.investments_orders).to eq(["random"])
+    end
+
     it "is random and confidence_score in all other cases" do
       budget.phase = "selecting"
       expect(budget.investments_orders).to eq(["random", "confidence_score"])
@@ -262,15 +306,45 @@ describe Budget do
     end
   end
 
+  describe "#investments_filters" do
+    it "returns no filters before valuating" do
+      %w[informing accepting reviewing selecting].each do |phase|
+        budget.phase = phase
+
+        expect(budget.investments_filters).to be_empty
+      end
+    end
+
+    it "returns feasibility filters during valuation" do
+      budget.phase = "valuating"
+
+      expect(budget.investments_filters).to eq(%w[not_unfeasible unfeasible])
+    end
+
+    it "returns feasibility and selection filters during the final voting phases" do
+      %w[publishing_prices balloting reviewing_ballots].each do |phase|
+        budget.phase = phase
+
+        expect(budget.investments_filters).to eq(%w[selected unselected unfeasible])
+      end
+    end
+
+    it "returns winners, unfeasible and unselected when the budget has finished" do
+      budget.phase = "finished"
+
+      expect(budget.investments_filters).to eq(%w[winners unselected unfeasible])
+    end
+  end
+
   describe "#has_winning_investments?" do
     it "returns true if there is a winner investment" do
       budget.investments << build(:budget_investment, :winner, price: 3, ballot_lines_count: 2)
 
-      expect(budget.has_winning_investments?).to eq true
+      expect(budget.has_winning_investments?).to be true
     end
 
     it "hould return false if there is not a winner investment" do
-      expect(budget.has_winning_investments?).to eq false
+      expect(budget.has_winning_investments?).to be false
     end
   end
 
@@ -296,9 +370,9 @@ describe Budget do
       expect(publishing_prices_phase.next_phase).to eq(balloting_phase)
       expect(balloting_phase.next_phase).to eq(reviewing_ballots_phase)
       expect(reviewing_ballots_phase.next_phase).to eq(finished_phase)
-      expect(finished_phase.next_phase).to eq(nil)
+      expect(finished_phase.next_phase).to be nil
 
-      expect(informing_phase.prev_phase).to eq(nil)
+      expect(informing_phase.prev_phase).to be nil
       expect(accepting_phase.prev_phase).to eq(informing_phase)
       expect(reviewing_phase.prev_phase).to eq(accepting_phase)
       expect(selecting_phase.prev_phase).to eq(reviewing_phase)
@@ -313,30 +387,34 @@ describe Budget do
   describe "#formatted_amount" do
     it "correctly formats Euros with Spanish" do
       budget.update!(currency_symbol: "€")
-      I18n.locale = :es
 
-      expect(budget.formatted_amount(1000.00)).to eq "1.000 €"
+      I18n.with_locale(:es) do
+        expect(budget.formatted_amount(1000.00)).to eq "1.000 €"
+      end
     end
 
     it "correctly formats Dollars with Spanish" do
       budget.update!(currency_symbol: "$")
-      I18n.locale = :es
 
-      expect(budget.formatted_amount(1000.00)).to eq "1.000 $"
+      I18n.with_locale(:es) do
+        expect(budget.formatted_amount(1000.00)).to eq "1.000 $"
+      end
     end
 
     it "correctly formats Dollars with English" do
       budget.update!(currency_symbol: "$")
-      I18n.locale = :en
 
-      expect(budget.formatted_amount(1000.00)).to eq "$1,000"
+      I18n.with_locale(:en) do
+        expect(budget.formatted_amount(1000.00)).to eq "$1,000"
+      end
     end
 
     it "correctly formats Euros with English" do
       budget.update!(currency_symbol: "€")
-      I18n.locale = :en
 
-      expect(budget.formatted_amount(1000.00)).to eq "€1,000"
+      I18n.with_locale(:en) do
+        expect(budget.formatted_amount(1000.00)).to eq "€1,000"
+      end
     end
   end
 
@@ -387,6 +465,13 @@ describe Budget do
       it { expect(build(:budget, :approval)).to be_valid }
       it { expect(build(:budget, :knapsack)).to be_valid }
       it { expect(build(:budget, voting_style: "Oups!")).not_to be_valid }
+
+      it "dynamically validates the voting styles" do
+        stub_const("#{Budget}::VOTING_STYLES", %w[custom])
+
+        expect(build(:budget, voting_style: "custom")).to be_valid
+        expect(build(:budget, voting_style: "knapsack")).not_to be_valid
+      end
     end
 
     context "Related supportive methods" do
@@ -422,6 +507,45 @@ describe Budget do
 
       expect(BudgetValuator.count).to be 0
       expect(Valuator.count).to be 1
+    end
+  end
+
+  describe "#single_heading?" do
+    it "returns false for budgets with no groups nor headings" do
+      expect(create(:budget).single_heading?).to be false
+    end
+
+    it "returns false for budgets with one group and no headings" do
+      create(:budget_group, budget: budget)
+
+      expect(budget.single_heading?).to be false
+    end
+
+    it "returns false for budgets with multiple groups and one heading" do
+      2.times { create(:budget_group, budget: budget) }
+      create(:budget_heading, group: budget.groups.last)
+
+      expect(budget.single_heading?).to be false
+    end
+
+    it "returns false for budgets with one group and multiple headings" do
+      group = create(:budget_group, budget: budget)
+      2.times { create(:budget_heading, group: group) }
+
+      expect(budget.single_heading?).to be false
+    end
+
+    it "returns false for budgets with one group and multiple headings" do
+      2.times { create(:budget_group, budget: budget) }
+      2.times { create(:budget_heading, group: budget.groups.sample) }
+
+      expect(budget.single_heading?).to be false
+    end
+
+    it "returns true for budgets with one group and one heading" do
+      create(:budget_heading, group: create(:budget_group, budget: budget))
+
+      expect(budget.single_heading?).to be true
     end
   end
 end

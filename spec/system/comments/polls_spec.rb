@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe "Commenting polls" do
-  let(:user) { create :user }
+  let(:user) { create(:user) }
   let(:poll) { create(:poll, author: create(:user)) }
 
   scenario "Index" do
@@ -20,23 +20,21 @@ describe "Commenting polls" do
   end
 
   scenario "Show" do
-    skip "Feature not implemented yet, review soon"
-
-    parent_comment = create(:comment, commentable: poll)
-    first_child    = create(:comment, commentable: poll, parent: parent_comment)
-    second_child   = create(:comment, commentable: poll, parent: parent_comment)
+    parent_comment = create(:comment, commentable: poll, body: "Parent")
+    create(:comment, commentable: poll, parent: parent_comment, body: "First subcomment")
+    create(:comment, commentable: poll, parent: parent_comment, body: "Last subcomment")
 
     visit comment_path(parent_comment)
 
-    expect(page).to have_css(".comment", count: 3)
-    expect(page).to have_content parent_comment.body
-    expect(page).to have_content first_child.body
-    expect(page).to have_content second_child.body
+    expect(page).to have_css ".comment", count: 3
+    expect(page).to have_content "Parent"
+    expect(page).to have_content "First subcomment"
+    expect(page).to have_content "Last subcomment"
     expect(page).to have_link "Go back to #{poll.name}", href: poll_path(poll)
 
-    expect(page).to have_selector("ul#comment_#{parent_comment.id}>li", count: 2)
-    expect(page).to have_selector("ul#comment_#{first_child.id}>li", count: 1)
-    expect(page).to have_selector("ul#comment_#{second_child.id}>li", count: 1)
+    within ".comment", text: "Parent" do
+      expect(page).to have_css ".comment", count: 2
+    end
   end
 
   scenario "Link to comment show" do
@@ -104,18 +102,22 @@ describe "Commenting polls" do
     expect(c1.body).to appear_before(c2.body)
     expect(c2.body).to appear_before(c3.body)
 
-    visit poll_path(poll, order: :newest)
+    click_link "Newest first"
 
+    expect(page).to have_link "Newest first", class: "is-active"
+    expect(page).to have_current_path(/#comments/, url: true)
     expect(c3.body).to appear_before(c2.body)
     expect(c2.body).to appear_before(c1.body)
 
-    visit poll_path(poll, order: :oldest)
+    click_link "Oldest first"
 
+    expect(page).to have_link "Oldest first", class: "is-active"
+    expect(page).to have_current_path(/#comments/, url: true)
     expect(c1.body).to appear_before(c2.body)
     expect(c2.body).to appear_before(c3.body)
   end
 
-  scenario "Creation date works differently in roots and in child comments, when sorting by confidence_score" do
+  scenario "Creation date works differently in roots and child comments when sorting by confidence_score" do
     old_root = create(:comment, commentable: poll, created_at: Time.current - 10)
     new_root = create(:comment, commentable: poll, created_at: Time.current)
     old_child = create(:comment, commentable: poll, parent_id: new_root.id, created_at: Time.current - 10)
@@ -138,7 +140,7 @@ describe "Commenting polls" do
   end
 
   scenario "Turns links into html links" do
-    create :comment, commentable: poll, body: "Built with http://rubyonrails.org/"
+    create(:comment, commentable: poll, body: "Built with http://rubyonrails.org/")
 
     visit poll_path(poll)
 
@@ -146,13 +148,15 @@ describe "Commenting polls" do
       expect(page).to have_content "Built with http://rubyonrails.org/"
       expect(page).to have_link("http://rubyonrails.org/", href: "http://rubyonrails.org/")
       expect(find_link("http://rubyonrails.org/")[:rel]).to eq("nofollow")
-      expect(find_link("http://rubyonrails.org/")[:target]).to eq("_blank")
+      expect(find_link("http://rubyonrails.org/")[:target]).to be_blank
     end
   end
 
   scenario "Sanitizes comment body for security" do
-    create :comment, commentable: poll,
-                     body: "<script>alert('hola')</script> <a href=\"javascript:alert('sorpresa!')\">click me<a/> http://www.url.com"
+    create(:comment, commentable: poll,
+                     body: "<script>alert('hola')</script> " \
+                           "<a href=\"javascript:alert('sorpresa!')\">click me<a/> " \
+                           "http://www.url.com")
 
     visit poll_path(poll)
 
@@ -178,6 +182,7 @@ describe "Commenting polls" do
     end
 
     expect(page).to have_css(".comment", count: 2)
+    expect(page).to have_current_path(/#comments/, url: true)
   end
 
   describe "Not logged user" do
@@ -237,7 +242,7 @@ describe "Commenting polls" do
       expect(page).to have_content "It will be done next week."
     end
 
-    expect(page).not_to have_selector("#js-comment-form-comment_#{comment.id}")
+    expect(page).not_to have_css "#js-comment-form-comment_#{comment.id}"
   end
 
   scenario "Reply update parent comment responses count" do
@@ -312,8 +317,6 @@ describe "Commenting polls" do
 
   describe "Moderators" do
     scenario "can create comment as a moderator" do
-      skip "Feature not implemented yet, review soon"
-
       moderator = create(:moderator)
 
       login_as(moderator.user)
@@ -332,8 +335,6 @@ describe "Commenting polls" do
     end
 
     scenario "can create reply as a moderator" do
-      skip "Feature not implemented yet, review soon"
-
       citizen = create(:user, username: "Ana")
       manuela = create(:user, username: "Manuela")
       moderator = create(:moderator, user: manuela)
@@ -357,12 +358,10 @@ describe "Commenting polls" do
         expect(page).to have_css "img.moderator-avatar"
       end
 
-      expect(page).not_to have_selector("#js-comment-form-comment_#{comment.id}")
+      expect(page).not_to have_css "#js-comment-form-comment_#{comment.id}"
     end
 
     scenario "can not comment as an administrator" do
-      skip "Feature not implemented yet, review soon"
-
       moderator = create(:moderator)
 
       login_as(moderator.user)
@@ -374,8 +373,6 @@ describe "Commenting polls" do
 
   describe "Administrators" do
     scenario "can create comment as an administrator" do
-      skip "Feature not implemented yet, review soon"
-
       admin = create(:administrator)
 
       login_as(admin.user)
@@ -394,8 +391,6 @@ describe "Commenting polls" do
     end
 
     scenario "can create reply as an administrator" do
-      skip "Feature not implemented yet, review soon"
-
       citizen = create(:user, username: "Ana")
       manuela = create(:user, username: "Manuela")
       admin   = create(:administrator, user: manuela)
@@ -419,12 +414,10 @@ describe "Commenting polls" do
         expect(page).to have_css "img.admin-avatar"
       end
 
-      expect(page).not_to have_selector("#js-comment-form-comment_#{comment.id}")
+      expect(page).not_to have_css "#js-comment-form-comment_#{comment.id}"
     end
 
     scenario "can not comment as a moderator", :admin do
-      skip "Feature not implemented yet, review soon"
-
       visit poll_path(poll)
 
       expect(page).not_to have_content "Comment as moderator"
@@ -448,7 +441,7 @@ describe "Commenting polls" do
       visit poll_path(poll)
 
       within("#comment_#{comment.id}_votes") do
-        within(".in_favor") do
+        within(".in-favor") do
           expect(page).to have_content "1"
         end
 
@@ -464,9 +457,9 @@ describe "Commenting polls" do
       visit poll_path(poll)
 
       within("#comment_#{comment.id}_votes") do
-        find(".in_favor a").click
+        click_button "I agree"
 
-        within(".in_favor") do
+        within(".in-favor") do
           expect(page).to have_content "1"
         end
 
@@ -482,15 +475,15 @@ describe "Commenting polls" do
       visit poll_path(poll)
 
       within("#comment_#{comment.id}_votes") do
-        find(".in_favor a").click
+        click_button "I agree"
 
-        within(".in_favor") do
+        within(".in-favor") do
           expect(page).to have_content "1"
         end
 
-        find(".against a").click
+        click_button "I disagree"
 
-        within(".in_favor") do
+        within(".in-favor") do
           expect(page).to have_content "0"
         end
 
@@ -502,27 +495,27 @@ describe "Commenting polls" do
       end
     end
 
-    scenario "Trying to vote multiple times" do
+    scenario "Allow undoing votes" do
       visit poll_path(poll)
 
       within("#comment_#{comment.id}_votes") do
-        find(".in_favor a").click
+        click_button "I agree"
 
-        within(".in_favor") do
+        within(".in-favor") do
           expect(page).to have_content "1"
         end
 
-        find(".in_favor a").click
+        click_button "I agree"
 
-        within(".in_favor") do
-          expect(page).to have_content "1"
+        within(".in-favor") do
+          expect(page).to have_content "0"
         end
 
         within(".against") do
           expect(page).to have_content "0"
         end
 
-        expect(page).to have_content "1 vote"
+        expect(page).to have_content "No votes"
       end
     end
   end

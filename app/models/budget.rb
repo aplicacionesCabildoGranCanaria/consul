@@ -1,10 +1,10 @@
 class Budget < ApplicationRecord
   include Measurable
   include Sluggable
-  include StatsVersionable
   include Reportable
+  include Imageable
 
-  translates :name, touch: true
+  translates :name, :main_link_text, :main_link_url, touch: true
   include Globalizable
 
   class Translation
@@ -23,15 +23,17 @@ class Budget < ApplicationRecord
   VOTING_STYLES = %w[knapsack approval].freeze
 
   validates_translation :name, presence: true
-  validates :phase, inclusion: { in: Budget::Phase::PHASE_KINDS }
+  validates_translation :main_link_url, presence: true, unless: -> { main_link_text.blank? }
+  validates :phase, inclusion: { in: ->(*) { Budget::Phase::PHASE_KINDS }}
   validates :currency_symbol, presence: true
   validates :slug, presence: true, format: /\A[a-z0-9\-_]+\z/
-  validates :voting_style, inclusion: { in: VOTING_STYLES }
+  validates :voting_style, inclusion: { in: ->(*) { VOTING_STYLES }}
 
   has_many :investments, dependent: :destroy
   has_many :ballots, dependent: :destroy
   has_many :groups, dependent: :destroy
   has_many :headings, through: :groups
+  has_many :geozones, through: :headings
   has_many :lines, through: :ballots, class_name: "Budget::Ballot::Line"
   has_many :phases, class_name: "Budget::Phase"
   has_many :budget_administrators, dependent: :destroy
@@ -42,9 +44,10 @@ class Budget < ApplicationRecord
   has_one :poll
 
   after_create :generate_phases
+  accepts_nested_attributes_for :phases
 
   scope :published, -> { where(published: true) }
-  scope :drafting,  -> { where.not(id: published) }
+  scope :drafting,  -> { excluding(published) }
   scope :informing, -> { where(phase: "informing") }
   scope :accepting, -> { where(phase: "accepting") }
   scope :reviewing, -> { where(phase: "reviewing") }
@@ -55,6 +58,7 @@ class Budget < ApplicationRecord
   scope :balloting, -> { where(phase: "balloting") }
   scope :reviewing_ballots, -> { where(phase: "reviewing_ballots") }
   scope :finished, -> { where(phase: "finished") }
+  scope :public_for_api, -> { published }
 
   class << self; undef :open; end
   scope :open, -> { where.not(phase: "finished") }
@@ -151,12 +155,20 @@ class Budget < ApplicationRecord
     current_phase&.publishing_prices_or_later?
   end
 
-  def balloting_process?
-    balloting? || reviewing_ballots?
-  end
-
   def balloting_or_later?
     current_phase&.balloting_or_later?
+  end
+
+  def balloting_finished?
+    balloting_or_later? && !balloting?
+  end
+
+  def single_group?
+    groups.one?
+  end
+
+  def single_heading?
+    single_group? && headings.one?
   end
 
   def heading_price(heading)
@@ -176,15 +188,23 @@ class Budget < ApplicationRecord
 
   def investments_orders
     case phase
-    when "accepting", "reviewing"
+    when "accepting", "reviewing", "finished"
       %w[random]
     when "publishing_prices", "balloting", "reviewing_ballots"
-      %w[random price]
-    when "finished"
-      %w[random]
+      hide_money? ? %w[random] : %w[random price]
     else
       %w[random confidence_score]
     end
+  end
+
+  def investments_filters
+    [
+      ("winners" if finished?),
+      ("selected" if publishing_prices_or_later? && !finished?),
+      ("unselected" if publishing_prices_or_later?),
+      ("not_unfeasible" if valuating?),
+      ("unfeasible" if valuating_or_later?)
+    ].compact
   end
 
   def email_selected
@@ -209,6 +229,10 @@ class Budget < ApplicationRecord
 
   def approval_voting?
     voting_style == "approval"
+  end
+
+  def show_money?
+    !hide_money?
   end
 
   private

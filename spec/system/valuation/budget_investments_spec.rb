@@ -20,13 +20,6 @@ describe "Valuation budget investments" do
     end
   end
 
-  scenario "Display link to valuation section" do
-    visit root_path
-    click_link "Menu"
-
-    expect(page).to have_link "Valuation", href: valuation_root_path
-  end
-
   describe "Index" do
     scenario "Index shows budget investments assigned to current valuator" do
       investment1 = create(:budget_investment, :visible_to_valuators, budget: budget, valuators: [valuator])
@@ -209,10 +202,11 @@ describe "Valuation budget investments" do
       create(:valuator, user: create(:user, username: "Rick", email: "rick@valuators.org"))
     end
     let(:investment) do
-      create(:budget_investment, :unfeasible, budget: budget, price: 1234,
-                                 unfeasibility_explanation: "It is impossible",
-                                 administrator: administrator,
-                                 valuators: [valuator, second_valuator])
+      create(:budget_investment, :unfeasible, budget: budget,
+                                              price: 1234,
+                                              unfeasibility_explanation: "It is impossible",
+                                              administrator: administrator,
+                                              valuators: [valuator, second_valuator])
     end
 
     scenario "visible for assigned valuators" do
@@ -381,13 +375,42 @@ describe "Valuation budget investments" do
       end
     end
 
+    scenario "Dossier hide price on hide money budgets" do
+      budget = create(:budget, :valuating, :hide_money)
+      investment = create(:budget_investment, budget: budget, administrator: admin, valuators: [valuator])
+      investment.update!(visible_to_valuators: true)
+
+      visit valuation_budget_budget_investments_path(budget)
+      within("#budget_investment_#{investment.id}") do
+        click_link "Edit dossier"
+      end
+
+      expect(page).not_to have_content "Price (€)"
+      expect(page).not_to have_content "Cost during the first year (€)"
+      expect(page).not_to have_content "Price explanation"
+
+      choose  "budget_investment_feasibility_feasible"
+      fill_in "budget_investment_duration", with: "12 months"
+      click_button "Save changes"
+
+      expect(page).to have_content "Dossier updated"
+
+      visit valuation_budget_budget_investments_path(budget)
+      click_link investment.title
+
+      within("#duration") { expect(page).to have_content("12 months") }
+      within("#feasibility") { expect(page).to have_content("Feasible") }
+      expect(page).not_to have_css "#price"
+      expect(page).not_to have_css "#price_first_year"
+    end
+
     scenario "Finish valuation" do
       investment.update!(visible_to_valuators: true)
 
       visit valuation_budget_budget_investment_path(budget, investment)
       click_link "Edit dossier"
 
-      accept_confirm { find_field("budget_investment[valuation_finished]").click }
+      accept_confirm { check "Valuation finished" }
       click_button "Save changes"
 
       expect(page).to have_content "Dossier updated"
@@ -434,9 +457,9 @@ describe "Valuation budget investments" do
       scenario "Valuators that are not admins cannot reopen or modify a finished valuation" do
         visit edit_valuation_budget_budget_investment_path(budget, investment)
 
-        expect(page).not_to have_selector("input[id='budget_investment_feasibility_undecided']")
-        expect(page).not_to have_selector("textarea[id='budget_investment_unfeasibility_explanation']")
-        expect(page).not_to have_selector("input[name='budget_investment[valuation_finished]']")
+        expect(page).not_to have_css "input[id='budget_investment_feasibility_undecided']"
+        expect(page).not_to have_css "textarea[id='budget_investment_unfeasibility_explanation']"
+        expect(page).not_to have_css "input[name='budget_investment[valuation_finished]']"
         expect(page).to have_content("Valuation finished")
         expect(page).to have_content("Feasibility: Feasible")
         expect(page).to have_content("Feasibility explanation: Explanation is explanatory")
@@ -464,6 +487,17 @@ describe "Valuation budget investments" do
     scenario "not visible to valuators when budget is not valuating" do
       budget.update!(phase: "publishing_prices")
 
+      investment = create(:budget_investment, budget: budget, valuators: [valuator])
+
+      login_as(valuator.user)
+      visit edit_valuation_budget_budget_investment_path(budget, investment)
+
+      expect(page).to have_content("Investments can only be valuated when Budget is in valuating phase")
+    end
+
+    scenario "restric access to the budget given by params when is not in valuating phase" do
+      budget.update!(phase: "publishing_prices")
+      create(:budget, :valuating)
       investment = create(:budget_investment, budget: budget, valuators: [valuator])
 
       login_as(valuator.user)

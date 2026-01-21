@@ -12,14 +12,16 @@ class Admin::BudgetPhases::PhasesComponent < ApplicationComponent
     end
 
     def dates(phase)
-      Admin::Budgets::DurationComponent.new(phase).dates
+      render Admin::DurationComponent.new(phase)
     end
 
-    def enabled_text(phase)
-      if phase.enabled?
-        tag.span t("shared.yes"), class: "budget-phase-enabled"
-      else
-        tag.span t("shared.no"), class: "budget-phase-disabled"
+    def enabled_cell(phase)
+      render Admin::BudgetPhases::ToggleEnabledComponent.new(phase)
+    end
+
+    def edit_path(phase)
+      if helpers.respond_to?(:single_heading?) && helpers.single_heading?
+        edit_admin_budgets_wizard_budget_budget_phase_path(budget, phase, helpers.url_params)
       end
     end
 end

@@ -1,28 +1,20 @@
 en:
   account:
     show:
-      change_credentials_link: Change my credentials
+      last_sign_in: "Last login: %{last_sign_in_at} from IP %{last_sign_in_ip}"
+      change_credentials_link: Change my login details
       erase_account_link: Erase my account
       finish_verification: Complete verification
       notifications: Notifications
-      organization_name_label: Name of organization
-      organization_responsible_name_placeholder: Representative of the organization/collective
       personal: Personal details
-      phone_number_label: Phone number
       public_interests_my_title_list: Tags of elements you follow
       public_interests_user_title_list: Tags of elements this user follows
       save_changes_submit: Save changes
       recommendations: Recommendations
       title: My account
-      user_permission_debates: Participate on debates
       user_permission_info: With your account you can...
-      user_permission_proposal: Create new proposals
-      user_permission_support_proposal: Support proposals
       user_permission_title: Participation
       user_permission_verify: To perform all the actions verify your account.
-      user_permission_verify_info: "* Only for users on Census."
-      user_permission_votes: Participate on final voting
-      username_label: Username
       verified_account: Account verified
       verify_my_account: Verify my account
   application:
@@ -65,7 +57,6 @@ en:
       newest: Newest first
       oldest: Oldest first
       most_commented: Most commented
-    select_order: Sort by
     show:
       return_to_commentable: "Go back to "
   comments_helper:
@@ -74,15 +65,25 @@ en:
     comments_title: Comments
     reply_button: Publish reply
     reply_link: Reply
+  contact:
+    form:
+      email: "Email"
+      subject: "Subject"
+      description: "Message description"
+      submit: "Send"
+      invalid_email: "Provide a valid email"
+    success: "Your message has been sent successfully."
+    errors:
+      timeout: "The message could not be sent due to a connection issue. Please try again later."
+      smtp: "The mail server rejected the credentials or SMTP configuration. Please contact support."
+      network: "A network error occurred while contacting the mail server. Please check your connection or configuration."
+      unexpected: "An unexpected error occurred while sending the message. Please try again."
+      missing_fields: "All fields are required."
   debates:
     create:
       form:
         submit_button: Start a debate
     debate:
-      comments:
-        one: 1 comment
-        other: "%{count} comments"
-        zero: No comments
       votes:
         one: 1 vote
         other: "%{count} votes"
@@ -93,7 +94,6 @@ en:
         submit_button: Save changes
       show_link: View debate
     form:
-      debate_title: Debate title
       tags_instructions: Tag this debate.
       tags_placeholder: "Enter the tags you would like to use, separated by commas (',')"
     index:
@@ -108,7 +108,7 @@ en:
       recommendations:
         without_results: There are no debates related to your interests
         without_interests: Follow proposals so we can give you recommendations
-        disable: "Debates recommendations will stop showing if you dismiss them. You can enable them again in 'My account' page"
+        disable: "Recommendations for debates will stop showing if you dismiss them. You can enable them again in 'My account' page"
         actions:
           success: "Recommendations for debates are now disabled for this account"
           error: "An error has occured. Please go to 'My account' page to manually disable recommendations for debates"
@@ -116,27 +116,21 @@ en:
         button: Search
         placeholder: Search debates...
         title: Search
-      search_results:
-        one: " containing the term <strong>'%{search_term}'</strong>"
-        other: " containing the term <strong>'%{search_term}'</strong>"
-      select_order: Order by
       start_debate: Start a debate
       title: Debates
       section_header:
         icon_alt: Debates icon
         title: Debates
-        help: Help about debates
+        help: Help with debates
       section_footer:
-        title: Help about debates
+        title: Help with debates
         description: Start a debate to share opinions with others about the topics you are concerned about.
         help_text_1: "The space for citizen debates is aimed at anyone who can expose issues of their concern and those who want to share opinions with other people."
         help_text_2: 'To open a debate you need to sign up on %{org}. Users can also comment on open debates and rate them with the "I agree" or "I disagree" buttons found in each of them.'
     new:
       form:
         submit_button: Start a debate
-      info: If you want to make a proposal, this is the wrong section, enter %{info_link}.
-      info_link: create new proposal
-      more_info: More information
+      more_info: How do debates work?
       recommendation_four: Enjoy this space and the voices that fill it. It belongs to you too.
       recommendation_one: Do not use capital letters for the debate title or for whole sentences. On the internet, this is considered shouting. And nobody likes being shouted at.
       recommendation_three: Ruthless criticism is very welcome. This is a space for reflection. But we recommend that you stick to elegance and intelligence. The world is a better place with these virtues in it.
@@ -145,10 +139,6 @@ en:
       start_new: Start a debate
     show:
       author_deleted: User deleted
-      comments:
-        one: 1 comment
-        other: "%{count} comments"
-        zero: No comments
       comments_title: Comments
       edit_debate_link: Edit
       flag: This debate has been flagged as inappropriate by several users.
@@ -159,11 +149,15 @@ en:
         submit_button: Save changes
   errors:
     messages:
+      allowed_file_content_types: "content type must be one of %{types}"
       user_not_found: User not found
       invalid_date_range: "Invalid date range"
+      past_date: "Must not be a past date"
+      cannot_change_date:
+        poll_started: "Cannot be changed if voting has already started"
+        poll_ended: "Cannot be changed if voting has already ended"
   form:
     accept_terms: I agree to the %{policy} and the %{conditions}
-    accept_terms_title: I agree to the Privacy Policy and the Terms and conditions of use
     conditions: Terms and conditions of use
     debate: Debate
     direct_message: private message
@@ -182,7 +176,7 @@ en:
     legislation/process: process
     legislation/question: question
     poll/shift: Shift
-    poll/question/answer: Answer
+    poll/question/option: Answer
     user: Account
     verification/sms: phone
     signature_sheet: Signature sheet
@@ -197,16 +191,11 @@ en:
   geozones:
     none: All city
   layouts:
-    application:
-      chrome: Google Chrome
-      firefox: Firefox
-      ie: We have detected that you are browsing with Internet Explorer. For an enhanced experience, we recommend using %{firefox} or %{chrome}.
-      ie_title: This website is not optimised for your browser
     dashboard:
       proposal_header:
         published: Published
         draft: Draft
-        retired: Retired
+        retired: Withdrawn
       proposal_totals:
         active_resources: Active resources
         community: Participants in your community
@@ -220,10 +209,10 @@ en:
     footer:
       accessibility: Accessibility
       conditions: Terms and conditions of use
-      consul: CONSUL application
-      consul_url: https://github.com/consul/consul
-      contact_us: For technical assistance visit
-      copyright: CONSUL, %{year}
+      consul: CONSUL DEMOCRACY application
+      consul_url: https://github.com/consuldemocracy/consuldemocracy
+      copyright: CONSUL DEMOCRACY, %{year}
+      cookies_consent_management: Manage cookies
       description: This portal uses the %{consul} which is %{open_source}.
       open_source: open-source software
       open_source_url: http://www.gnu.org/licenses/agpl-3.0.html
@@ -233,7 +222,6 @@ en:
     header:
       administration_menu: Menu
       administration: Administration
-      available_locales: Available languages
       collaborative_legislation: Collaborative legislation
       debates: Debates
       locale: "Language:"
@@ -255,6 +243,7 @@ en:
           zero: "You don't have new notifications"
         notifications: Notifications
       sdg: "SDG"
+    skip_to_main_content: "Skip to main content"
   notifications:
     index:
       empty_notifications: You don't have new notifications.
@@ -325,11 +314,11 @@ en:
         submit_button: Save changes
       show_link: View proposal
     retire_form:
-      title: Retire proposal
-      warning: "If you retire the proposal it would still accept supports, but will be removed from the main list and a message will be visible to all users stating that the author considers the proposal should not be supported anymore"
+      title: Withdraw proposal
+      warning: "If you withdraw the proposal it will still accept supports, but will be removed from the main list and a message will be visible to all users stating that the author considers the proposal should not be supported anymore"
       retired_reason_blank: Choose an option
       retired_explanation_placeholder: Explain shortly why you think this proposal should not receive more supports
-      submit_button: Retire proposal
+      submit_button: Withdraw proposal
     retire_options:
       duplicated: Duplicated
       started: Already underway
@@ -347,7 +336,6 @@ en:
       map_location: "Map location"
       map_location_instructions: "Navigate the map to the location and place the marker."
       map_remove_marker: "Remove map marker"
-      map_skip_checkbox: "This proposal doesn't have a concrete location or I'm not aware of it."
     index:
       featured_proposals: Featured
       orders:
@@ -361,12 +349,12 @@ en:
       recommendations:
         without_results: There are not proposals related to your interests
         without_interests: Follow proposals so we can give you recommendations
-        disable: "Proposals recommendations will stop showing if you dismiss them. You can enable them again in 'My account' page"
+        disable: "Recommendations for proposals will stop showing if you dismiss them. You can enable them again in 'My account' page"
         actions:
           success: "Recommendations for proposals are now disabled for this account"
           error: "An error has occured. Please go to 'My account' page to manually disable recommendations for proposals"
-      retired_proposals: Retired proposals
-      retired_proposals_link: "Proposals retired by the author"
+      retired_proposals: Withdrawn proposals
+      retired_proposals_link: "Proposals withdrawn by the author"
       selected_proposals: Selected proposals
       selected_proposals_link: View selected proposals
       archived_proposals: Archived proposals
@@ -385,18 +373,16 @@ en:
       search_results:
         one: " containing the term <strong>'%{search_term}'</strong>"
         other: " containing the term <strong>'%{search_term}'</strong>"
-      select_order: Order by
       select_order_long: "You are viewing proposals according to:"
       start_proposal: Create a proposal
       title: Proposals
-      top: Top weekly
       top_link_proposals: The most supported proposals by category
       section_header:
         icon_alt: Proposals icon
         title: Proposals
-        help: Help about proposals
+        help: Help with proposals
       section_footer:
-        title: Help about proposals
+        title: Help with proposals
         description: Citizens' proposals are an opportunity for neighbours and collectives to decide directly how they want their city to be, after getting sufficient support and submitting to a citizens' vote.
     new:
       form:
@@ -408,7 +394,7 @@ en:
       recommendations_title: Recommendations for creating a proposal
       start_new: Create new proposal
     notice:
-      retired: Proposal retired
+      retired: The proposal has been withdrawn
       published: The proposal has been published
     proposal:
       created: "You've created a proposal!"
@@ -417,11 +403,8 @@ en:
         edit: "Before it gets shared you'll be able to change the text as you like."
         view_proposal: Not now, go to my proposal
       already_supported: You have already supported this proposal. Share it!
-      comments:
-        one: 1 comment
-        other: "%{count} comments"
-        zero: No comments
       support: Support
+      support_label: "Support %{proposal}"
       support_title: Support this proposal
       supports:
         one: 1 support
@@ -440,10 +423,6 @@ en:
     show:
       author_deleted: User deleted
       code: "Proposal code:"
-      comments:
-        one: 1 comment
-        other: "%{count} comments"
-        zero: No comments
       comments_tab: Comments
       dashboard_proposal_link: Dashboard
       flag: This proposal has been flagged as inappropriate by several users.
@@ -451,7 +430,7 @@ en:
       milestones_tab: Milestones
       retired_warning: "The author considers this proposal should not receive more supports."
       retired_warning_link_to_explanation: Read the explanation before voting for it.
-      retired: Proposal retired by the author
+      retired: Proposal withdrawn by the author
       share: Share
       no_notifications: "This proposal has no notifications."
       embed_video_title: "Video on %{proposal}"
@@ -483,7 +462,7 @@ en:
       group_by_month: Monthly
       group_by_week: Weekly
       group_by_date: Daily
-      progress: Acumulated progress
+      progress: Accumulated progress
       supports: Supports
       success: Ideal progress
       new_action: New
@@ -491,7 +470,7 @@ en:
       title: Edition
       edit_proposal_link: Edit proposal
       publish: Publish proposal
-      retire: Retire proposal
+      retire: Withdraw proposal
     new_request:
       links: Links
     resources:
@@ -535,7 +514,7 @@ en:
       comments: Comments
       latest_comments: Latest messages
     messages:
-      send_notification: Send message to proposal followers
+      send_notification: Send notification to proposal followers
       previous_notifications: See previous notifications
     polls:
       index:
@@ -605,7 +584,6 @@ en:
         share: "And if you also do me the great favor of sharing my proposal with your friends, family and contacts, it would be perfect!"
   polls:
     all: "All"
-    no_dates: "no date assigned"
     dates: "From %{open_at} to %{closed_at}"
     final_date: "Final recounts/Results"
     index:
@@ -617,7 +595,7 @@ en:
       participate_button_expired: "Poll ended"
       no_geozone_restricted: "All city"
       geozone_restricted: "Districts"
-      geozone_info: "Can participate people in the Census of: "
+      geozone_info: "Only residents in the following areas can participate: "
       already_answer: "You already have participated in this poll"
       not_logged_in: "You must sign in or sign up to participate"
       unverified: "You must verify your account to participate"
@@ -625,9 +603,9 @@ en:
       section_header:
         icon_alt: Voting icon
         title: Voting
-        help: Help about voting
+        help: Help with voting
       section_footer:
-        title: Help about voting
+        title: Help with voting
         description: Citizens' polls are a participatory mechanism by which citizens with voting rights can make direct decisions
       no_polls: "There are no open votings."
     show:
@@ -668,24 +646,29 @@ en:
     show:
       vote_answer: "Vote %{answer}"
       voted: "You have voted %{answer}"
+    description:
+      unique: "You can select a maximum of 1 answer."
+      multiple: "You can select a maximum of %{maximum} answers."
+    read_more_about: "Read more about:"
   proposal_notifications:
     new:
-      title: "Send message"
-      submit_button: "Send message"
-      info_about_receivers: "This message will be sent to <strong>%{count} people</strong> and it will be visible in %{proposal_page}.<br> Messages are not sent immediately, users will receive periodically an email with all proposal notifications."
+      title: "Send notification"
+      submit_button: "Send notification"
+      info_about_receivers: "This notification will be sent to <strong>%{count} people</strong> and it will be visible in %{proposal_page}.<br> Notifications are not sent immediately, users will periodically receive an email with all proposal notifications."
       proposal_page: "the proposal's page"
     show:
       back: "Go back to my content"
   shared:
+    actions:
+      label: "%{action} %{name}"
     edit: "Edit"
+    filter: "Filter"
     save: "Save"
     delete: "Delete"
     "yes": "Yes"
     "no": "No"
     search_results: "Search results"
     advanced_search:
-      author_type: "By author category"
-      author_type_blank: "Select a category"
       date: "By date"
       date_placeholder: "DD/MM/YYYY"
       date_range_blank: "Choose a date"
@@ -696,7 +679,6 @@ en:
       date_5: "Customized"
       from: "From"
       general: "With the text"
-      general_placeholder: "Write the text"
       goal: "By SDG"
       goal_blank: "Select a goal"
       search: "Filter"
@@ -708,9 +690,8 @@ en:
       author_deleted: User deleted
       email_deleted: Email deleted
     back: Go back
-    check: Select
-    check_all: All
-    check_none: None
+    check_all: Select all
+    check_none: Select none
     collective: Collective
     flag: Flag as inappropriate
     follow: "Follow"
@@ -755,7 +736,7 @@ en:
       districts: "Districts"
       districts_list: "Districts list"
       categories: "Categories"
-    target_blank: " (link opens in new window)"
+    target_blank: "Link opens in new window"
     you_are_in: "You are in"
     unflag: Unflag
     unfollow_entity: "Unfollow %{entity}"
@@ -776,31 +757,27 @@ en:
         see_more: See more recommendations
         hide: Hide recommendations
     translations:
-      select_language_prompt: Choose language
+      current_language: Current language
       remove_language: Remove language
       add_language: Add language
       languages_in_use:
         zero: "0 languages in use"
         one: "1 language in use"
         other: "%{count} languages in use"
+    optional: "Optional fields"
+    required: "Required fields"
+    comments:
+      one: "1 comment"
+      other: "%{count} comments"
+      zero: "No comments"
   social:
     facebook: "%{org} Facebook"
     twitter: "%{org} Twitter"
     youtube: "%{org} YouTube"
     telegram: "%{org} Telegram"
     instagram: "%{org} Instagram"
-  stats:
-    index:
-      visits: Visits
-      debates: Debates
-      proposals: Proposals
-      comments: Comments
-      proposal_votes: Votes on proposals
-      debate_votes: Votes on debates
-      comment_votes: Votes on comments
-      votes: Total votes
-      verified_users: Verified users
-      unverified_users: Unverified users
+  ip_denied_handler:
+    unauthorized: "Access denied. Your IP address is not allowed."
   unauthorized:
     default: You do not have permission to access this page.
     manage:
@@ -852,24 +829,23 @@ en:
       send_private_message: "Send private message"
       delete_alert: "Are you sure you want to delete your investment project? This action can't be undone"
     proposals:
-      retired: "Retired proposal"
+      retired: "Withdrawn proposal"
       draft: Draft
       published: Published
       see: "See proposal"
       actions: Actions
-      retired_help_text: Dashboard not available for retired proposals
+      retired_help_text: Dashboard not available for withdrawn proposals
   votes:
     agree: I agree
+    agree_label: "I agree with %{title}"
     anonymous: Too many anonymous votes to admit vote %{verify_account}.
-    comment_unauthenticated: You must %{signin} or %{signup} to vote.
     disagree: I disagree
+    disagree_label: "I don't agree with %{title}"
     organizations: Organizations are not permitted to vote
     supports: Supports
     verified_only: Only verified users can vote on proposals; %{verify_account}.
     budget_investments:
-      not_logged_in: You must %{signin} or %{signup} to continue.
       not_verified: Only verified users can vote on investment projects; %{verify_account}.
-      organization: Organizations are not permitted to vote
       unfeasible: Unfeasible investment projects can not be supported
       not_voting_allowed: Voting phase is closed
       different_heading_assigned:
@@ -905,23 +881,13 @@ en:
       budget_investments:
         title: Recommended investments
       slide: "See %{title}"
-    verification:
-      i_dont_have_an_account: I don't have an account
-      i_have_an_account: I already have an account
-      question: Do you already have an account in %{org_name}?
-      title: Account verification
     welcome:
       go_to_index: Not now, go to index page
       start_using_consul: Go to index page
       title: Participate
-      user_permission_debates: Participate on debates
       user_permission_info: With your account you can...
-      user_permission_proposal: Create new proposals
-      user_permission_support_proposal: Support proposals*
       user_permission_verify: "To perform the following actions verify your account."
-      user_permission_verify_info: "* Only for users on Census."
       user_permission_verify_my_account: Verify my account
-      user_permission_votes: Participate on final voting
   invisible_captcha:
     sentence_for_humans: "If you are human, ignore this field"
     timestamp_error_message: "Sorry, that was too quick! Please resubmit."
@@ -933,6 +899,7 @@ en:
     help: "You can add links of %{models} inside of %{org}."
     submit: "Add"
     error: "Link not valid. Remember to start with %{url}."
+    error_duplicate: "The related content you are adding already exists."
     error_itself: "Link not valid. You cannot relate a content to itself."
     success: "You added a new related content"
     is_related: "Is it related content?"
@@ -958,9 +925,6 @@ en:
       title: Links
       note: Add the links that are of interest
       add_new_link: Add new link
-    link_fields:
-      label_placeholder: Link title
-      url_placeholder: Link address
   communities:
     show:
       surveys: Surveys
@@ -976,7 +940,29 @@ en:
       enqueue_remote_translation: Translations have been correctly requested.
     button: Translate page
   tags:
-    filter:
-      more:
-        one: "One more tag"
-        other: "%{count} more tags"
+    list:
+      filter:
+        more:
+          one: "One more tag"
+          other: "%{count} more tags"
+  machine_learning:
+    comments_summary: "Comments summary"
+    info_text: "Content generated by AI / Machine Learning"
+  cookies_consent:
+    accept_all_cookies: "Accept all"
+    accept_essential_cookies: "Accept essential cookies"
+    message: "Cookies help us deliver our services. By using our services, you agree to our use of cookies."
+    more_info_link: "More information about cookies"
+    management: "Manage cookies"
+    title: "Cookies policy"
+  cookies_management:
+    title: Cookies management
+    description: This website uses own and third party cookies for its proper functioning. By clicking the Accept all button, you agree to the use of these technologies and the processing of your data for these purposes.
+    essentials:
+      title: Essential cookies
+      description: They are used for many different purposes, such as recognising you as a user, choosing the language or customising the way in which content is displayed.
+      hint: Without these, basic navigation functions will be impaired, so they should always be active.
+    third_party:
+      title: Third party cookies
+      description: This website use third-party cookies. These cookies can enhance functionality or collect information to improve your user experience.
+    save_preferences: Save preferences

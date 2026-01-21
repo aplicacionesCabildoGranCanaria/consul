@@ -3,6 +3,7 @@ require "rails_helper"
 describe ProgressBar do
   let(:progress_bar) { build(:progress_bar) }
 
+  it_behaves_like "globalizable", :progress_bar
   it_behaves_like "globalizable", :secondary_progress_bar
 
   it "is valid" do
@@ -61,6 +62,18 @@ describe ProgressBar do
     progress_bar.percentage = 83
 
     expect(progress_bar).to be_valid
+  end
+
+  it "dynamically validates the percentage range" do
+    stub_const("#{ProgressBar}::RANGE", (-99..99))
+
+    progress_bar.percentage = -99
+
+    expect(progress_bar).to be_valid
+
+    progress_bar.percentage = 100
+
+    expect(progress_bar).not_to be_valid
   end
 
   it "is not valid without a progressable" do

@@ -46,7 +46,6 @@ ca:
           success: Residència verificada
       new:
         accept_terms_text: Accepte %{terms_url} al Padró
-        accept_terms_text_title: Accepte els termes d'accés al Padró
         document_number: Número de document
         document_number_help_title: Ajuda
         document_number_help_text: "<strong>DNI</strong>: 12345678A<br> <strong>Passaport</strong>: AAA000001<br> <strong>Targeta de residència</strong>: X1234567P"
@@ -75,7 +74,6 @@ ca:
         phone: Introduce tu teléfono móvil para recibir el código
         phone_format: "<strong><em>(Exemple: 612345678 o +34612345678)</em></strong>"
         phone_note: Només utilitzem el vostre telèfon per enviar-vos un codi, mai per contactar-vos.
-        phone_placeholder: "Ejemplo: 612345678 ó +34612345678"
         submit_button: Enviar
         title: SMS de confirmació
       update:

@@ -1,14 +1,14 @@
 .budget-subheader {
-  @include grid-row;
   margin-bottom: $line-height;
   margin-top: $line-height;
+  overflow: hidden;
 
   .current-phase {
     text-transform: uppercase;
   }
 
   .button {
-    margin-top: $line-height / 2;
+    margin-top: calc(#{$line-height} / 2);
   }
 
   .callout {

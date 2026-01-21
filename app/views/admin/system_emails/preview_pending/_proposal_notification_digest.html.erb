@@ -24,17 +24,20 @@
     <div class="row">
       <div class="column">
         <strong><%= t("admin.shared.content") %></strong>
-        <p id="phase-description-help-text">
+        <p>
           <%= preview.body %>
         </p>
       </div>
     </div>
 
-    <%= link_to t("admin.system_emails.preview_pending.moderate_pending"),
-          admin_system_email_moderate_pending_path(system_email_id: "proposal_notification_digest",
-          id: preview.id),
-          method: :put,
-          class: "button hollow float-right" %>
+    <%= render Admin::ActionComponent.new(
+      :moderate_pending,
+      "proposal_notification_digest",
+      text: t("admin.system_emails.preview_pending.moderate_pending"),
+      path: admin_system_email_moderate_pending_path(system_email_id: "proposal_notification_digest", id: preview.id),
+      method: :put,
+      class: "button hollow float-right"
+    ) %>
   </div>
   <hr>
 <% end %>

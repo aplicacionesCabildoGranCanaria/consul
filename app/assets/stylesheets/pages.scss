@@ -21,7 +21,12 @@
   }
 
   &.light {
+    @include full-width-background;
     background: #ecf0f1;
+  }
+
+  &.header-card {
+    @include full-width-background;
   }
 }
 
@@ -41,7 +46,7 @@
 
     @include breakpoint(medium) {
       display: inline-block;
-      margin-right: $line-height / 2;
+      margin-right: calc(#{$line-height} / 2);
     }
   }
 }
@@ -52,7 +57,7 @@
 .more-info-content {
 
   h3 {
-    @include brand-text;
+    @include brand-color;
   }
 
   .additional-info {
@@ -106,7 +111,7 @@
   .sidebar-card {
     border: 1px solid $border;
     margin-bottom: $line-height;
-    padding: $line-height / 2;
+    padding: calc(#{$line-height} / 2);
 
     &.light {
       background: #ecf0f1;

@@ -1,0 +1,8 @@
+de:
+  contact_mailer:
+    subject: "[Webkontakt] %{subject}"
+    body:
+      greeting: "Neue Nachricht über das Kontaktformular"
+      from: "Absender-E-Mail"
+      subject: "Betreff"
+      message: "Nachricht"

@@ -5,24 +5,15 @@ eu:
       erase_account_link: Baja eman
       finish_verification: Egiaztapena amaitu
       notifications: Jakinarazpenak
-      organization_name_label: Erakundearen izena
-      organization_responsible_name_placeholder: Elkarte ordezkaria
       personal: Datu pertsonalak
-      phone_number_label: Telefonoa
       public_interests_my_title_list: Jarraitzen dituzun elementuen etiketak
       public_interests_user_title_list: Erabiltzaile honek jarraitzen dituen elementuen etiketak
       save_changes_submit: Aldaketak gorde
       recommendations: Gomendioak
       title: Nire kontua
-      user_permission_debates: Eztabaidetan parte hartu
       user_permission_info: Zure kontuarekin egin dezakezu...
-      user_permission_proposal: Proposamen berriak sortu
-      user_permission_support_proposal: Proposamenak babestu*
       user_permission_title: Partaidetza
       user_permission_verify: Akzio guztiak egin ahal izateko zure kontua egiazta ezazu.
-      user_permission_verify_info: "* Erroldatutako erabiltzaileak soilik."
-      user_permission_votes: Azken bozkaketetan parte hartu*
-      username_label: Erabiltzaile izena
       verified_account: Egiaztatutako kontua
       verify_my_account: Nire kontua egiaztatu
   application:
@@ -40,6 +31,10 @@ eu:
         zero: Erantzun gabe
         one: erantzun 1
         other: "%{count} erantzun"
+      responses_show:
+        zero: Erantzun gabe
+      responses_collapse:
+        zero: Erantzun gabe
       user_deleted: Erabiltzailea ezabatuta
       votes:
         zero: Bozka gabe
@@ -54,7 +49,6 @@ eu:
       newest: Berrienak lehenengo
       oldest: Zaharrenak lehenengo
       most_commented: Iruzkinduenak
-    select_order: Honen arabera ordenatu
     show:
       return_to_commentable: "Itzuli iruzkinera: "
   comments_helper:
@@ -68,10 +62,6 @@ eu:
       form:
         submit_button: Eztabaida bat hasi
     debate:
-      comments:
-        zero: Iruzkin gabe
-        one: Iruzkin 1
-        other: "%{count} Iruzkin"
       votes:
         zero: Bozka gabe
         one: Bozka 1
@@ -82,7 +72,6 @@ eu:
         submit_button: Aldaketak gorde
       show_link: Eztabaida ikusi
     form:
-      debate_title: Eztabaidaren izenburua
       tags_instructions: Eztabaida honen etiketa.
       tags_placeholder: "Nahi dituzun etiketak koma artean idatzi behar dituzu (',')"
     index:
@@ -105,7 +94,6 @@ eu:
         button: Bilatu
         placeholder: Eztabaidak bilatu...
         title: Bilatu
-      select_order: Honen arabera ordenatu
       start_debate: Eztabaida bat hasi
       title: Eztabaidak
       section_header:
@@ -116,12 +104,10 @@ eu:
         title: Eztabaidei buruzko laguntza
         description: Ardura zaizun gaietan beste pertsona batzuekin ikuspuntuak elkarbanatzeko eztabaida bat hasi ezazu.
         help_text_1: "Herri eztabaida ezpazioa arduratzen duten gaiak argitaratzeko eta beste pertsona batzuekin ikuspuntuak elkarbanatzeko balio du."
-        help_text_2: 'Eztabaida bat irekitzeko beharrezkoa da {org}-(e)n erregistratzea. Erregistratutako erabiltzaileek irekita dauden eztabaidetan parte hartu dezakete eta bertan aurkitzen diren "Ados nago" edo "Ez nago ados" botoiekin baloratu ditzakete.'
+        help_text_2: 'Eztabaida bat irekitzeko beharrezkoa da %{org}-(e)n erregistratzea. Erregistratutako erabiltzaileek irekita dauden eztabaidetan parte hartu dezakete eta bertan aurkitzen diren "Ados nago" edo "Ez nago ados" botoiekin baloratu ditzakete.'
     new:
       form:
         submit_button: Eztabaida bat hasi
-      info: Proposamen bat egin nahi baduzu, atal okerrean zaude, %{info_link} linka sakatu.
-      info_link: Proposamen berria sortu
       more_info: Informazio gehiago
       recommendation_four: Espazio honetaz gozatu, betetzen duten ahotsetaz, zurea ere bada.
       recommendation_one: Ez idatzi maiuskuletan esaldi osoak edo eztabaidaren izenburua. Internetan txilioka ari zarela ematen du. Eta inori ez zaio gustatzen ohiu egin diezaioten.
@@ -131,10 +117,6 @@ eu:
       start_new: Eztabaida bat hasi
     show:
       author_deleted: Erabiltzailea ezabatuta
-      comments:
-        zero: Iruzkin gabe
-        one: Iruzkin 1
-        other: "%{count} iruzkin"
       comments_title: Iruzkinak
       edit_debate_link: Eztabaida editatu
       flag: Eztabaida hau desegoki moduan markatu da zenbait erabiltzaileengaitik.
@@ -149,7 +131,6 @@ eu:
       invalid_date_range: "Data tartea ez da baliagarria"
   form:
     accept_terms: '%{policy} eta %{conditions} onartzen ditut'
-    accept_terms_title: Pribatutasun politika eta erabilera baldintzak onartzen ditut
     conditions: Erabilera baldintzak
     debate: Eztabaida
     direct_message: Mezu pribatua
@@ -161,7 +142,6 @@ eu:
     budget/investment: Inbertsioa
     budget/heading: aurrekontu-saila
     poll/shift: txanda
-    poll/question/answer: Erantzuna
     user: kontua
     verification/sms: telefonoa
     signature_sheet: firma orria
@@ -171,17 +151,17 @@ eu:
   geozones:
     none: Herri osoa
   layouts:
-    application:
-      chrome: Google Chrome
-      firefox: Firefox
-      ie: Internet Explorer erabiltzen ari zarela ohartu gara. %{firefox} edo %{chrome} erabiltzea gomendatzen dizugu.
-      ie_title: Web orri hau ez da zure nabigatzailearentzat sortu. Baliteke behar bezala ez ikustea.
+    dashboard:
+      proposal_header:
+        draft: Zirriborroa
+      proposal_totals:
+        supports:
+          zero: Babes gabe
     footer:
       accessibility: Eskuragarritasuna
       conditions: Erabilera baldintzak
       consul: CONSUL aplikazioa
-      consul_url: https://github.com/consul/consul
-      contact_us: 'Asistentzia teknikoa nahi izan ezkero sakatu hemen:'
+      consul_url: https://github.com/consuldemocracy/consuldemocracy
       copyright: CONSUL, %{year}
       description: Web atari honek %{consul} erbalitzen du eta %{open_source} da.
       open_source: Kode ireki softwarea
@@ -192,7 +172,6 @@ eu:
     header:
       administration_menu: Admin
       administration: Administrazioa
-      available_locales: 'Hizkuntzak:'
       collaborative_legislation: Legegintza prosezuak
       debates: Eztabaidak
       locale: "Hizkuntza:"
@@ -254,6 +233,9 @@ eu:
       sign_in: Twitter erabiliz sartu
       sign_up: Twitter erabiliz erregistratu
       name: Twitter
+    info:
+      sign_in: "Hauetakoren bat erabiliz sartu:"
+      sign_up: "Hauetakoren bat erabiliz erregistratu:"
     or_fill: "Edo hurrengo formularioa bete:"
   proposals:
     create:
@@ -287,7 +269,6 @@ eu:
       map_location: "Kokapena mapan"
       map_location_instructions: "Mapatik ibili kokalekura heldu arte eta markagailua jarri."
       map_remove_marker: "Markagailua ezabatu"
-      map_skip_checkbox: "Proposamen honek ez du kokaleku zehatzik edo ez dut ezagutzen."
     index:
       featured_proposals: Nabarmenduak
       orders:
@@ -318,11 +299,9 @@ eu:
         button: Bilatu
         placeholder: Proposamenak bilatu...
         title: Bilatu
-      select_order: Honen arabera ordenatu
       select_order_long: "Proposamenak ikusten zabiltza"
       start_proposal: Proposamen bat sortu
       title: Proposamenak
-      top: Top astekoak
       top_link_proposals: Kategoria bakoitzeko proposamen babestuenak
       section_header:
         icon_alt: Proposamen ikonoa
@@ -349,10 +328,6 @@ eu:
         edit: "Argitaratu aurretik testua zure gustura eraldatu dezakezu."
         view_proposal: Orain ez, nire proposamenera joan
       already_supported: Proposamen hau babestu duzu, orain partekatu ezazu!
-      comments:
-        zero: Iruzkin gabe
-        one: Iruzkin 1
-        other: "%{count} Iruzkin"
       support: Babestu
       support_title: Proposamen hau babestu
       supports:
@@ -366,17 +341,13 @@ eu:
       supports_necessary: "%{number} babes behar dira"
       total_percent: '%100'
       archived: "Proposamen hau artxibatu egin da eta ezin du babesik jaso."
-      successful: "Proposamen honek babes nahiko jaso ditu eta %{voting}ra pasatuko da."
     show:
       author_deleted: Erabiltzailea ezabatuta
       code: "Proposamen kodea:"
-      comments:
-        zero: Iruzkin gabe
-        one: Iruzkin 1
-        other: "%{count} iruzkin"
       comments_tab: Iruzkinak
       flag: Eztabaida hau desegoki moduan markatu da zenbait erabiltzaileengaitik.
       notifications_tab: Jakinarazpenak
+      milestones_tab: Jarraipena
       retired_warning: "Proposamen honen sortzaileak ez dituela babes gehiago behar erabaki du."
       retired_warning_link_to_explanation: Azalpena berriz aztertu babestu aurretik.
       retired: Proposamena sortzailearengaitik baztertuta
@@ -388,9 +359,49 @@ eu:
     update:
       form:
         submit_button: Aldaketak gorde
+  dashboard:
+    menu:
+      community: Erkidegoa
+      polls: Bozkaketak
+      related_content: Erlazionatutako edukia
+    progress:
+      supports: Babesak
+    index:
+      edit_proposal_link: Proposamena editatu
+      retire: Proposamena baztertu
+    recommended_actions:
+      pending_title: Egiteke
+      done_title: Eginda
+    community:
+      access_community: Erkidegoan sartu
+      participants: Partehartzaileak
+      debates: Eztabaidak
+      comments: Iruzkinak
+    polls:
+      index:
+        title: Bozkaketak
+        create: Bozkaketa sortu
+        additiontal_information: Gehigarrizko informazioa
+      new:
+        title: Bozkaketa berria
+        submit: Bozkaketa sortu
+      edit:
+        submit: Bozkaketa eguneratu
+      form:
+        add_question: Galderaren izenburua idatz ezazu
+      question_fields:
+        add_answer: Erantzuna gehitu
+    poster:
+      options:
+        preview: Aurreikuspena
+    mailing:
+      mailing_options:
+        preview: Aurreikuspena
+    mailer:
+      forward:
+        support_button: Proposamen hau babestu
   polls:
     all: "Guztiak"
-    no_dates: "data jarri gabe"
     dates: "%{open_at}-tik %{closed_at}-ra"
     final_date: "Azken zenbaketa/Emaitzak"
     index:
@@ -455,14 +466,13 @@ eu:
       back: "Nire aktibitatera itzuli"
   shared:
     edit: "Editatu"
+    filter: "Iragazkia"
     save: "Gorde"
     delete: "Ezabatu"
     "yes": "Bai"
     "no": "Ez"
     search_results: "Bilaketaren emaitzak"
     advanced_search:
-      author_type: "Sortzaile kategoriagaitik"
-      author_type_blank: "Kategoria bat aukeratu"
       date: "Dataren arabera"
       date_placeholder: "AAAA/MM/DD"
       date_range_blank: "Data bat aukeratu"
@@ -473,14 +483,12 @@ eu:
       date_5: "Pertsonalizatuta"
       from: "-tik"
       general: "Testu hau daukala"
-      general_placeholder: "Testua idatzi"
       search: "Iragazi"
       title: "Bilaketa aurreratua"
       to: "-arte"
     author_info:
       author_deleted: Erabiltzailea ezabatuta
     back: Itzuli
-    check: Aukeratu
     check_all: Guztiak
     check_none: Bat ere ez
     collective: Kolektibo
@@ -541,23 +549,13 @@ eu:
     youtube: "%{org} YouTubea"
     telegram: "%{org} Telegrama"
     instagram: "%{org} Instagrama"
-  stats:
-    index:
-      visits: Bisita
-      debates: Eztabaidak
-      proposals: Herri proposamenak
-      comments: Iruzkinak
-      proposal_votes: Bozkak proposamenetan
-      debate_votes: Bozkak eztabaidetan
-      comment_votes: Bozkak iruzkinetan
-      votes: Bozkak
-      verified_users: Egiaztatutatutako erabiltzaileak
-      unverified_users: Egiaztatu gabeko erabiltzaileak
   unauthorized:
     default: Ez duzu baimenik orri honetara sartzeko.
     manage:
       all: "Ez duzu baimenik %{subject} gain '%{action}' akzioa egiteko."
   users:
+    login_to_continue: "Jarraitu ahal izateko %{signin} edo %{signup} egin behar zara."
+    verify_account: "zure kontua egiaztatu"
     direct_messages:
       new:
         direct_messages_bloqued: "Erabiltzaile honek mezu pribaturik ez jasotzea erabaki du"
@@ -572,6 +570,7 @@ eu:
       deleted_proposal: Proposamen hau ezabatuta izan da
       deleted_budget_investment: Gastu proiektu hau ezabatuta izan da
       proposals: Proposamenak
+      proposals_status: Egoera
       debates: Eztabaidak
       budget_investments: Partaidetzazko aurrekontu proiektuak
       comments: Iruzkinak
@@ -599,24 +598,20 @@ eu:
       delete_alert: "Ziur zaude zure gastu proiektua ezabatu nahi duzula? Ekintza hau ezin da atzera bota"
     proposals:
       retired: "Proposamena baztertuta"
+      draft: Zirriborroa
       see: "Proposamena ikusi"
+      actions: Ekintzak
   votes:
     agree: Ados nago
     anonymous: Bozka anonimo larregi, %{verify_account} bozkatu ahal izateko.
-    comment_unauthenticated: Bozkatu ahal izateko %{signin} edo %{signup} egin behar zara.
     disagree: Ez nago ados
     organizations: Erakundeek ezin dute bozkatu
     supports: Babesak
     verified_only: Proposamenak egiaztatutako erabiltzaileek soilik bozka ditzakete, %{verify_account}.
     budget_investments:
-      not_logged_in: Jarraitu ahal izateko %{signin} edo %{signup} egin behar zara.
       not_verified: Gastu proposamenak egiaztatutako erabiltzaileek soilik bozka ditzakete, %{verify_account}.
-      organization: Erakundeek ezin dute bozkatu.
       unfeasible: Proposamen bideragarriezinak ezin dira bozkatu.
       not_voting_allowed: Bozka epea itxita dago.
-      different_heading_assigned:
-        one: "Auzko bateko gastu proiektuak soilik babes ditzakezu"
-        other: "%{count} auzoetako gastu proiektuak soilik babes ditzakezu"
   welcome:
     feed:
       most_active:
@@ -643,22 +638,12 @@ eu:
       budget_investments:
         title: Gomendatutako aurrekontuak
       slide: "%{title} ikusi"
-    verification:
-      i_dont_have_an_account: Ez daukat konturik. Kontu bat sortu eta egiaztatu nahi dut.
-      i_have_an_account: Egiaztatu nahi dudan kontu bat daukat
-      question: Kontua daukazu %{org_name}-(e)n?
-      title: Kontuaren egiaztapena
     welcome:
       go_to_index: Orain ez, proposamenak ikusi
       title: Parte hartzen hasi zaitez
-      user_permission_debates: Eztabaidetan parte hartu
       user_permission_info: Zure kontuakin egin dezakezu...
-      user_permission_proposal: Proposamen berriak sortu
-      user_permission_support_proposal: Proposamenak babestu*
       user_permission_verify: "Zure kontua egiazta ezazu web orriko ekintza guztiak egin ahal izateko."
-      user_permission_verify_info: "*Erroldatutako erabiltzaileak soilik."
       user_permission_verify_my_account: Nire kontua egiaztatu
-      user_permission_votes: Azken bozkaketetan parte hartu*
   invisible_captcha:
     sentence_for_humans: "Gizakia baldin bazara, mesedez hurrengo eremua ez ikusiarena egin"
     timestamp_error_message: "Hau lar arin joan da. Mesedez, formularioa berbidali."
@@ -687,3 +672,7 @@ eu:
       alt: Iruzkindu nahi duzun testua aukeratu eta arkatza duen botoia sakatu ezazu.
       text: Agiri hau iruzkindu ahal izateko %{sign_in} edo %{sign_up} egin behar duzu. Gero, iruzkindu nahi duzun testua aukeratu eta arkatza duen botoia sakatu ezazu.
       title: Zelan iruzkindu dezaket agiri hau?
+  links:
+    form:
+      delete_button: Ezabatu
+      cancel_button: Ezeztatu

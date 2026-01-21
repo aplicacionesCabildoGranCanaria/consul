@@ -8,9 +8,15 @@ describe Abilities::Valuator do
   let(:group) { create(:valuator_group) }
   let(:valuator) { create(:valuator, valuator_group: group, can_edit_dossier: true, can_comment: true) }
   let(:non_assigned_investment) { create(:budget_investment) }
-  let(:assigned_investment) { create(:budget_investment, budget: create(:budget, :valuating), valuators: [valuator]) }
-  let(:group_assigned_investment) { create(:budget_investment, budget: create(:budget, :valuating), valuator_groups: [group]) }
-  let(:finished_assigned_investment) { create(:budget_investment, budget: create(:budget, :finished), valuators: [valuator]) }
+  let(:assigned_investment) do
+    create(:budget_investment, budget: create(:budget, :valuating), valuators: [valuator])
+  end
+  let(:group_assigned_investment) do
+    create(:budget_investment, budget: create(:budget, :valuating), valuator_groups: [group])
+  end
+  let(:finished_assigned_investment) do
+    create(:budget_investment, budget: create(:budget, :finished), valuators: [valuator])
+  end
 
   it "cannot valuate an assigned investment with a finished valuation" do
     assigned_investment.update!(valuation_finished: true)
@@ -45,4 +51,8 @@ describe Abilities::Valuator do
   it { should_not be_able_to(:read, SDG::Manager) }
   it { should_not be_able_to(:create, SDG::Manager) }
   it { should_not be_able_to(:delete, SDG::Manager) }
+
+  it { should_not be_able_to(:create, Cookies::Vendor) }
+  it { should_not be_able_to(:update, Cookies::Vendor) }
+  it { should_not be_able_to(:destroy, Cookies::Vendor) }
 end

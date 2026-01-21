@@ -3,18 +3,13 @@ module AdminHelper
     "/#{namespace}"
   end
 
-  def namespaced_header_title
-    if namespace == "moderation/budgets"
-      t("moderation.header.title")
-    else
-      t("#{namespace}.header.title")
-    end
-  end
-
   def official_level_options
     options = [["", 0]]
     (1..5).each do |i|
-      options << [[t("admin.officials.level_#{i}"), setting["official_level_#{i}_name"]].compact.join(": "), i]
+      options << [
+        [t("admin.officials.level_#{i}"), setting["official_level_#{i}_name"]].compact.join(": "),
+        i
+      ]
     end
     options
   end

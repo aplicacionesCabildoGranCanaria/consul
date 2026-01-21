@@ -28,6 +28,16 @@ describe Budget::Phase do
       end
     end
 
+    describe "description validations" do
+      it "dynamically validates the maximum length" do
+        stub_const("#{Budget::Phase}::DESCRIPTION_MAX_LENGTH", 3)
+
+        informing_phase.description_en = "long"
+
+        expect(informing_phase).not_to be_valid
+      end
+    end
+
     describe "#dates_range_valid?" do
       it "is valid when start & end dates are different & consecutive" do
         informing_phase.assign_attributes(starts_at: Date.current, ends_at: Date.tomorrow)
@@ -111,6 +121,29 @@ describe Budget::Phase do
         expect(informing_phase).to be_valid
       end
     end
+
+    describe "main_link_url" do
+      it "is not required if main_link_text is not provided" do
+        valid_budget = build(:budget, main_link_text: nil)
+
+        expect(valid_budget).to be_valid
+      end
+
+      it "is required if main_link_text is provided" do
+        invalid_budget = build(:budget, main_link_text: "link text")
+
+        expect(invalid_budget).not_to be_valid
+        expect(invalid_budget.errors.count).to be 1
+        expect(invalid_budget.errors[:main_link_url].count).to be 1
+        expect(invalid_budget.errors[:main_link_url].first).to eq "can't be blank"
+      end
+
+      it "is valid if main_link_text and main_link_url are both provided" do
+        budget = build(:budget, main_link_text: "link text", main_link_url: "https://consuldemocracy.org")
+
+        expect(budget).to be_valid
+      end
+    end
   end
 
   describe "#save" do
@@ -142,8 +175,8 @@ describe Budget::Phase do
     describe "when being enabled" do
       before do
         accepting_phase.update!(enabled: false,
-                             starts_at: Date.current,
-                             ends_at:  Date.current + 2.days)
+                                starts_at: Date.current,
+                                ends_at: Date.current + 2.days)
       end
 
       it "adjusts previous enabled phase end date to its own start date" do
@@ -178,16 +211,16 @@ describe Budget::Phase do
       it "doesn't adjust previous enabled phase end date to its own start date" do
         expect do
           accepting_phase.update(enabled: false,
-                              starts_at: Date.current,
-                              ends_at:  Date.current + 2.days)
+                                 starts_at: Date.current,
+                                 ends_at: Date.current + 2.days)
         end.not_to change { prev_enabled_phase.ends_at }
       end
 
       it "adjusts next enabled phase start date to its own start date" do
         expect do
           accepting_phase.update(enabled: false,
-                              starts_at: Date.current,
-                              ends_at:  Date.current + 2.days)
+                                 starts_at: Date.current,
+                                 ends_at: Date.current + 2.days)
         end.to change { next_enabled_phase.starts_at.to_date }.to(Date.current)
       end
     end
@@ -205,13 +238,13 @@ describe Budget::Phase do
       it "returns the right next enabled phase" do
         expect(informing_phase.reload.next_enabled_phase).to eq(reviewing_phase)
         expect(reviewing_phase.reload.next_enabled_phase).to eq(finished_phase)
-        expect(finished_phase.reload.next_enabled_phase).to eq(nil)
+        expect(finished_phase.reload.next_enabled_phase).to be nil
       end
     end
 
     describe "#prev_enabled_phase" do
       it "returns the right previous enabled phase" do
-        expect(informing_phase.reload.prev_enabled_phase).to eq(nil)
+        expect(informing_phase.reload.prev_enabled_phase).to be nil
         expect(reviewing_phase.reload.prev_enabled_phase).to eq(informing_phase)
         expect(finished_phase.reload.prev_enabled_phase).to eq(reviewing_phase)
       end

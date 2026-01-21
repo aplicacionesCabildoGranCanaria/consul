@@ -1,10 +1,14 @@
 class Shared::TagListComponent < ApplicationComponent
   attr_reader :taggable, :limit
-  delegate :link_list, to: :helpers
+  use_helpers :link_list
 
   def initialize(taggable, limit:)
     @taggable = taggable
     @limit = limit
+  end
+
+  def render?
+    taggable.tags_list.any?
   end
 
   private
@@ -23,7 +27,7 @@ class Shared::TagListComponent < ApplicationComponent
     end
 
     def see_more_link
-      render Shared::SeeMoreLinkComponent.new(taggable, :tags, limit: limit)
+      render Shared::SeeMoreLinkComponent.new(taggable, :tags_list, limit: limit)
     end
 
     def taggables_path(taggable, tag_name)
@@ -33,5 +37,9 @@ class Shared::TagListComponent < ApplicationComponent
       else
         polymorphic_path(taggable.class, search: tag_name)
       end
+    end
+
+    def machine_learning?
+      Tag.machine_learning?
     end
 end
