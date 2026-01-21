@@ -27,7 +27,6 @@ describe "Admin legislation draft versions", :admin do
         click_link "Collaborative Legislation"
       end
 
-      click_link "All"
       within("tr", text: "An example legislation process") { click_link "Edit" }
       click_link "Drafting"
 
@@ -73,6 +72,18 @@ describe "Admin legislation draft versions", :admin do
 
       expect(page).to have_content "Version 1b"
     end
+  end
+
+  scenario "Delete" do
+    version = create(:legislation_draft_version, body: "Version 1")
+
+    visit edit_admin_legislation_process_draft_version_path(version.process, version)
+
+    accept_confirm("Are you sure? This action will delete \"Version 1\" and can't be undone.") do
+      click_button "Delete"
+    end
+
+    expect(page).to have_content "Draft deleted successfully"
   end
 
   context "Changing content with the markdown editor" do

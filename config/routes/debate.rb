@@ -1,6 +1,5 @@
 resources :debates do
   member do
-    post :vote
     put :flag
     put :unflag
     put :mark_featured
@@ -8,8 +7,9 @@ resources :debates do
   end
 
   collection do
-    get :map
     get :suggest
     put "recommendations/disable", only: :index, controller: "debates", action: :disable_recommendations
   end
+
+  resources :votes, controller: "debates/votes", only: [:create, :destroy]
 end

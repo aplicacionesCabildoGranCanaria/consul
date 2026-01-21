@@ -7,22 +7,8 @@ class Setting < ApplicationRecord
     key.split(".").first
   end
 
-  def type
-    if %w[feature process proposals map html homepage uploads sdg].include? prefix
-      prefix
-    elsif %w[remote_census].include? prefix
-      key.rpartition(".").first
-    else
-      "configuration"
-    end
-  end
-
   def enabled?
     value.present?
-  end
-
-  def content_type?
-    key.split(".").last == "content_types"
   end
 
   def content_type_group
@@ -31,7 +17,7 @@ class Setting < ApplicationRecord
 
   class << self
     def [](key)
-      where(key: key).pluck(:value).first.presence
+      where(key: key).pick(:value).presence
     end
 
     def []=(key, value)
@@ -42,7 +28,7 @@ class Setting < ApplicationRecord
 
     def rename_key(from:, to:)
       if where(key: to).empty?
-        value = where(key: from).pluck(:value).first.presence
+        value = where(key: from).pick(:value).presence
         create!(key: to, value: value)
       end
       remove(from)
@@ -54,25 +40,25 @@ class Setting < ApplicationRecord
     end
 
     def accepted_content_types_for(group)
-      mime_content_types = Setting["uploads.#{group}.content_types"]&.split(" ") || []
+      mime_content_types = Setting["uploads.#{group}.content_types"]&.split || []
       Setting.mime_types[group].select { |_, content_type| mime_content_types.include?(content_type) }.keys
     end
 
     def mime_types
       {
         "images" => {
-          "jpg"  => "image/jpeg",
-          "png"  => "image/png",
-          "gif"  => "image/gif"
+          "jpg" => "image/jpeg",
+          "png" => "image/png",
+          "gif" => "image/gif"
         },
         "documents" => {
-          "pdf"  => "application/pdf",
-          "doc"  => "application/msword",
+          "pdf" => "application/pdf",
+          "doc" => "application/msword",
           "docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-          "xls"  => "application/x-ole-storage",
+          "xls" => "application/x-ole-storage",
           "xlsx" => "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-          "csv"  => "text/plain",
-          "zip"  => "application/zip"
+          "csv" => "text/plain",
+          "zip" => "application/zip"
         }
       }
     end
@@ -84,7 +70,6 @@ class Setting < ApplicationRecord
         "feature.google_login": true,
         "feature.twitter_login": true,
         "feature.wordpress_login": false,
-        "feature.public_stats": true,
         "feature.signature_sheets": true,
         "feature.user.recommendations": true,
         "feature.user.recommendations_on_debates": true,
@@ -100,7 +85,10 @@ class Setting < ApplicationRecord
         "feature.remote_census": nil,
         "feature.valuation_comment_notification": true,
         "feature.graphql_api": true,
-        "feature.sdg": false,
+        "feature.sdg": true,
+        "feature.machine_learning": false,
+        "feature.remove_investments_supports": true,
+        "feature.cookies_consent": false,
         "homepage.widgets.feeds.debates": true,
         "homepage.widgets.feeds.processes": true,
         "homepage.widgets.feeds.proposals": true,
@@ -108,9 +96,12 @@ class Setting < ApplicationRecord
         "html.per_page_code_body": "",
         # Code to be included at the top (inside <head>) of every page (useful for tracking)
         "html.per_page_code_head": "",
+        "locales.enabled": nil,
+        "locales.default": nil,
         "map.latitude": 51.48,
         "map.longitude": 0.0,
         "map.zoom": 10,
+        "map.feature.marker_clustering": false,
         "process.debates": true,
         "process.proposals": true,
         "process.polls": true,
@@ -157,21 +148,25 @@ class Setting < ApplicationRecord
         "twitter_handle": nil,
         "twitter_hashtag": nil,
         "youtube_handle": nil,
-        "url": "http://example.com", # Public-facing URL of the app.
-        # CONSUL installation's organization name
-        "org_name": "CONSUL",
+        "org_name": default_org_name,
         "meta_title": nil,
         "meta_description": nil,
         "meta_keywords": nil,
         "proposal_notification_minimum_interval_in_days": 3,
         "direct_message_max_per_day": 3,
-        "mailer_from_name": "CONSUL",
-        "mailer_from_address": "noreply@consul.dev",
+        "mailer_from_name": default_org_name,
+        "mailer_from_address": default_mailer_from_address,
         "min_age_to_participate": 16,
         "hot_score_period_in_days": 31,
         "related_content_score_threshold": -0.3,
         "featured_proposals_number": 3,
         "feature.dashboard.notification_emails": nil,
+        "cookies_consent.more_info_link": "",
+        "cookies_consent.version_name": "v1",
+        "machine_learning.comments_summary": false,
+        "machine_learning.related_content": false,
+        "machine_learning.tags": false,
+        "postal_codes": "",
         "remote_census.general.endpoint": "",
         "remote_census.request.method_name": "",
         "remote_census.request.structure": "",
@@ -194,6 +189,18 @@ class Setting < ApplicationRecord
       }
     end
 
+    def default_org_name
+      Tenant.current&.name || default_main_org_name
+    end
+
+    def default_main_org_name
+      "CONSUL DEMOCRACY"
+    end
+
+    def default_mailer_from_address
+      "noreply@#{Tenant.current_host.presence || "consuldemocracy.dev"}"
+    end
+
     def reset_defaults
       defaults.each { |name, value| self[name] = value }
     end
@@ -212,6 +219,25 @@ class Setting < ApplicationRecord
     def force_presence_postal_code?
       Setting["feature.remote_census"].present? &&
         Setting["remote_census.request.postal_code"].present?
+    end
+
+    def archived_proposals_date_limit
+      Setting["months_to_archive_proposals"].to_i.months.ago
+    end
+
+    def enabled_locales
+      locales = Setting["locales.enabled"].to_s.split.map(&:to_sym)
+
+      [
+        default_locale,
+        *((locales & I18n.available_locales).presence || I18n.available_locales)
+      ].uniq
+    end
+
+    def default_locale
+      locale = Setting["locales.default"].to_s.strip.to_sym
+
+      ([locale] & I18n.available_locales).first || I18n.default_locale
     end
   end
 end

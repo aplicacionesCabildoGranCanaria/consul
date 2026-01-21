@@ -11,8 +11,8 @@ class Budget
 
       def name_uniqueness_by_budget
         if budget.groups.joins(:translations)
-                        .where(name: name)
-                        .where.not("budget_group_translations.budget_group_id": budget_group_id).any?
+                 .where(name: name)
+                 .where.not("budget_group_translations.budget_group_id": budget_group_id).any?
           errors.add(:name, I18n.t("errors.messages.taken"))
         end
       end
@@ -30,8 +30,8 @@ class Budget
       all.sort_by(&:name)
     end
 
-    def single_heading_group?
-      headings.count == 1
+    def multiple_headings?
+      headings.size > 1
     end
 
     private

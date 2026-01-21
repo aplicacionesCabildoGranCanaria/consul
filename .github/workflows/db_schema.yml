@@ -1,0 +1,39 @@
+name: schema
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches-ignore:
+      - i18n_master
+
+permissions:
+  contents: read
+
+jobs:
+  schema:
+    runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:13.16
+        ports: ["5432:5432"]
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        env:
+          POSTGRES_USER: consul
+          POSTGRES_PASSWORD: password
+    env:
+      PGUSER: consul
+      PGPASSWORD: password
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Copy secrets and database files
+        run: for i in config/*.example; do cp "$i" "${i/.example}"; done
+      - name: Backup schema file
+        run: cp db/schema.rb db/commited_schema.rb
+      - name: Setup database
+        run: bundle exec rake db:create db:migrate
+      - name: Check the commited schema is correct
+        run: diff db/schema.rb db/commited_schema.rb

@@ -40,24 +40,18 @@
           </td>
           <td class="small">
             <%= link_to t("admin.milestones.index.show_image"),
-                        milestone.image_url(:large),
-                        target: :_blank if milestone.image.present? %>
+                        milestone.image.variant(:large) if milestone.image.present? %>
           </td>
           <td class="small">
             <% if milestone.documents.present? %>
               <% milestone.documents.each do |document| %>
                 <%= link_to document.title,
-                              document.attachment.url,
-                              target: "_blank",
-                              rel: "nofollow" %><br>
+                            document.attachment,
+                            rel: "nofollow" %><br>
               <% end %>
             <% end %>
           </td>
-          <td>
-            <%= render Admin::TableActionsComponent.new(milestone,
-              destroy_text: t("admin.milestones.index.delete")
-            ) %>
-          </td>
+          <td><%= render Admin::TableActionsComponent.new(milestone) %></td>
         </tr>
       <% end %>
     </tbody>

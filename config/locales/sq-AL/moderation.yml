@@ -3,7 +3,6 @@ sq:
     comments:
       index:
         block_authors: Blloko autorët
-        confirm: A je i sigurt?
         filter: Filtër
         filters:
           all: Të gjithë
@@ -12,9 +11,8 @@ sq:
         headers:
           comment: Koment
           moderate: Mesatar
-        hide_comments: Fshih komentet
+        hide: Fshih komentet
         ignore_flags: Shëno si të shikuara
-        order: Porosi
         orders:
           flags: Më shumë e shënjuar
           newest: Më të rejat
@@ -25,7 +23,6 @@ sq:
     debates:
       index:
         block_authors: Autori i bllokut
-        confirm: A je i sigurt?
         filter: Filtër
         filters:
           all: Të gjithë
@@ -34,9 +31,8 @@ sq:
         headers:
           debate: Debate
           moderate: Mesatar
-        hide_debates: Fshih debatet
+        hide: Fshih debatet
         ignore_flags: Shëno si të shikuara
-        order: Porosi
         orders:
           created_at: Më të rejat
           flags: Më shumë e shënjuar
@@ -53,7 +49,6 @@ sq:
     proposals:
       index:
         block_authors: Autori i bllokut
-        confirm: A je i sigurt?
         filter: Filtër
         filters:
           all: Të gjithë
@@ -62,9 +57,8 @@ sq:
         headers:
           moderate: Mesatar
           proposal: Propozime
-        hide_proposals: Fshi propozimet
+        hide: Fshi propozimet
         ignore_flags: Shëno si të shikuara
-        order: Renditur nga
         orders:
           created_at: Më të fundit
           flags: Më shumë e shënjuar
@@ -72,7 +66,6 @@ sq:
     budget_investments:
       index:
         block_authors: Autori i bllokut
-        confirm: A je i sigurt?
         filter: Filtër
         filters:
           all: Të gjithë
@@ -81,9 +74,8 @@ sq:
         headers:
           moderate: Mesatar
           budget_investment: Investim buxhetor
-        hide_budget_investments: Fshih investimet buxhetor
+        hide: Fshih investimet buxhetor
         ignore_flags: Shëno si të shikuara
-        order: Renditur nga
         orders:
           created_at: Më të fundit
           flags: Më shumë e shënjuar
@@ -91,7 +83,6 @@ sq:
     proposal_notifications:
       index:
         block_authors: Autori i bllokut
-        confirm: A je i sigurt?
         filter: Filtër
         filters:
           all: Të gjithë
@@ -100,16 +91,14 @@ sq:
         headers:
           moderate: Mesatar
           proposal_notification: Notifikimi i propozimeve
-        hide_proposal_notifications: Fshi propozimet
+        hide: Fshi propozimet
         ignore_flags: Shëno si të shikuara
-        order: Renditur nga
         orders:
           created_at: Më të fundit
           moderated: Moderuar
         title: Notifikimi i propozimeve
     users:
       index:
-        hidden: Bllokuar
         hide: Blloko
         search_placeholder: email ose emrin e përdoruesit
         title: Përdoruesit e bllokuar

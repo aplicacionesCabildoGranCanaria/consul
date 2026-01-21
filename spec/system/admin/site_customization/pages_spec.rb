@@ -11,17 +11,17 @@ describe "Admin custom pages", :admin do
     end
 
     scenario "should contain all default custom pages published populated by db:seeds" do
-      slugs = %w[accessibility conditions faq privacy welcome_not_verified
+      slugs = %w[accessibility census_terms conditions faq privacy welcome_not_verified
                  welcome_level_two_verified welcome_level_three_verified]
 
-      expect(SiteCustomization::Page.count).to be 7
+      expect(SiteCustomization::Page.count).to be 8
       slugs.each do |slug|
         expect(SiteCustomization::Page.find_by(slug: slug).status).to eq "published"
       end
 
       visit admin_site_customization_pages_path
 
-      expect(all("[id^='site_customization_page_']").count).to be 7
+      expect(all("[id^='site_customization_page_']").count).to be 8
       slugs.each do |slug|
         expect(page).to have_content slug
       end
@@ -33,7 +33,7 @@ describe "Admin custom pages", :admin do
       visit admin_root_path
 
       within("#side_menu") do
-        click_link "Site content"
+        click_button "Site content"
         click_link "Custom pages"
       end
 
@@ -63,14 +63,14 @@ describe "Admin custom pages", :admin do
       visit admin_root_path
 
       within("#side_menu") do
-        click_link "Site content"
+        click_button "Site content"
         click_link "Custom pages"
       end
 
       within("tr", text: "An example custom page") { click_link "Edit" }
 
-      expect(page).to have_selector("h2", text: "An example custom page")
-      expect(page).to have_selector("input[value='custom-example-page']")
+      expect(page).to have_css "h2", text: "An example custom page"
+      expect(page).to have_css "input[value='custom-example-page']"
 
       fill_in "Title", with: "Another example custom page"
       fill_in "site_customization_page_slug", with: "another-custom-example-page"
@@ -93,7 +93,9 @@ describe "Admin custom pages", :admin do
     custom_page = create(:site_customization_page, title: "An example custom page")
     visit edit_admin_site_customization_page_path(custom_page)
 
-    click_link "Delete page"
+    accept_confirm "Are you sure? This action will delete \"An example custom page\" and can't be undone." do
+      click_button "Delete page"
+    end
 
     expect(page).not_to have_content "An example custom page"
     expect(page).not_to have_content "example-page"

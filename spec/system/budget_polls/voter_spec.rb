@@ -3,7 +3,7 @@ require "rails_helper"
 describe "BudgetPolls", :with_frozen_time do
   let(:budget) { create(:budget, :balloting) }
   let(:investment) { create(:budget_investment, :selected, budget: budget) }
-  let(:poll) { create(:poll, :current, budget: budget) }
+  let(:poll) { create(:poll, budget: budget) }
   let(:booth) { create(:poll_booth) }
   let(:officer) { create(:poll_officer) }
   let(:admin) { create(:administrator) }
@@ -32,8 +32,7 @@ describe "BudgetPolls", :with_frozen_time do
       expect(Poll::Voter.count).to eq(1)
       expect(Poll::Voter.first.origin).to eq("booth")
 
-      visit root_path
-      click_link "Sign out"
+      logout
       login_as(admin.user)
       visit admin_poll_recounts_path(poll)
 
@@ -81,11 +80,12 @@ describe "BudgetPolls", :with_frozen_time do
       login_as(user)
 
       visit budget_investment_path(budget, investment)
-      find("div.ballot").hover
 
       within("#budget_investment_#{investment.id}") do
+        click_button "Vote"
+
         expect(page).to have_content "You have already participated offline"
-        expect(page).to have_css(".add a", obscured: true)
+        expect(page).not_to have_button "Vote", disabled: :all
       end
     end
   end
@@ -96,7 +96,7 @@ describe "BudgetPolls", :with_frozen_time do
       visit budget_investment_path(budget, investment)
 
       within("#budget_investment_#{investment.id}") do
-        find(".add a").click
+        click_button "Vote"
         expect(page).to have_content "Remove"
       end
     end
@@ -106,12 +106,11 @@ describe "BudgetPolls", :with_frozen_time do
       visit budget_investment_path(budget, investment)
 
       within("#budget_investment_#{investment.id}") do
-        find(".add a").click
+        click_button "Vote"
         expect(page).to have_content "Remove"
       end
 
       visit budget_investment_path(budget, investment)
-      find("div.ballot").hover
 
       within("#budget_investment_#{investment.id}") do
         expect(page).to have_content "Remove vote"
@@ -123,7 +122,7 @@ describe "BudgetPolls", :with_frozen_time do
       visit budget_investment_path(budget, investment)
 
       within("#budget_investment_#{investment.id}") do
-        find(".add a").click
+        click_button "Vote"
         expect(page).to have_content "Remove"
       end
 

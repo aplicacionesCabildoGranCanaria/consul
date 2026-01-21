@@ -7,7 +7,7 @@ describe Proposal do
     it_behaves_like "has_public_author"
     it_behaves_like "notifiable"
     it_behaves_like "map validations"
-    it_behaves_like "globalizable", :retired_proposal
+    it_behaves_like "globalizable", :proposal
     it_behaves_like "sanitizable"
     it_behaves_like "acts as paranoid", :proposal
   end
@@ -110,12 +110,14 @@ describe Proposal do
 
   describe "tag_list" do
     it "is not valid with a tag list of more than 6 elements" do
-      proposal.tag_list = ["Hacienda", "Economía", "Medio Ambiente", "Corrupción", "Fiestas populares", "Prensa", "Huelgas"]
+      proposal.tag_list = ["Hacienda", "Economía", "Medio Ambiente", "Corrupción",
+                           "Fiestas populares", "Prensa", "Huelgas"]
       expect(proposal).not_to be_valid
     end
 
     it "is valid with a tag list of up to 6 elements" do
-      proposal.tag_list = ["Hacienda", "Economía", "Medio Ambiente", "Corrupción", "Fiestas populares", "Prensa"]
+      proposal.tag_list = ["Hacienda", "Economía", "Medio Ambiente", "Corrupción",
+                           "Fiestas populares", "Prensa"]
       expect(proposal).to be_valid
     end
   end
@@ -169,6 +171,19 @@ describe Proposal do
       proposal.retired_at = Time.current
       proposal.retired_explanation = "Duplicated of ..."
       proposal.retired_reason = nil
+      expect(proposal).not_to be_valid
+    end
+
+    it "dynamically validates the retired reason" do
+      stub_const("#{Proposal}::RETIRE_OPTIONS", %w[custom])
+
+      proposal.retired_at = Time.current
+      proposal.retired_explanation = "My custom reason"
+
+      proposal.retired_reason = "custom"
+      expect(proposal).to be_valid
+
+      proposal.retired_reason = "duplicated"
       expect(proposal).not_to be_valid
     end
   end
@@ -235,7 +250,7 @@ describe Proposal do
     describe "from anonymous users" do
       it "does not register vote" do
         user = create(:user)
-        expect { proposal.register_vote(user, "yes") }.to change { proposal.reload.votes_for.size }.by(0)
+        expect { proposal.register_vote(user, "yes") }.not_to change { proposal.reload.votes_for.size }
       end
     end
 
@@ -243,7 +258,7 @@ describe Proposal do
       user = create(:user, verified_at: Time.current)
       archived_proposal = create(:proposal, :archived)
 
-      expect { archived_proposal.register_vote(user, "yes") }.to change { proposal.reload.votes_for.size }.by(0)
+      expect { archived_proposal.register_vote(user, "yes") }.not_to change { proposal.reload.votes_for.size }
     end
   end
 
@@ -255,7 +270,7 @@ describe Proposal do
         tag_list = ["tag1", "tag2", "tag3", "tag4", "tag5", "tag6", "tag7"]
         proposal.update!(tag_list: tag_list)
 
-        expect(proposal.update_cached_votes).to eq(true)
+        expect(proposal.update_cached_votes).to be true
       end
     end
   end
@@ -385,49 +400,52 @@ describe Proposal do
     let(:proposal) { create(:proposal) }
 
     it "expires cache when it has a new comment" do
-      expect { create(:comment, commentable: proposal) }
-      .to change { proposal.updated_at }
+      expect { create(:comment, commentable: proposal) }.to change { proposal.cache_version }
     end
 
     it "expires cache when it has a new vote" do
-      expect { create(:vote, votable: proposal) }
-      .to change { proposal.updated_at }
+      expect { create(:vote, votable: proposal) }.to change { proposal.cache_version }
     end
 
     it "expires cache when it has a new flag" do
-      expect { create(:flag, flaggable: proposal) }
-      .to change { proposal.reload.updated_at }
+      expect { create(:flag, flaggable: proposal) }.to change { proposal.reload.cache_version }
     end
 
     it "expires cache when it has a new tag" do
-      expect { proposal.update(tag_list: "new tag") }
-      .to change { proposal.updated_at }
+      expect { proposal.update(tag_list: "new tag") }.to change { proposal.cache_version }
+    end
+
+    it "expires cache when it has a new image" do
+      expect { create(:image, imageable: proposal) }.to change { proposal.cache_version }
+    end
+
+    it "expires cache when it has a new document" do
+      expect { create(:document, documentable: proposal) }.to change { proposal.cache_version }
     end
 
     it "expires cache when hidden" do
-      expect { proposal.hide }
-      .to change { proposal.updated_at }
+      expect { proposal.hide }.to change { proposal.cache_version }
     end
 
     it "expires cache when the author is hidden" do
       expect { proposal.author.hide }
-      .to change { [proposal.reload.updated_at, proposal.author.updated_at] }
+        .to change { [proposal.reload.cache_version, proposal.author.cache_version] }
     end
 
     it "expires cache when the author is erased" do
       expect { proposal.author.erase }
-      .to change { [proposal.reload.updated_at, proposal.author.updated_at] }
+        .to change { [proposal.reload.cache_version, proposal.author.cache_version] }
     end
 
     it "expires cache when its author changes" do
       expect { proposal.author.update(username: "Eva") }
-      .to change { [proposal.reload.updated_at, proposal.author.updated_at] }
+        .to change { [proposal.reload.cache_version, proposal.author.cache_version] }
     end
 
     it "expires cache when the author's organization get verified" do
       create(:organization, user: proposal.author)
       expect { proposal.author.organization.verify }
-      .to change { [proposal.reload.updated_at, proposal.author.updated_at] }
+        .to change { [proposal.reload.cache_version, proposal.author.cache_version] }
     end
   end
 
@@ -607,7 +625,8 @@ describe Proposal do
 
       it "gives much more weight to word matches than votes" do
         exact_title_few_votes    = create(:proposal, title: "stop corruption", cached_votes_up: 5)
-        similar_title_many_votes = create(:proposal, title: "stop some of the corruption", cached_votes_up: 500)
+        similar_title_many_votes = create(:proposal, title: "stop some of the corruption",
+                                                     cached_votes_up: 500)
 
         results = Proposal.search("stop corruption")
 
@@ -667,9 +686,9 @@ describe Proposal do
       end
 
       it "is able to reorder by most commented after searching" do
-        least_commented = create(:proposal,  title: "stop corruption",  cached_votes_up: 1, comments_count: 1)
-        most_commented  = create(:proposal,  title: "stop corruption",  cached_votes_up: 2, comments_count: 100)
-        some_comments   = create(:proposal,  title: "stop corruption",  cached_votes_up: 3, comments_count: 10)
+        least_commented = create(:proposal, title: "stop corruption", cached_votes_up: 1, comments_count: 1)
+        most_commented  = create(:proposal, title: "stop corruption", cached_votes_up: 2, comments_count: 100)
+        some_comments   = create(:proposal, title: "stop corruption", cached_votes_up: 3, comments_count: 10)
 
         results = Proposal.search("stop corruption")
 
@@ -825,8 +844,8 @@ describe Proposal do
     let!(:proposal2) { create(:proposal, :retired) }
 
     it "retired? is true" do
-      expect(proposal1.retired?).to eq false
-      expect(proposal2.retired?).to eq true
+      expect(proposal1.retired?).to be false
+      expect(proposal2.retired?).to be true
     end
 
     it "scope retired" do
@@ -843,8 +862,8 @@ describe Proposal do
     let!(:archived_proposal) { create(:proposal, :archived) }
 
     it "archived? is true only for proposals created more than n (configured months) ago" do
-      expect(new_proposal.archived?).to eq false
-      expect(archived_proposal.archived?).to eq true
+      expect(new_proposal.archived?).to be false
+      expect(archived_proposal.archived?).to be true
     end
 
     it "scope archived" do
@@ -900,8 +919,8 @@ describe Proposal do
       author = create(:user, :level_two)
       voter_and_follower = create(:user, :level_two)
       proposal = create(:proposal, author: author,
-                        voters:    [author, voter_and_follower],
-                        followers: [author, voter_and_follower])
+                                   voters: [author, voter_and_follower],
+                                   followers: [author, voter_and_follower])
 
       expect(proposal.users_to_notify).to eq([voter_and_follower])
     end

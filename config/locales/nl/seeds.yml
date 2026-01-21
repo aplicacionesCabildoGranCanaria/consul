@@ -14,6 +14,19 @@ nl:
     organizations:
       human_rights: Mensenrechten
       neighborhood_association: Buurtvereniging
+    cards:
+      budget:
+        link_text: "Meer over burgerbegrotingen"
+      debate:
+        link_text: "Meer over debatten"
+        label: "Debatten"
+      header:
+        title: "CONSUL DEMOCRACY"
+        description: "Gratis software voor burgerparticipatie."
+        link_text: "Meer informatie"
+        label: "Welkom in"
+      proposal:
+        link_text: "Meer over voorstellen"
     categories:
       associations: Verenigingen
       culture: Cultuur
@@ -36,11 +49,6 @@ nl:
       groups:
         all_city: Hele gemeente
         districts: Regio's
-      valuator_groups:
-        culture_and_sports: Cultuur & sport
-        gender_and_diversity: Geslacht & diversiteitsbeleid
-        urban_development: Duurzame stedelijke ontwikkeling
-        equity_and_employment: Eigen vermogen & Werkgelegenheid
       statuses:
         studying_project: Bestuderen van het project
         bidding: Biedingen

@@ -16,7 +16,18 @@ describe Abilities::Administrator do
   let(:budget_investment) { create(:budget_investment) }
   let(:finished_investment) { create(:budget_investment, budget: create(:budget, :finished)) }
   let(:legislation_question) { create(:legislation_question) }
-  let(:poll_question) { create(:poll_question) }
+  let(:current_poll) { create(:poll) }
+  let(:future_poll) { create(:poll, :future) }
+  let(:current_poll_question) { create(:poll_question) }
+  let(:future_poll_question) { create(:poll_question, poll: future_poll) }
+  let(:current_poll_question_option) { create(:poll_question_option) }
+  let(:future_poll_question_option) { create(:poll_question_option, poll: future_poll) }
+  let(:current_poll_option_video) { create(:poll_option_video, option: current_poll_question_option) }
+  let(:future_poll_option_video) { create(:poll_option_video, option: future_poll_question_option) }
+  let(:current_poll_option_image) { build(:image, imageable: current_poll_question_option) }
+  let(:future_poll_option_image) { build(:image, imageable: future_poll_question_option) }
+  let(:current_poll_option_document) { build(:document, documentable: current_poll_question_option) }
+  let(:future_poll_option_document) { build(:document, documentable: future_poll_question_option) }
 
   let(:past_process) { create(:legislation_process, :past) }
   let(:past_draft_process) { create(:legislation_process, :past, :not_published) }
@@ -24,7 +35,7 @@ describe Abilities::Administrator do
 
   let(:proposal_document) { build(:document, documentable: proposal, user: proposal.author) }
   let(:budget_investment_document) { build(:document, documentable: budget_investment) }
-  let(:poll_question_document) { build(:document, documentable: poll_question) }
+  let(:poll_question_document) { build(:document, documentable: current_poll_question) }
 
   let(:proposal_image) { build(:image, imageable: proposal, user: proposal.author) }
   let(:budget_investment_image) { build(:image, imageable: budget_investment) }
@@ -37,7 +48,6 @@ describe Abilities::Administrator do
 
   it { should be_able_to(:index, Debate) }
   it { should be_able_to(:show, debate) }
-  it { should be_able_to(:vote, debate) }
 
   it { should be_able_to(:index, Proposal) }
   it { should be_able_to(:show, proposal) }
@@ -71,13 +81,30 @@ describe Abilities::Administrator do
   it { should be_able_to(:comment_as_administrator, legislation_question) }
   it { should_not be_able_to(:comment_as_moderator, legislation_question) }
 
+  it { should be_able_to(:comment_as_administrator, current_poll) }
+  it { should_not be_able_to(:comment_as_moderator, current_poll) }
+
   it { should be_able_to(:summary, past_process) }
   it { should_not be_able_to(:summary, past_draft_process) }
   it { should_not be_able_to(:summary, open_process) }
 
   it { should be_able_to(:create, Budget) }
   it { should be_able_to(:update, Budget) }
-  it { should be_able_to(:read_results, Budget) }
+
+  it { should be_able_to(:read_results, create(:budget, :reviewing_ballots, :with_winner)) }
+  it { should be_able_to(:read_results, create(:budget, :finished, :with_winner)) }
+  it { should be_able_to(:read_results, create(:budget, :finished, results_enabled: true)) }
+
+  it do
+    should_not be_able_to(:read_results, create(:budget, :balloting, :with_winner, results_enabled: true))
+  end
+
+  it { should_not be_able_to(:read_results, create(:budget, :reviewing_ballots, results_enabled: true)) }
+  it { should_not be_able_to(:read_results, create(:budget, :finished, results_enabled: false)) }
+
+  it { should be_able_to(:calculate_winners, create(:budget, :reviewing_ballots)) }
+  it { should_not be_able_to(:calculate_winners, create(:budget, :balloting)) }
+  it { should_not be_able_to(:calculate_winners, create(:budget, :finished)) }
 
   it { should be_able_to(:create, Budget::ValuatorAssignment) }
 
@@ -88,7 +115,11 @@ describe Abilities::Administrator do
   it { should_not be_able_to(:admin_update, finished_investment) }
   it { should_not be_able_to(:valuate, finished_investment) }
   it { should_not be_able_to(:comment_valuation, finished_investment) }
-  it { should_not be_able_to(:toggle_selection, finished_investment) }
+
+  it { should be_able_to([:select, :deselect], create(:budget_investment, :feasible, :finished)) }
+  it { should_not be_able_to([:select, :deselect], create(:budget_investment, :feasible, :open)) }
+  it { should_not be_able_to([:select, :deselect], create(:budget_investment, :unfeasible, :finished)) }
+  it { should_not be_able_to([:select, :deselect], finished_investment) }
 
   it { should be_able_to(:destroy, proposal_image) }
   it { should be_able_to(:destroy, proposal_document) }
@@ -97,8 +128,34 @@ describe Abilities::Administrator do
   it { should be_able_to(:manage, Dashboard::Action) }
 
   it { should be_able_to(:read, Poll::Question) }
-  it { should be_able_to(:create, Poll::Question) }
-  it { should be_able_to(:update, Poll::Question) }
+  it { should be_able_to(:create, future_poll_question) }
+  it { should be_able_to(:update, future_poll_question) }
+  it { should be_able_to(:destroy, future_poll_question) }
+  it { should_not be_able_to(:create, current_poll_question) }
+  it { should_not be_able_to(:update, current_poll_question) }
+  it { should_not be_able_to(:destroy, current_poll_question) }
+
+  it { should be_able_to(:read, Poll::Question::Option) }
+  it { should be_able_to(:order_options, Poll::Question::Option) }
+  it { should be_able_to(:create, future_poll_question_option) }
+  it { should be_able_to(:update, future_poll_question_option) }
+  it { should be_able_to(:destroy, future_poll_question_option) }
+  it { should_not be_able_to(:create, current_poll_question_option) }
+  it { should_not be_able_to(:update, current_poll_question_option) }
+  it { should_not be_able_to(:destroy, current_poll_question_option) }
+
+  it { should be_able_to(:create, future_poll_option_video) }
+  it { should be_able_to(:update, future_poll_option_video) }
+  it { should be_able_to(:destroy, future_poll_option_video) }
+  it { should_not be_able_to(:create, current_poll_option_video) }
+  it { should_not be_able_to(:update, current_poll_option_video) }
+  it { should_not be_able_to(:destroy, current_poll_option_video) }
+
+  it { should be_able_to(:destroy, future_poll_option_image) }
+  it { should_not be_able_to(:destroy, current_poll_option_image) }
+
+  it { should be_able_to(:destroy, future_poll_option_document) }
+  it { should_not be_able_to(:destroy, current_poll_option_document) }
 
   it { is_expected.to be_able_to :manage, Dashboard::AdministratorTask }
   it { is_expected.to be_able_to :manage, dashboard_administrator_task }
@@ -114,4 +171,44 @@ describe Abilities::Administrator do
   it { should be_able_to(:destroy, SDG::Manager) }
 
   it { should be_able_to(:manage, Widget::Card) }
+
+  it { should be_able_to(:create, Cookies::Vendor) }
+  it { should be_able_to(:update, Cookies::Vendor) }
+  it { should be_able_to(:destroy, Cookies::Vendor) }
+
+  describe "tenants" do
+    context "with multitenancy disabled" do
+      before { allow(Rails.application.config).to receive(:multitenancy).and_return(false) }
+
+      it { should_not be_able_to :create, Tenant }
+      it { should_not be_able_to :read, Tenant }
+      it { should_not be_able_to :update, Tenant }
+      it { should_not be_able_to :destroy, Tenant }
+    end
+
+    context "with multitenancy enabled" do
+      before { allow(Rails.application.config).to receive(:multitenancy).and_return(true) }
+
+      it { should be_able_to :create, Tenant }
+      it { should be_able_to :read, Tenant }
+      it { should be_able_to :update, Tenant }
+      it { should be_able_to :hide, Tenant }
+      it { should be_able_to :restore, Tenant }
+      it { should_not be_able_to :destroy, Tenant }
+
+      context "administrators from other tenants" do
+        before do
+          insert(:tenant, schema: "subsidiary")
+          allow(Tenant).to receive(:current_schema).and_return("subsidiary")
+        end
+
+        it { should_not be_able_to :create, Tenant }
+        it { should_not be_able_to :read, Tenant }
+        it { should_not be_able_to :update, Tenant }
+        it { should_not be_able_to :destroy, Tenant }
+        it { should_not be_able_to :hide, Tenant }
+        it { should_not be_able_to :restore, Tenant }
+      end
+    end
+  end
 end

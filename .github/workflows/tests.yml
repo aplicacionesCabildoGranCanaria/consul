@@ -7,25 +7,27 @@ on:
     branches-ignore:
       - i18n_master
 
+permissions:
+  contents: read
+
+env:
+  TEST_COVERAGE: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && 1 || '' }}
+
 jobs:
   tests:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 60
     services:
       postgres:
-        image: postgres:10.10
+        image: postgres:13.16
         ports: ["5432:5432"]
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
         env:
           POSTGRES_USER: consul
-          POSTGRES_PASSWORD: ""
+          POSTGRES_PASSWORD: password
     env:
-      CI_BUILD_NUMBER: ${{ github.run_number }}
-      COVERALLS_FLAG_NAME: run-${{ matrix.ci_node_index }}
-      COVERALLS_PARALLEL: true
-      COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
       PGUSER: consul
-      POSTGRES_HOST: postgres
+      PGPASSWORD: password
       RAILS_ENV: test
     strategy:
       fail-fast: false
@@ -33,12 +35,19 @@ jobs:
         ci_node_total: [5]
         ci_node_index: [0, 1, 2, 3, 4]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
       - name: Setup NPM
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
+        with:
+          cache: "npm"
+          node-version-file: ".node-version"
+      - name: Install node packages
+        run: npm clean-install
+      - name: Install ImageMagick
+        run: sudo apt-get install imagemagick
       - name: Copy secrets and database files
         run: for i in config/*.example; do cp "$i" "${i/.example}"; done
       - name: Setup database
@@ -53,18 +62,28 @@ jobs:
           KNAPSACK_PRO_FIXED_QUEUE_SPLIT: true
           KNAPSACK_PRO_LOG_LEVEL: info
         run: bin/knapsack_pro_rspec
+      - name: Coveralls Parallel
+        if: ${{ env.TEST_COVERAGE == 1 }}
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          flag-name: run-${{ matrix.ci_node_index }}
+          parallel: true
       - name: Upload screenshots
         if: failure()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
-          name: screenshots
-          path: tmp/screenshots
+          name: screenshots-${{ matrix.ci_node_index }}
+          path: tmp/capybara/
   coveralls:
-    runs-on: ubuntu-18.04
+    permissions:
+      contents: none
+    runs-on: ubuntu-24.04
     needs: tests
-    env:
-      CI_BUILD_NUMBER: ${{ github.run_number }}
-      COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
     steps:
       - name: Finish coveralls
-        run: curl -k https://coveralls.io/webhook?repo_token=$COVERALLS_REPO_TOKEN -d "payload[build_num]=$CI_BUILD_NUMBER&payload[status]=done"
+        if: ${{ env.TEST_COVERAGE == 1 }}
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true

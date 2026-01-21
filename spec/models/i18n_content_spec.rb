@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe I18nContent, type: :model do
+RSpec.describe I18nContent do
   let(:i18n_content) { build(:i18n_content, key: "awe.so.me") }
 
   it "is valid" do
@@ -32,8 +32,8 @@ RSpec.describe I18nContent, type: :model do
     it "returns nil if translations are not available" do
       expect(i18n_content.value_en).to eq("Text in english")
       expect(i18n_content.value_es).to eq("Texto en español")
-      expect(i18n_content.value_nl).to be(nil)
-      expect(i18n_content.value_fr).to be(nil)
+      expect(i18n_content.value_nl).to be nil
+      expect(i18n_content.value_fr).to be nil
     end
 
     it "responds accordingly to the current locale" do
@@ -45,39 +45,17 @@ RSpec.describe I18nContent, type: :model do
 
   describe "#flat_hash" do
     it "uses one parameter" do
-      expect(I18nContent.flat_hash(nil)).to eq({
-        nil => nil
-      })
-
-      expect(I18nContent.flat_hash("string")).to eq({
-        nil => "string"
-      })
-
-      expect(I18nContent.flat_hash({ w: "string" })).to eq({
-        "w" => "string"
-      })
-
-      expect(I18nContent.flat_hash({ w: { p: "string" }})).to eq({
-        "w.p" => "string"
-      })
+      expect(I18nContent.flat_hash(nil)).to eq({ nil => nil })
+      expect(I18nContent.flat_hash("string")).to eq({ nil => "string" })
+      expect(I18nContent.flat_hash({ w: "string" })).to eq({ "w" => "string" })
+      expect(I18nContent.flat_hash({ w: { p: "string" }})).to eq({ "w.p" => "string" })
     end
 
     it "uses the first two parameters" do
-      expect(I18nContent.flat_hash("string", "f")).to eq({
-        "f" => "string"
-      })
-
-      expect(I18nContent.flat_hash(nil, "f")).to eq({
-        "f" => nil
-      })
-
-      expect(I18nContent.flat_hash({ w: "string" }, "f")).to eq({
-        "f.w" => "string"
-      })
-
-      expect(I18nContent.flat_hash({ w: { p: "string" }}, "f")).to eq({
-        "f.w.p" => "string"
-      })
+      expect(I18nContent.flat_hash("string", "f")).to eq({ "f" => "string" })
+      expect(I18nContent.flat_hash(nil, "f")).to eq({ "f" => nil })
+      expect(I18nContent.flat_hash({ w: "string" }, "f")).to eq({ "f.w" => "string" })
+      expect(I18nContent.flat_hash({ w: { p: "string" }}, "f")).to eq({ "f.w.p" => "string" })
     end
 
     it "uses the first and last parameters" do
@@ -153,6 +131,49 @@ RSpec.describe I18nContent, type: :model do
       I18nContent.delete_all
 
       expect(I18nContent.translations_hash(:en)["great"]).to be nil
+    end
+  end
+
+  describe ".update" do
+    it "stores new keys with a different translation" do
+      I18nContent.update([{ id: "shared.yes", values: { "value_en" => "Oh, yeah" }}])
+
+      expect(I18nContent.count).to eq 1
+      expect(I18nContent.first.translations.count).to eq 1
+      expect(I18nContent.first.value).to eq "Oh, yeah"
+    end
+
+    it "does not store new keys with the default translation" do
+      I18nContent.update([{ id: "shared.yes", values: { "value_en" => "Yes" }}])
+
+      expect(I18nContent.all).to be_empty
+    end
+
+    it "updates existing keys with the default translation" do
+      I18nContent.create!(key: "shared.yes", value_en: "Oh, yeah")
+
+      I18nContent.update([{ id: "shared.yes", values: { "value_en" => "Yes" }}])
+
+      expect(I18nContent.count).to eq 1
+      expect(I18nContent.first.translations.count).to eq 1
+      expect(I18nContent.first.value).to eq "Yes"
+    end
+
+    it "does not store new keys for disabled translations" do
+      Setting["locales.default"] = "es"
+      Setting["locales.enabled"] = "es"
+
+      I18nContent.update([{ id: "shared.yes", values: { "value_en" => "Oh, yeah" }}])
+
+      expect(I18nContent.all).to be_empty
+    end
+
+    it "uses different enabled translations when given a parameter" do
+      Setting["locales.enabled"] = "en es"
+
+      I18nContent.update([{ id: "shared.yes", values: { "value_en" => "Oh, yeah" }}], [:es])
+
+      expect(I18nContent.all).to be_empty
     end
   end
 end

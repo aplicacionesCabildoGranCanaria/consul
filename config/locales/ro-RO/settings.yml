@@ -40,8 +40,6 @@ ro:
     telegram_handle_description: "Dacă este completat, va apărea în subsol"
     instagram_handle: "Instagram"
     instagram_handle_description: "Dacă este completat, va apărea în subsol"
-    url: "URL-ul principal"
-    url_description: "URL-ul principal al site-ului dumneavoastră"
     org_name: "Numele site-ului"
     org_name_description: "Acest nume va apărea pe subiectul mailers în paginile de ajutor..."
     related_content_score_threshold: "Prag de scor pentru conținut"
@@ -114,8 +112,6 @@ ro:
       allow_attached_documents_description: "Permite utilizatorilor sa incarce documente atunci creaza propuneri si proiecte de investii, in cadrul procesului de Bugetare Participativa"
       guides: "Ghid pentru crearea de propuneri sau proiecte de investii"
       guides_description: "Afiseaza ghidul cu privire la diferentele intre propuneri si proiecte de investii daca exista un proces activ de bugetare participativa"
-      public_stats: "Statistici publice"
-      public_stats_description: "Afiseaza informatii statistice in panoul de administrare"
       help_page: "Pagina de ajutor"
       help_page_description: 'Afiseaza un meniul de ajutor ce contine o patina cu informatii despre fiecare functionalitati disponibile. Deasemenea pot fi create pagini si meniuri, personalizate, sub meniul "Pagini personalizate" si "Zone cu continut personalizat"'
       remote_translations: "Traducere la distanta"

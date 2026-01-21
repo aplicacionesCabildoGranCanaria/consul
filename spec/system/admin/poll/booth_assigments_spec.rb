@@ -61,11 +61,11 @@ describe "Admin booths assignments", :admin do
         expect(page).to have_content(booth.name)
         expect(page).to have_content "Unassigned"
 
-        click_link "Assign booth"
+        click_button "Assign booth"
 
         expect(page).not_to have_content "Unassigned"
         expect(page).to have_content "Assigned"
-        expect(page).to have_link "Unassign booth"
+        expect(page).to have_button "Unassign booth"
       end
 
       visit admin_poll_path(poll)
@@ -100,11 +100,11 @@ describe "Admin booths assignments", :admin do
         expect(page).to have_content(booth.name)
         expect(page).to have_content "Assigned"
 
-        click_link "Unassign booth"
+        click_button "Unassign booth"
 
         expect(page).to have_content "Unassigned"
         expect(page).not_to have_content "Assigned"
-        expect(page).to have_link "Assign booth"
+        expect(page).to have_button "Assign booth"
       end
 
       visit admin_poll_path(poll)
@@ -127,11 +127,11 @@ describe "Admin booths assignments", :admin do
         expect(page).to have_content(booth.name)
         expect(page).to have_content "Assigned"
 
-        accept_confirm { click_link "Unassign booth" }
+        accept_confirm { click_button "Unassign booth" }
 
         expect(page).to have_content "Unassigned"
         expect(page).not_to have_content "Assigned"
-        expect(page).to have_link "Assign booth"
+        expect(page).to have_button "Assign booth"
       end
     end
 
@@ -143,8 +143,7 @@ describe "Admin booths assignments", :admin do
       within("#poll_booth_#{booth.id}") do
         expect(page).to have_content(booth.name)
         expect(page).to have_content "Assigned"
-
-        expect(page).not_to have_link "Unassign booth"
+        expect(page).not_to have_button "Unassign booth"
       end
     end
   end
@@ -223,10 +222,10 @@ describe "Admin booths assignments", :admin do
           expect(page).to have_content "10"
         end
 
-        expect(page).not_to have_selector "#total_system"
+        expect(page).not_to have_css "#total_system"
       end
 
-      expect(page).not_to have_selector "#recounts_list"
+      expect(page).not_to have_css "#recounts_list"
     end
 
     scenario "Results for a booth assignment" do
@@ -237,38 +236,38 @@ describe "Admin booths assignments", :admin do
       question_1 = create(:poll_question, :yes_no, poll: poll)
 
       question_2 = create(:poll_question, poll: poll)
-      create(:poll_question_answer, title: "Today", question: question_2)
-      create(:poll_question_answer, title: "Tomorrow", question: question_2)
+      create(:poll_question_option, title: "Today", question: question_2)
+      create(:poll_question_option, title: "Tomorrow", question: question_2)
 
       create(:poll_partial_result,
-              booth_assignment: booth_assignment,
-              question: question_1,
-              answer: "Yes",
-              amount: 11)
+             booth_assignment: booth_assignment,
+             question: question_1,
+             answer: "Yes",
+             amount: 11)
 
       create(:poll_partial_result,
-              booth_assignment: booth_assignment,
-              question: question_1,
-              answer: "No",
-              amount: 4)
+             booth_assignment: booth_assignment,
+             question: question_1,
+             answer: "No",
+             amount: 4)
 
       create(:poll_partial_result,
-              booth_assignment: booth_assignment,
-              question: question_2,
-              answer: "Today",
-              amount: 5)
+             booth_assignment: booth_assignment,
+             question: question_2,
+             answer: "Today",
+             amount: 5)
 
       create(:poll_partial_result,
-              booth_assignment: booth_assignment,
-              question: question_2,
-              answer: "Tomorrow",
-              amount: 6)
+             booth_assignment: booth_assignment,
+             question: question_2,
+             answer: "Tomorrow",
+             amount: 6)
 
       create(:poll_partial_result,
-              booth_assignment: other_booth_assignment,
-              question: question_1,
-              answer: "Yes",
-              amount: 9999)
+             booth_assignment: other_booth_assignment,
+             question: question_1,
+             answer: "Yes",
+             amount: 9999)
 
       create(:poll_recount,
              booth_assignment: booth_assignment,

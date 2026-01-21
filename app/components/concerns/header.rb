@@ -1,17 +1,23 @@
 module Header
   extend ActiveSupport::Concern
 
-  def header(&block)
+  def header(before: nil, skip_section_title: false, &block)
     provide(:title) do
-      "#{t("#{namespace}.header.title")} - #{title}"
+      [
+        (t("#{namespace}.header.title", default: "") unless skip_section_title),
+        strip_tags(title),
+        setting["org_name"]
+      ].compact_blank.join(" - ")
     end
 
+    heading_tag = if %w[admin management moderation sdg_management valuation].include?(namespace)
+                    "h2"
+                  else
+                    "h1"
+                  end
+
     tag.header do
-      if block_given?
-        tag.h2(title) + capture(&block)
-      else
-        tag.h2(title)
-      end
+      safe_join([before, content_tag(heading_tag, title), (capture(&block) if block)].compact)
     end
   end
 

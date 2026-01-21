@@ -9,7 +9,7 @@ gl:
       - ven
       - sáb
     abbr_month_names:
-      - 
+      -
       - xan
       - feb
       - mar
@@ -35,7 +35,7 @@ gl:
       long: "%d de %B de %Y"
       short: "%d de %b"
     month_names:
-      - 
+      -
       - xaneiro
       - febreiro
       - marzo
@@ -193,5 +193,6 @@ gl:
       default: "%A, %d de %B de %Y %H:%M:%S %z"
       long: "%d de %B de %Y %H:%M"
       short: "%d de %b %H:%M"
+      short_datetime: "%d/%m/%Y %H:%M"
       api: "%d/%m/%Y %H"
     pm: pm

@@ -1,15 +1,19 @@
-<% provide :title do %><%= @proposal.title %><% end %>
+<% provide :title, @proposal.title %>
 <% provide :social_media_meta_tags do %>
 <%= render "shared/social_media_meta_tags",
-            social_url: proposal_url(@proposal),
-            social_title: @proposal.title,
-            social_description: @proposal.summary %>
+           social_url: proposal_url(@proposal),
+           social_title: @proposal.title,
+           social_description: @proposal.summary %>
 <% end %>
 <% content_for :canonical do %>
   <%= render "shared/canonical", href: proposal_url(@proposal) %>
 <% end %>
 
-<% cache [locale_and_user_status(@proposal), @proposal, @proposal.author, Flag.flagged?(current_user, @proposal), @proposal_votes] do %>
+<% cache [locale_and_user_status(@proposal),
+          @proposal,
+          @proposal.author,
+          Flag.flagged?(current_user, @proposal),
+          current_user&.voted_for?(@proposal)] do %>
   <div id="<%= dom_id(@proposal) %>" class="row">
     <div class="small-12 medium-8 column">
 
@@ -21,10 +25,10 @@
       </p>
 
       <%= render "shared/social_share",
-        title: @proposal.title,
-        url: proposal_url(@proposal),
-        description: @proposal.summary,
-        mobile: @proposal.title %>
+                 title: @proposal.title,
+                 url: proposal_url(@proposal),
+                 description: @proposal.summary,
+                 mobile: @proposal.title %>
 
       <% if can?(:dashboard, @proposal) %>
         <div class="callout light margin">

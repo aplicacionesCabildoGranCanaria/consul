@@ -1,0 +1,6 @@
+<h1><%= t('contact_mailer.body.greeting') %></h1>
+
+<p><strong><%= t('contact_mailer.body.from') %>:</strong> <%= h(@email) %></p>
+<p><strong><%= t('contact_mailer.body.subject') %>:</strong> <%= h(@asunto) %></p>
+<p><strong><%= t('contact_mailer.body.message') %>:</strong></p>
+<p><%= sanitize(@descripcion, tags: %w[b strong i em a br p], attributes: %w[href]) %></p>

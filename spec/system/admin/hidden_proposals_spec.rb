@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe "Admin hidden proposals", :admin do
   scenario "List shows all relevant info" do
-    proposal = create(:proposal, :hidden)
+    proposal = create(:proposal, :with_video, :hidden)
     visit admin_hidden_proposals_path
 
     expect(page).to have_content(proposal.title)
@@ -18,7 +18,7 @@ describe "Admin hidden proposals", :admin do
     proposal = create(:proposal, :hidden)
     visit admin_hidden_proposals_path
 
-    accept_confirm { click_link "Restore" }
+    accept_confirm("Are you sure? Restore") { click_button "Restore" }
 
     expect(page).not_to have_content(proposal.title)
 
@@ -31,7 +31,7 @@ describe "Admin hidden proposals", :admin do
     proposal = create(:proposal, :hidden)
     visit admin_hidden_proposals_path
 
-    click_link "Confirm moderation"
+    click_button "Confirm moderation"
 
     expect(page).not_to have_content(proposal.title)
     click_link("Confirmed")
@@ -83,7 +83,7 @@ describe "Admin hidden proposals", :admin do
 
     visit admin_hidden_proposals_path(filter: "with_confirmed_hide", page: 2)
 
-    accept_confirm { click_link "Restore", match: :first, exact: true }
+    accept_confirm("Are you sure? Restore") { click_button "Restore", match: :first, exact: true }
 
     expect(page).to have_current_path(/filter=with_confirmed_hide/)
     expect(page).to have_current_path(/page=2/)

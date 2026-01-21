@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe SDG::Goals::TagListComponent, type: :component do
+describe SDG::Goals::TagListComponent do
   let(:debate) { create(:debate, sdg_goals: [SDG::Goal[1], SDG::Goal[3]]) }
   let(:component) { SDG::Goals::TagListComponent.new(debate) }
 
@@ -14,7 +14,7 @@ describe SDG::Goals::TagListComponent, type: :component do
 
     render_inline component
 
-    expect(page).not_to have_css "li"
+    expect(page).not_to be_rendered
   end
 
   it "does not render when the SDG process feature is disabled" do
@@ -22,7 +22,7 @@ describe SDG::Goals::TagListComponent, type: :component do
 
     render_inline component
 
-    expect(page).not_to have_css "li"
+    expect(page).not_to be_rendered
   end
 
   it "renders a list of goals" do
@@ -34,7 +34,7 @@ describe SDG::Goals::TagListComponent, type: :component do
   it "renders links for each goal" do
     render_inline component
 
-    expect(page).to have_selector "a", count: 2
+    expect(page).to have_css "a", count: 2
     expect(page).to have_link "1. No Poverty",
                               title: "See all Debates related to goal 1",
                               href: "/debates?advanced_search#{CGI.escape("[goal]")}=1"
@@ -54,7 +54,7 @@ describe SDG::Goals::TagListComponent, type: :component do
 
     render_inline component
 
-    expect(page).to have_selector "a", count: 2
+    expect(page).to have_css "a", count: 2
     expect(page).to have_link "1. No Poverty"
     expect(page).to have_link "1+",
                               title: "One more goal",

@@ -223,7 +223,7 @@ describe Budget::Heading do
 
     it "Allows longitude inside [-180,180] interval" do
       heading = create(:budget_heading, group: group,
-                       name: "Longitude is inside [-180,180] interval")
+                                        name: "Longitude is inside [-180,180] interval")
 
       heading.longitude = "180"
       expect(heading).to be_valid
@@ -270,8 +270,8 @@ describe Budget::Heading do
 
       create(:budget_investment, heading: heading1)
 
-      expect(heading1.can_be_deleted?).to eq false
-      expect(heading2.can_be_deleted?).to eq true
+      expect(heading1.can_be_deleted?).to be false
+      expect(heading2.can_be_deleted?).to be true
     end
   end
 
@@ -330,6 +330,41 @@ describe Budget::Heading do
       expect(build(:budget_heading, max_ballot_lines: 10)).to be_valid
       expect(build(:budget_heading, max_ballot_lines: -1)).not_to be_valid
       expect(build(:budget_heading, max_ballot_lines: 0)).not_to be_valid
+    end
+  end
+
+  describe "price" do
+    it "can't be blank" do
+      expect(build(:budget_heading, group: group, price: nil)).not_to be_valid
+    end
+  end
+
+  describe "#name_scoped_by_group" do
+    it "returns heading name in budgets with a single heading" do
+      heading = create(:budget_heading, group: group, name: "One and only")
+
+      expect(heading.name_scoped_by_group).to eq "One and only"
+    end
+
+    it "returns heading name in budgets with one group and many headings" do
+      schools = create(:budget_heading, group: group, name: "Schools")
+      universities = create(:budget_heading, group: group, name: "Universities")
+
+      expect(schools.name_scoped_by_group).to eq "Schools"
+      expect(universities.name_scoped_by_group).to eq "Universities"
+    end
+
+    it "returns heading name in groups with many headings in budgets with many groups" do
+      education = create(:budget_group, budget: budget, name: "Education")
+      health = create(:budget_group, budget: budget, name: "Health")
+
+      schools = create(:budget_heading, group: education, name: "Schools")
+      universities = create(:budget_heading, group: education, name: "Universities")
+      supplies = create(:budget_heading, group: health, name: "Medical supplies")
+
+      expect(schools.name_scoped_by_group).to eq "Education: Schools"
+      expect(universities.name_scoped_by_group).to eq "Education: Universities"
+      expect(supplies.name_scoped_by_group).to eq "Health: Medical supplies"
     end
   end
 end

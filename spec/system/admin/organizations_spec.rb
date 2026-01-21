@@ -88,10 +88,10 @@ describe "Admin::Organizations" do
     visit admin_organizations_path
     within("#organization_#{organization.id}") do
       expect(page).to have_current_path(admin_organizations_path, ignore_query: true)
-      expect(page).to have_link("Verify")
-      expect(page).to have_link("Reject")
+      expect(page).to have_button "Verify"
+      expect(page).to have_button "Reject"
 
-      click_on "Verify"
+      click_button "Verify"
     end
     expect(page).to have_current_path(admin_organizations_path, ignore_query: true)
 
@@ -107,19 +107,19 @@ describe "Admin::Organizations" do
 
     visit admin_organizations_path
 
-    click_on "Verified"
+    click_link "Verified"
 
     within("#organization_#{organization.id}") do
       expect(page).to have_content "Verified"
-      expect(page).not_to have_link("Verify")
-      expect(page).to have_link("Reject")
+      expect(page).to have_button "Reject"
+      expect(page).not_to have_button "Verify"
 
-      click_on "Reject"
+      click_button "Reject"
     end
     expect(page).to have_current_path(admin_organizations_path, ignore_query: true)
     expect(page).not_to have_content organization.name
 
-    click_on "Rejected"
+    click_link "Rejected"
 
     within "tr", text: organization.name do
       expect(page).to have_content "Rejected"
@@ -130,17 +130,17 @@ describe "Admin::Organizations" do
     organization = create(:organization, :rejected)
 
     visit admin_organizations_path
-    click_on "Rejected"
+    click_link "Rejected"
 
     within("#organization_#{organization.id}") do
-      expect(page).to have_link("Verify")
-      expect(page).not_to have_link("Reject", exact: true)
+      expect(page).to have_button "Verify"
+      expect(page).not_to have_button "Reject"
 
-      click_on "Verify"
+      click_button "Verify"
     end
     expect(page).to have_current_path(admin_organizations_path, ignore_query: true)
     expect(page).not_to have_content organization.name
-    click_on("Verified")
+    click_link "Verified"
 
     within "tr", text: organization.name do
       expect(page).to have_content "Verified"
@@ -205,13 +205,13 @@ describe "Admin::Organizations" do
     expect(page).not_to have_content("Verified Organization")
   end
 
-  scenario "Verifying organization links remembers parameters " do
+  scenario "Verifying organization links remembers parameters" do
     allow(Organization).to receive(:default_per_page).and_return(2)
     4.times { create(:organization) }
 
     visit admin_organizations_path(filter: "pending", page: 2)
 
-    click_on("Verify", match: :first)
+    click_button "Verify", match: :first
 
     expect(page).to have_current_path(/filter=pending/)
     expect(page).to have_current_path(/page=2/)

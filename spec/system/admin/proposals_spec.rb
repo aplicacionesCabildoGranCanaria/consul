@@ -1,9 +1,7 @@
 require "rails_helper"
 
 describe "Admin proposals", :admin do
-  it_behaves_like "admin_milestoneable",
-                  :proposal,
-                  "admin_polymorphic_path"
+  it_behaves_like "admin_milestoneable", :proposal, "admin_polymorphic_path"
 
   context "Index" do
     scenario "Search" do
@@ -24,31 +22,39 @@ describe "Admin proposals", :admin do
     end
 
     scenario "Select a proposal" do
-      proposal = create(:proposal)
+      proposal = create(:proposal, title: "Forbid door-to-door sales")
 
       visit admin_proposals_path
 
-      within("#proposal_#{proposal.id}") { click_link "Select" }
+      within("#proposal_#{proposal.id}") do
+        expect(page).to have_content "No"
 
-      within("#proposal_#{proposal.id}") { expect(page).to have_link "Selected" }
+        click_button "Select Forbid door-to-door sales"
+
+        expect(page).to have_content "Yes"
+      end
 
       refresh
 
-      within("#proposal_#{proposal.id}") { expect(page).to have_link "Selected" }
+      within("#proposal_#{proposal.id}") { expect(page).to have_content "Yes" }
     end
 
     scenario "Unselect a proposal" do
-      proposal = create(:proposal, :selected)
+      proposal = create(:proposal, :selected, title: "Allow door-to-door sales")
 
       visit admin_proposals_path
 
-      within("#proposal_#{proposal.id}") { click_link "Selected" }
+      within("#proposal_#{proposal.id}") do
+        expect(page).to have_content "Yes"
 
-      within("#proposal_#{proposal.id}") { expect(page).to have_link "Select" }
+        click_button "Select Allow door-to-door sales"
+
+        expect(page).to have_content "No"
+      end
 
       refresh
 
-      within("#proposal_#{proposal.id}") { expect(page).to have_link "Select" }
+      within("#proposal_#{proposal.id}") { expect(page).to have_content "No" }
     end
   end
 

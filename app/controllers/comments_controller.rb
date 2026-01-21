@@ -1,8 +1,8 @@
 class CommentsController < ApplicationController
-  before_action :authenticate_user!, only: [:create, :hide]
+  before_action :authenticate_user!, only: [:create, :hide, :vote]
   before_action :load_commentable, only: :create
   before_action :verify_resident_for_commentable!, only: :create
-  before_action :verify_comments_open!, only: [:create, :vote]
+  before_action :verify_comments_open!, only: [:create]
   before_action :build_comment, only: :create
 
   load_and_authorize_resource
@@ -27,11 +27,6 @@ class CommentsController < ApplicationController
     end
   end
 
-  def vote
-    @comment.vote_by(voter: current_user, vote: params[:value])
-    respond_with @comment
-  end
-
   def flag
     Flag.flag(current_user, @comment)
     set_comment_flags(@comment)
@@ -54,8 +49,14 @@ class CommentsController < ApplicationController
   private
 
     def comment_params
-      params.require(:comment).permit(:commentable_type, :commentable_id, :parent_id,
-                                      :body, :as_moderator, :as_administrator, :valuation)
+      params.require(:comment).permit(allowed_params)
+    end
+
+    def allowed_params
+      [
+        :commentable_type, :commentable_id, :parent_id,
+        :body, :as_moderator, :as_administrator, :valuation
+      ]
     end
 
     def build_comment

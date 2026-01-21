@@ -9,4 +9,8 @@ module LayoutsHelper
       link_to(text, path, options.merge(title: title))
     end
   end
+
+  def common_html_attributes
+    render Layout::CommonHtmlAttributesComponent.new
+  end
 end

@@ -45,8 +45,13 @@ describe Debate do
     end
 
     it "is not valid when very short" do
-      debate.description = "abc"
+      debate.description = "<a><h1><u>abc</u></h1></a>"
       expect(debate).not_to be_valid
+    end
+
+    it "is valid when very long and sanitized" do
+      debate.description = "<a><h1>a</h1></a>" * 6000
+      expect(debate).to be_valid
     end
 
     it "is not valid when very long" do
@@ -57,12 +62,14 @@ describe Debate do
 
   describe "#tag_list" do
     it "is not valid with a tag list of more than 6 elements" do
-      debate.tag_list = ["Hacienda", "Economía", "Medio Ambiente", "Corrupción", "Fiestas populares", "Prensa", "Huelgas"]
+      debate.tag_list = ["Hacienda", "Economía", "Medio Ambiente", "Corrupción",
+                         "Fiestas populares", "Prensa", "Huelgas"]
       expect(debate).not_to be_valid
     end
 
     it "is valid with a tag list of 6 elements" do
-      debate.tag_list = ["Hacienda", "Economía", "Medio Ambiente", "Corrupción", "Fiestas populares", "Prensa"]
+      debate.tag_list = ["Hacienda", "Economía", "Medio Ambiente", "Corrupción",
+                         "Fiestas populares", "Prensa"]
       expect(debate).to be_valid
     end
   end
@@ -163,9 +170,9 @@ describe Debate do
         expect { debate.register_vote(user, "yes") }.to change { debate.reload.votes_for.size }.by(1)
       end
 
-      it "does not increase anonymous votes counter " do
+      it "does not increase anonymous votes counter" do
         user = create(:user, residence_verified_at: Time.current, confirmed_phone: "666333111")
-        expect { debate.register_vote(user, "yes") }.not_to change { debate.reload.cached_anonymous_votes_total }
+        expect { debate.register_vote(user, "yes") }.not_to change { debate.reload.total_anonymous_votes }
       end
     end
 
@@ -175,9 +182,9 @@ describe Debate do
         expect { debate.register_vote(user, "yes") }.to change { debate.reload.votes_for.size }.by(1)
       end
 
-      it "does not increase anonymous votes counter " do
+      it "does not increase anonymous votes counter" do
         user = create(:user, verified_at: Time.current)
-        expect { debate.register_vote(user, "yes") }.not_to change { debate.reload.cached_anonymous_votes_total }
+        expect { debate.register_vote(user, "yes") }.not_to change { debate.reload.total_anonymous_votes }
       end
     end
 
@@ -191,21 +198,21 @@ describe Debate do
 
       it "increases anonymous votes counter" do
         user = create(:user)
-        expect { debate.register_vote(user, "yes") }.to change { debate.reload.cached_anonymous_votes_total }.by(1)
+        expect { debate.register_vote(user, "yes") }.to change { debate.reload.total_anonymous_votes }.by(1)
       end
     end
 
     describe "from anonymous users when there are too many anonymous votes" do
       before { debate.update(cached_anonymous_votes_total: 520, cached_votes_total: 1000) }
 
-      it "does not register vote " do
+      it "does not register vote" do
         user = create(:user)
         expect { debate.register_vote(user, "yes") }.not_to change { debate.reload.votes_for.size }
       end
 
-      it "does not increase anonymous votes counter " do
+      it "does not increase anonymous votes counter" do
         user = create(:user)
-        expect { debate.register_vote(user, "yes") }.not_to change { debate.reload.cached_anonymous_votes_total }
+        expect { debate.register_vote(user, "yes") }.not_to change { debate.reload.total_anonymous_votes }
       end
     end
   end
@@ -309,7 +316,9 @@ describe Debate do
 
   describe "#confidence_score" do
     it "takes into account percentage of total votes and total_positive and total negative votes" do
-      debate = create(:debate, :with_confidence_score, cached_votes_up: 100, cached_votes_score: 100, cached_votes_total: 100)
+      debate = create(:debate, :with_confidence_score, cached_votes_up: 100,
+                                                       cached_votes_score: 100,
+                                                       cached_votes_total: 100)
       expect(debate.confidence_score).to eq(10000)
 
       debate = create(:debate, :with_confidence_score, cached_votes_up: 0, cached_votes_total: 100)
@@ -350,49 +359,44 @@ describe Debate do
     let(:debate) { create(:debate) }
 
     it "expires cache when it has a new comment" do
-      expect { create(:comment, commentable: debate) }
-      .to change { debate.updated_at }
+      expect { create(:comment, commentable: debate) }.to change { debate.cache_version }
     end
 
     it "expires cache when it has a new vote" do
-      expect { create(:vote, votable: debate) }
-      .to change { debate.updated_at }
+      expect { create(:vote, votable: debate) }.to change { debate.cache_version }
     end
 
     it "expires cache when it has a new flag" do
-      expect { create(:flag, flaggable: debate) }
-      .to change { debate.reload.updated_at }
+      expect { create(:flag, flaggable: debate) }.to change { debate.reload.cache_version }
     end
 
     it "expires cache when it has a new tag" do
-      expect { debate.update(tag_list: "new tag") }
-      .to change { debate.updated_at }
+      expect { debate.update(tag_list: "new tag") }.to change { debate.cache_version }
     end
 
     it "expires cache when hidden" do
-      expect { debate.hide }
-      .to change { debate.updated_at }
+      expect { debate.hide }.to change { debate.cache_version }
     end
 
     it "expires cache when the author is hidden" do
       expect { debate.author.hide }
-      .to change { [debate.reload.updated_at, debate.author.updated_at] }
+        .to change { [debate.reload.cache_version, debate.author.cache_version] }
     end
 
     it "expires cache when the author is erased" do
       expect { debate.author.erase }
-      .to change { [debate.reload.updated_at, debate.author.updated_at] }
+        .to change { [debate.reload.cache_version, debate.author.cache_version] }
     end
 
     it "expires cache when its author changes" do
       expect { debate.author.update(username: "Eva") }
-      .to change { [debate.reload.updated_at, debate.author.updated_at] }
+        .to change { [debate.reload.cache_version, debate.author.cache_version] }
     end
 
     it "expires cache when the author's organization get verified" do
       create(:organization, user: debate.author)
       expect { debate.author.organization.verify }
-      .to change { [debate.reload.updated_at, debate.author.updated_at] }
+        .to change { [debate.reload.cache_version, debate.author.cache_version] }
     end
   end
 
@@ -448,9 +452,14 @@ describe Debate do
       expect(debate).not_to be_conflictive
     end
 
-    it "returns false when it has not votes up" do
-      debate.update!(cached_votes_up: 0)
+    it "returns false when it has no flags and no votes up" do
+      debate.update!(flags_count: 0, cached_votes_up: 0)
       expect(debate).not_to be_conflictive
+    end
+
+    it "returns true when it has flags and no votes up" do
+      debate.update!(cached_votes_up: 0, flags_count: 10)
+      expect(debate).to be_conflictive
     end
   end
 

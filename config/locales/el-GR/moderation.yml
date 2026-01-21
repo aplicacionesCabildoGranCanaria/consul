@@ -3,7 +3,6 @@ el:
     comments:
       index:
         block_authors: Απέκλεισε τους συγγραφείς
-        confirm: Είστε βέβαιοι;
         filter: Φίλτρο
         filters:
           all: Όλα
@@ -12,9 +11,8 @@ el:
         headers:
           comment: Σχόλιο
           moderate: Συντονίζω
-        hide_comments: Απόκρυψη σχολίων
+        hide: Απόκρυψη σχολίων
         ignore_flags: Μαρκάρετε ως αναγνωσμένο
-        order: Παραγγελία
         orders:
           flags: Οι πιο σημαντικές
           newest: Νεότερα
@@ -25,7 +23,6 @@ el:
     debates:
       index:
         block_authors: Απέκλεισε τους συγγραφείς
-        confirm: Είστε βέβαιοι;
         filter: Φίλτρο
         filters:
           all: Όλα
@@ -34,9 +31,8 @@ el:
         headers:
           debate: Συζήτηση
           moderate: Συντονίζω
-        hide_debates: Απόκρυψη συζητήσεων
+        hide: Απόκρυψη συζητήσεων
         ignore_flags: Μαρκάρετε ως αναγνωσμένο
-        order: Παραγγελία
         orders:
           created_at: Νεότερα
           flags: Οι πιο σημαντικές
@@ -53,7 +49,6 @@ el:
     proposals:
       index:
         block_authors: Αποκλεισμός συγγραφέων
-        confirm: Είστε βέβαιοι;
         filter: Φίλτρο
         filters:
           all: Όλα
@@ -62,9 +57,8 @@ el:
         headers:
           moderate: Συντονίζω
           proposal: Πρόταση
-        hide_proposals: Απόκρυψη προτάσεων
+        hide: Απόκρυψη προτάσεων
         ignore_flags: Μαρκάρετε ως αναγνωσμένο
-        order: Ταξινόμηση κατά
         orders:
           created_at: Τα νεώτερα
           flags: Οι πιο σημαντικές
@@ -72,7 +66,6 @@ el:
     budget_investments:
       index:
         block_authors: Αποκλεισμός συγγραφέων
-        confirm: Είστε βέβαιοι;
         filter: Φίλτρο
         filters:
           all: Όλα
@@ -81,9 +74,8 @@ el:
         headers:
           moderate: Συντονίζω
           budget_investment: Επενδύσεις προϋπολογισμού
-        hide_budget_investments: Απόκρυψη επενδύσεων προϋπολογισμού
+        hide: Απόκρυψη επενδύσεων προϋπολογισμού
         ignore_flags: Μαρκάρετε ως αναγνωσμένο
-        order: Ταξινόμηση κατά
         orders:
           created_at: Τα νεότερα
           flags: Οι πιο σημαντικές
@@ -91,7 +83,6 @@ el:
     proposal_notifications:
       index:
         block_authors: Αποκλεισμός συγγραφέων
-        confirm: Είστε βέβαιοι;
         filter: Φίλτρο
         filters:
           all: Όλα
@@ -100,16 +91,14 @@ el:
         headers:
           moderate: Συντονίζω
           proposal_notification: Ειδοποιήσεις προτάσεων
-        hide_proposal_notifications: Απόκρυψη προτάσεων
+        hide: Απόκρυψη προτάσεων
         ignore_flags: Μαρκάρετε ως αναγνωσμένο
-        order: Ταξινόμηση κατά
         orders:
           created_at: Το πιο πρόσφατο
           moderated: Συντονισμένο
         title: Ειδοποιήσεις προτάσεων
     users:
       index:
-        hidden: Αποκλεισμένο
         hide: Αποκλείω
         search_placeholder: email ή όνομα χρήστη
         title: Αποκλεισμός χρηστών

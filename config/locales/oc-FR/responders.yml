@@ -7,9 +7,6 @@ oc:
         direct_message: "Lo tieu messatge es estat enviat corrèctament."
         poll: "Votacion creada corrèctament."
         poll_booth: "Urna creada corrèctament."
-        poll_question_answer: "La responsa s'es creada corrèctament"
-        poll_question_answer_video: "Lo vidèo s'es creat corrèctament"
-        poll_question_answer_image: "L'image se carguèt corrèctament"
         proposal: "Proposicion creada corrèctament."
         proposal_notification: "Lo tieu message es estat enviat corrèctament."
         budget_investment: "Proposicion d'inversion creada corrèctament."
@@ -31,7 +28,5 @@ oc:
         translation: "La traduccion s’a actualizat corrèctament"
       destroy:
         budget_investment: "Proposicion d'inversion eliminada."
-        error: "S'es pas pogut esborrar"
         topic: "Lo tèma s'es suprimit corrèctament."
-        poll_question_answer_video: "Respondre al vidèo suprimit corrèctament."
         valuator_group: "Lo grop de la valor s'es suprimit corrèctament"

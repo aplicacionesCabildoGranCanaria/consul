@@ -13,7 +13,7 @@ es:
         budgets: "Presupuestos participativos"
         other: "Otra información de interés"
       debates:
-        title: "%{link_to_debates}"
+        title: Debates
         description: "El Cabildo de Gran Canaria creará propuestas planteadas a la ciudadanía que deben contribuir a facilitar los procesos participativos que mejoren la eficacia y eficiencia de la acción de este Gobierno Insular."
         feature_1: "Para participar en una Propuesta de Cabildo tienes que %{link}"
         feature_1_link: "registrarte en %{org}"

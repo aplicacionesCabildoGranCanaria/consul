@@ -25,8 +25,7 @@ class Admin::Poll::BoothAssignmentsController < Admin::Poll::BaseController
   def create
     @poll = Poll.find(booth_assignment_params[:poll_id])
     @booth = Poll::Booth.find(booth_assignment_params[:booth_id])
-    @booth_assignment = ::Poll::BoothAssignment.new(poll: @poll,
-                                                    booth: @booth)
+    @booth_assignment = ::Poll::BoothAssignment.new(poll: @poll, booth: @booth)
 
     @booth_assignment.save!
 
@@ -47,7 +46,7 @@ class Admin::Poll::BoothAssignmentsController < Admin::Poll::BaseController
   end
 
   def manage
-    @booths = ::Poll::Booth.all.order(name: :asc).page(params[:page]).per(300)
+    @booths = ::Poll::Booth.order(name: :asc).page(params[:page]).per(300)
     @poll = Poll.find(params[:poll_id])
   end
 

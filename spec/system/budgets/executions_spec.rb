@@ -70,37 +70,19 @@ describe "Executions" do
 
     expect(page).to have_content("No winner investments in this state")
 
-    select "Executed (0)", from: "status"
+    select "Executed (0)", from: "Project's current state"
+    click_button "Filter"
 
     expect(page).to have_content("No winner investments in this state")
   end
 
+  scenario "Back link redirects to budget page" do
+    visit budget_executions_path(budget)
+
+    expect(page).to have_link("Go back", href: budget_path(budget))
+  end
+
   context "Images" do
-    scenario "renders milestone image if available" do
-      milestone1 = create(:milestone, :with_image, milestoneable: investment1)
-
-      visit budget_path(budget)
-
-      click_link "See results"
-      click_link "Milestones"
-
-      expect(page).to have_content(investment1.title)
-      expect(page).to have_css("img[alt='#{milestone1.image.title}']")
-    end
-
-    scenario "renders investment image if no milestone image is available" do
-      create(:milestone, milestoneable: investment2)
-      create(:image, imageable: investment2)
-
-      visit budget_path(budget)
-
-      click_link "See results"
-      click_link "Milestones"
-
-      expect(page).to have_content(investment2.title)
-      expect(page).to have_css("img[alt='#{investment2.image.title}']")
-    end
-
     scenario "renders default image if no milestone nor investment images are available" do
       create(:milestone, milestoneable: investment4)
 
@@ -109,23 +91,8 @@ describe "Executions" do
       click_link "See results"
       click_link "Milestones"
 
-      expect(page).to have_content(investment4.title)
-      expect(page).to have_css("img[alt='#{investment4.title}']")
-    end
-
-    scenario "renders last milestone's image if investment has multiple milestones with images associated" do
-      create(:milestone, milestoneable: investment1)
-      create(:milestone, :with_image, image_title: "First image", milestoneable: investment1)
-      create(:milestone, :with_image, image_title: "Second image", milestoneable: investment1)
-      create(:milestone, milestoneable: investment1)
-
-      visit budget_path(budget)
-
-      click_link "See results"
-      click_link "Milestones"
-
-      expect(page).to have_content(investment1.title)
-      expect(page).to have_css("img[alt='Second image']")
+      expect(page).to have_content investment4.title
+      expect(page).to have_css "img[alt='#{investment4.title}']"
     end
   end
 
@@ -165,17 +132,20 @@ describe "Executions" do
       expect(page).to have_content(investment1.title)
       expect(page).to have_content(investment2.title)
 
-      select "Studying the project (1)", from: "status"
+      select "Studying the project (1)", from: "Project's current state"
+      click_button "Filter"
 
       expect(page).to have_content(investment1.title)
       expect(page).not_to have_content(investment2.title)
 
-      select "Bidding (1)", from: "status"
+      select "Bidding (1)", from: "Project's current state"
+      click_button "Filter"
 
       expect(page).to have_content(investment2.title)
       expect(page).not_to have_content(investment1.title)
 
-      select "Executing the project (0)", from: "status"
+      select "Executing the project (0)", from: "Project's current state"
+      click_button "Filter"
 
       expect(page).not_to have_content(investment1.title)
       expect(page).not_to have_content(investment2.title)
@@ -194,10 +164,14 @@ describe "Executions" do
       click_link "See results"
       click_link "Milestones"
 
-      select "Studying the project (0)", from: "status"
+      select "Studying the project (0)", from: "Project's current state"
+      click_button "Filter"
+
       expect(page).not_to have_content(investment1.title)
 
-      select "Bidding (1)", from: "status"
+      select "Bidding (1)", from: "Project's current state"
+      click_button "Filter"
+
       expect(page).to have_content(investment1.title)
     end
 
@@ -214,10 +188,14 @@ describe "Executions" do
       click_link "See results"
       click_link "Milestones"
 
-      select "Studying the project (1)", from: "status"
+      select "Studying the project (1)", from: "Project's current state"
+      click_button "Filter"
+
       expect(page).to have_content(investment1.title)
 
-      select "Bidding (0)", from: "status"
+      select "Bidding (0)", from: "Project's current state"
+      click_button "Filter"
+
       expect(page).not_to have_content(investment1.title)
     end
 
@@ -240,27 +218,27 @@ describe "Executions" do
       expect(page).to have_content(investment1.title)
       expect(page).to have_content(investment2.title)
 
-      select "tag2 (2)", from: "milestone_tag"
-
-      expect(page).to have_content(investment1.title)
-      expect(page).to have_content(investment2.title)
-
-      select "Studying the project (1)", from: "status"
+      select "tag2 (2)", from: "Milestone tag"
+      select "Studying the project (1)", from: "Project's current state"
+      click_button "Filter"
 
       expect(page).to have_content(investment1.title)
       expect(page).not_to have_content(investment2.title)
 
-      select "Bidding (1)", from: "status"
+      select "Bidding (1)", from: "Project's current state"
+      click_button "Filter"
 
       expect(page).not_to have_content(investment1.title)
       expect(page).to have_content(investment2.title)
 
-      select "tag1 (1)", from: "milestone_tag"
+      select "tag1 (1)", from: "Milestone tag"
+      click_button "Filter"
 
       expect(page).not_to have_content(investment1.title)
       expect(page).not_to have_content(investment2.title)
 
-      select "All (2)", from: "milestone_tag"
+      select "All (2)", from: "Milestone tag"
+      click_button "Filter"
 
       expect(page).not_to have_content(investment1.title)
       expect(page).to have_content(investment2.title)
@@ -276,7 +254,7 @@ describe "Executions" do
 
       visit budget_executions_path(budget)
 
-      expect(page).to have_css(".budget-execution", count: 3)
+      expect(page).to have_css(".budget-executions-investment", count: 3)
       expect(a_heading.name).to appear_before(m_heading.name)
       expect(m_heading.name).to appear_before(z_heading.name)
     end

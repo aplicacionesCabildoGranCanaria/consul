@@ -1,6 +1,7 @@
 <h2 class="inline-block"><%= t("admin.admin_notifications.index.section_title") %></h2>
-<%= link_to t("admin.admin_notifications.index.new_notification"), new_admin_admin_notification_path,
-                                                         class: "button float-right" %>
+<%= link_to t("admin.admin_notifications.index.new_notification"),
+            new_admin_admin_notification_path,
+            class: "button float-right" %>
 
 <% if @admin_notifications.any? %>
   <table id="admin_notifications">
@@ -31,15 +32,11 @@
         <td>
           <% if admin_notification.draft? %>
             <%= render Admin::TableActionsComponent.new(admin_notification) do |actions| %>
-              <%= actions.link_to t("admin.admin_notifications.index.preview"),
-                                  admin_admin_notification_path(admin_notification),
-                                  class: "preview-link" %>
+              <%= actions.action(:preview, text: t("admin.admin_notifications.index.preview")) %>
             <% end %>
           <% else %>
-            <%= render Admin::TableActionsComponent.new(actions: []) do |actions| %>
-              <%= actions.link_to t("admin.admin_notifications.index.view"),
-                                  admin_admin_notification_path(admin_notification),
-                                  class: "show-link" %>
+            <%= render Admin::TableActionsComponent.new(admin_notification, actions: []) do |actions| %>
+              <%= actions.action(:show, text: t("admin.admin_notifications.index.view")) %>
             <% end %>
           <% end %>
         </td>

@@ -1,6 +1,7 @@
-<%= render Shared::BannerComponent.new("budgets") %>
+<% provide :title, t("budgets.index.title") %>
+<% provide :main_class, "budgets-index" %>
 
-<% provide :title do %><%= t("budgets.index.title") %><% end %>
+<%= render Shared::BannerComponent.new("budgets") %>
 
 <% content_for :canonical do %>
   <%= render "shared/canonical", href: budgets_url %>
@@ -13,13 +14,9 @@
     <%= render "finished", budgets: @finished_budgets %>
   <% end %>
 <% else %>
-  <div class="budget-header margin-bottom">
-    <div class="row">
-      <div class="small-12 medium-9 column">
-          <h1><%= t("budgets.index.title") %></h1>
-      </div>
-    </div>
-  </div>
+  <header>
+    <h1><%= t("budgets.index.title") %></h1>
+  </header>
 
   <div class="row">
     <div class="small-12 column">

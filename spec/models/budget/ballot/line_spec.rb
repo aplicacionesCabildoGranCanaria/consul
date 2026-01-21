@@ -52,7 +52,7 @@ describe Budget::Ballot::Line do
 
       it "is not valid if there are no votes left" do
         create(:budget_ballot_line, ballot: ballot,
-               investment: create(:budget_investment, :selected, heading: heading))
+                                    investment: create(:budget_investment, :selected, heading: heading))
 
         expect(ballot_line).not_to be_valid
       end
@@ -85,18 +85,6 @@ describe Budget::Ballot::Line do
         investment.update!(selected: true, price: 20000)
         expect(ballot_line).to be_valid
       end
-    end
-  end
-
-  describe "#store_user_heading" do
-    it "stores the heading where the user has voted" do
-      user = create(:user, :level_two)
-      investment = create(:budget_investment, :selected)
-      ballot = create(:budget_ballot, user: user, budget: investment.budget)
-
-      create(:budget_ballot_line, ballot: ballot, investment: investment)
-
-      expect(user.reload.balloted_heading_id).to eq(investment.heading.id)
     end
   end
 

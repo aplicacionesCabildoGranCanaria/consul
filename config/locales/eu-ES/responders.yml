@@ -7,9 +7,6 @@ eu:
         direct_message: "Zure mezua ondo bidali da."
         poll: "Bozkaketa ondo sortuta."
         poll_booth: "Hautetsontzia ondo sortuta."
-        poll_question_answer: "Erantzuna ondo sortuta"
-        poll_question_answer_video: "Bideoa ondo sortuta"
-        poll_question_answer_image: "Irudia ondo kargatuta"
         proposal: "Proposamena ondo sortuta."
         proposal_notification: "Zure mezua ondo bidali da."
         budget_investment: "Gastu proiektua ondo sortuta."
@@ -29,7 +26,5 @@ eu:
         valuator_group: "Ebaluatzaile taldea ondo eguneratuta"
       destroy:
         budget_investment: "Gastu proiektua ezabatuta."
-        error: "Ezin izan da ezabatu."
         topic: "Gaia ezabatuta."
-        poll_question_answer_video: "Erantzun bideoa ezabatuta."
         valuator_group: "Ebaluatzaile taldea ondo ezabatuta"

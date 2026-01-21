@@ -4,8 +4,6 @@ id:
       comments:
         see_all: Lihat semuanya
         see_complete: Lihat lengkap
-        comments_count:
-          other: "%{count} komentar"
         replies_count:
           other: "%{count} balas"
         cancel: Batal
@@ -16,8 +14,6 @@ id:
         title: Komentar
         comments_about: Komentar tentang
         see_in_context: Lihat dalam konteks
-        comments_count:
-          other: "%{count} komentar"
       show:
         title: Komentar
       version_chooser:
@@ -49,7 +45,6 @@ id:
           winners: Dipilih
       debate:
         empty_questions: Tidak ada pertanyaan
-        participate: Berpartisipasi dalam perdebatan
       index:
         filter: Penyaring
         filters:
@@ -72,6 +67,7 @@ id:
         see_latest_comments_title: Komentar pada proses ini
       shared:
         key_dates: Tanggal kunci
+        homepage: Halaman depan
         debate_dates: Perdebatan
         draft_publication_date: Konsep publikasi
         allegations_dates: Komentar
@@ -86,9 +82,6 @@ id:
         form:
           leave_comment: Meninggalkan jawaban anda
       question:
-        comments:
-          zero: Tidak ada komentar
-          other: "%{count} komentar"
         debate: Perdebatan
       show:
         answer_question: Kirim jawaban
@@ -109,3 +102,13 @@ id:
       form:
         tags_label: "Kategori"
       not_verified: "Untuk memilih proposal %{verify_account}."
+      process_title: Kolaboratif dalam proses legislasi
+    summary:
+      title: "Ringkasan"
+      votes:
+        zero: "1 bulan\n\n%{count} bulan"
+        other: "1 bulan\n\n%{count} bulan"
+      debate_phase: "Masa perdebatan"
+      proposals_phase: "Masa proposal"
+      top_comments:
+        zero: "Tidak ada komentar"

@@ -40,8 +40,6 @@ da:
     telegram_handle_description: "Hvis udfyldt, vil telegram-ikonet være synligt nederst på siden"
     instagram_handle: "Instagram"
     instagram_handle_description: "Hvis udfyldt, vil instagram-ikonet være synligt nederst på siden"
-    url: "Hjemmesidens URL"
-    url_description: "Angiv URL for din hjemmeside"
     org_name: "Sidens navn"
     org_name_description: "Dette navn vil fremgå i emnefeltet (e-mails), hjælpesider..."
     related_content_score_threshold: "Tærskelværdi af relateret indhold"
@@ -114,8 +112,6 @@ da:
       allow_attached_documents_description: "Tillader brugere at overføre filer, når de opretter forslag og projektidéer til et deltagerbudget"
       guides: "Guide til oprettelse af forslag eller projektidéer"
       guides_description: "Viser en guide, der forklarer forskellen på et borgerforslag og en projektidé, hvis et deltagerbudget er aktivt"
-      public_stats: "Offentlig statistik"
-      public_stats_description: "Viser offentlig statistik i Administrationspanelet"
       help_page: "Hjælp"
       help_page_description: 'Viser en Hjælpeside, der indeholder en informationssektion omkring enhver aktiveret funktion. Derudover kan brugerdefinerede sider og sektioner oprettes under "Brugerdefinerede sider" og "Brugerdefinerede indholdsblokke"'
       remote_translations: "Fjern oversættelse"
@@ -123,6 +119,7 @@ da:
       translation_interface: "Oversættelses interface"
       valuation_comment_notification: "Notifikation"
       valuation_comment_notification_description: "Send en e-mail til alle brugere (med undtagelse af evaluatorerne) når en ny vurdering af foretaget"
+      sdg: Verdensmål
     map:
       latitude: "Breddegrad"
       latitude_description: "Breddegrader"

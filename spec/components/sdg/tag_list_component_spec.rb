@@ -1,11 +1,10 @@
 require "rails_helper"
 
-describe SDG::TagListComponent, type: :component do
+describe SDG::TagListComponent do
   let(:debate) do
     create(:debate,
-            sdg_goals: [SDG::Goal[3]],
-            sdg_targets: [SDG::Target[3.2], create(:sdg_local_target, code: "3.2.1")]
-          )
+           sdg_goals: [SDG::Goal[3]],
+           sdg_targets: [SDG::Target[3.2], create(:sdg_local_target, code: "3.2.1")])
   end
   let(:component) { SDG::TagListComponent.new(debate) }
 
@@ -20,6 +19,14 @@ describe SDG::TagListComponent, type: :component do
     expect(page).to have_link "3. Good Health and Well-Being"
     expect(page).to have_link "target 3.2"
     expect(page).to have_link "target 3.2.1"
+  end
+
+  it "does not render when there are no tags" do
+    record = build(:debate, sdg_goals: [], sdg_targets: [])
+
+    render_inline SDG::TagListComponent.new(record)
+
+    expect(page).not_to be_rendered
   end
 
   context "when linkable is false" do
