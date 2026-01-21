@@ -354,16 +354,19 @@ body > .wrapper {
         padding: 0.5rem 0;
         .column{
           float:none;
+<<<<<<< Updated upstream
           margin: 0;
+=======
+>>>>>>> Stashed changes
           img{
             padding: 0 10px;
           }
         }
       }
       .column {
-        float: right;
+        float: left;
         ul.menu {
-          float:right;
+          float:left;
           li {
             font-size: 0.875rem;
             text-align: right;
