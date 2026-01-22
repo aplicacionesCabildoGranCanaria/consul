@@ -84,6 +84,21 @@
       </li>
     <% end %>
 
+    <li class="mapa">
+      <%= link_to "/mapa", class: "mapa  #{"active" if controller_name == "mapa"}", accesskey: "m"  do %>
+        <h1 class="hide-for-small-only"> <%= t("layouts.header.mapa")%></h1>
+        <span class="show-for-small-only"><%= t("layouts.header.mapa")%> </span>
+      <% end %>
+    </li>
+    
+    <li class="eventos">
+      <%= link_to "/eventos", class: "eventos  #{"active" if controller_name == "eventos"}", accesskey: "m"  do %>
+        <h1 class="hide-for-small-only"> <%= t("layouts.header.eventos")%></h1>
+        <span class="show-for-small-only"><%= t("layouts.header.eventos")%> </span>
+      <% end %>
+    </li>
+
+
     <% if feature?(:sdg) %>
       <li class="sdg <%= 'active' if controller_path == 'sdg/goals' && action_name != 'help' %>">
         <%= link_to sdg_goals_path, class: "sdg #{'active' if controller_path == 'sdg/goals' && action_name != 'help'}", accesskey: "6" do %>
