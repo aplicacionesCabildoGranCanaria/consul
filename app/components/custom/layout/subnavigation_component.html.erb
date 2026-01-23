@@ -1,41 +1,3 @@
-<div class="small-4 medium-3 large-3 float-right social column">
-  <ul>
-    <% if setting['blog_url'] %>
-      <li class="inline-block">
-        <%= link_to setting['blog_url'], target: "_blank",  title: t('shared.target_blank_html') do %>
-          <span class="show-for-sr"><%= t("layouts.header.external_link_blog") %></span>
-          <%= image_tag("blog.png") %>
-        <% end %>
-      </li>
-    <% end %>
-
-    <% if setting['facebook_handle'] %>
-      <li class="inline-block">
-        <%= link_to "https://www.facebook.com/#{setting['facebook_handle']}/", target: "_blank", title: t("social.facebook") + t('shared.target_blank_html'), onclick: "ga('send', 'event','Enlaces','Click','enlace_fb', 1);" do %>
-          <span class="show-for-sr"><%= t("social.facebook") %></span>
-          <%= image_tag("facebook.png") %>
-        <% end %>
-      </li>
-    <% end %>
-    <% if setting['twitter_handle'] %>
-      <li class="inline-block">
-        <%= link_to "https://twitter.com/#{setting['twitter_handle']}", target: "_blank", title: t("social.twitter") + t('shared.target_blank_html'), onclick: "ga('send', 'event','Enlaces','C     lick','enlace_tw', 1);" do %>
-          <span class="show-for-sr"><%= t("social.twitter") %></span>
-          <%= image_tag("twitter.png") %>
-        <% end %>
-      </li>
-    <% end %>
-    <% if setting['instagram_handle'] %>
-      <li class="inline-block">
-        <%= link_to "https://www.instagram.com/#{setting['instagram_handle']}", target: "_blank", title: t("social.instagram") + t('shared.target_blank_html'), onclick: "ga('send', 'event','Enlaces','C     lick','enlace_in', 1);" do %>
-          <span class="show-for-sr"><%= t("social.instagram") %></span>
-          <%= image_tag("instagram.png") %>
-        <% end %>
-      </li>
-    <% end %>
-  </ul>
-</div>
-
 
 <nav class="<%= menu if menu %> small-12 medium-7 large-9 column float-right">
   <ul>
@@ -83,6 +45,21 @@
         <% end %>
       </li>
     <% end %>
+
+    <li class="mapa">
+      <%= link_to "/mapa", class: "mapa  #{"active" if controller_name == "mapa"}", accesskey: "m"  do %>
+        <h1 class="hide-for-small-only"> <%= t("layouts.header.mapa")%></h1>
+        <span class="show-for-small-only"><%= t("layouts.header.mapa")%> </span>
+      <% end %>
+    </li>
+
+    <li class="eventos">
+      <%= link_to "/eventos", class: "eventos  #{"active" if controller_name == "eventos"}", accesskey: "m"  do %>
+        <h1 class="hide-for-small-only"> <%= t("layouts.header.eventos")%></h1>
+        <span class="show-for-small-only"><%= t("layouts.header.eventos")%> </span>
+      <% end %>
+    </li>
+
 
     <% if feature?(:sdg) %>
       <li class="sdg <%= 'active' if controller_path == 'sdg/goals' && action_name != 'help' %>">

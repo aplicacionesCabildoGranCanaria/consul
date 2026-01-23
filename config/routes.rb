@@ -20,7 +20,7 @@ Rails.application.routes.draw do
     draw :debate
     draw :direct_upload
     draw :document
-    draw :graphql
+    #draw :graphql
     draw :legislation
     draw :management
     draw :moderation
