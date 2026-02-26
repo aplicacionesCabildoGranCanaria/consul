@@ -2,15 +2,37 @@ require "rails_helper"
 
 describe Llm::Config do
   describe ".context" do
-    before { stub_secrets(llm: { openai_api_key: "1234" }) }
+    let(:config) { instance_double(RubyLLM::Configuration) }
+    let(:context_double) { double("RubyLLM::Context", config: config) }
+
+    before do
+      stub_secrets(llm: { openai_api_key: "1234" })
+      allow(config).to receive(:openai_api_key=)
+      expect(RubyLLM).to receive(:context).and_yield(config).and_return(context_double)
+    end
 
     it "creates a context with tenant secrets without errors" do
-      config = instance_double(RubyLLM::Configuration)
       expect(config).to receive(:openai_api_key=).with("1234")
-      context = double("RubyLLM::Context", config: config)
-      expect(RubyLLM).to receive(:context).and_yield(config).and_return(context)
 
       expect { Llm::Config.context }.not_to raise_error
+    end
+
+    context "google_application_credentials is present" do
+      before do
+        stub_secrets(
+          llm: { openai_api_key: "1234" },
+          google_application_credentials: "/tmp/dummy.json"
+        )
+      end
+
+      let!(:original_google_application_credentials) { ENV["GOOGLE_APPLICATION_CREDENTIALS"] }
+      after { ENV["GOOGLE_APPLICATION_CREDENTIALS"] = original_google_application_credentials }
+
+      it "sets GOOGLE_APPLICATION_CREDENTIALS" do
+        Llm::Config.context
+
+        expect(ENV["GOOGLE_APPLICATION_CREDENTIALS"]).to eq("/tmp/dummy.json")
+      end
     end
   end
 
