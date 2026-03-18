@@ -120,7 +120,7 @@ dependsOn:
     - name: Rails
       version: "7.1.6"
     - name: Node.js
-      version: "20.19.5"
+      version: "20.20.1"
     - name: PostgreSQL
       versionMin: "13"
     - name: ImageMagick
