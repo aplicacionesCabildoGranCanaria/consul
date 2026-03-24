@@ -1,9 +1,3 @@
-<!--
-  Title: CONSUL DEMOCRACY
-  Description: Citizen Participation and Open Government Application
-  Keywords: democracy, citizen participation, eparticipation, debates, proposals, voting, consultations, crowdlaw, participatory budgeting.
--->
-
 ![CONSUL DEMOCRACY logo](https://raw.githubusercontent.com/consuldemocracy/consuldemocracy/master/public/consul_logo.png)
 
 # CONSUL DEMOCRACY
