@@ -301,6 +301,24 @@ describe UserSegments do
     end
   end
 
+  describe ".recipients" do
+    it "does not return any recipients when given an invalid segment" do
+      create(:user, email: "first@email.com")
+
+      recipients = UserSegments.recipients(:invalid_segment)
+
+      expect(recipients).to eq []
+    end
+
+    it "does not return any recipients when given a method name as a segment" do
+      create(:user, email: "first@email.com")
+
+      recipients = UserSegments.recipients(:ancestors)
+
+      expect(recipients).to eq []
+    end
+  end
+
   describe ".user_segment_emails" do
     it "returns list of emails sorted by user creation date" do
       create(:user, email: "first@email.com", created_at: 1.day.ago)
@@ -308,6 +326,50 @@ describe UserSegments do
 
       emails = UserSegments.user_segment_emails(:all_users)
       expect(emails).to eq ["first@email.com", "last@email.com"]
+    end
+
+    it "returns an empty list when given an invalid segment" do
+      create(:user, email: "first@email.com")
+
+      emails = UserSegments.user_segment_emails(:invalid_segment)
+
+      expect(emails).to eq []
+    end
+  end
+
+  context "Geozones" do
+    let!(:new_york) { create(:geozone, name: "New York") }
+    let!(:california) { create(:geozone, name: "California") }
+    let!(:user1) { create(:user, geozone: new_york) }
+    let!(:user2) { create(:user, geozone: new_york) }
+    let!(:user3) { create(:user, geozone: california) }
+
+    before do
+      create(:geozone, name: "Mars")
+      create(:user, geozone: nil)
+    end
+
+    it "includes geozones in available segments" do
+      expect(UserSegments.segments).to include("new_york")
+      expect(UserSegments.segments).to include("california")
+      expect(UserSegments.segments).to include("mars")
+      expect(UserSegments.segments).not_to include("jupiter")
+    end
+
+    it "returns users of a geozone" do
+      expect(UserSegments.recipients("new_york")).to match_array [user1, user2]
+      expect(UserSegments.recipients("california")).to eq [user3]
+    end
+
+    it "accepts symbols as parameters" do
+      expect(UserSegments.recipients(:new_york)).to match_array [user1, user2]
+      expect(UserSegments.recipients(:california)).to eq [user3]
+    end
+
+    it "only returns active users of a geozone" do
+      user2.update!(erased_at: Time.current)
+
+      expect(UserSegments.recipients("new_york")).to eq [user1]
     end
   end
 
