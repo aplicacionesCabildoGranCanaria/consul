@@ -136,6 +136,9 @@ describe "Admin budgets", :admin do
 
       expect(page).to have_content "Group created successfully!"
 
+      within("#notice") { click_button "Close" }
+      expect(page).not_to have_content "Group created successfully!"
+
       click_button "Add new group"
       fill_in "Group name", with: "District A"
       click_button "Create new group"
@@ -323,6 +326,7 @@ describe "Admin budgets", :admin do
 
       visit budget_path(id: "old-english-name")
 
+      expect(page).not_to have_content "Participatory budget updated successfully"
       expect(page).to have_content "Old English Name"
 
       visit edit_admin_budget_path(budget)
@@ -335,6 +339,7 @@ describe "Admin budgets", :admin do
 
       visit budget_path(id: "new-english-name")
 
+      expect(page).not_to have_content "Participatory budget updated successfully"
       expect(page).to have_content "New English Name"
     end
 
@@ -443,6 +448,9 @@ describe "Admin budgets", :admin do
       expect(page).to have_link "Select valuators"
 
       click_button "Update Budget"
+
+      expect(page).to have_content "Participatory budget updated successfully"
+
       visit edit_admin_budget_path(budget)
 
       expect(page).to have_link "Select administrators"
