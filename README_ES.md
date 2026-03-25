@@ -4,15 +4,15 @@
 
 Aplicación de Participación Ciudadana y Gobierno Abierto
 
-[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](http://www.gnu.org/licenses/agpl-3.0)
-[![Accessibility conformance](https://img.shields.io/badge/accessibility-WAI:AA-green.svg)](https://www.w3.org/WAI/eval/Overview)
+[![Licencia: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](http://www.gnu.org/licenses/agpl-3.0)
+[![Cumplimiento de las normas de accesibilidad](https://img.shields.io/badge/accessibility-WAI:AA-green.svg)](https://www.w3.org/WAI/eval/Overview)
 
 ![Estado de los tests](https://github.com/consuldemocracy/consuldemocracy/workflows/tests/badge.svg)
-[![Coverage Status](https://coveralls.io/repos/github/consuldemocracy/consuldemocracy/badge.svg?branch=master)](https://coveralls.io/github/consuldemocracy/consuldemocracy?branch=master)
+[![Cobertura de código](https://coveralls.io/repos/github/consuldemocracy/consuldemocracy/badge.svg?branch=master)](https://coveralls.io/github/consuldemocracy/consuldemocracy?branch=master)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/consul/localized.svg)](https://translate.consuldemocracy.org/)
-[![Knapsack Pro Parallel CI builds for RSpec tests](https://img.shields.io/badge/Knapsack%20Pro-Parallel%20/%20RSpec%20tests-%230074ff)](https://knapsackpro.com/dashboard/organizations/176/projects/202/test_suites/318/builds?utm_campaign=organization-id-176&utm_content=test-suite-id-318&utm_medium=readme&utm_source=knapsack-pro-badge&utm_term=project-id-202)
+[![CI paralela Knapsack Pro para tests RSpec](https://img.shields.io/badge/Knapsack%20Pro-Parallel%20/%20RSpec%20tests-%230074ff)](https://knapsackpro.com/dashboard/organizations/176/projects/202/test_suites/318/builds?utm_campaign=organization-id-176&utm_content=test-suite-id-318&utm_medium=readme&utm_source=knapsack-pro-badge&utm_term=project-id-202)
 
-[![Help wanted](https://img.shields.io/badge/help-wanted-brightgreen.svg?style=flat-square)](https://github.com/consuldemocracy/consuldemocracy/issues?q=is%3Aopen+label%3A"help+wanted")
+[![Se busca ayuda](https://img.shields.io/badge/help-wanted-brightgreen.svg?style=flat-square)](https://github.com/consuldemocracy/consuldemocracy/issues?q=is%3Aopen+label%3A"help+wanted")
 
 Este es el repositorio de código abierto de la Aplicación de Participación Ciudadana CONSUL DEMOCRACY, creada originariamente por el Ayuntamiento de Madrid y actualmente mantenido por la comunidad de software libre en colaboración con la Fundación CONSUL DEMOCRACY.
 
@@ -22,7 +22,7 @@ Por favor visita la [documentación que está siendo completada](https://docs.co
 
 ## Fundación CONSUL DEMOCRACY y página web del proyecto
 
-Puedes acceder a la página principal del proyecto en [http://consuldemocracy.org](http://consuldemocracy.org) donde puedes encontrar información sobre el uso de la plataforma, la Fundación CONSUL DEMOCRACY, la comunidad de usuarios y socios locales, noticias y formas de obtener más ayuda o ponerte en contacto con nosotros.
+Puedes acceder a la página principal del proyecto en [http://consuldemocracy.org](http://consuldemocracy.org/es) donde puedes encontrar información sobre el uso de la plataforma, la Fundación CONSUL DEMOCRACY, la comunidad de usuarios y socios locales, noticias y formas de obtener más ayuda o ponerte en contacto con nosotros.
 
 ## Configuración para desarrollo y tests
 

@@ -6,7 +6,7 @@ Aplicación de Participación Ciudadana y Gobierno Abierto
 
 ## Fundación CONSUL DEMOCRACY y página web del proyecto
 
-Puedes acceder a la página principal del proyecto en [http://consuldemocracy.org](http://consuldemocracy.org) donde puedes encontrar información sobre el uso de la plataforma, la Fundación CONSUL DEMOCRACY, la comunidad de usuarios y socios locales, noticias y formas de obtener más ayuda o ponerte en contacto con nosotros.
+Puedes acceder a la página principal del proyecto en [http://consuldemocracy.org](http://consuldemocracy.org/es) donde puedes encontrar información sobre el uso de la plataforma, la Fundación CONSUL DEMOCRACY, la comunidad de usuarios y socios locales, noticias y formas de obtener más ayuda o ponerte en contacto con nosotros.
 
 ## Configuración para desarrollo y tests
 
