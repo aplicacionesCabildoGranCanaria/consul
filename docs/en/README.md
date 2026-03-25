@@ -4,13 +4,14 @@
 
 Citizen Participation and Open Government Application
 
-## CONSUL DEMOCRACY Project main website
+## CONSUL DEMOCRACY Foundation and project website
 
-You can access the main website of the project at [http://consuldemocracy.org](http://consuldemocracy.org) where you can find documentation about the use of the platform, videos, and links to the community space.
+You can access the main website of the project at [http://consuldemocracy.org](http://consuldemocracy.org) where you can find information about the use of the platform, the CONSUL DEMOCRACY Foundation, the global community of users and local partners, news, and ways to get more support or get in touch.
 
 ## Configuration for development and test environments
 
-**NOTE**: For more detailed instructions, check the [local installation docs](installation/local_installation.md).
+**NOTE**:
+The installation process will vary depending on your operating system. Please make sure to follow the [local installation docs](installation/local_installation.md) appropriate for your OS.
 
 Prerequisites: install git, Ruby 3.3.10, CMake, pkg-config, Node.js 20.20.1, ImageMagick and PostgreSQL (>=13).
 
