@@ -53,7 +53,7 @@
   }
 
   .input-group {
-    padding-top: calc(#{$line-height} / 4);
+    padding-top: calc($line-height / 4);
 
     @include breakpoint(medium) {
       margin-bottom: 0;
