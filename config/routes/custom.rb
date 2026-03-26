@@ -34,4 +34,5 @@ constraints lambda { |request| !Rails.application.multitenancy_management_mode? 
   #
   # If multitenancy management mode is not being used, routes can be included within
   # this block and will still be accessible.
+  draw :contact
 end

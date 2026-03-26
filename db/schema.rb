@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_10_26_112901) do
+ActiveRecord::Schema[7.0].define(version: 2025_03_13_014205) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -62,8 +62,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_26_112901) do
   create_table "activities", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.string "action"
-    t.integer "actionable_id"
     t.string "actionable_type"
+    t.integer "actionable_id"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.index ["actionable_id", "actionable_type"], name: "index_activities_on_actionable_id_and_actionable_type"
@@ -94,13 +94,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_26_112901) do
     t.integer "user_id"
     t.string "description"
     t.index ["user_id"], name: "index_administrators_on_user_id"
-  end
-
-  create_table "answered_surveys", id: :serial, force: :cascade do |t|
-    t.integer "user_id"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.integer "survey_id"
   end
 
   create_table "audits", id: :serial, force: :cascade do |t|
@@ -187,9 +180,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_26_112901) do
     t.integer "budget_id"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.integer "ballot_lines_count", default: 0
     t.boolean "physical", default: false
     t.integer "poll_ballot_id"
-    t.integer "ballot_lines_count", default: 0
   end
 
   create_table "budget_content_blocks", id: :serial, force: :cascade do |t|
@@ -238,10 +231,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_26_112901) do
     t.boolean "allow_custom_content", default: false
     t.text "latitude"
     t.text "longitude"
+    t.integer "geozone_id"
+    t.integer "max_ballot_lines", default: 1
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.integer "max_ballot_lines", default: 1
-    t.integer "geozone_id"
     t.index ["geozone_id"], name: "index_budget_headings_on_geozone_id"
     t.index ["group_id"], name: "index_budget_headings_on_group_id"
   end
@@ -540,7 +533,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_26_112901) do
     t.integer "geozone_id"
     t.tsvector "tsv"
     t.datetime "featured_at", precision: nil
-    t.string "area"
     t.index ["author_id", "hidden_at"], name: "index_debates_on_author_id_and_hidden_at"
     t.index ["author_id"], name: "index_debates_on_author_id"
     t.index ["cached_votes_down"], name: "index_debates_on_cached_votes_down"
@@ -582,8 +574,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_26_112901) do
   create_table "documents", id: :serial, force: :cascade do |t|
     t.string "title"
     t.integer "user_id"
-    t.integer "documentable_id"
     t.string "documentable_type"
+    t.integer "documentable_id"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.boolean "admin", default: false
@@ -607,19 +599,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_26_112901) do
     t.index ["user_id"], name: "index_failed_census_calls_on_user_id"
   end
 
-  create_table "failed_person_calls", id: :serial, force: :cascade do |t|
-    t.integer "user_id"
-    t.string "document_number"
-    t.string "document_type"
-    t.date "date_of_birth"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.string "common_name"
-    t.string "first_surname"
-    t.text "response"
-    t.index ["user_id"], name: "index_failed_person_calls_on_user_id"
-  end
-
   create_table "flags", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.string "flaggable_type"
@@ -633,8 +612,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_26_112901) do
 
   create_table "follows", id: :serial, force: :cascade do |t|
     t.integer "user_id"
-    t.integer "followable_id"
     t.string "followable_type"
+    t.integer "followable_id"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.index ["followable_type", "followable_id"], name: "index_follows_on_followable_type_and_followable_id"
@@ -684,8 +663,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_26_112901) do
   end
 
   create_table "images", id: :serial, force: :cascade do |t|
-    t.integer "imageable_id"
     t.string "imageable_type"
+    t.integer "imageable_id"
     t.string "title", limit: 80
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
@@ -977,8 +956,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_26_112901) do
   end
 
   create_table "milestones", id: :serial, force: :cascade do |t|
-    t.integer "milestoneable_id"
     t.string "milestoneable_type"
+    t.integer "milestoneable_id"
     t.datetime "publication_date", precision: nil
     t.integer "status_id"
     t.datetime "created_at", precision: nil, null: false
@@ -1012,8 +991,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_26_112901) do
 
   create_table "notifications", id: :serial, force: :cascade do |t|
     t.integer "user_id"
-    t.integer "notifiable_id"
     t.string "notifiable_type"
+    t.integer "notifiable_id"
     t.integer "counter", default: 1
     t.datetime "emailed_at", precision: nil
     t.datetime "read_at", precision: nil
@@ -1159,7 +1138,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_26_112901) do
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.tsvector "tsv"
-    t.string "video_url"
     t.index ["author_id"], name: "index_poll_questions_on_author_id"
     t.index ["poll_id"], name: "index_poll_questions_on_poll_id"
     t.index ["proposal_id"], name: "index_poll_questions_on_proposal_id"
@@ -1242,12 +1220,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_26_112901) do
     t.integer "comments_count", default: 0
     t.integer "author_id"
     t.datetime "hidden_at", precision: nil
+    t.string "slug"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.integer "budget_id"
     t.string "related_type"
     t.integer "related_id"
-    t.string "slug"
     t.tsvector "tsv"
     t.index ["budget_id"], name: "index_polls_on_budget_id", unique: true
     t.index ["geozone_restricted"], name: "index_polls_on_geozone_restricted"
@@ -1268,8 +1246,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_26_112901) do
   create_table "progress_bars", id: :serial, force: :cascade do |t|
     t.integer "kind"
     t.integer "percentage"
-    t.integer "progressable_id"
     t.string "progressable_type"
+    t.integer "progressable_id"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
   end
@@ -1322,8 +1300,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_26_112901) do
     t.integer "geozone_id"
     t.datetime "retired_at", precision: nil
     t.string "retired_reason"
-    t.string "area"
-    t.datetime "area_revised_at", precision: nil
     t.integer "community_id"
     t.datetime "published_at", precision: nil
     t.boolean "selected", default: false
@@ -1349,10 +1325,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_26_112901) do
   end
 
   create_table "related_contents", id: :serial, force: :cascade do |t|
-    t.integer "parent_relationable_id"
     t.string "parent_relationable_type"
-    t.integer "child_relationable_id"
+    t.integer "parent_relationable_id"
     t.string "child_relationable_type"
+    t.integer "child_relationable_id"
     t.integer "related_content_id"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
@@ -1467,8 +1443,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_26_112901) do
   end
 
   create_table "signature_sheets", id: :serial, force: :cascade do |t|
-    t.integer "signable_id"
     t.string "signable_type"
+    t.integer "signable_id"
     t.text "required_fields_to_verify"
     t.boolean "processed", default: false
     t.integer "author_id"
@@ -1530,48 +1506,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_26_112901) do
     t.string "locale"
   end
 
-  create_table "survey_question_answers", id: :serial, force: :cascade do |t|
-    t.integer "survey_question_value_id"
-    t.integer "answered_survey_id"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.integer "survey_question_id"
-    t.string "comment"
-  end
-
-  create_table "survey_question_values", id: :serial, force: :cascade do |t|
-    t.text "text"
-    t.integer "survey_question_id"
-    t.integer "order"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-  end
-
-  create_table "survey_questions", id: :serial, force: :cascade do |t|
-    t.text "text"
-    t.integer "code"
-    t.integer "survey_id"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.string "input_type"
-  end
-
-  create_table "surveys", id: :serial, force: :cascade do |t|
-    t.string "name"
-    t.string "code"
-    t.date "start"
-    t.date "end"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.text "description"
-  end
-
   create_table "taggings", id: :serial, force: :cascade do |t|
     t.integer "tag_id"
-    t.integer "taggable_id"
     t.string "taggable_type"
-    t.integer "tagger_id"
+    t.integer "taggable_id"
     t.string "tagger_type"
+    t.integer "tagger_id"
     t.string "context", limit: 128
     t.datetime "created_at", precision: nil
     t.index ["context"], name: "index_taggings_on_context"
@@ -1671,23 +1611,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_26_112901) do
     t.string "locale"
     t.string "oauth_email"
     t.integer "geozone_id"
-    t.string "redeemable_code"
     t.string "gender", limit: 10
     t.datetime "date_of_birth", precision: nil
     t.boolean "email_digest", default: true
     t.boolean "email_on_direct_message", default: true
     t.boolean "official_position_badge", default: false
     t.datetime "password_changed_at", precision: nil, default: "2015-01-01 01:01:01", null: false
-    t.datetime "residence_requested_at", precision: nil
-    t.string "postal_code"
-    t.integer "failed_person_calls_count", default: 0
-    t.string "common_name"
-    t.string "first_surname"
     t.boolean "created_from_signature", default: false
     t.integer "failed_email_digests_count", default: 0
     t.text "former_users_data_log", default: ""
     t.boolean "public_interests", default: false
-    t.boolean "no_resident", default: false
     t.boolean "recommended_debates", default: true
     t.boolean "recommended_proposals", default: true
     t.string "subscriptions_token"
@@ -1777,10 +1710,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_26_112901) do
   end
 
   create_table "votes", id: :serial, force: :cascade do |t|
-    t.integer "votable_id"
     t.string "votable_type"
-    t.integer "voter_id"
+    t.integer "votable_id"
     t.string "voter_type"
+    t.integer "voter_id"
     t.boolean "vote_flag"
     t.string "vote_scope"
     t.integer "vote_weight"
@@ -1845,7 +1778,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_26_112901) do
   add_foreign_key "documents", "users"
   add_foreign_key "failed_census_calls", "poll_officers"
   add_foreign_key "failed_census_calls", "users"
-  add_foreign_key "failed_person_calls", "users"
   add_foreign_key "flags", "users"
   add_foreign_key "follows", "users"
   add_foreign_key "geozones_polls", "geozones"

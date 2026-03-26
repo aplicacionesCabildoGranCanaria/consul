@@ -122,8 +122,8 @@
 //= require_tree ./admin
 //= require_tree ./sdg
 //= require_tree ./sdg_management
-//= require custom
 //= require_tree ./custom
+//= require custom
 
 var initialize_modules = function () {
   "use strict";
@@ -169,6 +169,7 @@ var initialize_modules = function () {
     App.ColumnsSelector.initialize();
   }
   App.AdminBudgetsWizardCreationStep.initialize();
+  App.AdminDashboardActionsForm.initialize();
   App.AdminMachineLearningScripts.initialize();
   App.AdminPollShiftsForm.initialize();
   App.AdminTenantsForm.initialize();
