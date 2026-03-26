@@ -8,7 +8,7 @@ Aplicación de Participación Ciudadana y Gobierno Abierto
 [![Cumplimiento de las normas de accesibilidad](https://img.shields.io/badge/accessibility-WAI:AA-green.svg)](https://www.w3.org/WAI/eval/Overview)
 
 ![Estado de los tests](https://github.com/consuldemocracy/consuldemocracy/workflows/tests/badge.svg)
-[![Cobertura de código](https://coveralls.io/repos/github/consuldemocracy/consuldemocracy/badge.svg?branch=master)](https://coveralls.io/github/consuldemocracy/consuldemocracy?branch=master)
+[![Cobertura de código](https://coveralls.io/repos/github/consuldemocracy/consuldemocracy/badge.svg)](https://coveralls.io/github/consuldemocracy/consuldemocracy?branch=master)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/consul/localized.svg)](https://translate.consuldemocracy.org/)
 [![CI paralela Knapsack Pro para tests RSpec](https://img.shields.io/badge/Knapsack%20Pro-Parallel%20/%20RSpec%20tests-%230074ff)](https://knapsackpro.com/dashboard/organizations/176/projects/202/test_suites/318/builds?utm_campaign=organization-id-176&utm_content=test-suite-id-318&utm_medium=readme&utm_source=knapsack-pro-badge&utm_term=project-id-202)
 
@@ -18,7 +18,7 @@ Este es el repositorio de código abierto de la Aplicación de Participación Ci
 
 ## Documentación
 
-Por favor visita la [documentación que está siendo completada](https://docs.consuldemocracy.org) para conocer más sobre este proyecto, cómo comenzar tu propio fork, instalarlo, personalizarlo y usarlo como administrador/mantenedor.
+Por favor visita la [documentación que está siendo completada](https://docs.consuldemocracy.org/index/spanish) para conocer más sobre este proyecto, cómo comenzar tu propio fork, instalarlo, personalizarlo y usarlo como administrador/mantenedor.
 
 ## Fundación CONSUL DEMOCRACY y página web del proyecto
 
@@ -70,7 +70,7 @@ Ver [instalador](https://github.com/consuldemocracy/installer)
 
 ## Estado del proyecto
 
-El desarrollo de esta aplicación comenzó el [15 de Julio de 2015](https://github.com/consuldemocracy/consuldemocracy/commit/8db36308379accd44b5de4f680a54c41a0cc6fc6) y el código fue puesto en producción el día 7 de Septiembre de 2015 en [decide.madrid.es](https://decide.madrid.es). Desde entonces se le añaden mejoras y funcionalidades constantemente. Las funcionalidades actuales se pueden consultar en la [la página del projecto](http://consuldemocracy.org/es) y las futuras funcionalidades en el [Roadmap](https://github.com/consuldemocracy/consuldemocracy/projects/6) y [el listado de issues](https://github.com/consuldemocracy/consuldemocracy/issues).
+El desarrollo de esta aplicación comenzó el [15 de Julio de 2015](https://github.com/consuldemocracy/consuldemocracy/commit/8db36308379accd44b5de4f680a54c41a0cc6fc6) y el código fue puesto en producción el día 7 de Septiembre de 2015 en [decide.madrid.es](https://decide.madrid.es). Desde entonces se le añaden mejoras y funcionalidades constantemente. Las funcionalidades actuales se pueden consultar en la [página del proyecto](http://consuldemocracy.org/es) y las futuras funcionalidades en el [Roadmap](https://github.com/orgs/consuldemocracy/projects/2) y [el listado de issues](https://github.com/consuldemocracy/consuldemocracy/issues).
 
 ## Licencia
 
