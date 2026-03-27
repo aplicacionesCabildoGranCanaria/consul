@@ -22,7 +22,6 @@ module.exports = defineConfig([globalIgnores([
   "**/vendor/",
 ]), {
   extends: compat.extends("eslint:recommended"),
-
   languageOptions: {
     globals: {
       ...globals.browser,
@@ -35,11 +34,9 @@ module.exports = defineConfig([globalIgnores([
       L: "readonly",
       Turbolinks: "readonly",
     },
-
     ecmaVersion: 5,
     sourceType: "script",
   },
-
   rules: {
     "array-bracket-spacing": "error",
     "array-callback-return": "error",
@@ -50,50 +47,38 @@ module.exports = defineConfig([globalIgnores([
     curly: "error",
     "dot-notation": "error",
     "eol-last": "error",
-
     eqeqeq: ["error", "always", {
       null: "ignore",
     }],
-
     indent: ["error", 2],
     "key-spacing": "error",
     "keyword-spacing": "error",
     "linebreak-style": "error",
-
     "max-len": ["warn", {
       code: 110,
     }],
-
     "no-array-constructor": "error",
     "no-console": "error",
     "no-multi-spaces": "error",
-
     "no-multiple-empty-lines": ["error", {
       max: 1,
     }],
-
     "no-param-reassign": "error",
     "no-shadow": "error",
     "no-spaced-func": "error",
     "no-trailing-spaces": "error",
-
     "no-unused-vars": ["error", {
       caughtErrors: "none",
     }],
-
     "no-void": "error",
     "no-whitespace-before-property": "error",
-
     "object-curly-spacing": ["error", "always", {
       objectsInObjects: false,
     }],
-
     "padded-blocks": ["error", "never"],
-
     quotes: ["error", "double", {
       avoidEscape: true,
     }],
-
     semi: ["error", "always"],
     "semi-spacing": "error",
     "space-before-blocks": "error",
@@ -101,12 +86,10 @@ module.exports = defineConfig([globalIgnores([
     "space-in-parens": "error",
     "space-infix-ops": "error",
     "space-unary-ops": "error",
-
     "spaced-comment": ["error", "always", {
       markers: ["="],
       exceptions: ["-"],
     }],
-
     strict: "error",
     yoda: "error",
   },
