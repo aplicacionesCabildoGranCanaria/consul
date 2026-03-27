@@ -18,6 +18,7 @@ const compat = new FlatCompat({
 
 module.exports = defineConfig([globalIgnores([
   "app/assets/javascripts/ckeditor/config.js",
+  "eslint.config.cjs",
   "**/node_modules/",
   "**/vendor/",
 ]), {
