@@ -65,6 +65,12 @@
     "no-shadow": "error",
     "no-spaced-func": "error",
     "no-trailing-spaces": "error",
+    "no-unused-vars": [
+      "error",
+      {
+        "caughtErrors": "none"
+      }
+    ],
     "no-void": "error",
     "no-whitespace-before-property": "error",
     "object-curly-spacing": [
