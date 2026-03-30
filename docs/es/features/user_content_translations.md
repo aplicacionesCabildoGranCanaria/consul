@@ -117,10 +117,6 @@ Si ya añadiste las credenciales en `secrets.yml` pero el proveedor aparece desh
 
 Edita `config/llm_prompts.yml` y actualiza la clave `remote_translation_prompt` con el prompt que quieras utilizar. Asegúrate de que el prompt devuelva la traducción final tal y como debería verla el usuario.
 
-##### Activar funcionalidad
-
-Una vez configurado todo en la pestaña de Configuración LLM, accede a **Configuración > Configuración global > Funcionalidades** y activa la opción **Traducciones Remotas**.
-
 ### Funcionalidad
 
 Una vez tenemos la api key en nuestro `secrets.yml` y la funcionalidad activada, los usuarios ya podrán utilizar las traducciones remotas en la aplicación.
