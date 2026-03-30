@@ -104,7 +104,6 @@ group :development do
   gem "mdl", "~> 0.15.0", require: false
   gem "pronto", "~> 0.11.5", require: false
   gem "pronto-erb_lint", "~> 0.1.6", require: false
-  gem "pronto-eslint", "~> 0.11.1", require: false
   gem "pronto-rubocop", "~> 0.11.6", require: false
   gem "pronto-stylelint", "~> 0.11.1", require: false
   gem "rubocop", "~> 1.81.7", require: false
