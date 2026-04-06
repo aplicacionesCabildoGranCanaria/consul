@@ -500,7 +500,6 @@ button,
   font-size: $base-font-size;
 }
 
-
 // 02. Header
 // ----------
 
@@ -589,18 +588,6 @@ body > header,
       }
     }
   }
-}
-
-.menu-button {
-  border: 1px solid;
-  border-radius: $button-radius;
-  color: inherit;
-  padding: 0.6em;
-}
-
-.menu-icon {
-  @include hamburger($color: currentcolor, $color-hover: currentcolor);
-  cursor: inherit;
 }
 
 .dropdown.menu > li {
@@ -1458,7 +1445,6 @@ table {
   }
 }
 
-
 // 14. Verification
 // ----------------
 
@@ -2024,7 +2010,7 @@ table {
   position: relative;
 
   a {
-    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 
   > :first-child {
@@ -2143,7 +2129,7 @@ table {
 
       &.description {
         color: $body-font-color;
-        word-wrap: break-word;
+        overflow-wrap: break-word;
       }
     }
   }
