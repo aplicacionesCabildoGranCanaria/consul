@@ -12,6 +12,7 @@ AllCops:
   Exclude:
     - "db/schema.rb"
     - "app/lib/ckeditor/backend/active_storage.rb"
+    - "config/initializers/disable_active_storage_pdf_auto_previews.rb"
     - "vendor/**/*"
   DisabledByDefault: true
 
@@ -186,6 +187,8 @@ Layout/MultilineMethodCallBraceLayout:
 
 Layout/MultilineMethodCallIndentation:
   Enabled: true
+  Exclude:
+    - "config/environments/production.rb"
 
 Layout/MultilineOperationIndentation:
   Enabled: true
@@ -350,6 +353,14 @@ Naming/BlockForwarding:
     - "app/controllers/application_controller.rb"
     - "app/controllers/management/base_controller.rb"
     - "app/controllers/subscriptions_controller.rb"
+
+Naming/PredicateMethod:
+  Enabled: true
+  Exclude:
+    - "app/models/local_census_records/import.rb"
+    - "app/models/user.rb"
+    - "app/models/verification/management/email.rb"
+    - "config/initializers/foundation_form_builder.rb"
 
 Naming/RescuedExceptionsVariableName:
   Enabled: true
@@ -560,6 +571,9 @@ RSpec/BeNil:
   Enabled: true
   EnforcedStyle: be
 
+RSpec/ChangeByZero:
+  Enabled: true
+
 RSpec/ContextMethod:
   Enabled: true
 
@@ -698,6 +712,8 @@ Style/AndOr:
 
 Style/ArgumentsForwarding:
   Enabled: true
+  Exclude:
+    - "bin/setup"
 
 Style/ArrayCoercion:
   Enabled: true
@@ -720,7 +736,13 @@ Style/ClassVars:
 Style/CollectionMethods:
   Enabled: true
 
+Style/ComparableBetween:
+  Enabled: true
+
 Style/DigChain:
+  Enabled: true
+
+Style/EmptyStringInsideInterpolation:
   Enabled: true
 
 Style/FileRead:
@@ -811,6 +833,9 @@ Style/RaiseArgs:
   Enabled: true
 
 Style/RedundantArgument:
+  Enabled: true
+
+Style/RedundantArrayFlatten:
   Enabled: true
 
 Style/RedundantBegin:
