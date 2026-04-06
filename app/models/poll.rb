@@ -23,6 +23,7 @@ class Poll < ApplicationRecord
   has_many :officer_assignments, through: :booth_assignments
   has_many :officers, through: :officer_assignments
   has_many :questions, inverse_of: :poll, dependent: :destroy
+  has_many :answers, through: :questions
   has_many :comments, as: :commentable, inverse_of: :commentable
   has_many :ballot_sheets
 
@@ -116,7 +117,7 @@ class Poll < ApplicationRecord
   end
 
   def current?(timestamp = Time.current)
-    starts_at <= timestamp && timestamp <= ends_at
+    timestamp.between?(starts_at, ends_at)
   end
 
   def expired?(timestamp = Time.current)
