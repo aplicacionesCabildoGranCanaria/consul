@@ -35,6 +35,7 @@ services:
       - .:/var/www/consul
       - bundle:/usr/local/bundle
       - node_modules:/var/www/consul/node_modules
+      - ./storage:/var/www/storage
     environment:
       - DB_HOST=database # Same name as the database service
       - RAILS_ENV=development
