@@ -105,7 +105,6 @@
 //= require leaflet.markercluster/dist/leaflet.markercluster
 //= require map
 //= require polls
-//= require sortable
 //= require table_sortable
 //= require investment_report_alert
 //= require managers
@@ -118,6 +117,7 @@
 //= require budget_edit_associations
 //= require budget_hide_money
 //= require datepicker
+//= require account_menu
 //= require authenticity_token_refresh
 //= require_tree ./admin
 //= require_tree ./polls
@@ -160,7 +160,6 @@ var initialize_modules = function () {
   App.TagAutocomplete.initialize();
   App.Map.initialize();
   App.Polls.initialize();
-  App.Sortable.initialize();
   App.TableSortable.initialize();
   App.InvestmentReportAlert.initialize();
   App.Managers.initialize();
@@ -172,6 +171,7 @@ var initialize_modules = function () {
   App.AdminBudgetsWizardCreationStep.initialize();
   App.AdminDashboardActionsForm.initialize();
   App.AdminMachineLearningScripts.initialize();
+  App.AdminPollQuestionOptionsTable.initialize();
   App.AdminPollShiftsForm.initialize();
   App.AdminTenantsForm.initialize();
   App.AdminVotationTypesFields.initialize();
@@ -182,6 +182,7 @@ var initialize_modules = function () {
   App.PollsForm.initialize();
   App.SDGRelatedListSelector.initialize();
   App.SDGManagementRelationSearch.initialize();
+  App.AccountMenu.initialize();
   App.AuthenticityTokenRefresh.initialize();
   App.CookiesConsent.initialize();
 };

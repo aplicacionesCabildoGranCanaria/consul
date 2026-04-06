@@ -1,5 +1,6 @@
 class Poll < ApplicationRecord
   include Imageable
+
   acts_as_paranoid column: :hidden_at
   include ActsAsParanoidAliases
   include Notifiable
@@ -71,7 +72,6 @@ class Poll < ApplicationRecord
   scope :expired, -> { where(ends_at: ...Time.current) }
   scope :recounting, -> { where(ends_at: (RECOUNT_DURATION.ago)...Time.current) }
   scope :published, -> { where(published: true) }
-  scope :by_geozone_id, ->(geozone_id) { where(geozones: { id: geozone_id }.joins(:geozones)) }
   scope :public_for_api, -> { all }
   scope :not_budget, -> { where(budget_id: nil) }
   scope :created_by_admin, -> { where(related_type: nil) }
