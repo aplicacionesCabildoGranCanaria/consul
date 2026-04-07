@@ -4,7 +4,7 @@ services:
 
     # use the preferred version of the official Postgres image
     # see https://hub.docker.com/_/postgres/
-    image: postgres:13.16
+    image: postgres:14.19-bookworm
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
@@ -35,6 +35,7 @@ services:
       - .:/var/www/consul
       - bundle:/usr/local/bundle
       - node_modules:/var/www/consul/node_modules
+      - ./storage:/var/www/storage
     environment:
       - DB_HOST=database # Same name as the database service
       - RAILS_ENV=development
