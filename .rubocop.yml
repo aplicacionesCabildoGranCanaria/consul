@@ -466,6 +466,9 @@ Rails/HasManyOrHasOneDependent:
 Rails/HttpStatus:
   Enabled: true
 
+Rails/HttpStatusNameConsistency:
+  Enabled: true
+
 Rails/I18nLocaleAssignment:
   Enabled: true
   Include:
