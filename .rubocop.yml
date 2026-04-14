@@ -833,6 +833,9 @@ Style/MutableConstant:
 Style/NegatedIfElseCondition:
   Enabled: true
 
+Style/NegativeArrayIndex:
+  Enabled: true
+
 Style/Not:
   Enabled: true
 
