@@ -502,6 +502,9 @@ Rails/PluralizationGrammar:
 Rails/Presence:
   Enabled: true
 
+Rails/RedirectBackOrTo:
+  Enabled: true
+
 Rails/RedundantActiveRecordAllMethod:
   Enabled: true
 
