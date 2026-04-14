@@ -831,6 +831,9 @@ Style/LineEndConcatenation:
 Style/MapIntoArray:
   Enabled: true
 
+Style/MapJoin:
+  Enabled: true
+
 Style/MapToHash:
   Enabled: true
 
