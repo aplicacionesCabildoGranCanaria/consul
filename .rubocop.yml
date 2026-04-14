@@ -338,6 +338,15 @@ Lint/SymbolConversion:
     - "app/models/setting.rb"
     - "db/dev_seeds/settings.rb"
 
+Lint/UnreachableCode:
+  Enabled: true
+
+Lint/UnreachableLoop:
+  Enabled: true
+
+Lint/UnreachablePatternBranch:
+  Enabled: true
+
 Lint/UselessAssignment:
   Enabled: true
 
