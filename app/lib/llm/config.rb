@@ -12,8 +12,8 @@ module Llm
       end
 
       def providers
-        RubyLLM::Providers.constants.each_with_object({}) do |provider, hash|
-          hash[provider] = { enabled: RubyLLM::Providers.const_get(provider).configured?(context.config) }
+        RubyLLM::Providers.constants.to_h do |provider|
+          [provider, { enabled: RubyLLM::Providers.const_get(provider).configured?(context.config) }]
         end
       end
     end

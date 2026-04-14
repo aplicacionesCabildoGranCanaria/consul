@@ -854,6 +854,9 @@ Style/Proc:
 Style/RaiseArgs:
   Enabled: true
 
+Style/ReduceToHash:
+  Enabled: true
+
 Style/RedundantArgument:
   Enabled: true
 
