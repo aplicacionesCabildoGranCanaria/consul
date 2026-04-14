@@ -763,6 +763,9 @@ Style/ComparableBetween:
 Style/DigChain:
   Enabled: true
 
+Style/EmptyClassDefinition:
+  Enabled: true
+
 Style/EmptyStringInsideInterpolation:
   Enabled: true
 
