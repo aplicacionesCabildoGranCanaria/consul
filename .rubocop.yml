@@ -778,6 +778,9 @@ Style/EmptyClassDefinition:
 Style/EmptyStringInsideInterpolation:
   Enabled: true
 
+Style/FileOpen:
+  Enabled: true
+
 Style/FileRead:
   Enabled: true
 
