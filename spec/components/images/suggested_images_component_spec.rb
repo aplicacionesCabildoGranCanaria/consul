@@ -4,10 +4,10 @@ describe Images::SuggestedImagesComponent do
   let(:title) { "Test" }
   let(:description) { "Test description" }
   let(:component) { Images::SuggestedImagesComponent.new(title, description) }
-  let(:llm_response) { instance_double(ImageSuggestions::Llm::Client::Response, results: results, errors: []) }
-  let(:results) { instance_double(::Pexels::PhotoSet, photos: [photo]) }
-  let(:photo) { instance_double(::Pexels::Photo, id: "1", src: { "small" => "https://example.com/image1.jpg" }, user: user) }
-  let(:user) { instance_double(::Pexels::User, name: "Photographer 1") }
+  let(:llm_response) { double(results: results, errors: []) }
+  let(:results) { double(photos: [photo]) }
+  let(:photo) { double(id: "1", src: { "small" => "https://example.com/image1.jpg" }, user: user) }
+  let(:user) { double(name: "Photographer 1") }
 
   before { allow(ImageSuggestions::Llm::Client).to receive(:call).and_return(llm_response) }
 
@@ -37,9 +37,7 @@ describe Images::SuggestedImagesComponent do
     end
 
     context "when response results are blank" do
-      let(:llm_response) do
-        instance_double(ImageSuggestions::Llm::Client::Response, results: nil, errors: [])
-      end
+      let(:llm_response) { double(results: nil, errors: []) }
 
       it "returns an empty array" do
         expect(component.suggested_images).to eq []
@@ -55,9 +53,7 @@ describe Images::SuggestedImagesComponent do
     end
 
     context "when response has errors" do
-      let(:llm_response) do
-        instance_double(ImageSuggestions::Llm::Client::Response, results: [], errors: ["Error message"])
-      end
+      let(:llm_response) { double(results: [], errors: ["Error message"]) }
 
       it "returns true" do
         expect(component.has_errors?).to be true
@@ -67,9 +63,7 @@ describe Images::SuggestedImagesComponent do
 
   describe "#error_messages" do
     context "when response has errors" do
-      let(:llm_response) do
-        instance_double(ImageSuggestions::Llm::Client::Response, results: [], errors: ["Error 1", "Error 2"])
-      end
+      let(:llm_response) { double(results: [], errors: ["Error 1", "Error 2"]) }
 
       it "returns the errors array" do
         expect(component.error_messages).to eq ["Error 1", "Error 2"]
@@ -93,7 +87,7 @@ describe Images::SuggestedImagesComponent do
     end
 
     context "when there are no results and no errors" do
-      let(:llm_response) { instance_double(ImageSuggestions::Llm::Client::Response, results: [], errors: []) }
+      let(:llm_response) { double(results: [], errors: []) }
 
       it "shows the suggest button and the no images found message" do
         render_inline component
@@ -104,9 +98,7 @@ describe Images::SuggestedImagesComponent do
     end
 
     context "when there are errors" do
-      let(:llm_response) do
-        instance_double(ImageSuggestions::Llm::Client::Response, results: [], errors: ["Test error"])
-      end
+      let(:llm_response) { double(results: [], errors: ["Test error"]) }
 
       it "renders error message" do
         render_inline component

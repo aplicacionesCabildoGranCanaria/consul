@@ -1,9 +1,9 @@
 require "rails_helper"
 
 describe RemoteTranslations::Llm::Client do
-  let(:chat) { instance_double(RubyLLM::Chat, ask: double(content: "translated")) }
-  let(:config)  { instance_double(RubyLLM::Configuration) }
-  let(:context) { instance_double(RubyLLM::Context, chat: chat, config: config) }
+  let(:chat) { double(ask: double(content: "translated")) }
+  let(:config)  { double }
+  let(:context) { double(chat: chat, config: config) }
   let(:client) { RemoteTranslations::Llm::Client.new }
 
   before do

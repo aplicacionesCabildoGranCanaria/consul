@@ -3,11 +3,11 @@ require "rails_helper"
 describe ImageSuggestions::Llm::Client do
   let(:title) { "Test Proposal" }
   let(:description) { "Test description" }
-  let(:chat) { instance_double(RubyLLM::Chat) }
-  let(:context) { instance_double(RubyLLM::Context, chat: chat) }
+  let(:chat) { double }
+  let(:context) { double(chat: chat) }
   let(:prompt_template) { "Generate a search query for: %{title} - %{description}" }
   let(:search_query) { "test proposal image" }
-  let(:pexels_results) { instance_double(::Pexels::PhotoSet, photos: []) }
+  let(:pexels_results) { double(photos: []) }
 
   before do
     Setting["llm.provider"] = "OpenAI"
