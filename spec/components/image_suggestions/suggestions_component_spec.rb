@@ -1,7 +1,7 @@
 require "rails_helper"
 
-describe Images::SuggestedImagesComponent do
-  let(:component) { Images::SuggestedImagesComponent.new(llm_response) }
+describe ImageSuggestions::SuggestionsComponent do
+  let(:component) { ImageSuggestions::SuggestionsComponent.new(llm_response) }
   let(:llm_response) { double(results: results, errors: []) }
   let(:results) { double(photos: [photo]) }
   let(:photo) { double(id: "1", src: { "small" => "https://example.com/image1.jpg" }, user: user) }

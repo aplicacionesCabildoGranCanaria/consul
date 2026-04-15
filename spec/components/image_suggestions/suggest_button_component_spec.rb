@@ -1,11 +1,11 @@
 require "rails_helper"
 
-describe Images::SuggestImagesComponent do
+describe ImageSuggestions::SuggestButtonComponent do
   let(:budget_investment) { build(:budget_investment) }
   let(:form) do
     ConsulFormBuilder.new(:budget_investment, budget_investment, ApplicationController.new.view_context, {})
   end
-  let(:component) { Images::SuggestImagesComponent.new(form) }
+  let(:component) { ImageSuggestions::SuggestButtonComponent.new(form) }
 
   before do
     Setting["llm.provider"] = nil

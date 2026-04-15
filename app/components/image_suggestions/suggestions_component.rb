@@ -1,4 +1,4 @@
-class Images::SuggestedImagesComponent < ApplicationComponent
+class ImageSuggestions::SuggestionsComponent < ApplicationComponent
   attr_reader :suggestions
 
   def initialize(suggestions)

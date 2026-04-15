@@ -1,4 +1,4 @@
-class Images::SuggestImagesComponent < ApplicationComponent
+class ImageSuggestions::SuggestButtonComponent < ApplicationComponent
   attr_reader :form
 
   def initialize(form)
