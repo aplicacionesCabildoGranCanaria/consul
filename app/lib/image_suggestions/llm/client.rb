@@ -2,7 +2,6 @@ module ImageSuggestions
   module Llm
     class Client
       NUMBER_OF_IMAGES = 4
-      attr_reader :chat, :prompt, :response
 
       def self.call(title:, description:)
         new(title: title, description: description).call
@@ -11,9 +10,6 @@ module ImageSuggestions
       def initialize(title:, description:)
         @title = title
         @description = description
-        @prompt = load_prompt
-        @response = Response.new
-        @chat = build_chat
       end
 
       def call
@@ -31,6 +27,10 @@ module ImageSuggestions
         return response
       end
 
+      def response
+        @response ||= Response.new
+      end
+
       class Response
         attr_accessor :results
         attr_reader :errors
@@ -43,8 +43,8 @@ module ImageSuggestions
 
       private
 
-        def build_chat
-          ::Llm::Config.context.chat(provider: llm_provider, model: llm_model)
+        def chat
+          @chat ||= ::Llm::Config.context.chat(provider: llm_provider, model: llm_model)
         end
 
         def generate_search_query
@@ -57,8 +57,8 @@ module ImageSuggestions
           chat.ask(text_prompt).content.strip
         end
 
-        def load_prompt
-          YAML.load_file("config/llm_prompts.yml", aliases: true)["image_suggestion_prompt"]
+        def prompt
+          @prompt ||= YAML.load_file("config/llm_prompts.yml", aliases: true)["image_suggestion_prompt"]
         end
 
         def validate_llm_settings!
