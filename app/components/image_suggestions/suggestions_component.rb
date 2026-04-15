@@ -7,15 +7,15 @@ class ImageSuggestions::SuggestionsComponent < ApplicationComponent
 
   private
 
-    def suggested_images
+    def images
       suggestions.results.presence&.photos || []
     end
 
-    def has_errors?
-      suggestions.errors.any?
+    def errors
+      suggestions.errors
     end
 
     def error_messages
-      suggestions.errors
+      errors.join(", ")
     end
 end
