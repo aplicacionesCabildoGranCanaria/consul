@@ -1,11 +1,11 @@
 require "rails_helper"
 
 describe ImageSuggestions::SuggestionsComponent do
-  let(:component) { ImageSuggestions::SuggestionsComponent.new(llm_response) }
-  let(:llm_response) { double(results: results, errors: []) }
-  let(:results) { double(photos: [photo]) }
-  let(:photo) { double(id: "1", src: { "small" => "https://example.com/image1.jpg" }, user: user) }
   let(:user) { double(name: "Photographer 1") }
+  let(:photo) { double(id: "1", src: { "small" => "https://example.com/image1.jpg" }, user: user) }
+  let(:results) { double(photos: [photo]) }
+  let(:llm_response) { double(results: results, errors: []) }
+  let(:component) { ImageSuggestions::SuggestionsComponent.new(llm_response) }
 
   describe "#suggested_images" do
     it "returns photos from results" do
