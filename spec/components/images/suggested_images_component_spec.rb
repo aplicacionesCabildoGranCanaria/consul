@@ -1,39 +1,15 @@
 require "rails_helper"
 
 describe Images::SuggestedImagesComponent do
-  let(:title) { "Test" }
-  let(:description) { "Test description" }
-  let(:component) { Images::SuggestedImagesComponent.new(title, description) }
+  let(:component) { Images::SuggestedImagesComponent.new(llm_response) }
   let(:llm_response) { double(results: results, errors: []) }
   let(:results) { double(photos: [photo]) }
   let(:photo) { double(id: "1", src: { "small" => "https://example.com/image1.jpg" }, user: user) }
   let(:user) { double(name: "Photographer 1") }
 
-  before { allow(ImageSuggestions::Llm::Client).to receive(:call).and_return(llm_response) }
-
   describe "#suggested_images" do
     it "returns photos from results" do
       expect(component.suggested_images).to eq [photo]
-    end
-
-    it "calls LLM client with title and description" do
-      expect(ImageSuggestions::Llm::Client).to receive(:call).with(
-        title: title,
-        description: description
-      ).and_return(llm_response)
-
-      component.suggested_images
-    end
-
-    context "when title and description are both blank" do
-      let(:title) { "" }
-      let(:description) { "" }
-
-      it "returns an empty array without calling the LLM client" do
-        expect(ImageSuggestions::Llm::Client).not_to receive(:call)
-
-        expect(component.suggested_images).to eq []
-      end
     end
 
     context "when response results are blank" do
@@ -78,14 +54,6 @@ describe Images::SuggestedImagesComponent do
   end
 
   describe "rendering" do
-    it "calls the LLM client only once when the view is rendered" do
-      expect(ImageSuggestions::Llm::Client).to receive(:call).once.and_return(llm_response)
-
-      render_inline component
-
-      expect(page).to have_css ".js-attach-suggested-image", count: 1
-    end
-
     context "when there are no results and no errors" do
       let(:llm_response) { double(results: [], errors: []) }
 

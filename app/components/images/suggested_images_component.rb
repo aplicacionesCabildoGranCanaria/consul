@@ -1,31 +1,19 @@
 class Images::SuggestedImagesComponent < ApplicationComponent
-  attr_reader :title, :description
+  attr_reader :suggestions
 
-  def initialize(title, description)
-    @title = title
-    @description = description
+  def initialize(suggestions)
+    @suggestions = suggestions
   end
 
   def suggested_images
-    return [] if title.blank? && description.blank?
-
-    results = response.results
-    return [] if results.blank?
-
-    results.photos
+    suggestions.results.presence&.photos || []
   end
 
   def has_errors?
-    response.errors.any?
+    suggestions.errors.any?
   end
 
   def error_messages
-    response.errors
+    suggestions.errors
   end
-
-  private
-
-    def response
-      @response ||= ImageSuggestions::Llm::Client.call(title: title, description: description)
-    end
 end
