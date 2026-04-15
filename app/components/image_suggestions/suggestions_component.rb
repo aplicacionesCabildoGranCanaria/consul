@@ -5,15 +5,17 @@ class ImageSuggestions::SuggestionsComponent < ApplicationComponent
     @suggestions = suggestions
   end
 
-  def suggested_images
-    suggestions.results.presence&.photos || []
-  end
+  private
 
-  def has_errors?
-    suggestions.errors.any?
-  end
+    def suggested_images
+      suggestions.results.presence&.photos || []
+    end
 
-  def error_messages
-    suggestions.errors
-  end
+    def has_errors?
+      suggestions.errors.any?
+    end
+
+    def error_messages
+      suggestions.errors
+    end
 end
