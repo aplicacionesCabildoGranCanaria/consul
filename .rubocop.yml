@@ -466,6 +466,9 @@ Rails/HasManyOrHasOneDependent:
 Rails/HttpStatus:
   Enabled: true
 
+Rails/HttpStatusNameConsistency:
+  Enabled: true
+
 Rails/I18nLocaleAssignment:
   Enabled: true
   Include:
@@ -500,6 +503,9 @@ Rails/PluralizationGrammar:
   Enabled: true
 
 Rails/Presence:
+  Enabled: true
+
+Rails/RedirectBackOrTo:
   Enabled: true
 
 Rails/RedundantActiveRecordAllMethod:
