@@ -44,7 +44,7 @@ module ImageSuggestions
       private
 
         def chat
-          @chat ||= ::Llm::Config.context.chat(provider: llm_provider, model: llm_model)
+          @chat ||= ::Llm::Config.chat
         end
 
         def generate_search_query
@@ -62,17 +62,9 @@ module ImageSuggestions
         end
 
         def validate_llm_settings!
-          if llm_provider.blank? || llm_model.blank? || !Setting["llm.use_ai_image_suggestions"]
+          unless ::Llm::Config.configured? && Setting["llm.use_ai_image_suggestions"].present?
             response.errors << I18n.t("images.errors.messages.llm_not_configured")
           end
-        end
-
-        def llm_provider
-          Setting["llm.provider"]&.downcase&.to_sym
-        end
-
-        def llm_model
-          Setting["llm.model"]
         end
     end
   end

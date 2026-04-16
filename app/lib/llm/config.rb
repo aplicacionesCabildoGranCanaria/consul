@@ -20,6 +20,24 @@ module Llm
       def prompts
         YAML.load_file("config/llm_prompts.yml", aliases: true)
       end
+
+      def chat(provider: llm_provider, model: llm_model)
+        context.chat(provider: provider, model: model)
+      end
+
+      def configured?
+        llm_provider.present? && llm_model.present?
+      end
+
+      private
+
+        def llm_provider
+          Setting["llm.provider"]&.downcase&.to_sym
+        end
+
+        def llm_model
+          Setting["llm.model"]
+        end
     end
   end
 end

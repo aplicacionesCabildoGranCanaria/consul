@@ -2,13 +2,11 @@ require "rails_helper"
 
 describe RemoteTranslations::Llm::Client do
   let(:chat) { double(ask: double(content: "translated")) }
-  let(:config)  { double }
-  let(:context) { double(chat: chat, config: config) }
   let(:client) { RemoteTranslations::Llm::Client.new }
 
   before do
     Setting["llm.provider"] = "OpenAI"
-    allow(Llm::Config).to receive(:context).and_return(context)
+    allow(Llm::Config).to receive(:chat).and_return(chat)
   end
 
   it "calls chat.ask for each field and returns contents" do

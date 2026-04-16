@@ -4,7 +4,6 @@ describe ImageSuggestions::Llm::Client do
   let(:title) { "Test Proposal" }
   let(:description) { "Test description" }
   let(:chat) { double }
-  let(:context) { double(chat: chat) }
   let(:prompt_template) { "Generate a search query for: %{title} - %{description}" }
   let(:search_query) { "test proposal image" }
   let(:pexels_results) { double(photos: []) }
@@ -13,7 +12,7 @@ describe ImageSuggestions::Llm::Client do
     Setting["llm.provider"] = "OpenAI"
     Setting["llm.model"] = "gpt-4o"
     Setting["llm.use_ai_image_suggestions"] = true
-    allow(Llm::Config).to receive(:context).and_return(context)
+    allow(Llm::Config).to receive(:chat).and_return(chat)
     allow(YAML).to receive(:load_file).and_return({ "image_suggestion_prompt" => prompt_template })
     allow(chat).to receive(:ask).and_return(double(content: search_query))
     allow(ImageSuggestions::Pexels).to receive(:search).and_return(pexels_results)

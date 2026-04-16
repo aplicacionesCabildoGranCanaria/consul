@@ -9,12 +9,8 @@ module RemoteTranslations
 
       private
 
-        def context
-          @context ||= ::Llm::Config.context
-        end
-
         def chat
-          @chat ||= context.chat(provider: llm_provider, model: llm_model)
+          @chat ||= ::Llm::Config.chat
         end
 
         def prompt
@@ -24,14 +20,6 @@ module RemoteTranslations
         def request_translation(text, locale)
           text_prompt = prompt % { input_text: text, output_locale: locale }
           chat.ask(text_prompt).content
-        end
-
-        def llm_provider
-          Setting["llm.provider"].downcase.to_sym
-        end
-
-        def llm_model
-          Setting["llm.model"]
         end
     end
   end
