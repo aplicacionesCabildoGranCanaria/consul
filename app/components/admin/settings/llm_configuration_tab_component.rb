@@ -19,10 +19,8 @@ class Admin::Settings::LlmConfigurationTabComponent < ApplicationComponent
     provider = Setting["llm.provider"]
     return {} if provider.blank?
 
-    RubyLLM.models.by_provider(provider.downcase.to_sym).each_with_object({}) do |model, hash|
-      hash[model.name] = {
-        id: model.id
-      }
+    RubyLLM.models.by_provider(provider.downcase.to_sym).to_h do |model|
+      [model.name, { id: model.id }]
     end
   end
 

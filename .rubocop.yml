@@ -338,6 +338,15 @@ Lint/SymbolConversion:
     - "app/models/setting.rb"
     - "db/dev_seeds/settings.rb"
 
+Lint/UnreachableCode:
+  Enabled: true
+
+Lint/UnreachableLoop:
+  Enabled: true
+
+Lint/UnreachablePatternBranch:
+  Enabled: true
+
 Lint/UselessAssignment:
   Enabled: true
 
@@ -763,7 +772,13 @@ Style/ComparableBetween:
 Style/DigChain:
   Enabled: true
 
+Style/EmptyClassDefinition:
+  Enabled: true
+
 Style/EmptyStringInsideInterpolation:
+  Enabled: true
+
+Style/FileOpen:
   Enabled: true
 
 Style/FileRead:
@@ -816,6 +831,9 @@ Style/LineEndConcatenation:
 Style/MapIntoArray:
   Enabled: true
 
+Style/MapJoin:
+  Enabled: true
+
 Style/MapToHash:
   Enabled: true
 
@@ -833,6 +851,9 @@ Style/MutableConstant:
 Style/NegatedIfElseCondition:
   Enabled: true
 
+Style/NegativeArrayIndex:
+  Enabled: true
+
 Style/Not:
   Enabled: true
 
@@ -846,6 +867,9 @@ Style/Proc:
   Enabled: true
 
 Style/RaiseArgs:
+  Enabled: true
+
+Style/ReduceToHash:
   Enabled: true
 
 Style/RedundantArgument:
@@ -864,6 +888,9 @@ Style/RedundantFileExtensionInRequire:
   Enabled: true
 
 Style/RedundantFreeze:
+  Enabled: true
+
+Style/RedundantMinMaxBy:
   Enabled: true
 
 Style/RedundantInterpolation:
