@@ -58,7 +58,7 @@ module ImageSuggestions
         end
 
         def prompt
-          @prompt ||= YAML.load_file("config/llm_prompts.yml", aliases: true)["image_suggestion_prompt"]
+          @prompt ||= ::Llm::Config.prompts["image_suggestion_prompt"]
         end
 
         def validate_llm_settings!

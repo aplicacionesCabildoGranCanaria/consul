@@ -16,6 +16,10 @@ module Llm
           [provider, { enabled: RubyLLM::Providers.const_get(provider).configured?(context.config) }]
         end
       end
+
+      def prompts
+        YAML.load_file("config/llm_prompts.yml", aliases: true)
+      end
     end
   end
 end

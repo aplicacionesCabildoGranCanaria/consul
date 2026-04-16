@@ -18,7 +18,7 @@ module RemoteTranslations
         end
 
         def prompt
-          @prompt ||= YAML.load_file("config/llm_prompts.yml", aliases: true)["remote_translation_prompt"]
+          @prompt ||= ::Llm::Config.prompts["remote_translation_prompt"]
         end
 
         def request_translation(text, locale)
