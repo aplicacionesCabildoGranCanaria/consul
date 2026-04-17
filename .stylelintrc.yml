@@ -45,6 +45,7 @@ rules:
   selector-pseudo-element-no-unknown: true
   shorthand-property-no-redundant-values: true
   value-no-vendor-prefix: true
+  order/custom-properties-alphabetical-order: true
   order/order:
     - dollar-variables
     - type: at-rule
