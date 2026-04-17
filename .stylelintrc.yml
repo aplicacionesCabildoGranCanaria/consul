@@ -41,6 +41,7 @@ rules:
   selector-class-pattern: "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$"
   selector-max-compound-selectors: 5
   selector-max-id: 0
+  selector-no-deprecated: true
   selector-no-vendor-prefix: true
   selector-pseudo-element-colon-notation: "double"
   selector-pseudo-element-no-unknown: true
