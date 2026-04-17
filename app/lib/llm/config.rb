@@ -2,7 +2,7 @@ module Llm
   class Config
     class << self
       def context
-        @context = RubyLLM.context do |config|
+        RubyLLM.context do |config|
           ENV["GOOGLE_APPLICATION_CREDENTIALS"] ||= Rails.application.secrets.google_application_credentials
 
           Tenant.current_secrets.llm&.each do |key, value|
