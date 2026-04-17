@@ -94,6 +94,7 @@ rules:
   "@stylistic/media-feature-parentheses-space-inside": never
   "@stylistic/no-eol-whitespace": true
   "@stylistic/no-missing-end-of-source-newline": true
+  "@stylistic/no-multiple-whitespaces": true
   "@stylistic/number-no-trailing-zeros": true
   "@stylistic/selector-attribute-brackets-space-inside": never
   "@stylistic/selector-pseudo-class-parentheses-space-inside": never
