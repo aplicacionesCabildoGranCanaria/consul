@@ -16,7 +16,6 @@
   <div class="row">
     <div class="small-12 column">
 
-      <%= f.hidden_field :use_redeemable_code %>
       <%= f.hidden_field :locale, value: I18n.locale %>
 
       <%= f.text_field :username,  autofocus: true, maxlength: User.username_max_length,
@@ -34,9 +33,6 @@
                            label: t("devise_views.users.registrations.new.password_confirmation_label"),
                            placeholder: t("devise_views.users.registrations.new.password_confirmation_label") %>
 
-      <% if resource.use_redeemable_code %>
-        <%= f.text_field :redeemable_code, placeholder: t("devise_views.users.registrations.new.redeemable_code") %>
-      <% end %>
       <%= content_for :recaptcha_js do %>
         <%= include_recaptcha_js %>
       <% end %>
