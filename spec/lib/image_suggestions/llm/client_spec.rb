@@ -3,9 +3,9 @@ require "rails_helper"
 describe ImageSuggestions::Llm::Client do
   let(:title) { "Test Proposal" }
   let(:description) { "Test description" }
-  let(:chat) { double }
-  let(:prompt_template) { "Generate a search query for: %{title} - %{description}" }
   let(:search_query) { "test proposal image" }
+  let(:chat) { double(ask: double(content: search_query)) }
+  let(:prompt_template) { "Generate a search query for: %{title} - %{description}" }
   let(:pexels_results) { double(photos: []) }
 
   before do
@@ -14,7 +14,6 @@ describe ImageSuggestions::Llm::Client do
     Setting["llm.use_ai_image_suggestions"] = true
     allow(Llm::Config).to receive(:chat).and_return(chat)
     allow(YAML).to receive(:load_file).and_return({ "image_suggestion_prompt" => prompt_template })
-    allow(chat).to receive(:ask).and_return(double(content: search_query))
     allow(ImageSuggestions::Pexels).to receive(:search).and_return(pexels_results)
   end
 
