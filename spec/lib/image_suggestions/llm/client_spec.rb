@@ -42,7 +42,7 @@ describe ImageSuggestions::Llm::Client do
     it "searches Pexels with the generated query" do
       expect(ImageSuggestions::Pexels).to receive(:search).with(
         search_query,
-        per_page: 4
+        per_page: 8
       ).and_return(pexels_results)
 
       result = client.call
@@ -95,7 +95,7 @@ describe ImageSuggestions::Llm::Client do
       it "passes stripped query to Pexels" do
         expect(ImageSuggestions::Pexels).to receive(:search).with(
           "search query",
-          per_page: 4
+          per_page: 8
         ).and_return(pexels_results)
         client.call
       end
