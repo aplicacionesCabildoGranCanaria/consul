@@ -36,12 +36,10 @@ class Admin::Settings::LlmConfigurationTabComponent < ApplicationComponent
   end
 
   def feature_disabled?
-    Setting["llm.provider"].blank? || Setting["llm.model"].blank?
+    !::Llm::Config.configured?
   end
 
   def image_suggestions_disabled?
-    Setting["llm.provider"].blank? ||
-      Setting["llm.model"].blank? ||
-      Tenant.current_secrets.pexels_access_key.blank?
+    !::Llm::Config.configured? || Tenant.current_secrets.pexels_access_key.blank?
   end
 end
