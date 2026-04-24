@@ -1,7 +1,7 @@
 module ImageSuggestions
   module Llm
     class Client
-      NUMBER_OF_IMAGES = 4
+      NUMBER_OF_IMAGES = 8
 
       def self.call(title:, description:)
         new(title: title, description: description).call
