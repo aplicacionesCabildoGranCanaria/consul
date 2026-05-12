@@ -6,8 +6,10 @@ describe "Proposals" do
   context "Concerns" do
     it_behaves_like "notifiable in-app", :proposal
     it_behaves_like "relationable", Proposal
-    it_behaves_like "remotely_translatable", :proposal, "proposals_path", {}
-    it_behaves_like "remotely_translatable", :proposal, "proposal_path", { id: "id" }
+    it_behaves_like "remotely_translatable", :proposal, "proposals_path", {}, provider: :microsoft
+    it_behaves_like "remotely_translatable", :proposal, "proposals_path", {}, provider: :llm
+    it_behaves_like "remotely_translatable", :proposal, "proposal_path", { id: "id" }, provider: :microsoft
+    it_behaves_like "remotely_translatable", :proposal, "proposal_path", { id: "id" }, provider: :llm
     it_behaves_like "flaggable", :proposal
   end
 
@@ -125,7 +127,7 @@ describe "Proposals" do
     expect(page).to have_content I18n.l(proposal.created_at.to_date)
     expect(page).to have_avatar "M"
     expect(page.html).to include "<title>#{proposal.title}</title>"
-    expect(page).not_to have_css ".js-flag-actions"
+    expect(page).not_to have_css ".flag-actions"
     expect(page).not_to have_css ".js-follow"
   end
 
@@ -205,8 +207,8 @@ describe "Proposals" do
       expect(page).not_to have_content("Related content")
       expect(page).not_to have_button("Add related content")
 
-      within(".proposal-info") do
-        expect(page).not_to have_link("No comments", href: "#comments")
+      within(".detailed-info") do
+        expect(page).to have_link "No comments", href: "#comments"
       end
     end
 
@@ -1541,7 +1543,8 @@ describe "Successful proposals" do
     successful_proposals.each do |proposal|
       within("#proposal_#{proposal.id}_votes") do
         expect(page).not_to have_link "Support"
-        expect(page).to have_content "100% / 100%"
+
+        within(".progress") { expect(page).to have_content "100%", exact: true }
       end
     end
   end
@@ -1553,7 +1556,8 @@ describe "Successful proposals" do
       visit proposal_path(proposal)
       within("#proposal_#{proposal.id}_votes") do
         expect(page).not_to have_link "Support"
-        expect(page).to have_content "100% / 100%"
+
+        within(".progress") { expect(page).to have_content "100%", exact: true }
       end
     end
   end

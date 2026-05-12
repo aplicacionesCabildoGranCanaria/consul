@@ -2,55 +2,59 @@ source "https://rubygems.org"
 
 ruby file: ".ruby-version"
 
-gem "rails", "~> 7.1.6"
+gem "rails", "~> 7.2.3.1"
 
-gem "acts-as-taggable-on", "~> 12.0.0"
+gem "acts-as-taggable-on", "~> 13.0.0"
 gem "acts_as_votable", "~> 0.14.0"
-gem "ahoy_matey", "~> 5.4.0"
+gem "ahoy_matey", "~> 5.4.1"
 gem "airbrake", "~> 13.0.5"
-gem "ancestry", "~> 4.3.3"
+gem "ancestry", "~> 5.1.0"
 gem "audited", "~> 5.8.0"
 gem "autoprefixer-rails", "~> 10.4.21"
 gem "bing_translator", "~> 6.2.0"
 gem "cancancan", "~> 3.6.1"
-gem "caxlsx", "~> 4.2.0"
+gem "caxlsx", "~> 4.4.1"
 gem "caxlsx_rails", "~> 0.6.4"
 gem "ckeditor", "~> 4.3.0"
 gem "cocoon", "~> 1.2.15"
+gem "connection_pool", "~> 2.5" # TODO: remove after upgrading to Rails 8.0
 gem "csv", "~> 3.3.5"
 gem "daemons", "~> 1.4.1"
-gem "dalli", "~> 3.2.8"
+gem "dalli", "~> 4.3.3"
 gem "delayed_job_active_record", "~> 4.1.11"
-gem "devise", "~> 4.9.4"
+gem "devise", "~> 5.0.3"
 gem "devise-security", "~> 0.18.0"
-gem "exiftool_vendored", "~> 13.30.0"
+gem "exiftool_vendored", "~> 13.52.0"
 gem "file_validators", "~> 3.0.0"
 gem "font-awesome-sass", "~> 5.15.1" # Remember to update vendor/assets/images/fontawesome when updating this gem
-gem "globalize", "~> 7.0.0"
+gem "globalize", "~> 7.1.1"
 gem "globalize-accessors", "~> 0.3.0"
+gem "googleauth", "~> 1.16.1"
 gem "graphiql-rails", "~> 1.8.0"
-gem "graphql", "~> 2.5.9"
+gem "graphql", "~> 2.5.20"
 gem "groupdate", "~> 6.7.0"
 gem "image_processing", "~> 1.14.0"
 gem "invisible_captcha", "~> 2.3.0"
 gem "kaminari", "~> 1.2.2"
-gem "mini_magick", "~> 4.13.2"
-gem "omniauth", "~> 2.1.3"
+gem "mini_magick", "~> 5.3.1"
+gem "omniauth", "~> 2.1.4"
 gem "omniauth-facebook", "~> 10.0.0"
-gem "omniauth-google-oauth2", "~> 1.2.1"
-gem "omniauth-rails_csrf_protection", "~> 1.0.2"
-gem "omniauth-saml", "~> 2.2.4"
+gem "omniauth-google-oauth2", "~> 1.2.2"
+gem "omniauth-rails_csrf_protection", "~> 2.0.1"
+gem "omniauth-saml", "~> 2.2.5"
 gem "omniauth-twitter", "~> 1.4.0"
 gem "omniauth_openid_connect", "~> 0.8.0"
-gem "paranoia", "~> 3.0.1"
-gem "pg", "~> 1.5.9"
+gem "paranoia", "~> 3.1.0"
+gem "pexels", "~> 0.5.0"
+gem "pg", "~> 1.6.3"
 gem "pg_search", "~> 2.3.7"
 gem "puma", "~> 6.6.1"
 gem "recipient_interceptor", "~> 0.3.3"
 gem "redcarpet", "~> 3.6.1"
-gem "responders", "~> 3.1.1"
+gem "responders", "~> 3.2.0"
 gem "rinku", "~> 2.0.6", require: "rails_rinku"
-gem "ros-apartment", "~> 3.2.0", require: "apartment"
+gem "ros-apartment", "~> 3.4.1", require: "apartment"
+gem "ruby_llm", "~> 1.9.1"
 gem "sassc-embedded", "~> 1.77.5"
 gem "sassc-rails", "~> 2.1.2"
 gem "savon", "~> 2.15.1"
@@ -61,8 +65,8 @@ gem "sprockets-rails", "~> 3.5.2", require: "sprockets/railtie"
 gem "turbolinks", "~> 5.2.1"
 gem "turnout", "~> 2.5.0"
 gem "uglifier", "~> 4.2.1"
-gem "view_component", "~> 3.23.2"
-gem "whenever", "~> 1.0.0", require: false
+gem "view_component", "~> 4.2.0"
+gem "whenever", "~> 1.1.2", require: false
 gem "wicked_pdf", "~> 2.8.2"
 gem "wkhtmltopdf-binary", "~> 0.12.6"
 
@@ -80,16 +84,16 @@ group :test do
   gem "capybara", "~> 3.40.0"
   gem "capybara-webmock", "~> 0.7.0"
   gem "email_spec", "~> 2.3.0"
-  gem "pdf-reader", "~> 2.14.1"
-  gem "rspec-rails", "~> 7.1.1"
+  gem "pdf-reader", "~> 2.15.1"
+  gem "rspec-rails", "~> 8.0.3"
   gem "selenium-webdriver", "~> 4.38.0"
   gem "simplecov", "~> 0.22.0", require: false
   gem "simplecov-lcov", "~> 0.9.0", require: false
 end
 
 group :development do
-  gem "capistrano", "~> 3.19.2", require: false
-  gem "capistrano-bundler", "~> 2.1.1", require: false
+  gem "capistrano", "~> 3.20.0", require: false # Remember to update the lock in deploy.rb when upgrading
+  gem "capistrano-bundler", "~> 2.2.0", require: false
   gem "capistrano-npm", "~> 1.0.3", require: false
   gem "capistrano-rails", "~> 1.7.0", require: false
   gem "capistrano3-delayed-job", "~> 1.7.6"
@@ -97,19 +101,18 @@ group :development do
   gem "erb_lint", "~> 0.9.0", require: false
   gem "faraday-retry", "~> 2.3.2", require: false
   gem "htmlbeautifier", "~> 1.4.3", require: false
-  gem "mdl", "~> 0.13.0", require: false
-  gem "pronto", "~> 0.11.4", require: false
+  gem "mdl", "~> 0.15.0", require: false
+  gem "pronto", "~> 0.11.5", require: false
   gem "pronto-erb_lint", "~> 0.1.6", require: false
-  gem "pronto-eslint", "~> 0.11.1", require: false
   gem "pronto-rubocop", "~> 0.11.6", require: false
   gem "pronto-stylelint", "~> 0.11.1", require: false
   gem "rubocop", "~> 1.81.7", require: false
   gem "rubocop-capybara", "~> 2.22.1", require: false
-  gem "rubocop-factory_bot", "~> 2.27.1", require: false
+  gem "rubocop-factory_bot", "~> 2.28.0", require: false
   gem "rubocop-performance", "~> 1.26.1", require: false
   gem "rubocop-rails", "~> 2.33.4", require: false
-  gem "rubocop-rspec", "~> 3.7.0", require: false
-  gem "rubocop-rspec_rails", "~> 2.31.0", require: false
+  gem "rubocop-rspec", "~> 3.9.0", require: false
+  gem "rubocop-rspec_rails", "~> 2.32.0", require: false
   gem "rvm1-capistrano3", "~> 1.4.0", require: false
   gem "web-console", "~> 4.2.1"
 end
