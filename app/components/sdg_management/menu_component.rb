@@ -1,5 +1,5 @@
 class SDGManagement::MenuComponent < ApplicationComponent
-  include LinkListHelper
+  delegate :link_list, to: :helpers
 
   private
 

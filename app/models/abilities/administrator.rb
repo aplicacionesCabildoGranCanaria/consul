@@ -37,6 +37,8 @@ module Abilities
       can :confirm_hide, Proposal
       cannot :confirm_hide, Proposal, hidden_at: nil
 
+      can :hide, Proposal, author_id: user.id
+
       can :confirm_hide, Legislation::Proposal
       cannot :confirm_hide, Legislation::Proposal, hidden_at: nil
 
@@ -55,10 +57,10 @@ module Abilities
 
       can [:search, :create, :index, :destroy, :update], ::Administrator
       can [:search, :create, :index, :destroy], ::Moderator
-      can [:search, :show, :update, :create, :index, :destroy, :summary], ::Valuator
+      can [:search, :show, :update, :create, :index, :destroy], ::Valuator
       can [:search, :create, :index, :destroy], ::Manager
       can [:create, :read, :destroy], ::SDG::Manager
-      can [:search, :index], ::User
+      can [:index], ::User
 
       can :manage, Dashboard::Action
 
@@ -83,7 +85,7 @@ module Abilities
 
       can :read_admin_stats, Budget, &:balloting_or_later?
 
-      can [:search, :update, :create, :index, :destroy], Banner
+      can [:update, :create, :index, :destroy], Banner
 
       can [:index, :create, :update, :destroy], Geozone
 
@@ -124,7 +126,7 @@ module Abilities
       can [:create, :update, :destroy], Legislation::Process
       can [:manage], ::Legislation::DraftVersion
       can [:manage], ::Legislation::Question
-      can [:manage], ::Legislation::Proposal
+      can [:create, :read, :update, :destroy, :select, :deselect], ::Legislation::Proposal
       cannot :comment_as_moderator,
              [::Legislation::Question, Legislation::Annotation, ::Legislation::Proposal]
 

@@ -8,7 +8,7 @@ describe Proposal do
     it_behaves_like "notifiable"
     it_behaves_like "map validations"
     it_behaves_like "globalizable", :proposal
-    it_behaves_like "sanitizable"
+    it_behaves_like "taggable"
     it_behaves_like "acts as paranoid", :proposal
   end
 
@@ -1014,6 +1014,19 @@ describe Proposal do
       create(:proposal, :draft)
 
       expect(ActionMailer::Base.deliveries.count).to eq(0)
+    end
+
+    it "enqueues the job after committing the transaction", :delay_jobs do
+      create(:dashboard_action, :proposed_action, :active, day_offset: 0, published_proposal: false)
+      create(:dashboard_action, :resource, :active, day_offset: 0, published_proposal: false)
+      proposal = build(:proposal, :draft)
+
+      ActiveRecord::Base.transaction do
+        proposal.save!
+        expect(Delayed::Job.count).to eq 0
+      end
+
+      expect(Delayed::Job.count).to eq 1
     end
   end
 

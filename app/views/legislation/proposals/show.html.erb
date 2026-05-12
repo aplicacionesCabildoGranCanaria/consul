@@ -38,22 +38,7 @@
           </div>
         <% end %>
 
-        <div class="proposal-info">
-          <%= render "/shared/author_info", resource: @proposal %>
-
-          <span class="bullet">&nbsp;&bull;&nbsp;</span>
-          <%= l @proposal.created_at.to_date %>
-          <span class="bullet">&nbsp;&bull;&nbsp;</span>
-          <%= render Shared::CommentsCountComponent.new(@proposal.comments_count, url: "#comments") %>
-
-          <% if current_user %>
-            <span class="bullet">&nbsp;&bull;&nbsp;</span>
-            <span class="js-flag-actions">
-              <%= render "shared/flag_actions", flaggable: @proposal %>
-            </span>
-          <% end %>
-
-        </div>
+        <%= render Shared::DetailedInfoComponent.new(@proposal) %>
 
         <%= render_image(@proposal.image, :large, true) if @proposal.image.present? %>
 
@@ -88,8 +73,8 @@
 
         <%= render Shared::GeozoneLinkComponent.new(@proposal, legislation_process_proposals_path(@process, search: geozone_name(@proposal))) %>
 
-        <div class="js-moderator-proposal-actions margin">
-          <%= render "legislation/proposals/actions", proposal: @proposal %>
+        <div class="margin">
+          <%= render Shared::ModerationActionsComponent.new(@proposal) %>
         </div>
       </div>
 

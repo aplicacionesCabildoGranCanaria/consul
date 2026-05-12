@@ -30,6 +30,9 @@ class User < ApplicationRecord
   has_many :identities, dependent: :destroy
   has_many :debates, -> { with_hidden }, foreign_key: :author_id, inverse_of: :author
   has_many :proposals, -> { with_hidden }, foreign_key: :author_id, inverse_of: :author
+  has_many :proposal_notifications, -> { with_hidden },
+           foreign_key: :author_id,
+           inverse_of: :author
   has_many :activities
   has_many :budget_investments, -> { with_hidden },
            class_name: "Budget::Investment",
@@ -92,6 +95,8 @@ class User < ApplicationRecord
 
   validates_associated :organization, message: false
 
+  normalizes :document_number, with: ->(document_number) { document_number.gsub(/[^a-z0-9]+/i, "").upcase }
+
   accepts_nested_attributes_for :organization, update_only: true
 
   attr_accessor :skip_password_validation, :login
@@ -109,8 +114,8 @@ class User < ApplicationRecord
     where(document_type: document_type, document_number: document_number)
   end
   scope :email_digest,   -> { where(email_digest: true) }
+  scope :active,         -> { where(erased_at: nil) }
   scope :erased,         -> { where.not(erased_at: nil) }
-  scope :active,         -> { excluding(erased) }
   scope :public_for_api, -> { all }
   scope :with_ids,       ->(ids) { where(id: ids) }
   scope :by_comments,    ->(commentables) do
@@ -126,8 +131,6 @@ class User < ApplicationRecord
 
     where(date_of_birth: start_date.beginning_of_day..end_date.end_of_day)
   end
-
-  before_validation :clean_document_number
 
   # Get the existing user by email if the provider gives us a verified email.
   def self.first_or_initialize_for_oauth(auth)
@@ -146,13 +149,21 @@ class User < ApplicationRecord
     )
   end
 
-  def name
-    organization? ? organization.name : username
+  def self.create_from_census_response!(response, params = {})
+    create!({
+      verified_at: Time.current,
+      erased_at: Time.current,
+      password: random_password,
+      terms_of_service: "1",
+      email: nil,
+      gender: response.gender,
+      date_of_birth: response.date_of_birth.in_time_zone.to_datetime,
+      geozone: Geozone.find_by(census_code: response.district_code)
+    }.merge(params))
   end
 
-  def comment_flags(comments)
-    comment_flags = flags.for_comments(comments)
-    comment_flags.each_with_object({}) { |f, h| h[f.flaggable_id] = true }
+  def name
+    organization? ? organization.name : username
   end
 
   def voted_in_group?(group)
@@ -430,6 +441,22 @@ class User < ApplicationRecord
     end
   end
 
+  def self.random_password
+    lowercase = ("a".."z").to_a
+    uppercase = ("A".."Z").to_a
+    digits    = ("0".."9").to_a
+    symbols   = %w[- _ . , : ; ! @ # $ % & *]
+    all_chars = lowercase + uppercase + digits + symbols
+
+    characters = Array.new(password_complexity[:lower]) { lowercase.sample } +
+                 Array.new(password_complexity[:upper]) { uppercase.sample } +
+                 Array.new(password_complexity[:digit]) { digits.sample } +
+                 Array.new(password_complexity[:symbol]) { symbols.sample } +
+                 Array.new(password_length.min + rand(2..4)) { all_chars.sample }
+
+    characters.shuffle.join
+  end
+
   def self.maximum_attempts
     (Tenant.current_secrets.dig(:security, :lockable, :maximum_attempts) || 20).to_i
   end
@@ -447,12 +474,6 @@ class User < ApplicationRecord
   end
 
   private
-
-    def clean_document_number
-      return if document_number.blank?
-
-      self.document_number = document_number.gsub(/[^a-z0-9]+/i, "").upcase
-    end
 
     def validate_username_length
       validator = ActiveModel::Validations::LengthValidator.new(
