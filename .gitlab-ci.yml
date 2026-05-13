@@ -83,8 +83,6 @@ deploy:
     - git config --global user.email "${GITLAB_USER_EMAIL}"
     - git config --global http.sslVerify false
     - git clone ${DEPLOY_REPO}
-    # TMP until they give me deployments repo permissions to push to main
-    - git checkout feat/nopermissions
     - cd ${DEPLOY_REPO##*/}/${CI_COMMIT_BRANCH}
     - sed -i "s@image\:\ ${CI_REGISTRY_IMAGE}.*@image\:\ ${CI_REGISTRY_IMAGE}:${BUILD_TAG}@" deployment.yaml
     - git commit -am "deploy:$BUILD_TAG"
