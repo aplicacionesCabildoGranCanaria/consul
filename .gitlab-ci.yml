@@ -50,14 +50,14 @@ build:
     - docker push ${CI_REGISTRY_IMAGE}:${BUILD_TAG}
     - docker push ${CI_REGISTRY_IMAGE}:latest
 
-## pending adaptation to rails
+## pending migration to rails
 # test:
 #   stage: test
 #   image: $CI_REGISTRY_IMAGE:$BUILD_TAG
 #   # temporary
 #   allow_failure: true
 #   services:
-#     - name: mariadb:$MARIADB_VERSION
+#     - name: mariadb:10.6
 #       variables:
 #         MARIADB_RANDOM_ROOT_PASSWORD: 1
 #         MARIADB_DATABASE: test
@@ -85,7 +85,7 @@ deploy:
     - git clone ${DEPLOY_REPO}
     - cd ${DEPLOY_REPO##*/}/${CI_COMMIT_BRANCH}
     - sed -i "s@image\:\ ${CI_REGISTRY_IMAGE}.*@image\:\ ${CI_REGISTRY_IMAGE}:${BUILD_TAG}@" deployment.yaml
-    - git commit -am "$BUILD_TAG"
+    - git commit -am "deploy:$BUILD_TAG"
     - git push
   rules:
     - if: $CI_COMMIT_BRANCH == "develop"
