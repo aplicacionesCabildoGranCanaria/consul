@@ -32,24 +32,12 @@
   <div id="proposals" class="proposals-list small-12 medium-9 column">
 
     <%= render Shared::BannerComponent.new("proposals") %>
-
-    <% if show_featured_proposals? %>
-      <div id="featured-proposals" class="row featured-proposals">
-        <div class="small-12 column">
-          <h2>
-            <%= t("proposals.index.featured_proposals") %>
-          </h2>
-        </div>
-        <% @featured_proposals.each do |featured_proposal| %>
-          <%= render "featured_proposal", proposal: featured_proposal %>
-        <% end %>
-      </div>
-    <% end %>
+    <%= render Proposals::FeaturedProposalsComponent.new(@featured_proposals) %>
 
     <% unless params[:selected].present? %>
       <div class="row">
         <div class="small-12 column">
-          <%= render "view_mode" %>
+          <%= render Shared::ViewModeComponent.new %>
         </div>
       </div>
     <% end %>
@@ -72,11 +60,11 @@
 
     <div id="proposals-list">
       <% if @proposals.any? || current_user.blank? %>
-        <% if proposals_default_view? %>
-          <%= render partial: "proposals/proposal", collection: @proposals %>
-        <% else %>
-          <% @proposals.each do |proposal| %>
-            <%= render "/proposals/proposal_minimal", proposal: proposal %>
+        <% @proposals.each do |proposal| %>
+          <% if default_view_mode? %>
+            <%= render "proposals/proposal", proposal: proposal %>
+          <% else %>
+            <%= render "proposals/proposal_minimal", proposal: proposal %>
           <% end %>
         <% end %>
       <% else %>

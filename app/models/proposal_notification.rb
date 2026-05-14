@@ -3,20 +3,20 @@ class ProposalNotification < ApplicationRecord
   include Notifiable
   include Searchable
 
-  belongs_to :author, class_name: "User"
+  belongs_to :author, -> { with_hidden }, class_name: "User", inverse_of: :proposal_notifications
   belongs_to :proposal
 
   validates :title, presence: true
   validates :body, presence: true
   validates :proposal, presence: true
-  validate :minimum_interval
+  validate :minimum_interval, on: :create
 
   scope :public_for_api,     -> { where(proposal: Proposal.public_for_api) }
   scope :sort_by_created_at, -> { reorder(created_at: :desc) }
   scope :sort_by_moderated,  -> { reorder(moderated: :desc) }
 
   scope :moderated, -> { where(moderated: true) }
-  scope :not_moderated, -> { excluding(moderated) }
+  scope :not_moderated, -> { where(moderated: false) }
   scope :pending_review, -> { moderated.where(ignored_at: nil) }
   scope :ignored, -> { moderated.where.not(ignored_at: nil) }
 

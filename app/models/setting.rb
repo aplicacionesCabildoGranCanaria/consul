@@ -188,7 +188,11 @@ class Setting < ApplicationRecord
         "sdg.process.proposals": true,
         "sdg.process.polls": true,
         "sdg.process.budgets": true,
-        "sdg.process.legislation": true
+        "sdg.process.legislation": true,
+        "llm.provider": nil,
+        "llm.model": nil,
+        "llm.use_llm_for_translations": false,
+        "llm.use_ai_image_suggestions": false
       }
     end
 

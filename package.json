@@ -8,14 +8,14 @@
     "jquery-ujs": "^1.2.3",
     "leaflet": "^1.9.4",
     "leaflet.markercluster": "^1.5.3",
-    "markdown-it": "^13.0.2"
+    "markdown-it": "^14.1.1"
   },
   "devDependencies": {
     "@stylistic/stylelint-plugin": "^4.0.0",
-    "eslint": "^8.57.0",
+    "eslint": "^9.39.4",
     "postcss-scss": "^4.0.9",
-    "stylelint": "^16.25.0",
-    "stylelint-order": "^7.0.0",
+    "stylelint": "^16.26.1",
+    "stylelint-order": "^7.0.1",
     "stylelint-scss": "^6.12.1"
   }
 }
