@@ -16,12 +16,23 @@ describe "Budget Investments" do
     it_behaves_like "remotely_translatable",
                     :budget_investment,
                     "budget_investments_path",
-                    { budget_id: "budget_id" }
-
+                    { budget_id: "budget_id" },
+                    provider: :microsoft
+    it_behaves_like "remotely_translatable",
+                    :budget_investment,
+                    "budget_investments_path",
+                    { budget_id: "budget_id" },
+                    provider: :llm
     it_behaves_like "remotely_translatable",
                     :budget_investment,
                     "budget_investment_path",
-                    { budget_id: "budget_id", id: "id" }
+                    { budget_id: "budget_id", id: "id" },
+                    provider: :microsoft
+    it_behaves_like "remotely_translatable",
+                    :budget_investment,
+                    "budget_investment_path",
+                    { budget_id: "budget_id", id: "id" },
+                    provider: :llm
     it_behaves_like "flaggable", :budget_investment
   end
 
@@ -841,6 +852,73 @@ describe "Budget Investments" do
                                     "Toda la ciudad: Toda la ciudad",
                                     "Health: More health professionals",
                                     "Health: More hospitals"]
+    end
+
+    context "Image suggestions" do
+      let(:llm_response) do
+        double(
+          "ImageSuggestions::Llm::Client::Response",
+          results: double(
+            "Pexels::PhotoSet",
+            photos: [
+              double(
+                "Pexels::Photo",
+                id: "suggested-photo-1",
+                src: { "small" => "https://example.com/suggested.jpg" },
+                user: double("Pexels::User", name: "Test Photographer")
+              )
+            ]
+          ),
+          errors: []
+        )
+      end
+
+      before do
+        Setting["llm.provider"] = "OpenAI"
+        Setting["llm.model"] = "gpt-4o"
+        Setting["llm.use_ai_image_suggestions"] = true
+
+        stub_secrets(pexels_access_key: "test_key")
+
+        allow(ImageSuggestions::Llm::Client).to receive(:call).and_return(llm_response)
+        allow(ImageSuggestions::Pexels).to receive(:download)
+          .with("suggested-photo-1")
+          .and_return(fixture_file_upload("clippy.jpg"))
+      end
+
+      scenario "User can suggest images, attach one and create the investment", :js do
+        login_as(author)
+        visit new_budget_investment_path(budget)
+
+        fill_in_new_investment_title with: "New hospital in the center"
+        fill_in_ckeditor "Description", with: "We need a modern hospital with green areas"
+
+        click_link "Add image"
+
+        expect(page).to have_button "Suggest an image with AI"
+
+        click_button "Suggest an image with AI"
+
+        expect(page).to have_content "Select an image from the suggestions below:"
+        expect(ImageSuggestions::Llm::Client).to have_received(:call)
+
+        within(".suggested-images-container") do
+          click_button "Attach suggested image 1 of 1"
+        end
+
+        expect(page).to have_css ".image-fields.direct-upload img"
+        within(".image-fields.direct-upload") do
+          title_field = find("input[name$='[title]']", match: :first)
+          fill_in title_field[:id], with: "Image by Test Photographer.jpg"
+        end
+
+        check "I agree to the Privacy Policy and the Terms and conditions of use"
+        click_button "Create Investment"
+
+        expect(page).to have_content "Budget Investment created successfully"
+        expect(page).to have_content "New hospital in the center"
+        expect(page).to have_css "img[alt*='Test Photographer']"
+      end
     end
   end
 

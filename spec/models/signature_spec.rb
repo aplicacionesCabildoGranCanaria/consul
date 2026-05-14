@@ -61,28 +61,28 @@ describe Signature do
     end
   end
 
-  describe "#clean_document_number" do
+  describe "document_number normalization" do
     it "removes non alphanumeric characters" do
-      signature = create(:signature, document_number: "123-[;,9]")
+      signature = Signature.new(document_number: "123-[;,9]")
       expect(signature.document_number).to eq("1239")
     end
 
     it "upcases letter in document number" do
-      signature = create(:signature, document_number: "123a")
+      signature = Signature.new(document_number: "123a")
       expect(signature.document_number).to eq("123A")
     end
 
     it "deals gracefully with empty document numbers" do
-      signature = build(:signature, document_number: "")
-      signature.clean_document_number
+      signature = Signature.new(document_number: "")
       expect(signature.document_number).to eq("")
     end
   end
 
   describe "#verify" do
-    describe "existing user" do
+    context "existing user" do
+      let(:user) { create(:user, :level_two, document_number: "123A") }
+
       it "assigns vote to user on proposal" do
-        user = create(:user, :level_two, document_number: "123A")
         signature = create(:signature, document_number: user.document_number)
         proposal = signature.signable
 
@@ -94,7 +94,6 @@ describe Signature do
       it "assigns vote to user on budget investment" do
         investment = create(:budget_investment)
         signature_sheet = create(:signature_sheet, signable: investment)
-        user = create(:user, :level_two, document_number: "123A")
         signature = create(:signature, document_number: user.document_number,
                                        signature_sheet: signature_sheet)
 
@@ -104,7 +103,6 @@ describe Signature do
       end
 
       it "does not assign vote to user multiple times" do
-        user = create(:user, :level_two, document_number: "123A")
         signature = create(:signature, document_number: user.document_number)
 
         signature.verify
@@ -129,7 +127,6 @@ describe Signature do
       it "does not assign vote to user multiple times on budget investment" do
         investment = create(:budget_investment)
         signature_sheet = create(:signature_sheet, signable: investment)
-        user = create(:user, :level_two, document_number: "123A")
         signature = create(:signature, document_number: user.document_number,
                                        signature_sheet: signature_sheet)
 
@@ -140,7 +137,6 @@ describe Signature do
       end
 
       it "does not assign vote to user if already voted" do
-        user = create(:user, :level_two, document_number: "123A")
         proposal = create(:proposal, voters: [user])
         signature_sheet = create(:signature_sheet, signable: proposal)
         signature = create(:signature, signature_sheet: signature_sheet,
@@ -152,7 +148,6 @@ describe Signature do
       end
 
       it "does not assign vote to user if already voted on budget investment" do
-        user = create(:user, :level_two, document_number: "123A")
         investment = create(:budget_investment, voters: [user])
 
         signature_sheet = create(:signature_sheet, signable: investment)
@@ -167,7 +162,7 @@ describe Signature do
       end
 
       it "marks the vote as coming from a signature" do
-        signature = create(:signature, document_number: "12345678Z")
+        signature = create(:signature, document_number: user.document_number)
 
         signature.verify
 
@@ -175,10 +170,11 @@ describe Signature do
       end
     end
 
-    describe "inexistent user" do
+    context "inexistent user" do
+      let(:signature) { create(:signature, document_number: "12345678Z") }
+
       it "creates a user with that document number" do
         create(:geozone, census_code: "01")
-        signature = create(:signature, document_number: "12345678Z")
 
         signature.verify
 
@@ -193,7 +189,6 @@ describe Signature do
       end
 
       it "assign the vote to newly created user" do
-        signature = create(:signature, document_number: "12345678Z")
         proposal = signature.signable
 
         signature.verify
@@ -202,12 +197,18 @@ describe Signature do
         expect(user.voted_for?(proposal)).to be
       end
 
-      it "assigns signature to vote" do
-        signature = create(:signature, document_number: "12345678Z")
-
+      it "marks the vote as coming from a signature" do
         signature.verify
 
         expect(Vote.last.signature).to eq(signature)
+      end
+
+      it "generates a complex password for the user" do
+        stub_secrets(security: { password_complexity: true })
+
+        signature.verify
+
+        expect(signature.user).to be_valid
       end
     end
 

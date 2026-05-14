@@ -4,9 +4,23 @@
 
 The aim of this service is to be able to offer all the dynamic contents of the application (proposals, debates, budget investments and comments) in different languages automatically.
 
-When a user visits a page with a language where there is untranslated content, they will have a button to request the translation of all the content. This content will be sent to an automatic translator (in this case [Microsoft TranslatorText](https://azure.microsoft.com/en-us/products/cognitive-services/translator/)) and as soon as the response is obtained, all these translations will be available to any user.
+When a user visits a page with a language where there is untranslated content, they will have a button to request the translation of all the content. This content will be sent to an automatic translator (as) and as soon as the response is obtained, all these translations will be available to any user.
 
-### Getting started
+### Selecting your translations provider
+
+You can choose 2 different approaches to enable content translation, depending on your preference.
+
+#### Microsoft TranslatorText Translation
+
+* Probably preferable if you are already and Azure customer or when you prefer a dedicated translation API.
+
+#### LLM Translation
+
+* Probably preferable if when you already provision an LLM (AI) service, or when you want to take more control of your translations - customizing the translation prompt.
+
+### Using Microsoft TranslatorText Translation
+
+#### Getting started
 
 In order to use this functionality, the following steps are necessary:
 
@@ -14,11 +28,11 @@ In order to use this functionality, the following steps are necessary:
 2. Once you are logged into the Azure portal, create a resource of type _Translator Text_ (note: for this implementation it is necessary to select the GLOBAL region when creating the resource, otherwise it will be necessary to customize the API calls by adding the selected region).
 3. Once you have subscribed to the Translator Text service, you will have access to two API keys in the section **Resource Management > Keys and Endpoint** that will be necessary for the configuration of the translation service in your application.
 
-### Configuration
+#### Configuration
 
 To enable the translation service in your application you must complete the following steps:
 
-#### Add api key in the application
+##### Add api key in the application
 
 In the previous section we have mentioned that, once subscribed to the translation service, we get two API keys. To configure the service correctly in our application we must add one of the two API keys to the `apis:` section of the `secrets.yml` file, with the key `microsoft_api_key` as follows:
 
@@ -34,33 +48,11 @@ apis: &apis
   microsoft_api_key: "new_api_key_1_for_translator_text"
 ```
 
-#### Enabling the feature
+##### Enabling the feature
 
 Once we have the new key in the `secrets.yml` we can now proceed to enable the feature. To enable it, in the administration area access the section **Settings > Global settings > Features** and enable the **Remote translation** feature.
 
-### Use Cases
-
-Once we have the api key in our `secrets.yml` and the feature enabled, users will now be able to use remote translations in the application.
-
-We attach some screenshots of how the application interacts with our users:
-
-* When a user visits a page in a language without translated content, an informative text will appear at the top of the page next to a button to request the translation. (**Note:** *If a user visits a page with a language not supported by the translation service, no text or translation button will be displayed. See section: Available languages for remote translation*)
-
-  ![The text "The content of this page is not available in your language" is displayed next to a "Translate page" button at the top of the page](../../img/translations/remote_translations/display-text-and-button-en.png)
-
-* Once the user clicks the `Translate page` button, the translations are enqueued and the page is reloaded with a notice (*informing that the translations have been requested correctly*) and an informative text in the header (*explaining when you will be able to see these translations*).
-
-  ![Display notice and text after enqueued translations](../../img/translations/remote_translations/display-notice-and-text-after-enqueued-en.png)
-
-* If a user visits a page that does not have translations but its translations have already been requested by another user, the application will not show the translate button but an informative text in the header (*explaining when you will be able to see these translations*).
-
-  ![Display text explaining that translations are pending](../../img/translations/remote_translations/display-text-translations-pending-en.png)
-
-* The translation request, response processing and data saving are processed by background jobs and, as soon as they've finished, the user will be able to read them after refreshing the page.
-
-  ![Display translated content](../../img/translations/remote_translations/display-translated-content-en.png)
-
-### Available languages for remote translation
+#### Available languages for remote translation
 
 Currently these are all the [available languages](https://api.cognitive.microsofttranslator.com/languages?api-version=3.0) in the translation service:
 
@@ -70,7 +62,7 @@ Currently these are all the [available languages](https://api.cognitive.microsof
 
 Of all the languages currently available in Consul Democracy (`available_locales`) in `config/application.rb`, the only one that is not listed above and therefore no translation service is offered is Valencian `["val"]`.
 
-### Pricing
+#### Pricing
 
 The translation service used has the most competitive [pricing](https://azure.microsoft.com/en-us/pricing/details/cognitive-services/translator/).
 The price for each 1 Million characters translated is $10 and there is no fixed cost per month.
@@ -88,6 +80,71 @@ To create an Alert in Azure we must follow the following steps:
    1. In order to be notified we have to create an **Action Group** and associate it with this Alert we're creating. To do this, access the button **Create** and fill out the form. As you can see there are different types of actions, we must select **Email/SMS/Push/Voice** and configure the option that we consider convenient according to our needs.
    1. Once this group of actions has been created, it is directly associated with the rule we are creating.
    1. Finally, all you have to do is add a name and click on the **Review + create**
+
+### Using LLM Translation
+
+#### Getting started
+
+In order to use this functionality, the following steps are necessary:
+
+1. Create an account with your LLM provider of choice (OpenAI, Anthropic, ...), or set up a self-hosted Ollama LLM endpoint.
+2. Obtain an authentication / API key for the service. This step differs for each provider, so you will have to look it up yourself.
+
+#### Configuration
+
+To enable the translation service in your application you must complete the following steps:
+
+##### Add api key in the application's credentials
+
+Once your LLM API credentials are available, you have to configure your application secrets by using the section `apis:` and subsection `llm:` of the `secrets.yml` file, with the key `{provider}_api_key` as follows:
+
+* Add a `llm:` subsection into the `apis:` subsection:
+
+```yml
+apis: &apis
+  llm:
+    # Provide keys for the LLM providers you intend to use.
+    # consult RubyLLM https://rubyllm.com/configuration#global-configuration-rubyllmconfigure configuration for all supported providers and use the same key names here.
+    deepseek_api_key: "1234567890"
+```
+
+##### Configuring LLM provider, model
+
+Boot up your application, then navigate to Admin > Global Settings and choose LLM Settings tab. Your provider and the model to use for translations can be selected here.
+
+![Display LLM configuration](../../img/translations/remote_translations/display-llm-translations-en.png)
+
+If you have configured LLM credentials in `secrets.yml` file, but that provider is still disabled on the dropdown list, you are missing some [required fields for your provider](https://rubyllm.com/configuration#global-configuration-rubyllmconfigure).
+
+##### Configuring LLM prompt
+
+Use `config/llm_prompts.yml` and edit `remote_translation_prompt` to set up your own translation prompt. Ensure that the prompt returns the resulting translation as it's expected to be viewed by the end user.
+
+#### Pricing
+
+Different LLM providers use different pricing strategies, but they are almost always based on input and output token usage. We can estimate 1 token = ~4 characters of text. The text to translate, along with translation prompt, will count towards input tokens, and the translated result towards output token count. Following this logic, translating 1 Million characters consumes about ~250k tokens as input and ~250k tokes as an output.
+
+### Use Cases
+
+Once we have feature set up and enabled, users will now be able to use remote translations in the application.
+
+We attach some screenshots of how the application interacts with our users:
+
+* When a user visits a page in a language without translated content, an informative text will appear at the top of the page next to a button to request the translation. (**Note:** *If a user visits a page with a language not supported by the translation service, no text or translation button will be displayed. See section: Available languages for remote translation*)
+
+  ![The text "The original content of this page is not available in your language. Would you like to translate it?" is displayed next to a "Translate page" button at the top of the page](../../img/translations/remote_translations/display-text-and-button-en.png)
+
+* Once the user clicks the `Translate page` button, the translations are enqueued and the page is reloaded with a notice (*informing that the translations have been requested correctly*) and an informative text in the header (*explaining when you will be able to see these translations*).
+
+  ![Display notice and text after enqueued translations](../../img/translations/remote_translations/display-notice-and-text-after-enqueued-en.png)
+
+* If a user visits a page that does not have translations but its translations have already been requested by another user, the application will not show the translate button but an informative text in the header (*explaining when you will be able to see these translations*).
+
+  ![Display text explaining that translations are pending](../../img/translations/remote_translations/display-text-translations-pending-en.png)
+
+* The translation request, response processing and data saving are processed by background jobs and, as soon as they've finished, the user will be able to read them after refreshing the page.
+
+  ![Display translated content](../../img/translations/remote_translations/display-translated-content-en.png)
 
 ### Add a new translation service
 

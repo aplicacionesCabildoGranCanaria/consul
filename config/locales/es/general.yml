@@ -137,7 +137,6 @@ es:
       recommendations_title: Recomendaciones para crear un debate
       start_new: Empezar un debate
     show:
-      author_deleted: Usuario eliminado
       comments_title: Comentarios
       edit_debate_link: Editar debate
       flag: Este debate ha sido marcado como inapropiado por varios usuarios.
@@ -424,12 +423,10 @@ es:
         other: "%{count} votos"
       supports_necessary: "%{number} apoyos necesarios"
       reason_for_supports_necessary: ""
-      total_percent: 100%
       archived: "Esta propuesta ha sido archivada y ya no puede recoger apoyos."
       successful: "Esta propuesta ha alcanzado los apoyos necesarios."
       selected: "Propuesta seleccionada"
     show:
-      author_deleted: Usuario eliminado
       code: "Código de la propuesta:"
       comments_tab: Comentarios
       dashboard_proposal_link: Panel de control
@@ -946,8 +943,8 @@ es:
     poll:
       take_part: Participa del %{from} al %{to}
   remote_translations:
-    text: El contenido de esta página no está disponible en tu idioma
-    all_remote_translations_enqueued_text: "En un breve periodo de tiempo refrescando la página podrá ver todo el contenido en su idioma"
+    text: El contenido de esta página no está disponible en tu idioma. ¿Te gustaría traducirlo?
+    all_remote_translations_enqueued_text: "Por favor, espera 5 segundos y actualiza la página para que se muestre el contenido traducido."
     create:
       enqueue_remote_translation: Se han solicitado correctamente las traducciones.
     button: Traducir página

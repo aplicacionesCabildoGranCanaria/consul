@@ -1293,6 +1293,11 @@ en:
         selected: Selected
         milestones: Milestones
         no_proposals: There are no proposals.
+        list:
+          id: ID
+          title: Proposal
+          author: Author
+          summary: Summary
       show:
         create_question: Add this proposal to a poll to be voted
       form:
@@ -1327,6 +1332,7 @@ en:
         participation_processes: "Participation processes"
         images_and_documents: "Images and documents"
         feature_flags: Features
+        blank_option: "None"
         features:
           enabled: "Enabled"
         map:
@@ -1349,6 +1355,8 @@ en:
           title: Cookies consent
         cookies_consent_banner:
           title: Cookies consent banner
+        llm:
+          title: LLM Settings
       remote_census_general_name: General Information
       remote_census_request_name: Request Data
       remote_census_response_name: Response Data
