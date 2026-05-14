@@ -1,54 +1,95 @@
+include:
+  - template: Jobs/Secret-Detection.gitlab-ci.yml
+  # - component: $CI_SERVER_FQDN/components/secret-detection/secret-detection@2.1.0
+  - template: Jobs/SAST.gitlab-ci.yml
+  # - component: $CI_SERVER_FQDN/components/sast/sast@3.1.
+  - template: Jobs/Code-Quality.gitlab-ci.yml
+  # - component: $CI_SERVER_FQDN/components/code-quality-oss/codequality-os-scanners-integration/hadolint@1.1.5
+  # - component: $CI_SERVER_FQDN/components/code-quality-oss/codequality-os-scanners-integration/phpstan@1.1.5
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      variables:
+        BUILD_TAG: $CI_COMMIT_SHORT_SHA
+    - if: $CI_COMMIT_BRANCH == "develop"
+      variables:
+        BUILD_TAG: $CI_COMMIT_SHORT_SHA
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_COMMIT_TAG && $CI_COMMIT_TAG =~ /^[0-9]+\.[0-9]+\.[0-9]+$/
+      variables:
+        BUILD_TAG: $CI_COMMIT_TAG
+
+variables:
+  DEPLOY_REPO: https://${CD_DEPLOY_USER}:${CD_DEPLOY_TOKEN}@gitlab.nublo.grancanaria.com/k8s/apps/deployments/${CI_PROJECT_NAME}/${CI_PROJECT_NAME}
+  DOCKER_VERSION: 24
+  DOCKER_TLS_CERTDIR: ""
+
 stages:
+  - build
   - test
-  - lint
+  - deploy
 
-tests:
-  image: "ruby:3.3.10"
-  stage: test
+build:
+  stage: build
+  image: docker:$DOCKER_VERSION-cli
   services:
-    - postgres:14.19
-  cache:
-    key: consul
-    paths:
-      - vendor/
-  variables:
-    DB_HOST: postgres
-    PGUSER: consul
-    PGPASSWORD: password
-    POSTGRES_USER: consul
-    POSTGRES_PASSWORD: password
-    RAILS_ENV: test
-    TEST_COVERAGE: 1
-  parallel: 5
+    - name: docker:${DOCKER_VERSION}-dind
+      alias: docker
+      variables:
+        HEALTHCHECK_TCP_PORT: 2375
+      command:  ["--tls=false"]
+  before_script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
   script:
-    - apt-get update && apt-get install -y nodejs npm chromium
-    - for i in config/*.example; do cp "$i" "${i/.example}"; done
-    - bundle --without development
-    - npm clean-install
-    - bundle exec rake db:setup
-    - bundle exec rake assets:precompile > /dev/null 2>&1
-    - npm clean-install
-    - bin/knapsack_pro_rspec
-  artifacts:
-    when: on_failure
-    paths:
-      - tmp/screenshots/
+    - docker pull ${CI_REGISTRY_IMAGE}:latest || true
+    - DOCKER_BUILDKIT=1 docker build .
+      --build-arg BUILDKIT_INLINE_CACHE=1
+      --cache-from ${CI_REGISTRY_IMAGE}:latest
+      --tag ${CI_REGISTRY_IMAGE}:${BUILD_TAG}
+      --tag ${CI_REGISTRY_IMAGE}:latest
+    - docker push ${CI_REGISTRY_IMAGE}:${BUILD_TAG}
+    - docker push ${CI_REGISTRY_IMAGE}:latest
 
-# To make this job work, create a Personal Access Token with permissions
-# to comment on your repository and add a variable named
-# PRONTO_GITLAB_API_PRIVATE_TOKEN to your repository CI/CD settings
-# giving it the value of the Personal Access Token
-linters:
-  image: "ruby:3.3.10"
-  stage: lint
-  cache:
-    key: consul
-    paths:
-      - vendor/
-  only:
-    - merge_requests
+## pending migration to rails
+# test:
+#   stage: test
+#   image: $CI_REGISTRY_IMAGE:$BUILD_TAG
+#   # temporary
+#   allow_failure: true
+#   services:
+#     - name: mariadb:10.6
+#       variables:
+#         MARIADB_RANDOM_ROOT_PASSWORD: 1
+#         MARIADB_DATABASE: test
+#         MARIADB_USER: test
+#         MARIADB_PASSWORD: test
+#   variables:
+#     DB_HOST: mariadb
+#     DB_PORT: 3306
+#     DB_DATABASE: test
+#     DB_USERNAME: test
+#     DB_PASSWORD: test
+#   script:
+#      - php artisan test --log-junit phpunit-report.xml
+#   artifacts:
+#     reports:
+#       junit: phpunit-report.xml
+
+deploy:
+  stage: deploy
+  image: bitnami/git
   script:
-    - apt-get update && apt-get install -y nodejs cmake pkg-config
-    - bundle --without test
-    - git fetch origin $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
-    - bundle exec pronto run -f gitlab_mr -c origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+    - git config --global user.name "${GITLAB_USER_NAME}"
+    - git config --global user.email "${GITLAB_USER_EMAIL}"
+    - git config --global http.sslVerify false
+    - git clone ${DEPLOY_REPO}
+    - cd ${DEPLOY_REPO##*/}/${CI_COMMIT_BRANCH}
+    - sed -i "s@image\:\ ${CI_REGISTRY_IMAGE}.*@image\:\ ${CI_REGISTRY_IMAGE}:${BUILD_TAG}@" deployment.yaml
+    - git commit -am "deploy:$BUILD_TAG"
+    - git push
+  rules:
+    - if: $CI_COMMIT_BRANCH == "develop"
+    - if: $CI_COMMIT_BRANCH == "main"
+      when: manual
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never

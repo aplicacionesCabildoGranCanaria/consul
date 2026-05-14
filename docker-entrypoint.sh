@@ -20,6 +20,16 @@ if [ -f tmp/pids/server.pid ]; then
   rm tmp/pids/server.pid
 fi
 
+if [ ! -f config/database.yml ]; then
+  cp -p config/database.yml.example config/database.yml
+fi
+
+if [ ! -f config/secrets.yml ]; then
+  cp -p config/secrets.yml.example config/secrets.yml
+fi
+
+/usr/bin/sudo -EH -u consul bundle exec rake db:prepare assets:precompile
+
 # Then exec the container's main process (what's set as CMD in the Dockerfile).
 /usr/bin/sudo -EH -u consul "$@"
 
