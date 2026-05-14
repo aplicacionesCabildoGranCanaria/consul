@@ -29,7 +29,6 @@ RUN chmod 0440 /etc/sudoers.d/secure_path
 
 # Define where our application will live inside the image
 ENV RAILS_ROOT=/var/www/consul
-ENV BUNDLE_PATH=/usr/local/bundle
 
 # Create application home. App server will need the pids dir so just create everything in one shot
 RUN mkdir -p $RAILS_ROOT/tmp/pids
