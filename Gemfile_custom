@@ -25,4 +25,4 @@
 #
 # Add your custom gem dependencies here
 gem 'new_google_recaptcha', "~> 1.4.0"
-gem "dotenv-rails"
+gem "dotenv-rails", "~>3.2.0"
