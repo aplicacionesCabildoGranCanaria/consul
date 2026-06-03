@@ -9,7 +9,7 @@ describe Layout::AdminHeaderComponent do
   end
 
   context "management section", controller: Management::BaseController do
-    it "shows the menu button and menu for administrators" do
+    it "shows the menu button and menu for administrators", :consul do
       create(:administrator, user: user)
 
       render_inline Layout::AdminHeaderComponent.new(user)
