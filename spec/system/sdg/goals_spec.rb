@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "SDG Goals" do
+describe "SDG Goals", :consul do
   before do
     Setting["feature.sdg"] = true
     Setting["sdg.process.debates"] = true

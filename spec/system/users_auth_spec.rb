@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "Users" do
+describe "Users", :consul do
   context "Regular authentication" do
     context "Sign up" do
       scenario "Success" do

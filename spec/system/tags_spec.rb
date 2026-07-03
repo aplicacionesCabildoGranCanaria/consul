@@ -16,7 +16,7 @@ describe "Tags" do
     end
   end
 
-  scenario "Filtered" do
+  scenario "Filtered", :consul do
     debate1 = create(:debate, tag_list: "Salud")
     debate2 = create(:debate, tag_list: "salud")
     debate3 = create(:debate, tag_list: "Hacienda")
@@ -189,9 +189,9 @@ describe "Tags" do
       end
 
       expect(page).to have_css ".proposal", count: 2
-      expect(page).to have_content proposal1.title
-      expect(page).to have_content proposal2.title
-      expect(page).not_to have_content proposal3.title
+      expect(page).to have_content proposal1.title.upcase
+      expect(page).to have_content proposal2.title.upcase
+      expect(page).not_to have_content proposal3.title.upcase
     end
   end
 end

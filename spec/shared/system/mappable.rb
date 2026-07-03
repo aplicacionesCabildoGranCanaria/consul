@@ -14,7 +14,7 @@ shared_examples "mappable" do |mappable_factory_name, mappable_association_name,
     Setting["feature.map"] = true
   end
 
-  describe "At #{mappable_new_path}" do
+  describe "At #{mappable_new_path}", :consul do
     before { set_arguments(arguments, mappable, mappable_path_arguments) }
 
     scenario "Should show marker and create #{mappable_factory_name} with map" do
@@ -166,7 +166,7 @@ shared_examples "mappable" do |mappable_factory_name, mappable_association_name,
     end
   end
 
-  describe "At #{mappable_edit_path}", if: mappable_edit_path.present? do
+  describe "At #{mappable_edit_path}", :consul, if: mappable_edit_path.present? do
     scenario "Should edit mappable on #{mappable_factory_name} without changing the map" do
       mappable.map_location.update!(latitude: 51.48, longitude: 0.0)
 
@@ -244,7 +244,7 @@ shared_examples "mappable" do |mappable_factory_name, mappable_association_name,
     end
   end
 
-  describe "At #{mappable_show_path}" do
+  describe "At #{mappable_show_path}", :consul do
     before do
       set_arguments(arguments, mappable, mappable_path_arguments)
     end

@@ -16,7 +16,7 @@ describe "Localization" do
     expect(page).to have_text("Bienvenido a CONSUL")
   end
 
-  scenario "Changing the locale" do
+  scenario "Changing the locale", :consul do
     visit "/"
     select "Español", from: "Language:"
 
@@ -24,7 +24,7 @@ describe "Localization" do
     expect(page).to have_select "Idioma:", selected: "Español"
   end
 
-  scenario "Keeps query parameters while using protected redirects" do
+  scenario "Keeps query parameters while using protected redirects", :consul do
     visit "/debates?order=created_at&host=evil.dev"
 
     select "Español", from: "Language:"

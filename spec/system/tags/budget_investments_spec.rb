@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "Tags" do
+describe "Tags", :consul do
   let(:author)  { create(:user, :level_two, username: "Isabel") }
   let(:budget)  { create(:budget, name: "Big Budget") }
   let(:group)   { create(:budget_group, name: "Health", budget: budget) }

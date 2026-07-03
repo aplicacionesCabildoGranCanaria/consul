@@ -107,9 +107,9 @@ describe "Proposals" do
 
     within(".proposals-list") do
       expect(page).to have_css(".proposal", count: 1)
-      expect(page).to have_content(proposal1.title)
+      expect(page).to have_content(proposal1.title.upcase)
       expect(page).to have_content(proposal1.summary)
-      expect(page).not_to have_content(proposal2.title)
+      expect(page).not_to have_content(proposal2.title.upcase)
       expect(page).to have_link proposal1.title, href: management_proposal_path(proposal1)
     end
   end
@@ -217,8 +217,8 @@ describe "Proposals" do
       expect(page).to have_link "highest rated", class: "is-active"
 
       within(".proposals-list") do
-        expect(best_proposal.title).to appear_before(medium_proposal.title)
-        expect(medium_proposal.title).to appear_before(worst_proposal.title)
+        expect(best_proposal.title.upcase).to appear_before(medium_proposal.title.upcase)
+        expect(medium_proposal.title.upcase).to appear_before(worst_proposal.title.upcase)
       end
 
       click_link "newest"
@@ -229,8 +229,8 @@ describe "Proposals" do
       expect(page).to have_current_path(/page=1/)
 
       within(".proposals-list") do
-        expect(medium_proposal.title).to appear_before(best_proposal.title)
-        expect(best_proposal.title).to appear_before(worst_proposal.title)
+        expect(medium_proposal.title.upcase).to appear_before(best_proposal.title.upcase)
+        expect(best_proposal.title.upcase).to appear_before(worst_proposal.title.upcase)
       end
     end
 

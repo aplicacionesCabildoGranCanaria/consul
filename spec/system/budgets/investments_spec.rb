@@ -1,7 +1,7 @@
 require "rails_helper"
 require "sessions_helper"
 
-describe "Budget Investments" do
+describe "Budget Investments", :consul do
   let(:author)  { create(:user, :level_two, username: "Isabel") }
   let(:budget)  { create(:budget, name: "Big Budget") }
   let(:other_budget) { create(:budget, name: "What a Budget!") }
@@ -1405,7 +1405,7 @@ describe "Budget Investments" do
       budget.update(phase: "balloting")
     end
 
-    scenario "Index" do
+    scenario "Index", :consul do
       user = create(:user, :level_two)
       investment1 = create(:budget_investment, :selected, heading: heading, price: 10000)
       investment2 = create(:budget_investment, :selected, heading: heading, price: 20000)

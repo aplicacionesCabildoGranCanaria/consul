@@ -1,24 +1,26 @@
 <header>
   <%= render Layout::RemoteTranslationsButtonComponent.new(@remote_translations) %>
 
-  <% if false %>
+  
     <div class="top-links">
-      <%= render Layout::LocaleSwitcherComponent.new %>
+      <% if false %>
+        <%= render Layout::LocaleSwitcherComponent.new %>
+      <% end %>
       <div class="hide-for-small-only">
         <%= render Layout::TopLinksComponent.new %>
       </div>
     </div>
-  <% end %>
+ 
 
   <div class="row">
   <div class="top-bar">
     <h1>
       <%= link_to root_path, class: "hide-for-small-only", accesskey: "/" do %>
-        <%= image_tag('logo_participaGC.png', class: 'hide-for-small-only float-left logo', alt: t("layouts.header.logo"), title: t("layouts.header.logo")) %>
+        <%= image_tag('logo_participaGC.png', class: 'hide-for-small-only float-left logo', alt: setting["org_name"], title: setting["org_name"]) %>
       <% end %>
     </h1>
     <%= link_to root_path, class: "logo show-for-small-only"  do %>
-      <%= image_tag('logo_participaGC.png', class: 'show-for-small-only float-left logo', alt: t("layouts.header.logo"), title: t("layouts.header.logo")) %>
+      <%= image_tag('logo_participaGC.png', class: 'show-for-small-only float-left logo', alt: setting["org_name"], title: setting["org_name"]) %>
     <% end %>
     <%= render Layout::ResponsiveMenuComponent.new do %>
       
@@ -45,7 +47,7 @@
     
   </div>
 
-  <div class="subnavigation expanded">
+  <div id="navigation_bar" class="subnavigation expanded">
     <div class="row">
 
       <div class="hide-for-small-only">

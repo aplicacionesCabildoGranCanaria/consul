@@ -1,10 +1,10 @@
 require "rails_helper"
 
-describe "Advanced search" do
+describe "Advanced search", :consul do
   let(:budget)  { create(:budget, name: "Big Budget") }
   let(:heading) { create(:budget_heading, budget: budget, name: "More hospitals") }
 
-  scenario "Search debates" do
+  scenario "Search debates", :consul do
     debate1 = create(:debate, title: "Get Schwifty")
     debate2 = create(:debate, title: "Schwifty Hello")
     debate3 = create(:debate, title: "Do not show me")
@@ -38,9 +38,9 @@ describe "Advanced search" do
     expect(page).to have_content("There are 2 citizen proposals")
 
     within("#proposals") do
-      expect(page).to have_content(proposal1.title)
-      expect(page).to have_content(proposal2.title)
-      expect(page).not_to have_content(proposal3.title)
+      expect(page).to have_content(proposal1.title.upcase)
+      expect(page).to have_content(proposal2.title.upcase)
+      expect(page).not_to have_content(proposal3.title.upcase)
     end
   end
 
@@ -86,7 +86,7 @@ describe "Advanced search" do
         end
       end
 
-      scenario "Last week" do
+      scenario "Last week", :consul do
         debate1 = create(:debate, created_at: 1.day.ago)
         debate2 = create(:debate, created_at: 5.days.ago)
         debate3 = create(:debate, created_at: 8.days.ago)
@@ -120,9 +120,9 @@ describe "Advanced search" do
         expect(page).to have_content("There are 2 citizen proposals")
 
         within("#proposals") do
-          expect(page).to have_content(proposal1.title)
-          expect(page).to have_content(proposal2.title)
-          expect(page).not_to have_content(proposal3.title)
+          expect(page).to have_content(proposal1.title.upcase)
+          expect(page).to have_content(proposal2.title.upcase)
+          expect(page).not_to have_content(proposal3.title.upcase)
         end
       end
 
@@ -147,7 +147,7 @@ describe "Advanced search" do
       end
     end
 
-    scenario "Search by custom date range" do
+    scenario "Search by custom date range", :consul do
       debate1 = create(:debate, created_at: 2.days.ago)
       debate2 = create(:debate, created_at: 3.days.ago)
       debate3 = create(:debate, created_at: 9.days.ago)
@@ -187,9 +187,9 @@ describe "Advanced search" do
       expect(page).to have_content("There are 3 citizen proposals")
 
       within("#proposals") do
-        expect(page).to have_content(proposal1.title)
-        expect(page).to have_content(proposal2.title)
-        expect(page).to have_content(proposal3.title)
+        expect(page).to have_content(proposal1.title.upcase)
+        expect(page).to have_content(proposal2.title.upcase)
+        expect(page).to have_content(proposal3.title.upcase)
       end
     end
 

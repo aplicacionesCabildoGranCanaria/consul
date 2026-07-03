@@ -224,6 +224,12 @@ ignore_unused:
   - "sdg.*.filter.more.*"
   - "sdg_management.relations.index.filter*"
   - "tags.list.filter.more.*"
+  - "contact.errors.network"
+  - "contact.errors.smtp"
+  - "contact.errors.timeout"
+  - "contact.errors.unexpected"
+  - "settings.feature.red_sara_service"
+  - "settings.feature.red_sara_service_description"
 ####
 ## Exclude these keys from the `i18n-tasks eq-base" report:
 # ignore_eq_base:

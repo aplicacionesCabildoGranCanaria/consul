@@ -1,0 +1,69 @@
+en:
+  contact_mailer:
+    subject: New contact message
+    body:
+      greeting: Hello
+      from: From
+      subject: Subject
+      message: Message
+
+  devise_views:
+    users:
+      registrations:
+        new:
+          email_label: Email
+          password_label: Password
+          terms_title: Terms and conditions of use
+          username_label: Username
+
+  layouts:
+    footer:
+      contact_us: Contact us
+      cookies: Cookies policy
+      faq: FAQ
+      open_data_text: Open data from the portal
+      open_data_title: Open data
+      transparency_text: Transparency information
+      transparency_title: Transparency
+      transparency_url: https://transparency.consul
+    header:
+      eventos: Events
+      external_link_blog: Blog
+      external_link_institution: Cabildo de Gran Canaria
+      external_link_institution_url: https://www.grancanaria.com
+      mapa: Municipal participation
+      more_info: More information
+      open: Open
+
+  proposals:
+    index:
+      section_footer:
+        help_text_1: To support proposals you need to sign in.
+        help_text_2: To participate you need to verify your account.
+        help_text_3: Sign up to create and support citizen proposals.
+
+  shared:
+    tags_cloud:
+      municipalities: Municipalities
+    target_blank_html: Opens in a new window
+
+  votes:
+    signin: sign in
+    signup: sign up
+    verify_account: verify your account
+
+  welcome:
+    debates:
+      title: Cabildo proposals
+    decide:
+      title: Decide
+    do:
+      title: Do
+    proposal:
+      title: Citizen proposals
+    speak:
+      description: What do you want for Gran Canaria? We continue to measure the mood and enthusiasm for citizen participation on the island.
+      subtitle: speaks
+      title: Gran Canaria
+    tutorial:
+      title: How to participate

@@ -376,8 +376,10 @@ describe "Admin settings", :admin do
         expect(page).to have_content "Value updated"
 
         within "tr", text: "Content Translation" do
+          pp "HEHE"
           expect(page).to have_button "No"
           click_button "No"
+          pp page.html
           expect(page).to have_button "Yes"
         end
         expect(page).to have_content "Value updated"
