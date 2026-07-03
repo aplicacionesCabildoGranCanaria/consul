@@ -35,7 +35,7 @@ describe "Budget Groups" do
     end
   end
 
-  context "Index" do
+  context "Index", :consul do
     scenario "Render headings" do
       create(:budget_heading, group: group, name: "New heading name")
 

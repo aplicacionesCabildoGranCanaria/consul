@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe Verification::Residence do
+describe Verification::Residence, :consul do
   let!(:geozone) { create(:geozone, census_code: "01") }
   let(:residence) { build(:verification_residence, document_number: "12345678Z") }
 
@@ -29,7 +29,7 @@ describe Verification::Residence do
       expect(residence.errors[:date_of_birth]).to include("You don't have the required age to participate")
     end
 
-    it "validates uniquness of document_number" do
+    it "validates uniquness of document_number", :consul do
       user = create(:user)
       residence.user = user
       residence.save!

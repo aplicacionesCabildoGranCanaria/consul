@@ -112,7 +112,7 @@ describe "Multitenancy", :seed_tenants do
     with_subdomain("mars") do
       visit proposals_path
 
-      within(".proposal", text: "Earth invasion") do
+      within(".proposal", text: "Earth invasion".upcase) do
         click_button "Support"
 
         expect(page).to have_content "You must sign in or sign up to continue"

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "Voter" do
+describe "Voter", :consul do
   context "Origin", :with_frozen_time do
     let(:poll) { create(:poll) }
     let!(:question) { create(:poll_question, :yes_no, poll: poll, title: "Is this question stupid?") }

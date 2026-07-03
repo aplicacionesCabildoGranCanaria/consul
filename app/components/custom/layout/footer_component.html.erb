@@ -39,7 +39,7 @@
     </div>
   </div>
 
-  <div class="subfooter row">
+  <div class="subfooter row legal">
     <div class="small-12 column">
       <ul class="menu">
         <li>
@@ -71,19 +71,20 @@
             <span><%= t("layouts.footer.privacy") %></span>
           <% end %>
         </li>
-        <li>
-          <%= link_to page_path('politica-de-cookies') do %>
-            <span class="icon icon-document"></span>
-            <span><%= t("layouts.footer.cookies") %></span>
-          <% end %>
-        </li>
+        <% unless feature?(:cookies_consent) %>
+          <li>
+            <%= link_to page_path('politica-de-cookies') do %>
+              <span class="icon icon-document"></span>
+              <span><%= t("layouts.footer.cookies") %></span>
+            <% end %>
+          </li>
+        <% end %>
+
         <% if feature?(:cookies_consent) %>
           <li class="cookies-consent-management-footer-content">
-              <%= link_to "#cookies_consent_management", "data-open":"cookies_consent_management" do %>
-                <span class="icon icon-document"></span>
-                <span> 
-                    <%= t("layouts.footer.cookies_consent_management") %>
-                </span>
+            <%= link_to "#cookies_consent_management", "data-open": "cookies_consent_management" do %>
+              <span class="icon icon-document"></span>
+              <span><%= t("layouts.footer.cookies_consent_management") %></span>
             <% end %>
           </li>
         <% end %>
@@ -93,6 +94,7 @@
             <span><%= t("layouts.footer.contact_us") %></span>
           <% end %>
         </li>
+        <%= raw footer_legal_content_block %>
       </ul>
     </div>
     <div class="footer-logo column">

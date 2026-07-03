@@ -8,7 +8,7 @@ describe "EmailVerifications" do
       login_as user
       visit root_path
 
-      expect(page).to have_content "Debates"
+      expect(page).to have_content "Debates".upcase
     end
 
     in_browser(:manager) do

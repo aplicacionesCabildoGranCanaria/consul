@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "Proposals" do
+describe "Proposals", :consul do
   it_behaves_like "milestoneable", :proposal
 
   context "Concerns" do
@@ -1534,7 +1534,7 @@ describe "Proposals" do
   end
 end
 
-describe "Successful proposals" do
+describe "Successful proposals", :consul do
   scenario "Successful proposals do not show support buttons in index" do
     successful_proposals = create_successful_proposals
 

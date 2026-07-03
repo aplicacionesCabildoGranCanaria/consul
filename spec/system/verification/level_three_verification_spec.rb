@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "Level three verification" do
+describe "Level three verification", :consul do
   scenario "Verification with residency and verified sms" do
     allow_any_instance_of(Verification::Sms).to receive(:generate_confirmation_code).and_return("2015")
     create(:geozone)

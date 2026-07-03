@@ -32,7 +32,7 @@ shared_examples "remotely_translatable" do |factory_name, path_name, path_argume
     end
   end
 
-  context "Button to request remote translation" do
+  context "Button to request remote translation", :consul do
     scenario "should not be present when current locale translation exists" do
       visit path
 
@@ -142,7 +142,7 @@ shared_examples "remotely_translatable" do |factory_name, path_name, path_argume
     end
   end
 
-  context "After click remote translations button" do
+  context "After click remote translations button", :consul do
     describe "with delayed jobs", :delay_jobs do
       scenario "shows informative text when content is enqueued" do
         visit path_in_spanish
