@@ -54,8 +54,8 @@ test:
   stage: test
   image:
     name: $CI_REGISTRY_IMAGE:$BUILD_TAG
-    entrypoint: [""] # 👈 ¡MÁGICO! Anula el docker-entrypoint.sh para que no ejecute cosas de producción ni falle por permisos
-  parallel: 5
+    entrypoint: [""]
+  parallel: 10
   services:
     - name: postgres:14-alpine
       alias: postgres
