@@ -68,6 +68,7 @@ test:
     DISABLE_SPRING: "true"
     SECRET_KEY_BASE: "un_secret_key_base_aleatorio_y_largo_para_evitar_problemas_de_escritura_en_gitlab_ci"
   before_script:
+    - ln -s /var/www/consul/node_modules ./node_modules
     # Como anulamos el entrypoint, nos aseguramos de tener los archivos de configuración mínimos
     - cp config/database.yml.example config/database.yml || true
     - cp config/secrets.yml.example config/secrets.yml || true
