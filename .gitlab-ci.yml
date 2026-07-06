@@ -69,15 +69,12 @@ test:
     SECRET_KEY_BASE: "un_secret_key_base_aleatorio_y_largo_para_evitar_problemas_de_escritura_en_gitlab_ci"
   before_script:
     - ln -s /var/www/consul/node_modules ./node_modules
-    # Como anulamos el entrypoint, nos aseguramos de tener los archivos de configuración mínimos
     - cp config/database.yml.example config/database.yml || true
     - cp config/secrets.yml.example config/secrets.yml || true
-    # Forzamos los permisos correctos en la carpeta tmp por si acaso
     - mkdir -p tmp/cache
     - chmod -R 777 tmp/
-    # Preparamos la base de datos limpiamente
-    - bundle exec rails db:prepare
     - PGPASSWORD=supersecretpassword_ci psql -h postgres -U postgres -d consul_test -c "CREATE SCHEMA IF NOT EXISTS shared_extensions; CREATE EXTENSION IF NOT EXISTS unaccent SCHEMA shared_extensions; CREATE EXTENSION IF NOT EXISTS pg_trgm SCHEMA shared_extensions;"
+    - bundle exec rails db:prepare
   script:
     - SPEC_FILES=$(ruby -e "specs = Dir['spec/**/*_spec.rb'].sort; total = ENV['CI_NODE_TOTAL'].to_i; index = ENV['CI_NODE_INDEX'].to_i - 1; size = (specs.size.to_f / total).ceil; puts specs.each_slice(size).to_a[index]&.join(' ')")
     - echo "Ejecutando lote de tests del nodo $CI_NODE_INDEX de $CI_NODE_TOTAL"
