@@ -65,6 +65,7 @@ test:
     DATABASE_URL: "postgresql://postgres:supersecretpassword_ci@postgres/consul_test"
     RAILS_ENV: test
     DISABLE_SPRING: "true"
+    SECRET_KEY_BASE: "un_secret_key_base_aleatorio_y_largo_para_evitar_problemas_de_escritura_en_gitlab_ci"
   before_script:
     # Levanta la base de datos y carga el esquema/seeds dentro del contenedor de GitLab
     - bundle exec rails db:prepare
