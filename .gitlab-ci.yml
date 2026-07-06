@@ -50,30 +50,36 @@ build:
     - docker push ${CI_REGISTRY_IMAGE}:${BUILD_TAG}
     - docker push ${CI_REGISTRY_IMAGE}:latest
 
-## pending migration to rails
-# test:
-#   stage: test
-#   image: $CI_REGISTRY_IMAGE:$BUILD_TAG
-#   # temporary
-#   allow_failure: true
-#   services:
-#     - name: mariadb:10.6
-#       variables:
-#         MARIADB_RANDOM_ROOT_PASSWORD: 1
-#         MARIADB_DATABASE: test
-#         MARIADB_USER: test
-#         MARIADB_PASSWORD: test
-#   variables:
-#     DB_HOST: mariadb
-#     DB_PORT: 3306
-#     DB_DATABASE: test
-#     DB_USERNAME: test
-#     DB_PASSWORD: test
-#   script:
-#      - php artisan test --log-junit phpunit-report.xml
-#   artifacts:
-#     reports:
-#       junit: phpunit-report.xml
+test:
+  stage: test
+  image: $CI_REGISTRY_IMAGE:$BUILD_TAG
+  # Levanta 5 runners en paralelo. Cada uno ejecutará un 20% de los tests totales.
+  parallel: 5
+  services:
+    - name: postgres:14-alpine
+      alias: postgres
+  variables:
+    POSTGRES_DB: consul_test
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: supersecretpassword_ci
+    DATABASE_URL: "postgresql://postgres:supersecretpassword_ci@postgres/consul_test"
+    RAILS_ENV: test
+    DISABLE_SPRING: "true"
+  before_script:
+    # Levanta la base de datos y carga el esquema/seeds dentro del contenedor de GitLab
+    - bundle exec rails db:prepare
+  script:
+    # Reparte equitativamente los archivos _spec.rb según el índice de este runner de GitLab
+    - SPEC_FILES=$(ruby -e "specs = Dir['spec/**/*_spec.rb'].sort; total = ENV['CI_NODE_TOTAL'].to_i; index = ENV['CI_NODE_INDEX'].to_i - 1; size = (specs.size.to_f / total).ceil; puts specs.each_slice(size).to_a[index]&.join(' ')")
+    - echo "Ejecutando lote de tests del nodo $CI_NODE_INDEX de $CI_NODE_TOTAL"
+    # Lanza RSpec de forma nativa e independiente en este entorno aislado
+    - bundle exec rspec $SPEC_FILES --format progress
+  artifacts:
+    name: "screenshots-nodo-$CI_NODE_INDEX"
+    when: on_failure
+    expire_in: 7 days
+    paths:
+      - tmp/screenshots/ # Si falla algún test de Capybara, podrás descargar la captura desde GitLab
 
 deploy:
   stage: deploy
