@@ -52,8 +52,9 @@ build:
 
 test:
   stage: test
-  image: $CI_REGISTRY_IMAGE:$BUILD_TAG
-  # Levanta 5 runners en paralelo. Cada uno ejecutará un 20% de los tests totales.
+  image:
+    name: $CI_REGISTRY_IMAGE:$BUILD_TAG
+    entrypoint: [""] # 👈 ¡MÁGICO! Anula el docker-entrypoint.sh para que no ejecute cosas de producción ni falle por permisos
   parallel: 5
   services:
     - name: postgres:14-alpine
@@ -67,20 +68,24 @@ test:
     DISABLE_SPRING: "true"
     SECRET_KEY_BASE: "un_secret_key_base_aleatorio_y_largo_para_evitar_problemas_de_escritura_en_gitlab_ci"
   before_script:
-    # Levanta la base de datos y carga el esquema/seeds dentro del contenedor de GitLab
+    # Como anulamos el entrypoint, nos aseguramos de tener los archivos de configuración mínimos
+    - cp config/database.yml.example config/database.yml || true
+    - cp config/secrets.yml.example config/secrets.yml || true
+    # Forzamos los permisos correctos en la carpeta tmp por si acaso
+    - mkdir -p tmp/cache
+    - chmod -R 777 tmp/
+    # Preparamos la base de datos limpiamente
     - bundle exec rails db:prepare
   script:
-    # Reparte equitativamente los archivos _spec.rb según el índice de este runner de GitLab
     - SPEC_FILES=$(ruby -e "specs = Dir['spec/**/*_spec.rb'].sort; total = ENV['CI_NODE_TOTAL'].to_i; index = ENV['CI_NODE_INDEX'].to_i - 1; size = (specs.size.to_f / total).ceil; puts specs.each_slice(size).to_a[index]&.join(' ')")
     - echo "Ejecutando lote de tests del nodo $CI_NODE_INDEX de $CI_NODE_TOTAL"
-    # Lanza RSpec de forma nativa e independiente en este entorno aislado
     - bundle exec rspec $SPEC_FILES --format progress
   artifacts:
     name: "screenshots-nodo-$CI_NODE_INDEX"
     when: on_failure
     expire_in: 7 days
     paths:
-      - tmp/screenshots/ # Si falla algún test de Capybara, podrás descargar la captura desde GitLab
+      - tmp/screenshots/
 
 deploy:
   stage: deploy
