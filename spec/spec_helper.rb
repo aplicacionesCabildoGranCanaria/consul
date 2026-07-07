@@ -61,15 +61,6 @@ RSpec.configure do |config|
 
   config.after(:each, type: :system) do
     Capybara.reset_sessions!
-
-    $system_spec_counter ||= 0
-    $system_spec_counter += 1
-
-
-    if $system_spec_counter % 60 == 0
-      puts "\n[CI MEMORY] Reciclando instancia de Chrome (Test ##{$system_spec_counter}) para liberar RAM..."
-      Capybara.current_session.driver.quit rescue nil
-    end
   end
 
   config.before(:each, type: :system) do |example|
