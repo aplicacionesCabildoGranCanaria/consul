@@ -78,10 +78,8 @@ Capybara.register_driver :headless_chrome do |app|
     opts.add_argument "--disable-gpu"
     opts.add_argument "--disable-software-rasterizer"
     opts.add_argument "--window-size=1200,1400"
-    
-    opts.add_argument "--js-flags=--max-old-space-size=512" 
-    opts.add_argument "--disable-browser-side-navigation"
-    opts.add_argument "--memory-pressure-off"
+    opts.add_argument "--user-data-dir=/tmp/chrome-profile-#{Time.now.to_f}"
+    opts.add_argument "--disable-backgrounding-occluded-windows"
   end
 
   Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
