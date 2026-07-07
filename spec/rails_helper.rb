@@ -78,6 +78,12 @@ Capybara.register_driver :headless_chrome do |app|
     opts.add_argument "--disable-gpu"
     opts.add_argument "--disable-software-rasterizer"
     opts.add_argument "--window-size=1200,1400"
+    
+    opts.add_argument "--proxy-server=127.0.0.1:#{Capybara::Webmock.port_number}"
+    
+    opts.add_argument "--single-process"
+    opts.add_argument "--disable-setuid-sandbox"
+    
     opts.add_argument "--user-data-dir=/tmp/chrome-profile-#{Time.now.to_f}"
     opts.add_argument "--disable-backgrounding-occluded-windows"
   end
