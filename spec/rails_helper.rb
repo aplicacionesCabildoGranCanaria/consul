@@ -77,7 +77,7 @@ Capybara.register_driver :headless_chrome do |app|
   Selenium::WebDriver.logger.output = Rails.root.join("tmp/selenium/selenium.log").to_s
 
   options = Selenium::WebDriver::Chrome::Options.new.tap do |opts|
-    opts.binary = "/usr/bin/chromium"
+    opts.binary = "/usr/bin/google-chrome-stable"
 
     opts.add_argument "--headless=new"
     opts.add_argument "--no-sandbox"
@@ -93,12 +93,7 @@ Capybara.register_driver :headless_chrome do |app|
     ]
   )
 
-  Capybara::Selenium::Driver.new(
-    app,
-    browser: :chrome,
-    options: options,
-    service: service
-  )
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options, service: service)
 end
 
 Capybara.exact = true
