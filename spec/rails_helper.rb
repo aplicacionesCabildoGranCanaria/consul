@@ -71,20 +71,34 @@ module Capybara
 end
 
 Capybara.register_driver :headless_chrome do |app|
+  FileUtils.mkdir_p(Rails.root.join("tmp/selenium"))
+
+  Selenium::WebDriver.logger.level = :debug
+  Selenium::WebDriver.logger.output = Rails.root.join("tmp/selenium/selenium.log").to_s
+
   options = Selenium::WebDriver::Chrome::Options.new.tap do |opts|
     opts.binary = "/usr/bin/chromium" if File.exist?("/usr/bin/chromium")
 
-    opts.add_argument "--headless=new"
+    opts.add_argument "--headless"
     opts.add_argument "--no-sandbox"
     opts.add_argument "--disable-dev-shm-usage"
     opts.add_argument "--disable-gpu"
-    opts.add_argument "--disable-setuid-sandbox"
     opts.add_argument "--window-size=1200,800"
 
     opts.add_argument "--proxy-server=#{Capybara.app_host}:#{Capybara::Webmock.port_number}"
   end
 
-  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+  service = Selenium::WebDriver::Service.chrome(
+    args: ["--verbose"],
+    log: Rails.root.join("tmp/selenium/chromedriver.log").to_s
+  )
+
+  Capybara::Selenium::Driver.new(
+    app,
+    browser: :chrome,
+    options: options,
+    service: service
+  )
 end
 
 Capybara.exact = true

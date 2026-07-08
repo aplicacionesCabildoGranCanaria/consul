@@ -79,6 +79,18 @@ test:
     
     - bundle exec rails db:setup
     
+    - echo "=== Chrome / Chromium debug ==="
+    - which chromium || true
+    - which chromium-browser || true
+    - which google-chrome || true
+    - which chromedriver || true
+    - chromium --version || true
+    - chromium-browser --version || true
+    - google-chrome --version || true
+    - chromedriver --version || true
+    - df -h
+    - free -m || true
+    - ls -lah /dev/shm || true
     - bundle exec rails assets:precompile > /dev/null 2>&1
   script:
     - |
@@ -100,6 +112,7 @@ test:
     expire_in: 7 days
     paths:
       - tmp/screenshots/
+      - tmp/selenium/
 
 deploy:
   stage: deploy
