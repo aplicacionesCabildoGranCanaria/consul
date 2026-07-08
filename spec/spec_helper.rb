@@ -51,20 +51,12 @@ RSpec.configure do |config|
     Rails.application.load_seed
   end
 
-  config.before(:suite) do
+  config.before(:each, type: :system) do
     Capybara::Webmock.start
   end
 
   config.after(:suite) do
     Capybara::Webmock.stop
-  end
-
-  config.after(:each, type: :system) do
-    Capybara.reset_sessions!
-  end
-
-  config.after(:each, type: :system) do
-    Capybara.reset_sessions!
   end
 
   config.before(:each, type: :system) do |example|

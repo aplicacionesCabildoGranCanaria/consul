@@ -50,39 +50,34 @@ build:
     - docker push ${CI_REGISTRY_IMAGE}:${BUILD_TAG}
     - docker push ${CI_REGISTRY_IMAGE}:latest
 
-test:
+tests:
+  image: "ruby:3.3.11"
   stage: test
-  image:
-    name: $CI_REGISTRY_IMAGE:$BUILD_TAG
-    entrypoint: [""]
-  parallel: 10
   services:
-    - name: postgres:14-alpine
-      alias: postgres
+    - postgres:14.19
+  cache:
+    key: consul
+    paths:
+      - vendor/
   variables:
-    POSTGRES_DB: consul_test
-    POSTGRES_USER: postgres
-    POSTGRES_PASSWORD: supersecretpassword_ci
-    DATABASE_URL: "postgresql://postgres:supersecretpassword_ci@postgres/consul_test"
+    DB_HOST: postgres
+    PGUSER: consul
+    PGPASSWORD: password
+    POSTGRES_USER: consul
+    POSTGRES_PASSWORD: password
     RAILS_ENV: test
-    DISABLE_SPRING: "true"
-    SECRET_KEY_BASE: "un_secret_key_base_aleatorio_y_largo_para_evitar_problemas_de_escritura_en_gitlab_ci"
-  before_script:
-    - ln -s /var/www/consul/node_modules ./node_modules
-    - cp config/database.yml.example config/database.yml || true
-    - cp config/secrets.yml.example config/secrets.yml || true
-    - mkdir -p tmp/cache
-    - chmod -R 777 tmp/
-    - PGPASSWORD=supersecretpassword_ci psql -h postgres -U postgres -d consul_test -c "CREATE SCHEMA IF NOT EXISTS shared_extensions; CREATE EXTENSION IF NOT EXISTS unaccent SCHEMA shared_extensions; CREATE EXTENSION IF NOT EXISTS pg_trgm SCHEMA shared_extensions;"
-    - bundle exec rails db:prepare
+    TEST_COVERAGE: 1
+  parallel: 5
   script:
-    - SPEC_FILES=$(ruby -e "specs = Dir['spec/**/*_spec.rb'].sort; total = ENV['CI_NODE_TOTAL'].to_i; index = ENV['CI_NODE_INDEX'].to_i - 1; size = (specs.size.to_f / total).ceil; puts specs.each_slice(size).to_a[index]&.join(' ')")
-    - echo "Ejecutando lote de tests del nodo $CI_NODE_INDEX de $CI_NODE_TOTAL"
-    - bundle exec rspec $SPEC_FILES --format progress
+    - apt-get update && apt-get install -y nodejs npm chromium
+    - for i in config/*.example; do cp "$i" "${i/.example}"; done
+    - bundle --without development
+    - npm clean-install
+    - bundle exec rake db:setup
+    - bundle exec rake assets:precompile > /dev/null 2>&1
+    - bin/knapsack_pro_rspec
   artifacts:
-    name: "screenshots-nodo-$CI_NODE_INDEX"
     when: on_failure
-    expire_in: 7 days
     paths:
       - tmp/screenshots/
 

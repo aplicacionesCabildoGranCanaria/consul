@@ -72,13 +72,10 @@ end
 
 Capybara.register_driver :headless_chrome do |app|
   options = Selenium::WebDriver::Chrome::Options.new.tap do |opts|
-    opts.add_argument "--headless" # En versiones modernas de Chrome, usar simplemente --headless es lo más estable
+    opts.add_argument "--headless"
     opts.add_argument "--no-sandbox"
-    opts.add_argument "--disable-dev-shm-usage"
-    opts.add_argument "--disable-gpu"
-    opts.add_argument "--disable-software-rasterizer"
-    opts.add_argument "--window-size=1200,1400"
-    opts.add_argument "--proxy-server=127.0.0.1:#{Capybara::Webmock.port_number}"
+    opts.add_argument "--window-size=1200,800"
+    opts.add_argument "--proxy-server=#{Capybara.app_host}:#{Capybara::Webmock.port_number}"
   end
 
   Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
