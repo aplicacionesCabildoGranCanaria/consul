@@ -1,4 +1,4 @@
-FROM ruby:3.3.11-slim-bookworm
+FROM ruby:3.3.11-bookworm
 
 ENV DEBIAN_FRONTEND=noninteractive
 
