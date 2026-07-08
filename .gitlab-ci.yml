@@ -77,16 +77,12 @@ test:
     - bundle exec rails db:setup
 
     - echo "=== Chrome / Chromium debug ==="
-    - which chromium || true
+    - which google-chrome-stable || true
     - which chromedriver || true
-    - chromium --version
-    - chromedriver --version
-    - df -h
-    - free -m || true
-    - ls -lah /dev/shm || true
-
-    - chromium --headless=new --no-sandbox --disable-dev-shm-usage --disable-gpu --dump-dom data:, > /dev/null
-
+    - google-chrome-stable --version
+    - chromedriver --version || true
+    - google-chrome-stable --headless=new --no-sandbox --disable-dev-shm-usage --disable-gpu --dump-dom data:, > /dev/null
+    
     - bundle exec rails assets:precompile > /dev/null 2>&1
   script:
     - |

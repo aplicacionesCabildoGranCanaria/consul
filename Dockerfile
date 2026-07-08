@@ -1,4 +1,4 @@
-FROM ruby:3.3.11-bookworm
+FROM ruby:3.3.11-slim-bookworm
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -8,6 +8,7 @@ RUN apt-get update -qq \
     ca-certificates \
     cmake \
     curl \
+    gnupg \
     imagemagick \
     libpq-dev \
     libxss1 \
@@ -16,8 +17,18 @@ RUN apt-get update -qq \
     postgresql-client \
     sudo \
     unzip \
-    chromium \
-    chromium-driver \
+ && install -d -m 0755 /usr/share/keyrings \
+ && curl -fsSL https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor --yes -o /usr/share/keyrings/google-chrome.gpg \
+ && printf '%s\n' \
+    'Types: deb' \
+    'URIs: https://dl.google.com/linux/chrome/deb/' \
+    'Suites: stable' \
+    'Components: main' \
+    'Architectures: amd64' \
+    'Signed-By: /usr/share/keyrings/google-chrome.gpg' \
+    > /etc/apt/sources.list.d/google-chrome.sources \
+ && apt-get update -qq \
+ && apt-get install -y --no-install-recommends google-chrome-stable \
  && rm -rf /var/lib/apt/lists/*
 
 RUN adduser --shell /bin/bash --disabled-password --gecos "" consul \
