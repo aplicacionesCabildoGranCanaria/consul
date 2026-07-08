@@ -106,6 +106,7 @@ test:
         puts buckets[ENV["CI_NODE_INDEX"].to_i - 1].join(" ")
       ' > /tmp/spec_files
     - echo "Ejecutando nodo $CI_NODE_INDEX de $CI_NODE_TOTAL"
+    - chromium --headless=new --no-sandbox --disable-dev-shm-usage --disable-gpu --dump-dom data:, || true
     - bundle exec rspec $(cat /tmp/spec_files) --format progress
   artifacts:
     when: on_failure
