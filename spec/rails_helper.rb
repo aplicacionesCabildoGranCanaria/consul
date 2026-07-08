@@ -71,6 +71,11 @@ module Capybara
 end
 
 Capybara.register_driver :headless_chrome do |app|
+  FileUtils.mkdir_p(Rails.root.join("tmp/selenium"))
+
+  Selenium::WebDriver.logger.level = :debug
+  Selenium::WebDriver.logger.output = Rails.root.join("tmp/selenium/selenium.log").to_s
+
   options = Selenium::WebDriver::Chrome::Options.new.tap do |opts|
     opts.binary = "/usr/bin/chromium"
 
@@ -81,7 +86,19 @@ Capybara.register_driver :headless_chrome do |app|
     opts.add_argument "--window-size=1200,800"
   end
 
-  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+  service = Selenium::WebDriver::Service.chrome(
+    args: [
+      "--verbose",
+      "--log-path=#{Rails.root.join("tmp/selenium/chromedriver.log")}"
+    ]
+  )
+
+  Capybara::Selenium::Driver.new(
+    app,
+    browser: :chrome,
+    options: options,
+    service: service
+  )
 end
 
 Capybara.exact = true

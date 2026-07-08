@@ -1,11 +1,7 @@
 include:
   - template: Jobs/Secret-Detection.gitlab-ci.yml
-  # - component: $CI_SERVER_FQDN/components/secret-detection/secret-detection@2.1.0
   - template: Jobs/SAST.gitlab-ci.yml
-  # - component: $CI_SERVER_FQDN/components/sast/sast@3.1.
   - template: Jobs/Code-Quality.gitlab-ci.yml
-  # - component: $CI_SERVER_FQDN/components/code-quality-oss/codequality-os-scanners-integration/hadolint@1.1.5
-  # - component: $CI_SERVER_FQDN/components/code-quality-oss/codequality-os-scanners-integration/phpstan@1.1.5
 
 workflow:
   rules:
@@ -37,12 +33,13 @@ build:
       alias: docker
       variables:
         HEALTHCHECK_TCP_PORT: 2375
-      command:  ["--tls=false"]
+      command: ["--tls=false"]
   before_script:
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
   script:
     - docker pull ${CI_REGISTRY_IMAGE}:latest || true
-    - DOCKER_BUILDKIT=1 docker build .
+    - >
+      DOCKER_BUILDKIT=1 docker build .
       --build-arg BUILDKIT_INLINE_CACHE=1
       --cache-from ${CI_REGISTRY_IMAGE}:latest
       --tag ${CI_REGISTRY_IMAGE}:${BUILD_TAG}
@@ -55,7 +52,7 @@ test:
   image:
     name: $CI_REGISTRY_IMAGE:$BUILD_TAG
     entrypoint: [""]
-  parallel: 6
+  parallel: 5
   services:
     - name: postgres:14-alpine
       alias: postgres
@@ -69,28 +66,27 @@ test:
     DISABLE_SPRING: "true"
     SECRET_KEY_BASE: "un_secret_key_base_aleatorio_y_largo_para_evitar_problemas_de_escritura_en_gitlab_ci"
   before_script:
-    - ln -s /var/www/consul/node_modules ./node_modules
+    - ln -s /var/www/consul/node_modules ./node_modules || true
     - for i in config/*.example; do cp "$i" "${i/.example}"; done
-    - mkdir -p tmp/cache tmp/pids
+    - mkdir -p tmp/cache tmp/pids tmp/selenium
     - chmod -R 777 tmp/
-    
+
     - PGPASSWORD=supersecretpassword_ci psql -h postgres -U postgres -c "CREATE DATABASE consul_test;" || true
     - PGPASSWORD=supersecretpassword_ci psql -h postgres -U postgres -d consul_test -c "CREATE SCHEMA IF NOT EXISTS shared_extensions; CREATE EXTENSION IF NOT EXISTS unaccent SCHEMA shared_extensions; CREATE EXTENSION IF NOT EXISTS pg_trgm SCHEMA shared_extensions;"
-    
+
     - bundle exec rails db:setup
-    
+
     - echo "=== Chrome / Chromium debug ==="
     - which chromium || true
-    - which chromium-browser || true
-    - which google-chrome || true
     - which chromedriver || true
-    - chromium --version || true
-    - chromium-browser --version || true
-    - google-chrome --version || true
-    - chromedriver --version || true
+    - chromium --version
+    - chromedriver --version
     - df -h
     - free -m || true
     - ls -lah /dev/shm || true
+
+    - chromium --headless=new --no-sandbox --disable-dev-shm-usage --disable-gpu --dump-dom data:, > /dev/null
+
     - bundle exec rails assets:precompile > /dev/null 2>&1
   script:
     - |
@@ -106,7 +102,6 @@ test:
         puts buckets[ENV["CI_NODE_INDEX"].to_i - 1].join(" ")
       ' > /tmp/spec_files
     - echo "Ejecutando nodo $CI_NODE_INDEX de $CI_NODE_TOTAL"
-    - chromium --headless=new --no-sandbox --disable-dev-shm-usage --disable-gpu --dump-dom data:, || true
     - bundle exec rspec $(cat /tmp/spec_files) --format progress
   artifacts:
     when: on_failure
