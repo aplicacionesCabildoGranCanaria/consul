@@ -81,7 +81,7 @@ Capybara.register_driver :headless_chrome do |app|
     opts.add_argument "--disable-software-rasterizer"
     opts.add_argument "--window-size=1200,1400"
     
-    pts.add_argument "--disable-setuid-sandbox"
+    opts.add_argument "--disable-setuid-sandbox"
     opts.add_argument "--remote-debugging-port=9222"
     
     opts.add_argument "--proxy-server=#{Capybara.app_host}:#{Capybara::Webmock.port_number}"
