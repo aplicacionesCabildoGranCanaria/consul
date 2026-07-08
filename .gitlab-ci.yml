@@ -55,7 +55,7 @@ test:
   image:
     name: $CI_REGISTRY_IMAGE:$BUILD_TAG
     entrypoint: [""]
-  parallel: 10
+  parallel: 6
   services:
     - name: postgres:14-alpine
       alias: postgres
@@ -81,9 +81,20 @@ test:
     
     - bundle exec rails assets:precompile > /dev/null 2>&1
   script:
-    - SPEC_FILES=$(ruby -e "specs = Dir['spec/**/*_spec.rb'].sort; total = ENV['CI_NODE_TOTAL'].to_i; index = ENV['CI_NODE_INDEX'].to_i - 1; size = (specs.size.to_f / total).ceil; puts specs.each_slice(size).to_a[index]&.join(' ')")
-    - echo "Ejecutando lote balanceado del nodo $CI_NODE_INDEX de $CI_NODE_TOTAL"
-    - bundle exec rspec $SPEC_FILES --format progress
+    - |
+      ruby -e '
+        specs = Dir["spec/**/*_spec.rb"].sort
+        system_specs, other_specs = specs.partition { |f| f.include?("/spec/system/") }
+
+        buckets = Array.new(ENV["CI_NODE_TOTAL"].to_i) { [] }
+
+        system_specs.each_with_index { |f, i| buckets[i % buckets.size] << f }
+        other_specs.each_with_index { |f, i| buckets[i % buckets.size] << f }
+
+        puts buckets[ENV["CI_NODE_INDEX"].to_i - 1].join(" ")
+      ' > /tmp/spec_files
+    - echo "Ejecutando nodo $CI_NODE_INDEX de $CI_NODE_TOTAL"
+    - bundle exec rspec $(cat /tmp/spec_files) --format progress
   artifacts:
     when: on_failure
     expire_in: 7 days
