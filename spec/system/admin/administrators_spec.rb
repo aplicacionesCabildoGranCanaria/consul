@@ -7,7 +7,7 @@ describe "Admin administrators" do
 
   before { login_as(admin.user) }
 
-  scenario "Index" do
+  scenario "Index", :no_js do
     visit admin_administrators_path
 
     expect(page).to have_content user_administrator.id
@@ -17,7 +17,7 @@ describe "Admin administrators" do
     expect(page).not_to have_content user.name
   end
 
-  scenario "Create Administrator" do
+  scenario "Create Administrator", :no_js do
     visit admin_administrators_path
 
     fill_in "search", with: user.email
@@ -60,7 +60,7 @@ describe "Admin administrators" do
     end
   end
 
-  context "Search" do
+  context "Search", :no_js do
     let!(:administrator1) do
       create(:administrator, user: create(:user, username: "Bernard Sumner", email: "bernard@sumner.com"))
     end
@@ -99,7 +99,7 @@ describe "Admin administrators" do
       expect(page).not_to have_content(administrator2.name)
     end
 
-    scenario "search by email" do
+    scenario "search by email", :no_js do
       expect(page).to have_content(administrator1.email)
       expect(page).to have_content(administrator2.email)
 
@@ -124,7 +124,7 @@ describe "Admin administrators" do
     end
   end
 
-  context "Edit" do
+  context "Edit", :no_js do
     let!(:administrator1) do
       create(:administrator, user: create(:user, username: "Bernard Sumner", email: "bernard@sumner.com"))
     end
