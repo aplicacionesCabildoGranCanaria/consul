@@ -60,7 +60,7 @@ describe "Admin administrators" do
     end
   end
 
-  context "Search", :no_js do
+  context "Search" do
     let!(:administrator1) do
       create(:administrator, user: create(:user, username: "Bernard Sumner", email: "bernard@sumner.com"))
     end
@@ -73,7 +73,7 @@ describe "Admin administrators" do
       visit admin_administrators_path
     end
 
-    scenario "returns no results if search term is empty" do
+    scenario "returns no results if search term is empty", :no_js do
       expect(page).to have_content(administrator1.name)
       expect(page).to have_content(administrator2.name)
 
@@ -86,7 +86,7 @@ describe "Admin administrators" do
       expect(page).not_to have_content(administrator2.name)
     end
 
-    scenario "search by name" do
+    scenario "search by name", :no_js do
       expect(page).to have_content(administrator1.name)
       expect(page).to have_content(administrator2.name)
 

@@ -11,6 +11,7 @@ RUN apt-get update -qq \
     gnupg \
     imagemagick \
     libpq-dev \
+    libyaml-dev \
     libxss1 \
     memcached \
     pkg-config \
