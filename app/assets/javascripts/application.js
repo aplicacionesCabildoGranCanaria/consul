@@ -74,7 +74,7 @@
 //= require suggest
 //= require forms
 //= require valuation_budget_investment_form
-//= require embed_video
+//= require embedded_video
 //= require fixed_bar
 //= require banners
 //= require social_share
@@ -105,6 +105,7 @@
 //= require i18n
 //= require globalize
 //= require settings
+//= require external_links
 //= require cookies
 //= require cookies_consent
 //= require columns_selector
@@ -136,7 +137,7 @@ var initialize_modules = function () {
   App.Suggest.initialize();
   App.Forms.initialize();
   App.ValuationBudgetInvestmentForm.initialize();
-  App.EmbedVideo.initialize();
+  App.EmbeddedVideo.initialize();
   App.FixedBar.initialize();
   App.Banners.initialize();
   App.SocialShare.initialize();
@@ -156,6 +157,7 @@ var initialize_modules = function () {
   App.Polls.initialize();
   App.TableSortable.initialize();
   App.InvestmentReportAlert.initialize();
+  App.ExternalLinks.initialize();
   App.Managers.initialize();
   App.Globalize.initialize();
   App.Settings.initialize();
