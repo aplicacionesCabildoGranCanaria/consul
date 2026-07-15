@@ -98,6 +98,7 @@ Capybara.register_driver :headless_chrome do |app|
   end
 
   service = Selenium::WebDriver::Service.chrome(
+    path: "/usr/local/bin/chromedriver",
     args: [
       "--verbose",
       "--log-path=#{Rails.root.join("tmp/selenium/chromedriver.log")}"

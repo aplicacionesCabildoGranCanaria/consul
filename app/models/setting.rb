@@ -35,8 +35,7 @@ class Setting < ApplicationRecord
     end
 
     def remove(key)
-      setting = find_by(key: key)
-      setting.destroy if setting.present?
+      find_by(key: key).presence&.destroy
     end
 
     def accepted_content_types_for(group)
@@ -91,7 +90,9 @@ class Setting < ApplicationRecord
         "feature.machine_learning": false,
         "feature.remove_investments_supports": true,
         "feature.cookies_consent": false,
-        "feature.gdpr.require_consent_for_notifications": false,
+        "feature.gdpr.require_consent_for_notifications": true,
+        "feature.gdpr.require_consent_for_embedded_videos": false,
+        "feature.gdpr.warning_for_external_links": false,
         "homepage.widgets.feeds.debates": true,
         "homepage.widgets.feeds.processes": true,
         "homepage.widgets.feeds.proposals": true,
