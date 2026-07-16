@@ -21,6 +21,23 @@ require "capybara/rspec"
 require "selenium/webdriver"
 require "view_component/test_helpers"
 
+module ChromeStaleNodeCompatibility
+  STALE_NODE_MESSAGE = "Node with given id does not belong to the document"
+
+  def visible?
+    super
+  rescue Selenium::WebDriver::Error::UnknownError => error
+    raise unless error.message.include?(STALE_NODE_MESSAGE)
+
+    raise Selenium::WebDriver::Error::StaleElementReferenceError,
+          error.message
+  end
+end
+
+Capybara::Selenium::ChromeNode.prepend(
+  ChromeStaleNodeCompatibility
+)
+
 module ViewComponent
   module TestHelpers
     def sign_in(user)
