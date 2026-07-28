@@ -8,54 +8,81 @@ workflow:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       variables:
         BUILD_TAG: $CI_COMMIT_SHORT_SHA
+
     - if: $CI_COMMIT_BRANCH == "develop"
       variables:
         BUILD_TAG: $CI_COMMIT_SHORT_SHA
+
     - if: $CI_COMMIT_BRANCH == "main" && $CI_COMMIT_TAG && $CI_COMMIT_TAG =~ /^[0-9]+\.[0-9]+\.[0-9]+$/
       variables:
         BUILD_TAG: $CI_COMMIT_TAG
 
 variables:
   DEPLOY_REPO: https://${CD_DEPLOY_USER}:${CD_DEPLOY_TOKEN}@gitlab.nublo.grancanaria.com/k8s/apps/deployments/${CI_PROJECT_NAME}/${CI_PROJECT_NAME}
-  DOCKER_VERSION: 24
+
+  DOCKER_VERSION: "24"
   DOCKER_TLS_CERTDIR: ""
+
+  RAILS_ENV: test
+  DISABLE_SPRING: "true"
+
+  SECRET_KEY_BASE: "un_secret_key_base_aleatorio_y_largo_para_evitar_problemas_de_escritura_en_gitlab_ci"
 
 stages:
   - build
+  - prepare_test
   - test
   - deploy
 
 build:
   stage: build
-  image: docker:$DOCKER_VERSION-cli
+
+  image: docker:${DOCKER_VERSION}-cli
+
   services:
     - name: docker:${DOCKER_VERSION}-dind
       alias: docker
       variables:
         HEALTHCHECK_TCP_PORT: 2375
-      command: ["--tls=false"]
+      command:
+        - "--tls=false"
+
+  retry:
+    max: 2
+    when:
+      - runner_system_failure
+      - stuck_or_timeout_failure
+      - api_failure
+      - scheduler_failure
+
   before_script:
-    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+    - echo "$CI_REGISTRY_PASSWORD" | docker login "$CI_REGISTRY" -u "$CI_REGISTRY_USER" --password-stdin
+
   script:
-    - docker pull ${CI_REGISTRY_IMAGE}:latest || true
+    - docker pull "${CI_REGISTRY_IMAGE}:latest" || true
+
     - >
       DOCKER_BUILDKIT=1 docker build .
       --build-arg BUILDKIT_INLINE_CACHE=1
-      --cache-from ${CI_REGISTRY_IMAGE}:latest
-      --tag ${CI_REGISTRY_IMAGE}:${BUILD_TAG}
-      --tag ${CI_REGISTRY_IMAGE}:latest
-    - docker push ${CI_REGISTRY_IMAGE}:${BUILD_TAG}
-    - docker push ${CI_REGISTRY_IMAGE}:latest
+      --cache-from "${CI_REGISTRY_IMAGE}:latest"
+      --tag "${CI_REGISTRY_IMAGE}:${BUILD_TAG}"
+      --tag "${CI_REGISTRY_IMAGE}:latest"
 
-test:
-  stage: test
+    - docker push "${CI_REGISTRY_IMAGE}:${BUILD_TAG}"
+    - docker push "${CI_REGISTRY_IMAGE}:latest"
+
+
+test_assets:
+  stage: prepare_test
+
   image:
     name: $CI_REGISTRY_IMAGE:$BUILD_TAG
     entrypoint: [""]
-  parallel: 5
+
   services:
     - name: postgres:14-alpine
       alias: postgres
+
   variables:
     DB_HOST: postgres
     PGUSER: postgres
@@ -65,62 +92,258 @@ test:
     RAILS_ENV: test
     DISABLE_SPRING: "true"
     SECRET_KEY_BASE: "un_secret_key_base_aleatorio_y_largo_para_evitar_problemas_de_escritura_en_gitlab_ci"
+
+  retry:
+    max: 2
+    when:
+      - runner_system_failure
+      - stuck_or_timeout_failure
+      - api_failure
+      - scheduler_failure
+
   before_script:
     - ln -s /var/www/consul/node_modules ./node_modules || true
-    - for i in config/*.example; do cp "$i" "${i/.example}"; done
-    - mkdir -p tmp/cache tmp/pids tmp/selenium
+
+    - |
+      for file in config/*.example; do
+        cp "$file" "${file/.example}"
+      done
+
+    - mkdir -p tmp/cache tmp/pids tmp/assets
     - chmod -R 777 tmp/
 
-    - PGPASSWORD=supersecretpassword_ci psql -h postgres -U postgres -c "CREATE DATABASE consul_test;" || true
-    - PGPASSWORD=supersecretpassword_ci psql -h postgres -U postgres -d consul_test -c "CREATE SCHEMA IF NOT EXISTS shared_extensions; CREATE EXTENSION IF NOT EXISTS unaccent SCHEMA shared_extensions; CREATE EXTENSION IF NOT EXISTS pg_trgm SCHEMA shared_extensions;"
+    - |
+      until pg_isready -h postgres -U postgres; do
+        echo "Esperando a PostgreSQL..."
+        sleep 1
+      done
+
+    - >
+      PGPASSWORD="$POSTGRES_PASSWORD"
+      psql
+      -h postgres
+      -U postgres
+      -c "CREATE DATABASE consul_test;"
+      || true
+
+    - |
+      PGPASSWORD="$POSTGRES_PASSWORD" psql \
+        -h postgres \
+        -U postgres \
+        -d consul_test \
+        -v ON_ERROR_STOP=1 \
+        -c "
+          CREATE SCHEMA IF NOT EXISTS shared_extensions;
+
+          CREATE EXTENSION IF NOT EXISTS unaccent
+            SCHEMA shared_extensions;
+
+          CREATE EXTENSION IF NOT EXISTS pg_trgm
+            SCHEMA shared_extensions;
+
+          GRANT USAGE
+            ON SCHEMA shared_extensions
+            TO public;
+        "
 
     - bundle exec rails db:setup
 
-    - echo "=== Chrome / Chromium debug ==="
-    - which google-chrome-stable || true
-    - which chromedriver || true
+  script:
+    - echo "Precompilando assets una sola vez para todos los nodos..."
+    - bundle exec rails assets:precompile 2>&1 | tee tmp/assets/precompile.log
+
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - public/assets/
+      - tmp/assets/precompile.log
+
+
+test:
+  stage: test
+
+  image:
+    name: $CI_REGISTRY_IMAGE:$BUILD_TAG
+    entrypoint: [""]
+
+  parallel: 5
+
+  needs:
+    - job: test_assets
+      artifacts: true
+
+  services:
+    - name: postgres:14-alpine
+      alias: postgres
+
+  retry:
+    max: 2
+    when:
+      - runner_system_failure
+      - stuck_or_timeout_failure
+      - api_failure
+      - scheduler_failure
+
+  variables:
+    DB_HOST: postgres
+
+    PGUSER: postgres
+    PGPASSWORD: supersecretpassword_ci
+
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: supersecretpassword_ci
+
+    RAILS_ENV: test
+    DISABLE_SPRING: "true"
+
+  before_script:
+    - ln -s /var/www/consul/node_modules ./node_modules || true
+
+    - |
+      for file in config/*.example; do
+        cp "$file" "${file/.example}"
+      done
+
+    - mkdir -p tmp/cache tmp/pids tmp/selenium tmp/capybara
+    - chmod -R 777 tmp/
+
+    - |
+      until pg_isready -h postgres -U postgres; do
+        echo "Esperando a PostgreSQL..."
+        sleep 1
+      done
+
+    - >
+      PGPASSWORD="$POSTGRES_PASSWORD"
+      psql
+      -h postgres
+      -U postgres
+      -c "CREATE DATABASE consul_test;"
+      || true
+
+    - |
+      PGPASSWORD="$POSTGRES_PASSWORD" psql \
+        -h postgres \
+        -U postgres \
+        -d consul_test \
+        -v ON_ERROR_STOP=1 \
+        -c "
+          CREATE SCHEMA IF NOT EXISTS shared_extensions;
+
+          CREATE EXTENSION IF NOT EXISTS unaccent
+            SCHEMA shared_extensions;
+
+          CREATE EXTENSION IF NOT EXISTS pg_trgm
+            SCHEMA shared_extensions;
+
+          GRANT USAGE
+            ON SCHEMA shared_extensions
+            TO public;
+        "
+
+    - bundle exec rails db:setup
+
+    - echo "=== Chrome / ChromeDriver ==="
+    - which google-chrome-stable
+    - which chromedriver
     - google-chrome-stable --version
-    - chromedriver --version || true
-    - google-chrome-stable --headless=new --no-sandbox --disable-dev-shm-usage --disable-gpu --dump-dom data:, > /dev/null
-    
-    - bundle exec rails assets:precompile > /dev/null 2>&1
+    - chromedriver --version
+
+    - |
+      google-chrome-stable \
+        --headless=new \
+        --no-sandbox \
+        --disable-dev-shm-usage \
+        --disable-gpu \
+        --dump-dom \
+        data:, \
+        > /dev/null
+
+    - test -f public/assets/.sprockets-manifest-*.json || test -n "$(find public/assets -name '.sprockets-manifest-*.json' -print -quit)"
+
   script:
     - |
-      ruby -e '
-        specs = Dir["spec/**/*_spec.rb"].sort
-        system_specs, other_specs = specs.partition { |f| f.include?("/spec/system/") }
+      ruby <<'RUBY' > /tmp/spec_files
+      specs = Dir["spec/**/*_spec.rb"].sort
 
-        buckets = Array.new(ENV["CI_NODE_TOTAL"].to_i) { [] }
+      system_specs, other_specs = specs.partition do |file|
+        file.start_with?("spec/system/")
+      end
 
-        system_specs.each_with_index { |f, i| buckets[i % buckets.size] << f }
-        other_specs.each_with_index { |f, i| buckets[i % buckets.size] << f }
+      total_nodes = ENV.fetch("CI_NODE_TOTAL").to_i
+      current_node = ENV.fetch("CI_NODE_INDEX").to_i - 1
 
-        puts buckets[ENV["CI_NODE_INDEX"].to_i - 1].join(" ")
-      ' > /tmp/spec_files
+      buckets = Array.new(total_nodes) { [] }
+
+      system_specs.each_with_index do |file, index|
+        buckets[index % total_nodes] << file
+      end
+
+      other_specs.each_with_index do |file, index|
+        buckets[index % total_nodes] << file
+      end
+
+      puts buckets.fetch(current_node)
+      RUBY
+
     - echo "Ejecutando nodo $CI_NODE_INDEX de $CI_NODE_TOTAL"
-    - bundle exec rspec $(cat /tmp/spec_files) --format progress
+
+    - echo "Archivos asignados:"
+    - cat /tmp/spec_files
+
+    - |
+      if [ ! -s /tmp/spec_files ]; then
+        echo "Este nodo no tiene archivos asignados."
+        exit 0
+      fi
+
+    - xargs bundle exec rspec --format progress < /tmp/spec_files
+
   artifacts:
     when: on_failure
     expire_in: 7 days
+
     paths:
-      - tmp/screenshots/
+      - tmp/capybara/
       - tmp/selenium/
+      - tmp/assets/
+      - spec/examples.txt
+
 
 deploy:
   stage: deploy
+
   image: bitnami/git
+
+  retry:
+    max: 2
+    when:
+      - runner_system_failure
+      - stuck_or_timeout_failure
+      - api_failure
+      - scheduler_failure
+
   script:
     - git config --global user.name "${GITLAB_USER_NAME}"
     - git config --global user.email "${GITLAB_USER_EMAIL}"
     - git config --global http.sslVerify false
-    - git clone ${DEPLOY_REPO}
-    - cd ${DEPLOY_REPO##*/}/${CI_COMMIT_BRANCH}
-    - sed -i "s@image\:\ ${CI_REGISTRY_IMAGE}.*@image\:\ ${CI_REGISTRY_IMAGE}:${BUILD_TAG}@" deployment.yaml
-    - git commit -am "deploy:$BUILD_TAG"
+
+    - git clone "${DEPLOY_REPO}"
+    - cd "${DEPLOY_REPO##*/}/${CI_COMMIT_BRANCH}"
+
+    - >
+      sed -i
+      "s@image\:\ ${CI_REGISTRY_IMAGE}.*@image\:\ ${CI_REGISTRY_IMAGE}:${BUILD_TAG}@"
+      deployment.yaml
+
+    - git commit -am "deploy:${BUILD_TAG}"
     - git push
+
   rules:
     - if: $CI_COMMIT_BRANCH == "develop"
+
     - if: $CI_COMMIT_BRANCH == "main"
       when: manual
+
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       when: never

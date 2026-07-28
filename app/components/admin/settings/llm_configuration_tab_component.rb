@@ -19,10 +19,8 @@ class Admin::Settings::LlmConfigurationTabComponent < ApplicationComponent
     provider = Setting["llm.provider"]
     return {} if provider.blank?
 
-    RubyLLM.models.by_provider(provider.downcase.to_sym).each_with_object({}) do |model, hash|
-      hash[model.name] = {
-        id: model.id
-      }
+    RubyLLM.models.by_provider(provider.downcase.to_sym).to_h do |model|
+      [model.name, { id: model.id }]
     end
   end
 
@@ -38,12 +36,10 @@ class Admin::Settings::LlmConfigurationTabComponent < ApplicationComponent
   end
 
   def feature_disabled?
-    Setting["llm.provider"].blank? || Setting["llm.model"].blank?
+    !::Llm::Config.configured?
   end
 
   def image_suggestions_disabled?
-    Setting["llm.provider"].blank? ||
-      Setting["llm.model"].blank? ||
-      Tenant.current_secrets.pexels_access_key.blank?
+    !::Llm::Config.configured? || Tenant.current_secrets.pexels_access_key.blank?
   end
 end
