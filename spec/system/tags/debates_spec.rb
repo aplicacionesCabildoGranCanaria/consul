@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "Tags" do
+describe "Tags", :consul do
   scenario "Index" do
     earth = create(:debate, tag_list: "Medio Ambiente")
     money = create(:debate, tag_list: "Economía")

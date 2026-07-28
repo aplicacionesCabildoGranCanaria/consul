@@ -3,7 +3,7 @@ shared_examples "milestoneable" do |factory_name|
 
   let!(:milestoneable) { create(factory_name) }
 
-  describe "Show milestones" do
+  describe "Show milestones", :consul do
     let(:path) { polymorphic_path(milestoneable) }
 
     scenario "Show milestones" do

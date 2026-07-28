@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "Sessions" do
+describe "Sessions", :consul do
   scenario "Staying in the same page after doing login/logout" do
     user = create(:user, sign_in_count: 10)
     debate = create(:debate)

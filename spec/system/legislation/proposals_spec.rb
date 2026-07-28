@@ -1,7 +1,7 @@
 require "rails_helper"
 require "sessions_helper"
 
-describe "Legislation Proposals" do
+describe "Legislation Proposals", :consul do
   let(:user)     { create(:user) }
   let(:process)  { create(:legislation_process) }
   let(:proposal) { create(:legislation_proposal) }

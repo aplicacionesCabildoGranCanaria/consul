@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "Budgets" do
+describe "Budgets", :consul do
   let(:budget) { create(:budget) }
 
   context "Load" do

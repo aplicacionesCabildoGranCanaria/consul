@@ -4,7 +4,7 @@ describe "Votes" do
   let!(:verified)   { create(:user, verified_at: Time.current) }
   let!(:unverified) { create(:user) }
 
-  describe "Debates" do
+  describe "Debates", :consul do
     before { login_as(verified) }
 
     scenario "Index shows user votes on debates" do

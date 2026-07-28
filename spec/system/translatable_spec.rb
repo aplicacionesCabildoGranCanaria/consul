@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "Public area translatable records" do
+describe "Public area translatable records", :consul do
   let(:user) { create(:user, :in_census) }
 
   before do

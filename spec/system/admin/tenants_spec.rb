@@ -34,6 +34,9 @@ describe "Tenants", :admin, :seed_tenants do
       fill_in "Name", with: "Earthlings"
       click_button "Create tenant"
 
+      expect(page).to have_content "Tenant created successfully"
+      expect(page).to have_link("earth.lvh.me", wait: 10)
+
       click_link "earth.lvh.me"
 
       expect(current_host).to eq "http://earth.lvh.me"
@@ -53,6 +56,10 @@ describe "Tenants", :admin, :seed_tenants do
       fill_in "Name", with: "Earthlings"
       fill_in "Subdomain", with: "earth"
       click_button "Create tenant"
+
+      expect(page).to have_css("html", wait: 10)
+      expect(page).to have_content("Tenant created successfully", wait: 10)
+      expect(page).to have_link("earth.lvh.me", wait: 10)
 
       expect(page).to have_content "Tenant created successfully"
       expect(ActionMailer::Base.deliveries.count).to eq(0)

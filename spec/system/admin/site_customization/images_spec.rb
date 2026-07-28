@@ -30,7 +30,7 @@ describe "Admin custom images", :admin do
     expect(page).to have_css("img[src*='custom_map.jpg']", count: 1)
   end
 
-  scenario "Image is replaced on front views" do
+  scenario "Image is replaced on front views", :consul do
     create(:geozone)
     budget = create(:budget)
     group = create(:budget_group, budget: budget)

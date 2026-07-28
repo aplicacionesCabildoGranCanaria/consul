@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "Budget Investments" do
+describe "Budget Investments", :consul do
   let(:manager) { create(:manager) }
   let(:budget)  { create(:budget, :selecting, name: "2033", slug: "budget_slug") }
   let(:group)   { create(:budget_group, budget: budget, name: "Whole city") }

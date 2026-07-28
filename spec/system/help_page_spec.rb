@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "Help page" do
+describe "Help page", :consul do
   context "Index" do
     scenario "Help menu and page is visible if feature is enabled" do
       Setting["feature.help_page"] = true

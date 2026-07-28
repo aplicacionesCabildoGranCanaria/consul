@@ -31,6 +31,7 @@ tmp/
 # Bundler config, cache and gemsets
 .bundle/
 .ruby-gemset
+.env
 
 # Files used in local development
 .byebug_history

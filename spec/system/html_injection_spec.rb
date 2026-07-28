@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "HTML injection protection" do
+describe "HTML injection protection", :consul do
   let(:attack_code) { "<a href='/evil'>Click me</a>" }
 
   scenario "debates search" do

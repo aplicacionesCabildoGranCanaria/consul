@@ -19,7 +19,7 @@ Rails.application.routes.draw do
     draw :debate
     draw :direct_upload
     draw :document
-    #draw :graphql
+    draw :graphql if Rails.env.test?
     draw :legislation
     draw :management
     draw :moderation

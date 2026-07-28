@@ -2,13 +2,13 @@
   <div class="row">
     <div class="small-12 large-4 column">
       <h1 class="logo">
-        <%= link_to t("layouts.header.open_gov", open: "#{t('layouts.header.open')}").html_safe %>
+        <%= link_to t("layouts.header.open_gov"), root_path %>
       </h1>
 
       <p class="info">
         <%= t("layouts.footer.description",
-          open_source: link_to(t("layouts.footer.open_source"), t("layouts.footer.open_source_url"), target: "blank"),
-          consul:  link_to(t("layouts.footer.consul"), t("layouts.footer.consul_url"), target: "blank")).html_safe
+          open_source: link_to(t("layouts.footer.open_source"), t("layouts.footer.open_source_url"), target: "blank", rel: "nofollow external"),
+          consul:  link_to(t("layouts.footer.consul"), t("layouts.footer.consul_url"), target: "blank", rel: "nofollow external")).html_safe
         %>
         <%= t("layouts.footer.contact_us") %>
         <%= link_to t("layouts.footer.faq"), faq_path %>
@@ -39,7 +39,7 @@
     </div>
   </div>
 
-  <div class="subfooter row">
+  <div class="subfooter row legal">
     <div class="small-12 column">
       <ul class="menu">
         <li>
@@ -71,18 +71,30 @@
             <span><%= t("layouts.footer.privacy") %></span>
           <% end %>
         </li>
-        <li>
-          <%= link_to page_path('politica-de-cookies') do %>
-            <span class="icon icon-document"></span>
-            <span><%= t("layouts.footer.cookies") %></span>
-          <% end %>
-        </li>
+        <% unless feature?(:cookies_consent) %>
+          <li>
+            <%= link_to page_path('politica-de-cookies') do %>
+              <span class="icon icon-document"></span>
+              <span><%= t("layouts.footer.cookies") %></span>
+            <% end %>
+          </li>
+        <% end %>
+
+        <% if feature?(:cookies_consent) %>
+          <li class="cookies-consent-management-footer-content">
+            <%= link_to "#cookies_consent_management", "data-open": "cookies_consent_management" do %>
+              <span class="icon icon-document"></span>
+              <span><%= t("layouts.footer.cookies_consent_management") %></span>
+            <% end %>
+          </li>
+        <% end %>
         <li>
           <%= link_to new_contact_path do %>
             <span class="icon icon-letter"></span>
             <span><%= t("layouts.footer.contact_us") %></span>
           <% end %>
         </li>
+        <%= raw footer_legal_content_block %>
       </ul>
     </div>
     <div class="footer-logo column">

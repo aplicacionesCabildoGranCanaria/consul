@@ -64,7 +64,7 @@ module CommonActions
 
   def fill_in_new_proposal_title(with:)
     fill_in "Proposal title", with: with
-
+    
     expect(page).to have_css ".suggest-success"
   end
 

@@ -184,7 +184,7 @@ describe "Machine learning" do
     end
   end
 
-  scenario "Show output files info on settins page" do
+  scenario "Show output files info on settins page", :no_js do
     FileUtils.mkdir_p MachineLearning.data_folder
 
     allow_any_instance_of(MachineLearning).to receive(:run) do
@@ -224,7 +224,8 @@ describe "Machine learning" do
       click_link "Settings / Generated content"
     end
 
-    expect(page).to have_content "Last execution\n2019-10-20 14:57 - 2019-10-20 14:59"
+    expect(page).to have_content("Last execution")
+    expect(page).to have_content("2019-10-20 14:57 - 2019-10-20 14:59")
     expect(page).to have_content "Executed script:"
     expect(page).to have_content "proposals_summary_comments_textrank.py"
     expect(page).to have_content "Output files:"

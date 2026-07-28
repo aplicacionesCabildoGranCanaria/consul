@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "Voters" do
+describe "Voters", :consul do
   let(:poll) { create(:poll) }
   let(:booth) { create(:poll_booth) }
   let(:officer) { create(:poll_officer) }

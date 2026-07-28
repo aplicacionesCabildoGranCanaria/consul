@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "Stats", :admin do
+describe "Stats", :consul, :admin do
   context "Summary" do
     scenario "General" do
       create(:debate)

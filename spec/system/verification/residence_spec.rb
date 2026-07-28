@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "Residence" do
+describe "Residence", :consul do
   before { create(:geozone) }
 
   scenario "Verify resident" do

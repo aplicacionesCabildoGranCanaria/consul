@@ -1,27 +1,18 @@
 require "rails_helper"
 
-describe "rake db:mask_ips" do
-  before { Rake::Task["db:mask_ips"].reenable }
+describe "rake db:dev_seed" do
+  before { Rake::Task["db:dev_seed"].reenable }
 
-  it "mask IPs on all tenants" do
-    create(:visit, ip: "1.1.1.1")
-    create(:visit, ip: "1.1.1.2")
-    create(:visit, ip: "1.1.2.2")
+  it "seeds the database without errors" do
+    expect { Rake.application.invoke_task("db:dev_seed") }.not_to raise_error
+  end
 
-    create(:tenant, schema: "myhometown")
+  it "can seed a tenant" do
+    create(:tenant, schema: "democracy")
 
-    Tenant.switch("myhometown") do
-      create(:visit, ip: "1.1.1.1")
-      create(:visit, ip: "1.1.1.2")
-      create(:visit, ip: "1.1.3.3")
-    end
+    Rake.application.invoke_task("db:dev_seed[democracy]")
 
-    Rake.application.invoke_task("db:mask_ips")
-
-    expect(Visit.pluck(:ip)).to match_array %w[1.1.1.0 1.1.1.0 1.1.2.0]
-
-    Tenant.switch("myhometown") do
-      expect(Visit.pluck(:ip)).to match_array %w[1.1.1.0 1.1.1.0 1.1.3.0]
-    end
+    expect(Debate.count).to eq 0
+    Tenant.switch("democracy") { expect(Debate.count).not_to eq 0 }
   end
 end

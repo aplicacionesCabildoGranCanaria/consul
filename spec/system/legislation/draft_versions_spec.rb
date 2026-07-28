@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "Legislation Draft Versions" do
+describe "Legislation Draft Versions", :consul do
   let(:user) { create(:user) }
   let(:administrator) do
     create(:administrator, user: user)

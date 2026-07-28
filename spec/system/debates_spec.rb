@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "Debates" do
+describe "Debates", :consul do
   context "Concerns" do
     it_behaves_like "notifiable in-app", :debate
     it_behaves_like "relationable", Debate
