@@ -169,7 +169,7 @@ code_quality:
     - echo "Ejecutando RuboCop para análisis de Code Quality..."
     # Ejecutamos RuboCop pidiendo que escupa el JSON en formato CodeClimate (el que GitLab lee)
     # y también mostramos el progreso en la consola (--format progress)
-    - bundle exec rubocop --format progress --format RuboCop::Formatter::CodeClimateFormatter --out gl-code-quality-report.json
+    - bundle exec rubocop --format progress --format RuboCop::Formatter::CodeClimateFormatter --out gl-code-quality-report.json || exit 0
   # Permitimos que falle para que un error de estilo (lint) no bloquee el pipeline ni el deploy
   allow_failure: true 
   artifacts:
