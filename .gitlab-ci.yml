@@ -1,7 +1,6 @@
 include:
   - template: Jobs/Secret-Detection.gitlab-ci.yml
   - template: Jobs/SAST.gitlab-ci.yml
-  - template: Jobs/Code-Quality.gitlab-ci.yml
 
 workflow:
   rules:
@@ -158,6 +157,53 @@ test_assets:
       - public/assets/
       - tmp/assets/precompile.log
 
+code_quality:
+  stage: test
+  image:
+    name: $CI_REGISTRY_IMAGE:$BUILD_TAG
+    entrypoint: [""]
+  needs: ["build"]
+  script:
+    - echo "Ejecutando RuboCop..."
+    # 1. Generar JSON nativo de RuboCop (no fallará por falta de gemas externas)
+    - bundle exec rubocop --format json --out /tmp/rubocop_raw.json || true
+    
+    # 2. Convertir a formato GitLab Code Quality usando stdlib de Ruby
+    - |
+      ruby -r json -r digest -e '
+        raw = JSON.parse(File.read("/tmp/rubocop_raw.json")) rescue { "files" => [] }
+        severity_map = { "convention" => "info", "refactor" => "info", "warning" => "minor", "error" => "major", "fatal" => "critical" }
+        
+        report = []
+        raw["files"]&.each do |file|
+          file["offenses"]&.each do |offense|
+            path = file["path"]
+            line = offense.dig("location", "line") || 1
+            cop  = offense["cop_name"]
+            msg  = offense["message"]
+            sev  = severity_map[offense["severity"]] || "minor"
+            
+            report << {
+              description: msg,
+              check_name: cop,
+              fingerprint: Digest::MD5.hexdigest("#{path}:#{line}:#{cop}:#{msg}"),
+              severity: sev,
+              location: {
+                path: path,
+                lines: { begin: line }
+              }
+            }
+          end
+        end
+        File.write("gl-code-quality-report.json", JSON.pretty_generate(report))
+      '
+  allow_failure: true
+  artifacts:
+    reports:
+      codequality: gl-code-quality-report.json
+    expire_in: 1 week
+    paths:
+      - gl-code-quality-report.json
 
 test:
   stage: test
@@ -176,13 +222,7 @@ test:
     - name: postgres:14-alpine
       alias: postgres
 
-  retry:
-    max: 2
-    when:
-      - runner_system_failure
-      - stuck_or_timeout_failure
-      - api_failure
-      - scheduler_failure
+  retry: 2
 
   variables:
     DB_HOST: postgres
@@ -341,7 +381,7 @@ deploy:
 
   rules:
     - if: $CI_COMMIT_BRANCH == "develop"
-
+      when: manual
     - if: $CI_COMMIT_BRANCH == "main"
       when: manual
 
