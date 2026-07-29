@@ -159,30 +159,19 @@ test_assets:
 
 code_quality:
   stage: test
-  # Usamos la imagen que ya construiste y que tiene las gemas instaladas
-  image: 
+  image:
     name: $CI_REGISTRY_IMAGE:$BUILD_TAG
     entrypoint: [""]
-  # Esto soluciona tu problema: obliga al job a esperar a que termine 'build'
-  needs: ["build"] 
+  needs: ["build"]
   script:
-    - echo "Ejecutando RuboCop para análisis de Code Quality..."
-    # Ejecutamos RuboCop pidiendo que escupa el JSON en formato CodeClimate (el que GitLab lee)
-    # y también mostramos el progreso en la consola (--format progress)
-    - bundle exec rubocop --format progress --format RuboCop::Formatter::CodeClimateFormatter --out gl-code-quality-report.json || exit 0
-  # Permitimos que falle para que un error de estilo (lint) no bloquee el pipeline ni el deploy
-  allow_failure: true 
+    - bundle exec rubocop --require rubocop/formatter/gitlab_formatter --format RuboCop::Formatter::GitlabFormatter --out gl-code-quality-report.json || true
+  allow_failure: true
   artifacts:
     reports:
-      # Esta es la palabra clave mágica para que GitLab muestre el widget en el Merge Request
       codequality: gl-code-quality-report.json
     expire_in: 1 week
     paths:
       - gl-code-quality-report.json
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_COMMIT_BRANCH == "develop"
-    - if: $CI_COMMIT_BRANCH == "main"
 
 test:
   stage: test
