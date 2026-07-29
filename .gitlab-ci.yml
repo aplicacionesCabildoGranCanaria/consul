@@ -222,13 +222,7 @@ test:
     - name: postgres:14-alpine
       alias: postgres
 
-  retry:
-    max: 2
-    when:
-      - runner_system_failure
-      - stuck_or_timeout_failure
-      - api_failure
-      - scheduler_failure
+  retry: 2
 
   variables:
     DB_HOST: postgres
