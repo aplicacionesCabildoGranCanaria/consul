@@ -164,7 +164,39 @@ code_quality:
     entrypoint: [""]
   needs: ["build"]
   script:
-    - bundle exec rubocop --require rubocop/formatter/gitlab_formatter --format RuboCop::Formatter::GitlabFormatter --out gl-code-quality-report.json || true
+    - echo "Ejecutando RuboCop..."
+    # 1. Generar JSON nativo de RuboCop (no fallará por falta de gemas externas)
+    - bundle exec rubocop --format json --out /tmp/rubocop_raw.json || true
+    
+    # 2. Convertir a formato GitLab Code Quality usando stdlib de Ruby
+    - |
+      ruby -r json -r digest -e '
+        raw = JSON.parse(File.read("/tmp/rubocop_raw.json")) rescue { "files" => [] }
+        severity_map = { "convention" => "info", "refactor" => "info", "warning" => "minor", "error" => "major", "fatal" => "critical" }
+        
+        report = []
+        raw["files"]&.each do |file|
+          file["offenses"]&.each do |offense|
+            path = file["path"]
+            line = offense.dig("location", "line") || 1
+            cop  = offense["cop_name"]
+            msg  = offense["message"]
+            sev  = severity_map[offense["severity"]] || "minor"
+            
+            report << {
+              description: msg,
+              check_name: cop,
+              fingerprint: Digest::MD5.hexdigest("#{path}:#{line}:#{cop}:#{msg}"),
+              severity: sev,
+              location: {
+                path: path,
+                lines: { begin: line }
+              }
+            }
+          end
+        end
+        File.write("gl-code-quality-report.json", JSON.pretty_generate(report))
+      '
   allow_failure: true
   artifacts:
     reports:
