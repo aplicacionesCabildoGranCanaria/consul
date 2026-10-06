@@ -77,6 +77,9 @@ test:
 
     SECRET_KEY_BASE: "un_secret_key_base_aleatorio_y_largo_para_evitar_problemas_de_escritura_en_gitlab_ci"
 
+    RECAPTCHA_SITE_KEY: "test_recaptcha_site_key"
+    RECAPTCHA_SECRET_KEY: "test_recaptcha_secret_key"
+
   parallel: 5
 
   retry: 2
