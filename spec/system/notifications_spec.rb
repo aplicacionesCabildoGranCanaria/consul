@@ -153,7 +153,7 @@ describe "Notifications" do
       login_as user
     end
 
-    scenario "With external link" do
+    scenario "With external link", :consul do
       visit notifications_path
 
       expect(page).to have_content("Notification title")
